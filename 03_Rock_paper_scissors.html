@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+          font-family: sans-serif;
+        }
+        body {
+          width: 50%;
+          max-width: 800px;
+          min-width: 480px;
+          margin: 0 auto;
+        }
+      </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+
+    <p>A simple implementation of rock paper scissors. Each game consists of 5 rounds.</p>
+
+    <label for="gameElement">Enter a choice: </label>
+    <input type="text" id="gameElement" class="gameElement">
+    <input type="submit" value="Submit element" class="elementSubmit">
+
+    <div class="resultParas">
+        <p class="roundResults"></p>
+        <p class="gameResults"></p>
+    </div>
+</body>
+
+<script>
+    const userElement = document.querySelector('.gameElement');
+    const elementSubmit = document.querySelector('.elementSubmit');
+    const roundResults = document.querySelector(".roundResults")
+    const gameResults = document.querySelector(".gameResults")
+
+    let numGames = 0;
+    let computerScore = 0;
+    let userScore = 0;
+
+    function getComputerChoice() {
+        var rk = "rock"
+        var pp = "paper"
+        var sc = "scissors"
+        var arr = [rk, pp, sc]
+        var option = arr[(Math.floor(Math.random() * arr.length))]
+        return option;
+    };
+
+    function playRound(playerSelection,computerSelection) {
+        var player = playerSelection.toLowerCase();
+        var computer =  computerSelection.toLowerCase();
+
+        var verdict;
+
+        if (player === computer) {
+            verdict = "It's a tie, " + player + " equals " + computer; 
+        } 
+        else if ((player === "rock") && (computer === "scissors")) {
+            verdict = "You win, " + player + " beats " + computer;
+            userScore++;
+        } 
+        else if ((player === "scissors") && (computer === "paper")) {
+            verdict = "You win, " + player + " beats " + computer;
+            userScore++;
+        } 
+        else if ((player === "paper") && (computer === "rock")) {
+            verdict = "You win, " + player + " beats " + computer;
+            userScore++;
+        } 
+        else {
+            verdict = "You lose, " + player + " loses to " + computer; 
+            computerScore++;
+        }
+
+        numGames++;
+
+        return verdict;
+    };
+
+    function playGame() {
+
+        if (numGames < 5) {
+            var userInput = userElement.value;
+            var computerInput = getComputerChoice();
+            var results = playRound(userInput, computerInput);
+            roundResults.textContent = "Round " + numGames + ": " + results;
+        } 
+        else {
+            setGameOver()
+        }
+    }
+
+    function announceWinner(userTotal, computerTotal) {
+        var winner;
+
+        if (userTotal === computerTotal) {
+            winner = "It's a tie";
+        } 
+        else if (userTotal > computerTotal) {
+            winner = "User won with " + userTotal + " points vs Computer's " + computerTotal;
+        } 
+        else {
+            winner = "Computer won with " + computerTotal + " points vs User's " + userTotal;
+        }
+
+        return winner;
+    }
+
+    function resetGame() {
+        numGames = 0;
+        computerScore = 0;
+        userScore = 0;
+
+        userElement.disabled = false;
+        elementSubmit.disabled = false;
+        userElement.value = '';
+        userElement.focus();
+
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for (const resetPara of resetParas) {
+        resetPara.textContent = '';
+        }
+        resetButton.parentNode.removeChild(resetButton);
+    }
+
+    function setGameOver() {
+        gameResults.textContent = "Game Result: " + announceWinner(userScore, computerScore);
+        userElement.disabled = true;
+        elementSubmit.disabled = true;
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'Start new game';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetGame);
+    }
+
+    elementSubmit.addEventListener('click', playGame);
+</script>
+</html>

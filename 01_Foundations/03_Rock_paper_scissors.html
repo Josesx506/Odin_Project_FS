@@ -37,7 +37,7 @@
     const roundResults = document.querySelector(".roundResults")
     const gameResults = document.querySelector(".gameResults")
 
-    let numGames = 0;
+    let numRounds = 0;
     let computerScore = 0;
     let userScore = 0;
 
@@ -76,18 +76,18 @@
             computerScore++;
         }
 
-        numGames++;
+        numRounds++;
 
         return verdict;
     };
 
     function playGame() {
 
-        if (numGames < 5) {
+        if (numRounds < 5) {
             var userInput = userElement.value;
             var computerInput = getComputerChoice();
             var results = playRound(userInput, computerInput);
-            roundResults.textContent = "Round " + numGames + ": " + results;
+            roundResults.textContent = "Round " + numRounds + ": " + results;
         } 
         else {
             setGameOver()
@@ -111,7 +111,7 @@
     }
 
     function resetGame() {
-        numGames = 0;
+        numRounds = 0;
         computerScore = 0;
         userScore = 0;
 
@@ -122,7 +122,7 @@
 
         const resetParas = document.querySelectorAll('.resultParas p');
         for (const resetPara of resetParas) {
-        resetPara.textContent = '';
+            resetPara.textContent = '';
         }
         resetButton.parentNode.removeChild(resetButton);
     }
@@ -131,6 +131,7 @@
         gameResults.textContent = "Game Result: " + announceWinner(userScore, computerScore);
         userElement.disabled = true;
         elementSubmit.disabled = true;
+        
         resetButton = document.createElement('button');
         resetButton.textContent = 'Start new game';
         document.body.appendChild(resetButton);

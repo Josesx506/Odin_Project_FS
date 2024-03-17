@@ -1,0 +1,19 @@
+p {
+    background-color: lightpink;
+    font-family: Verdana, 'Dejavu Sans', sans-serif;
+}
+
+#big-blue {
+    color: blue;
+    font-size: 36px;
+}
+
+p.big {
+    font-size: 24px;
+}
+
+div#green {
+    background-color: green;
+    font-size: 24px;
+    font-weight: bold;
+}

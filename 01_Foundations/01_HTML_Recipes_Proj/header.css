@@ -1,0 +1,16 @@
+#proj-title {
+    text-align: center;
+}
+
+.proj-navigator ul {
+    display: flex;
+    list-style: none;
+    text-align: center;
+    justify-content: space-evenly;
+    font-size: x-large;
+}
+
+li a {
+    text-decoration: none;
+    color: chocolate;
+}

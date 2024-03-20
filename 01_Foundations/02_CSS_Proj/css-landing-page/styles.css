@@ -7,9 +7,6 @@ body {
     display: flex;
     flex-direction: column;
     padding: 0 128px;
-    /* height: 500px; */
-    /* prevent the nav bar in header from moving */
-    /* flex: 1;  */
 }
 
 .nav-links {
@@ -19,11 +16,14 @@ body {
     padding: 16px;
 }
 
+.left-nav {
+    flex-shrink: 0;
+}
+
 .left-nav a {
     font-family: "Roboto";
     color: #f9faf8;
     font-size: 24px;
-    flex-shrink: 0;
     text-decoration: none;
 }
 

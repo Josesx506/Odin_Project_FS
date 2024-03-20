@@ -93,7 +93,7 @@ p {
     object-fit:cover;
 }
 
-.info-container {
+#projects-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -133,7 +133,7 @@ p {
     text-align: center;
 }
 
-.quote-section {
+#reviews-section {
     background-color: #e5e7eb;
     display: flex;
     flex-direction: column;
@@ -160,7 +160,7 @@ p {
     color: black;
 }
 
-.contact-container {
+#contact-section {
     display: flex;
     justify-content: center;
     align-items: center;

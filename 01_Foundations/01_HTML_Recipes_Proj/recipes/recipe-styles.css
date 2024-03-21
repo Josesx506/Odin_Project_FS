@@ -1,9 +1,35 @@
 body {
-    width: 60%;
-    max-width: 800px;
-    min-width: 480px;
-    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.center {
-    text-align: center;
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px;
+    background-color: #1f2937;
+    align-self: center;
+    width: 100%;
+}
+
+.left-nav {
+    flex-shrink: 0;
+}
+
+.left-nav a {
+    font-family: "Roboto";
+    color: #f9faf8;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.right-nav ul {
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
 }

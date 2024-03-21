@@ -1,0 +1,82 @@
+body {
+    padding: 0 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px;
+    background-color: #1f2937;
+    align-self: center;
+    width: 100%;
+}
+
+.left-nav {
+    flex-shrink: 0;
+}
+
+.left-nav a {
+    font-family: "Roboto";
+    color: #f9faf8;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.right-nav ul {
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.right-nav ul, .right-nav a, button a {
+    text-decoration: none;
+    list-style-type: none;
+    font-family: "Roboto";
+    color: #f9faf8;
+    font-size: 18px;
+}
+
+.color-scheme {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.rgb-color {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.reset-btn input {
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid white;
+    color: white;
+    padding: 2px 12px;
+    background-color: #3882f6;
+}
+
+.reset-btn input:active {
+    background-color: lightcoral;
+}
+
+.grid-ctns {
+    border: 1px solid lightgray;
+    width: 600px;
+    height: 600px;
+}
+
+.grid {
+    border: 0.1px solid rgba(211, 211, 211, 0.398);
+    box-sizing: border-box;
+}
+

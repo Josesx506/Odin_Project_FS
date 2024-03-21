@@ -2,10 +2,46 @@ html {
     font-family: sans-serif;
 }
 body {
-    width: 50%;
-    max-width: 800px;
-    min-width: 480px;
+
     margin: 0 auto;
+    padding: 0 20px;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px;
+    background-color: #1f2937;
+    align-self: center;
+    width: 100%;
+}
+
+.left-nav {
+    flex-shrink: 0;
+}
+
+.left-nav a {
+    font-family: "Roboto";
+    color: #f9faf8;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.right-nav ul {
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.right-nav ul, .right-nav a, button a {
+    text-decoration: none;
+    list-style-type: none;
+    font-family: "Roboto";
+    color: #f9faf8;
+    font-size: 18px;
 }
 
 .header {
@@ -33,7 +69,7 @@ body {
     cursor: pointer;
 }
 
-.options button:focus {     
+.options button:active {     
     background-color:rgba(83, 83, 183, 0.815);
     color: white;
 }
@@ -68,4 +104,13 @@ body {
     border: 1px solid lightblue;
     border-radius: 10px;
     font-size: 40px;
+}
+
+.reset-btn {
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid white;
+    color: white;
+    padding: 2px 12px;
+    background-color: #3882f6;
 }

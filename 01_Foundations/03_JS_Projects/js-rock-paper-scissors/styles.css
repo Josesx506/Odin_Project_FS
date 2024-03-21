@@ -1,0 +1,71 @@
+html {
+    font-family: sans-serif;
+}
+body {
+    width: 50%;
+    max-width: 800px;
+    min-width: 480px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.options button {
+    font-size: 25px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.options button:focus {     
+    background-color:rgba(83, 83, 183, 0.815);
+    color: white;
+}
+
+.resultParas {
+    text-align: center;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.scoreboard {
+    margin-top: 20px;
+}
+
+.scoreboard div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scoreboard div p {
+    margin: 5px;
+}
+
+.scores {
+    width: 50px;
+    height: 50px;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+    font-size: 40px;
+}

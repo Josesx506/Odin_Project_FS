@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function calculator() {
 
+    equalsTrigger.addEventListener("click", completeOperation)
 
     deleteTrigger.addEventListener("click", backspace)
 
@@ -30,7 +31,7 @@ function calculator() {
 function processInput(event) {
     let activeElement = event.target;
     let elementClasses = activeElement.classList;
-    let bottomScreenText = bottomScreen.textContent.replace("...", "");
+    let bottomScreenText = bottomScreen.textContent.replace("...", "").trim();
 
     // Add numbers to screen
     if (bottomScreenText.length < maxLen) {
@@ -71,7 +72,6 @@ function processInput(event) {
                 clearAllTrigger.style.backgroundColor = "red";
                 clearAllTrigger.style.color = "white";
             }
-            
         }
     }
 
@@ -80,16 +80,22 @@ function processInput(event) {
     // Adjust operators
     if (elementClasses.contains("operator") && !elementClasses.contains("power")) {
         let topScreenText = topScreen.textContent;
+        let activeElement = event.target;
 
         if (topScreenText === "") {
             topScreen.textContent = bottomScreenText + " " + activeElement.textContent;
             bottomScreen.textContent = 0
+        } else if (topScreenText !== "" && bottomScreen.textContent === "0") {
+            topScreen.textContent = topScreenText.slice(0,-2) + " " + activeElement.textContent;
         } else {
             let splitText = topScreen.textContent.split(" ");
             let firstNum = splitText[0];
             let sign = splitText[1];
             let secondNum = bottomScreen.textContent;
             let result = operate(firstNum, secondNum, sign);
+            // Update the screen
+            topScreen.textContent = result + " " + activeElement.textContent;
+            bottomScreen.textContent = 0;
         }
     }
 
@@ -99,14 +105,13 @@ function processInput(event) {
     } else if (bottomScreen.textContent !== "0") {
         clearAllTrigger.textContent = "C";
     }
-    console.log(elementClasses);//"√x" "x2"
+    console.log(bottomScreen.textContent);
 }
 
 
 
 
 function operate(num1, num2, symbol) {
-    console.log(num1, num2, symbol);
     if (num1) {
         num1 = parseFloat(num1);
     }
@@ -114,24 +119,20 @@ function operate(num1, num2, symbol) {
         num2 = parseFloat(num2);
     }
 
-    let solution = 0;
+    let solution;
 
-    // if (symbol === "x2") {
-    //     solution = Math.pow(num2, 2);
-    // }
-    // your code goes here
     switch (symbol) {
         case "+":
-            solution = 25636;
+            solution = add(num1, num2);
             break;
         case "-":
-            solution = 35256;
+            solution = subtract(num1, num2);
             break;
         case "÷":
-            solution = 41496;
+            solution = divide(num1, num2);
             break;
         case "x":
-            solution = 59124;
+            solution = multiply(num1, num2);
             break;
         case "x2":
             solution = Math.pow(num2, 2);
@@ -139,6 +140,32 @@ function operate(num1, num2, symbol) {
     }
     let round = Math.round(solution * 1000) / 1000;
     return round;
+}
+
+// Operators implementation
+const add = function(num1, num2) {
+    return num1 + num2;
+};
+
+const subtract = function(num1, num2) {
+    return num1 - num2;
+};
+
+const multiply = function(num1, num2) {
+    return num1 * num2;
+};
+
+const divide = function(num1, num2) {
+    if (num2 === 0) {
+        console.log(topScreen.textContent);
+        alert("Zero Division Error\nEnter a non-zero value")
+    } else {
+        return num1 / num2;
+    }
+};
+
+function completeOperation(event) {
+    console.log("We got here.", event);
 }
 
 

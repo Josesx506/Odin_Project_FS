@@ -85,7 +85,7 @@ body {
     justify-content: right;
     align-items: center;
     font-family: Orbitron, sans-serif;
-    font-size: 40px;
+    font-size: 35px;
 }
 
 .input-buttons {
@@ -120,6 +120,15 @@ body {
 
 .inp-btn.operator {
     background-color: #ffb62e;
+}
+
+.inp-btn.pow.operator {
+    background-color: #f0f0f0;
+}
+
+.inp-btn.equal-to {
+    background-color: #3882f6;
+    color: white;
 }
 
 .inp-btn:active {

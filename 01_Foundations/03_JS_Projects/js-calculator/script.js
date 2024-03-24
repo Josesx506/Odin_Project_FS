@@ -21,6 +21,8 @@ function calculator() {
 
     clearAllTrigger.addEventListener("click", clearScreen)
 
+    window.addEventListener("keydown", keyboardSupport)
+
     // Listen for button clicks across all buttons
     let inputButtons = document.querySelectorAll(".inp-btn");
     inputButtons.forEach(function(item) {
@@ -65,8 +67,6 @@ function processInput(event) {
             }
         }
     }
-
-    
 
     // Adjust operators
     if (elementClasses.contains("operator") && !elementClasses.contains("power")) {
@@ -229,4 +229,42 @@ function unfreezeScreen() {
     inputButtons.forEach(function(item) {
         item.disabled = false;
     });
+}
+
+
+function keyboardSupport(event) {
+    event.preventDefault();
+    let validNumbers = "0123456789";
+    let validOperators = "*-+/"
+    let operatorConverter = {"*":"x",
+                             "-":"-",
+                             "+":"+",
+                             "/":"÷"}
+    let key = event.key;
+
+    if (validNumbers.includes(key)) {
+        let inputButtons = document.querySelectorAll(".numbers");
+        inputButtons.forEach(function(item) {
+            if (item.textContent === key) {
+                item.click();
+            };
+        });
+    } else if (validOperators.includes(key)) {
+        key = operatorConverter[key];
+        let inputButtons = document.querySelectorAll(".operator");
+        inputButtons.forEach(function(item) {
+            if (item.textContent === key) {
+                item.click();
+            };
+        });
+    } else if (key === "Backspace") {
+        let inputButtons = document.querySelector(".inp-btn.delete");
+        inputButtons.click();
+    } else if (key === ".") {
+        let inputButtons = document.querySelector(".inp-btn.decimal");
+        inputButtons.click();
+    } else if (key === "=" || key === "Enter") {
+        let inputButtons = document.querySelector(".inp-btn.equal-to");
+        inputButtons.click();
+    }
 }

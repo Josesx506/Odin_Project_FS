@@ -55,12 +55,10 @@
     background-image: url("halie-west-unsplash.jpg");
     width: clamp(300px, 20vw, 24vw);
     display: flex;
-    /* flex-shrink: 0; */
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     border-radius: 0.5em;
-    gap: 300px;
 }
 
 .grey-band {
@@ -96,6 +94,11 @@
     font-size: calc(var(--height-band)*0.75);
     z-index: 1;
     margin-top: 13px;
+}
+
+.sidebar span, .sidebar span a {
+    color: white;
+    padding-bottom: 10px;
 }
 
 .body-ctn {

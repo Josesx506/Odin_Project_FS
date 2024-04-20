@@ -1,0 +1,6 @@
+.side-bar {
+    display: flex;
+    align-items: space-around;
+    gap: 10px;
+    flex-direction: column;
+}

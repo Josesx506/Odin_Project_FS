@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS Form</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <nav class="nav-links">
         <div class="left-nav"><a href="../../index.html">Odin Projects Home</a></div>
         <div class="right-nav">
@@ -28,15 +29,61 @@
                 This is not a real online service! You know you need something
                 like this in your life to help you realize your deepest dreams.
                 Sign up <em>now</em> to to get started. <br><br>
-                You know you want to
+                You <em>know</em> you want to.
             </div>
             <div class="form-input">
-                <fieldset>
-                    <legend>Let's do this!</legend>
-                </fieldset>
+                <form action="" method="" id="contactForm">
+                    <fieldset class="formFieldset">
+                        <legend>Let's do this!</legend>
+                        <section class="leftForm">
+                            <p class="input-item">
+                                <label for="firstName">
+                                    <span>FIRST NAME</span>
+                                </label>
+                                <input type="text" id="firstName" name="firstname">
+                            </p>
+                            <p class="input-item">
+                                <label for="email">
+                                    <span>EMAIL</span>
+                                </label>
+                                <input type="email" id="email" name="email" required>
+                            </p>
+                            <p class="input-item">
+                                <label for="password">
+                                    <span>PASSWORD</span>
+                                </label>
+                                <input type="password" id="password" name="password" required>
+                                <span id="passwordMismatch" style="display: none; color: lightcoral; padding: 0; margin-top: 0;;">*Passwords do not match</span>
+                            </p>
+                        </section>
+                        <section class="rightForm">
+                            <p class="input-item">
+                                <label for="lastName">
+                                    <span>LAST NAME</span>
+                                </label>
+                                <input type="text" id="lastName" name="lastname" required>
+                            </p>
+                            <p class="input-item">
+                                <label for="phone">
+                                    <span>PHONE NUMBER</span>
+                                </label>
+                                <input type="telphone" id="phone" name="phonenumber" placeholder="(xxx) xxx-xxx" pattern="([0-9]{3}) [0-9]{3} [0-9]{4}" maxlength="12" required>
+                            </p>
+                            <p class="input-item">
+                                <label for="confirmPassword">
+                                    <span>CONFIRM PASSWORD</span>
+                                </label>
+                                <input type="password" id="confirmPassword" name="confirmpassword" required>
+                            </p>
+                        </section>
+                    </fieldset>
+                </form>
             </div>
             <div class="footer-body">
-                <button type="submit">Create Account</button>
+                <button type="submit" form="contactForm" id="myFormSubmit">Create Account</button>
+                <p>
+                    Already have an account? <a href="">Log in</a>
+                </p>
             </div>
         </div>
     </div>

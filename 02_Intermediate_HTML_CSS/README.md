@@ -1,3 +1,7 @@
+## Content
+- [Forms](#forms)
+- [Grids](#grids)
+
 ### Forms
 - Forms have multiple actions and methods
     - actions can be endpoints e.g `form-home:com/signup`. If we leave the action attribute blank, 
@@ -175,3 +179,96 @@ Desktop layout for css can be specified with media queries e.g
     }
 }
 ```
+<br><br>
+
+### Grids
+If you do not specify the values for grid columns or rows, they are regarded as ***implicit*** declarations. When specified, they are ***explicit*** declarations. <br>
+Grid **containers** can be defined using 
+```css
+.container {
+  display: inline-grid;
+  /* grid-template: row size / column size */
+  grid-template: 40px 40px 40px 40px 40px / 40px 40px 40px 40px 40px;
+  background-color: lightblue;
+  /* gap: row-gap col-gap; */
+  gap: 1px 1px;
+}
+```
+In the example above, the grid has 5 rows and 5 columns, with a cell size of 40 x 40 px. Gap values can be single where it'll apply equally to rows and columns or specified separately for each dimension. <br>
+Grid **cells** can be defined using
+```css
+.cell {
+  border: 1px solid;
+  font-size: 50%;
+  text-align: center;
+}
+```
+
+#### Positioning
+Items in a grid can be assigned to span multiple cells using the **grid line numbers**. This uses index values that start at one to specify the cell coverage area.
+```css
+#cell-one {
+  /* grid-column: start line num. / end line num.; */
+  grid-column: 4 / 6;
+  /* grid-row: start line num. / end  line num.; */
+  grid-row: 3 / 6;
+}
+```
+`grid-area` can also be used for positioning like the example below but I don't like it.
+```css
+#cell-one {
+  /* grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; */
+  grid-area: 1 / 1 / 3 / 6;
+}
+```
+Negative numbers can also be used e.g. -1 will start counting the column line numbers from the far right or row line numbers from the bottom.
+`grid-template-areas` can also be specified in a container to name all the dimensions but it gives too much repeated code and I don't like it but it's good for readability.
+```css
+.container {
+  display: inline-grid;
+  grid-template: 40px 40px 40px 40px 40px / 40px 40px 40px 40px 40px;
+  background-color: lightblue; 
+  grid-template-areas:
+    "living-room living-room living-room living-room living-room"
+    "living-room living-room living-room living-room living-room"
+    "bedroom bedroom bathroom kitchen kitchen"
+    "bedroom bedroom bathroom kitchen kitchen"
+    "closet closet . . ."    
+}
+
+.room {
+  border: 1px solid;
+  font-size: 50%;
+  text-align: center;
+}
+
+#living-room {
+   grid-area:  living-room;
+}
+
+#kitchen {
+  grid-area: kitchen;
+}
+
+#bedroom {
+  grid-area: bedroom;
+}
+
+#bathroom {
+  grid-area: bathroom;
+}
+
+#closet {
+  grid-area: closet;
+}
+```
+```html
+<div class="container">
+  <div class="room" id="living-room">Living Room</div>
+  <div class="room" id="kitchen">Kitchen</div>
+  <div class="room" id="bedroom">Bedroom</div>
+  <div class="room" id="bathroom">Bathroom</div>
+  <div class="room" id="closet">Closet</div>
+</div>
+```
+

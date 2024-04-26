@@ -183,7 +183,7 @@ Desktop layout for css can be specified with media queries e.g
 
 ### Grids
 If you do not specify the values for grid columns or rows, they are regarded as ***implicit*** declarations. When specified, they are ***explicit*** declarations. <br>
-Grid **containers** can be defined using 
+Grid **containers** can be defined using pixels, percentages, or any other css measurement argument. e.g.
 ```css
 .container {
   display: inline-grid;
@@ -212,6 +212,13 @@ Items in a grid can be assigned to span multiple cells using the **grid line num
   grid-column: 4 / 6;
   /* grid-row: start line num. / end  line num.; */
   grid-row: 3 / 6;
+}
+```
+If `grid-column-start/end` is being used, the `span` argument can also be used to extend the cell coverage area. This only works with positive numbers though. We can replicate the example that's directly above with
+```css
+#cell-one {
+  grid-column-start: 4;
+  grid-column-end: span 2;
 }
 ```
 `grid-area` can also be used for positioning like the example below but I don't like it.
@@ -271,4 +278,6 @@ Negative numbers can also be used e.g. -1 will start counting the column line nu
   <div class="room" id="closet">Closet</div>
 </div>
 ```
+
+`clamp(minimum-size, ideal-size, maximum-size)`
 

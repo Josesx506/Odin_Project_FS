@@ -245,6 +245,8 @@ function GameController(
 }
 
 const game = GameController();
+
+// Draw Game Play
 game.playRound(0,0)
 game.playRound(0,1)
 game.playRound(0,2)
@@ -255,15 +257,9 @@ game.playRound(1,2)
 game.playRound(2,2)
 game.playRound(2,1)
 
+// Player 1 wins
 game.playRound(0,2)
 game.playRound(0,1)
 game.playRound(1,1)
 game.playRound(1,0)
 game.playRound(2,0)
-
-
-// game.playRound(2,1)
-
-
-// const game = Gameboard();
-// game.printBoard();

@@ -41,7 +41,7 @@ function editRead(e) {
     bookElement = e.currentTarget.parentNode.parentNode;
     bookId = parseInt(bookElement.id.split("-")[1]);
     myLibrary[bookId].read = !myLibrary[bookId].read;
-    console.log(bookId);
+    // console.log(bookId);
     // Equivalent of refreshing the page
     loadLibrary();
 };
@@ -85,7 +85,7 @@ function addBookToLibrary(event) {
                              formData.read,
                              formData.available
                             );
-    console.log(newBook);
+    // console.log(newBook);
     // Append the new book to the library
     myLibrary.push(newBook);
 
@@ -95,7 +95,7 @@ function addBookToLibrary(event) {
 };
 
 function createBookDisplay(e,idx) {
-    console.log(idx + ":" + e);
+    // console.log(idx + ":" + e);
     // create a new div element
     const bookItem = document.createElement("div");
     bookItem.id = `book-${idx}`;
@@ -117,7 +117,7 @@ function createBookDisplay(e,idx) {
     bookModBtns.appendChild(deleteButton);
 
     // Book title p-element
-    const bookTitle = document.createElement("p");
+    const bookTitle = document.createElement("div");
     bookTitle.classList.add("library-item-title");
     bookTitle.textContent = e.title;
 
@@ -159,6 +159,7 @@ function loadLibrary() {
     myLibrary.forEach(createBookDisplay);
     document.querySelector(".formContent").style.display="none"; // Hide the form by default
     addBookToggle.addEventListener("click", toggleForm);
+    addBookToggle.textContent = "Add Book"
     createNewBook.addEventListener("click", addBookToLibrary);
 
     // Edit the read status of the book

@@ -57,8 +57,10 @@ body {
     height: 150px;
     align-content: top;
     display: grid;
+    /* overflow: auto;
+    text-overflow: ellipsis; */
     gap: 5px;
-    grid-template-rows: 0.1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 1fr 1fr 0.5fr;
 }
 
 .library-item > p {
@@ -89,20 +91,33 @@ body {
     color: green;
 }
 
-.library-item-title {
+.library-item-title { 
+    display: -webkit-box;
+    max-width: 60ch;
+    max-height: 37px;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
     font-size: 15px;
     font-weight: bold;
     text-align: center;
-    max-width: 60ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.library-item-read, .library-item-author {
+.library-item-author {
+    display: -webkit-box;
+    max-width: 20ch;
+    max-height: 37px;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+}
+
+.library-item-read {
     text-align: center;
     max-width: 20ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .formContent {

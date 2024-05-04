@@ -6,42 +6,6 @@ body {
     align-items: center;
 }
 
-.nav-links {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 16px;
-    background-color: #1f2937;
-    align-self: center;
-    width: 100%;
-}
-
-.left-nav {
-    flex-shrink: 0;
-}
-
-.left-nav a {
-    font-family: "Roboto";
-    color: #f9faf8;
-    font-size: 24px;
-    text-decoration: none;
-}
-
-.right-nav ul {
-    display: flex;
-    gap: 32px;
-    margin: 0;
-    padding: 0;
-}
-
-.right-nav ul, .right-nav a, button a {
-    text-decoration: none;
-    list-style-type: none;
-    font-family: "Roboto";
-    color: #f9faf8;
-    font-size: 18px;
-}
-
 .calculator {
     border: 1px solid black;
     height: 550px;

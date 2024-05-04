@@ -130,50 +130,6 @@ function Cell(sqrIndexValue) {
     };
 }
 
-function Player (playerName, playerToken, gameBoard) {
-    const name = playerName;
-    const token = playerToken;
-
-    const board = gameBoard;    // Extract the board from the game
-
-    const getPlayerName = () => name;
-    const getPlayerToken = () => token;
-
-    const getPlayerWin = (row,col) => {
-        const boardSize = board.getBoard()[0].length;
-
-        // Array for storing the player progress. If the value any 4 directions is equal to the board size, the player has won
-        let rowCounts = 0;
-        let colCounts = 0;
-        let diagCounts = 0;
-        let antidiagCounts = 0;
-        
-        // Count the winning conditions on the board
-        for (let i = 0; i < boardSize; i++) {
-            if (board.getBoard()[i][col].getValue() === token) {
-                rowCounts++;
-            }
-            if (board.getBoard()[row][i].getValue() === token) {
-                colCounts++;
-            }
-            if (row === col && board.getBoard()[i][i].getValue() === token) {
-                diagCounts++;
-            }
-            if (row + col === boardSize - 1 && board.getBoard()[i][(boardSize-1)-i].getValue() === token) {
-                antidiagCounts++;
-            }
-        };
-        
-        if (rowCounts === boardSize || colCounts === boardSize || diagCounts === boardSize || antidiagCounts === boardSize) {
-            return true;
-        } else {
-            return false;
-        };
-    };
-
-    return { getPlayerName, getPlayerToken, getPlayerWin }
-}
-
 /* 
 ** The GameController will be responsible for controlling the flow and state 
 ** of the game's turns, as well as whether anybody has won the game
@@ -184,8 +140,12 @@ function GameController(
   ) {
     const board = Gameboard();
 
-    const players = [Player(playerOneName, token=1, board),
-        Player(playerTwoName, token=2, board)];
+    const players = [
+        {name: playerOneName, 
+         token: 1},
+        {name: playerTwoName, 
+         token: 2}
+    ];
   
     let activePlayer = players[0];
   
@@ -197,7 +157,7 @@ function GameController(
   
     const printNewRound = () => {
       board.printBoard();
-      console.log(`${getActivePlayer().getPlayerName()}'s turn.`);
+      console.log(`${getActivePlayer().name}'s turn.`);
     };
 
     const drawGameStatus = () => {
@@ -205,18 +165,51 @@ function GameController(
         const draw = boardStatus.flat().every(cell => cell.getValue() !== 0);
         return draw;
     };
+
+
+    const winGameStatus = (row,col) => {
+        const boardSize = board.getBoard()[0].length;
+
+        // Array for storing the player progress. If the value any 4 directions is equal to the board size, the player has won
+        let rowCounts = 0;
+        let colCounts = 0;
+        let diagCounts = 0;
+        let antidiagCounts = 0;
+        
+        // Count the winning conditions on the board
+        for (let i = 0; i < boardSize; i++) {
+            if (board.getBoard()[i][col].getValue() === getActivePlayer().token) {
+                rowCounts++;
+            }
+            if (board.getBoard()[row][i].getValue() === getActivePlayer().token) {
+                colCounts++;
+            }
+            if (row === col && board.getBoard()[i][i].getValue() === getActivePlayer().token) {
+                diagCounts++;
+            }
+            if (row + col === boardSize - 1 && board.getBoard()[i][(boardSize-1)-i].getValue() === getActivePlayer().token) {
+                antidiagCounts++;
+            }
+        };
+        
+        if (rowCounts === boardSize || colCounts === boardSize || diagCounts === boardSize || antidiagCounts === boardSize) {
+            return true;
+        } else {
+            return false;
+        };
+    };
   
     const playRound = (row, column) => {
       // Drop a token for the current player
-      console.log(`Dropping ${getActivePlayer().getPlayerName()}'s token into row ${row}, column ${column}...`);
+      console.log(`Dropping ${getActivePlayer().name}'s token into row ${row}, column ${column}...`);
 
-      board.dropToken(row, column, getActivePlayer().getPlayerToken());
+      board.dropToken(row, column, getActivePlayer().token);
   
       /*  This is where we would check for a winner and handle that logic, such as a win message. */
-      let winGameStatus = getActivePlayer().getPlayerWin(row, column);
+      let winCheck = winGameStatus(row, column);
 
-      if (winGameStatus) {
-        console.log(`\n\n###### ${getActivePlayer().getPlayerName()} has won ${winGameStatus} ######`);
+      if (winCheck) {
+        console.log(`\n\n###### ${getActivePlayer().name} has won ${winCheck} ######`);
         console.log("Printing final game status\n");
         board.printBoard();
         console.log("Resetting Board!!!!");

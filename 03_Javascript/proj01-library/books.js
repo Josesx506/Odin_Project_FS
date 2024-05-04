@@ -101,16 +101,6 @@ function createBookDisplay(e,idx) {
     bookItem.id = `book-${idx}`;
     bookItem.classList.add("library-item");
 
-    // Book title p-element
-    const bookTitle = document.createElement("p");
-    bookTitle.classList.add("library-item-title");
-    bookTitle.textContent = e.title;
-
-    // Book author p-element
-    const bookAuthor = document.createElement("p");
-    bookAuthor.classList.add("library-item-author");
-    bookAuthor.textContent = `by: ${e.author}`;
-
     // Button Containers
     const bookModBtns = document.createElement("div");
     bookModBtns.classList.add("library-item-btn-cntr");
@@ -126,21 +116,38 @@ function createBookDisplay(e,idx) {
     bookModBtns.appendChild(editButton);
     bookModBtns.appendChild(deleteButton);
 
-    // Add the children elements to the book div
-    bookItem.appendChild(bookModBtns);
-    bookItem.appendChild(bookTitle);
-    bookItem.appendChild(bookAuthor);
+    // Book title p-element
+    const bookTitle = document.createElement("p");
+    bookTitle.classList.add("library-item-title");
+    bookTitle.textContent = e.title;
 
+    // Book author p-element
+    const bookAuthor = document.createElement("p");
+    bookAuthor.classList.add("library-item-author");
+    bookAuthor.textContent = `by: ${e.author}`;
+
+    // Book author p-element
+    const bookRead = document.createElement("p");
+    bookRead.classList.add("library-item-read");
 
     if (e.read === true) {
         bookItem.style.borderColor = "green";
         bookItem.style.borderWidth = "2px";
         bookItem.style.borderStyle = "solid";
+        bookRead.innerHTML = "Read " + `<i style="color:green;" class="fa-solid fa-check"></i>`
     } else {
         bookItem.style.borderColor = "green";
         bookItem.style.borderWidth = "2px";
         bookItem.style.borderStyle = "dashed";
+        bookRead.innerHTML = "Read " + `<i style="color:red;" class="fa-solid fa-xmark"></i>`
     }
+
+    // Add the children elements to the book div
+    bookItem.appendChild(bookModBtns);
+    bookItem.appendChild(bookTitle);
+    bookItem.appendChild(bookAuthor);
+    bookItem.appendChild(bookRead);
+
 
     // add the newly created book and its content into the DOM
     libraryCntr.appendChild(bookItem);

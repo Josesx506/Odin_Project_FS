@@ -3,7 +3,7 @@
 - [Object Inheritance](#object-inheritance)
 - [Mutl-variable definition](#object-destructuring)
 - [Factory Functions](#factory-functions)
-- [Private Functions](#private-variables-and-functions)
+- [Constructors and Private Functions](#private-variables-and-functions)
 
 ### Creating Prototypes
 Objects in JS are equivalent to python classes. All objects in JavaScript have a `prototype`. Protoypes are synonymous to class methods and attributes in python. `this.prototype` is the JS equivalent of `self.method` in python.

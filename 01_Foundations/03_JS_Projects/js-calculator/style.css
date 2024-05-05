@@ -80,6 +80,7 @@ body {
     width: 23%;
     height: 100%;
     border: 0;
+    text-align: center;
 }
 
 .inp-btn.operator {

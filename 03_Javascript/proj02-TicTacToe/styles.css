@@ -1,0 +1,95 @@
+body {
+    /* padding: 0px 10px; */
+    margin: 0px;
+}
+
+.game {
+    display: grid;
+    width: 100%;
+    grid-template-rows: 1fr 1fr 5fr 1fr;
+    height: 540px;
+    max-height: 600px;
+    /* border: 1px solid gray; */
+    margin-top: 10px;
+    justify-items: center;
+    padding: 5px;
+}
+
+.message-board {
+    display: flex;
+    font-size: 1.3em;
+    font-family: monospace sans-serif;
+    align-items: center;
+}
+
+.player-selection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+.player-selection button {
+    width: 5em;
+    border-radius: 5px;
+    border: 1px solid gray;
+    font-size: 1.5em;
+    color: white;
+    font-weight: bold;
+    background-color: lightgreen;
+}
+
+.player-selection button:disabled {
+    background-color: rgba(255, 127, 80, 0.4);
+    color: white;
+    font-weight: bold;
+}
+
+.player-key.selected-player:disabled {
+    background-color: lightblue;
+}
+
+
+.board {
+    display: grid;
+    /* height: 25vh;
+    width: 75vw; */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    padding: 5px;
+}
+  
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 4rem;
+    border: 0;
+    background: lightyellow;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+
+.cell:disabled {
+    color: black;
+    cursor: not-allowed;
+}
+
+.reset-cntr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.reset-cntr button {
+    border-radius: 5px;
+    border: 1px solid gray;
+    font-size: 1.5em;
+    color: white;
+    font-weight: bold;
+    background-color: lightgray;
+}

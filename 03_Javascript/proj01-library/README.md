@@ -1,0 +1,2 @@
+### Library Project
+The first implementation in the root folder uses a `constructor` object to define the class. After learning about `classes`, we were told to refactor the constructor into a class. I did that and further impelemented a counter with pubSub support that counts the number of books in the class. This is contained inside the `class_implementation` folder.

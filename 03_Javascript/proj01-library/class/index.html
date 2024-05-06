@@ -4,24 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="books.js" defer></script>
-    <link rel="stylesheet" href="../../styles/pages_header.css">
+    <!-- Import pubSub first to communicate changes across the two scripts -->
+    <script src="scripts/pubSub.js" defer></script>
+    <script src="scripts/books.js" defer></script>
+    <script src="scripts/bookstats.js" defer></script>
+    <link rel="stylesheet" href="../../../styles/pages_header.css">
     <link rel="stylesheet" href="styles.css">
     <!-- Font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
     <nav class="nav-links">
-        <div class="left-nav"><a href="../../index.html">Odin Projects Home</a></div>
+        <div class="left-nav"><a href="../../../index.html">Odin Projects Home</a></div>
         <div class="right-nav">
             <ul>
-                <li><a href="">Book Cards</a></li>
+                <li><a href="../constructor/index.html">constructor Book</a></li>
+                <li><a href="">class Book</a></li>
             </ul>
         </div>
     </nav>
     <div class="content">
         <div class="library-header">
-            <div class="section-Title">Joses Library</div>
+            <div class="section-Title">
+                Joses Library: 
+                <span class="books-count"></span>
+            </div>
             <button id="addBookSubmit" class="main-btns" type="submit">Add Book</button>
         </div>
         <div class="libraryDisplay">
@@ -33,15 +40,15 @@
                     <legend>New Book Entry</legend>
                     <div class="book-entry">
                         <label for="title">Title</label>
-                        <input type="text" id="title" name="title">
+                        <input type="text" required id="title" name="title">
                     </div>
                     <div class="book-entry">
                         <label for="author">Author</label>
-                        <input type="text" id="author" name="author">
+                        <input type="text" required id="author" name="author">
                     </div>
                     <div class="book-entry">
                         <label for="numPages">Pages</label>
-                        <input type="number" id="numPages" name="numPages">
+                        <input type="number" required id="numPages" name="numPages">
                     </div>
                     <div class="book-entry">
                         <label for="genre">Genre</label>
@@ -58,7 +65,7 @@
 
                 </fieldset>
             </form>
-            <button form="bookForm" id="createBookSubmit" class="main-btns" type="submit">Create New Book</button>
+            <button form="bookForm" id="createBookSubmit" class="main-btns" type="submit" value="submit">Create New Book</button>
         </div>
     </div>
 </body>

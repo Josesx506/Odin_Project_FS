@@ -1,0 +1,151 @@
+:root {
+    --universal-gap: 10px;
+}
+
+body {
+    margin: 0;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 30px 2fr minmax(100px 1fr);
+    row-gap: 7px;
+}
+
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--universal-gap);
+}
+
+.section-Title {
+    font-size: x-large;
+}
+
+.main-btns {
+    max-width: 150px;
+    height: 27px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    color: white;
+    background-color: lightseagreen;
+}
+
+.main-btns:hover {
+    cursor: pointer;
+    background-color: white;
+    color: lightseagreen;
+    transition: ease-in;
+}
+
+.libraryDisplay {
+    display: grid;
+    overflow: auto;
+    resize: both;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-auto-rows:  170px;
+    max-height: 480px;
+    gap: var(--universal-gap) var(--universal-gap);
+    margin: 0;
+    padding: var(--universal-gap);
+    justify-content: start;
+}
+
+.library-item {
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 7px;
+    width: 120px;
+    height: 150px;
+    align-content: top;
+    display: grid;
+    gap: 5px;
+    grid-template-rows: 0.1fr 1fr 1fr 0.5fr;
+}
+
+.library-item > p {
+    margin: 0;
+}
+
+.library-item-btn-cntr {
+    display: flex;
+    justify-content: space-between;
+}
+
+.editBookBtn .deleteBookBtn {
+    padding: 20px;
+    margin: 0;
+    width: 1px;
+}
+
+.editBookBtn:hover,
+.deleteBookBtn:hover {
+    background-color: blanchedalmond;
+}
+
+.deleteBookBtn:focus {
+    color: red;
+}
+
+.editBookBtn:focus {
+    color: green;
+}
+
+.library-item-title { 
+    display: -webkit-box;
+    max-width: 60ch;
+    max-height: 37px;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.library-item-author {
+    display: -webkit-box;
+    max-width: 20ch;
+    max-height: 37px;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+}
+
+.library-item-read {
+    text-align: center;
+    max-width: 20ch;
+}
+
+.formContent {
+    display: grid;
+    grid-template-rows: minmax(1fr 300px) 20px;
+    gap: var(--universal-gap);
+}
+
+.form-fieldset {
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr;
+    gap: var(--universal-gap);
+    border-radius: 5px;
+}
+
+.book-entry {
+    display: grid;
+    grid-row: 1fr;
+}
+
+.book-entry.bools {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 40px;
+}
+
+#createBookSubmit {
+    margin-top: var(--universal-gap);
+}

@@ -23,8 +23,6 @@ const myLibrary = [new Book("Tom Clancy: Ghost Recon","David Michaels",237,"Acti
                    new Book("Day of Reckoning","Jack Higgins",305,"Action",false,true),
                    new Book("Half of a Yellow Sun","Chimamanda Adichie",562,"Novel",true,true),
                    new Book("The Day of the Jackal","Frederick Forsyth",482,"Action",false,true),];
-                   
-bookForm.noValideate = false; // This ensures form validation even when submit is outside the form
 
 function toggleForm(event) {
     let formCntr = document.querySelector(".formContent").style;
@@ -166,9 +164,11 @@ function loadLibrary() {
     addBookToggle.addEventListener("click", toggleForm);
     addBookToggle.textContent = "Add Book"
 
-
     //bind events
-    createNewBook.addEventListener("click", addBookToLibrary);
+    createNewBook.addEventListener("click", () => {
+        bookForm.noValideate = false; // This ensures form validation even when submit is outside the form
+        addBookToLibrary
+    });
 
     // Edit the read status of the book
     let editReadBook = document.querySelectorAll(".editBookBtn");

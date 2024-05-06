@@ -1,7 +1,11 @@
 const createNewBook = document.querySelector("#createBookSubmit");
 const libraryCntr = document.querySelector(".libraryDisplay");
 const addBookToggle = document.querySelector("#addBookSubmit");
-const bookForm = document.querySelectorAll("#bookForm");
+// This 3 form inputs are cached because they need to be validated
+const bookForm = document.querySelector("#bookForm");
+const formTitle = document.querySelector("#title")
+const formAuthor = document.querySelector("#author")
+const formNumPages = document.querySelector("#numPages")
 
 document.addEventListener("DOMContentLoaded", function() {
     loadLibrary()
@@ -31,7 +35,7 @@ function toggleForm(event) {
         addBookToggle.textContent = "Cancel"
     } else {
         // Clear the form input data
-        document.querySelector("#bookForm").reset();
+        bookForm.reset();
         formCntr.display="none";
         addBookToggle.textContent = "Add Book"
     }
@@ -77,7 +81,7 @@ function addBookToLibrary(event) {
     });
 
     // Clear the form input data
-    document.querySelector("#bookForm").reset();
+    bookForm.reset();
 
     // Create a book object and append it to the list
     const newBook = new Book(formData.title,
@@ -155,6 +159,16 @@ function createBookDisplay(e,idx) {
     libraryCntr.appendChild(bookItem);
 };
 
+function validateForm(e) {
+    e.preventDefault();
+    let completed = false;
+
+    if (formTitle.reportValidity() && formAuthor.reportValidity() && formNumPages.reportValidity()) {
+        completed = true;
+    };
+    return completed;
+}
+
 function loadLibrary() {
     // This is equivalent to a render function
     console.log("Loading New Library");
@@ -165,9 +179,12 @@ function loadLibrary() {
     addBookToggle.textContent = "Add Book"
 
     //bind events
-    createNewBook.addEventListener("click", () => {
-        bookForm.noValideate = false; // This ensures form validation even when submit is outside the form
-        addBookToLibrary
+    createNewBook.addEventListener("click", (e) => {
+        let validated = validateForm(e);
+        // Ensure the form is validated before adding it to the library
+        if (validated) {
+            addBookToLibrary(e);
+        };
     });
 
     // Edit the read status of the book

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:100,300,400');
+
+/* @font-face {
+    font-family: "Karla";
+    src: url(https://fonts.gstatic.com/s/karla/v31/qkBIXvYC6trAT55ZBi1ueQVIjQTD-JqaE0lM.woff) format('woff'),
+      url("./Poppins/Poppins-Regular.ttf") format("truetype"),
+      url("./Poppins/Poppins-BoldItalic.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}; */
+
+.hello {
+    color: red;
+    font-size: 2em;
+    font-family: "Roboto";
+    font-weight: bolder;
+    background: url("./icon.png");
+};
+
+.hello img {
+  margin: 0;
+  padding: 0;
+}
+
+.hello img {
+  max-width: 60px;
+  max-height: 60px;
+  display: flex;
+}

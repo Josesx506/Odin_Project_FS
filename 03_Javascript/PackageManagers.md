@@ -38,7 +38,8 @@ On my mac, I first installed
     ```
 - Apart from making dependency management easy, it also helps to transcribe code for older browser versions and manage dependency update. There are different module bundlers, and the final choice depends on the project size / performance requirements but the most popular one is ***`webpack`***. Additional details on budler pros and cons can be found [here](https://snipcart.com/blog/javascript-module-bundler).
 - A simple tutorial example for using webpack can be found [here](https://webpack.js.org/guides/getting-started/).The "source" code is the code that we'll write and edit. The "distribution" code is the minimized and optimized output of our build process that will eventually be loaded in the browser. They should typically be separated into folders `src` and `dist`.
-
+- Packages can also be uninstalled with `npm uninstall css-loader csv-loader json5 style-loader toml xml-loader yamljs`. In this example we uninstall multiple packages used in a webpack test example.
+- Quick tip: If you run `npx webpack --watch` you will not have to rerun webpack every time you make a change.
 
 ### Dealing with modules
 After completing the webpack tutorial and reading all the setup requirements, I was finally ready to code. An example of an import export implementation is 

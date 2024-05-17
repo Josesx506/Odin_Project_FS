@@ -3,6 +3,12 @@ import _ from "lodash";
 import myName from "./myName";
 import "./style.css";
 import Icon from './icon.png';
+import Data from './data.xml';
+import Notes from './data.csv';
+import json from './data.json5';
+
+console.log(json.title); // output `JSON5 Example`
+console.log(json.owner.name); // output `Tom Preston-Werner`
 
 function component() {
     const element = document.createElement("div");
@@ -21,6 +27,9 @@ function component() {
     element.appendChild(myText);
     element.appendChild(myIcon);
     element.classList.add("hello");
+
+    console.log(Data);
+    console.log(Notes);
 
     return element;
   }

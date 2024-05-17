@@ -2,6 +2,9 @@
 01_Foundations/03_JS_Projects/package-lock.json
 .DS_Store
 
+
+*/*/dist
+*/*/*/dist
 node_modules
 */node_modules
 */*/node_modules
@@ -10,4 +13,3 @@ package-lock.json
 */package-lock.json
 */*/package-lock.json
 */*/*/package-lock.json
-*/*/dist

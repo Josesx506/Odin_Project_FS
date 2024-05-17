@@ -1,0 +1,90 @@
+.home-page-content {
+    display: grid;
+    grid-template-rows: repeat(1fr, 4);
+    border: 1px solid black;
+    justify-content: center;
+}
+
+.top-div {
+    height: 40px;
+    color: white;
+    font-weight: bolder;
+    background-color: #0284c7;
+    align-content: center;
+}
+
+.page-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 10px;
+    max-height: 320px;
+}
+
+.page-card-images {
+    height: 300px;
+    width: auto;
+    justify-self: right;
+    border-radius: 5px;
+}
+
+.page-card-body {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+}
+
+.page-card-title {
+    font-size: xx-large;
+}
+
+.page-card-subtitle {
+    font-size: larger;
+    font-style: italic;
+}
+
+.page-card-bodytext {
+    overflow: hidden;
+    width: 50ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.page-card-button {
+    background-color: #38bdf8;
+    color: white;
+    font-size: larger;
+    width: 140px;
+    padding: 5px;
+    border: 0;
+    border-radius: 5px;
+    justify-self: center;
+    margin-top: 10px;
+}
+
+.page-card-button:hover {
+    transform: scale(1.05);
+    font-weight: bold;
+    transition: background-color 0.1s ease;
+}
+
+.page-card-button:active {
+    color: #fde68a;
+}
+
+.page-card-wide {
+    background-color: #0ea5e9;
+    padding: 25px 0;
+}
+
+.page-card-body.wide {
+    justify-content: center;
+}
+
+.page-card-title.wide,
+.page-card-subtitle.wide,
+.page-card-bodytext.wide {
+    color: white;
+    text-align: center;
+}

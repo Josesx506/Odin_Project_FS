@@ -1,5 +1,8 @@
 // webpack.config.js
 const path = require('path');
+const toml = require('toml');
+const yaml = require('yamljs');
+const json5 = require('json5');
 
 // Use a html template
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,6 +20,7 @@ module.exports = {
     filename: 'main.js',
     // filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true, // Delete pre-existing dist files
   },
   module: {
     rules: [
@@ -34,6 +38,22 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|truetype|opentype)$/i,
         type: 'asset/resource',
+      },
+      // Including csv and xml files
+      {
+        test: /\.(csv|tsv)$/i,
+        use: ['csv-loader'],
+      },
+      {
+        test: /\.xml$/i,
+        use: ['xml-loader'],
+      },
+      {
+        test: /\.json5$/i,
+        type: 'json',
+        parser: {
+          parse: json5.parse,
+        },
       },
     ],
   },

@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Smash Burger",
+        "desc": "Beef, Onions, Patties",
+        "link": "https://images.pexels.com/photos/3616956/pexels-photo-3616956.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "price": 10,
+        "volume": 0
+    },
+    {
+        "title": "Pancakes",
+        "desc": "Flour, Milk",
+        "link": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "price": 15,
+        "volume": 0
+    },
+    {
+        "title": "Shrimp Pasta",
+        "desc": "Shrimp, Pasta",
+        "link": "https://images.pexels.com/photos/8969080/pexels-photo-8969080.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "price": 18,
+        "volume": 0
+    },
+    {
+        "title": "Alfredo Pasta",
+        "desc": "Pasta, Cream, Parseley",
+        "link": "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "price": 20,
+        "volume": 0
+    },
+    {
+        "title": "Steak",
+        "desc": "Steak, Carrots",
+        "link": "https://images.pexels.com/photos/769289/pexels-photo-769289.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "price": 30,
+        "volume": 0
+    }
+]

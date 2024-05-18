@@ -25,7 +25,6 @@ navHome.addEventListener("click", (e) => {
         const menu = new menuPage();
         loadcomponent(menu)
     })
-    console.log(e,"clicked home;")
 })
 
 

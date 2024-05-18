@@ -1,7 +1,6 @@
 .home-page-content {
     display: grid;
     grid-template-rows: repeat(1fr, 4);
-    border: 1px solid black;
     justify-content: center;
 }
 
@@ -11,6 +10,7 @@
     font-weight: bolder;
     background-color: #0284c7;
     align-content: center;
+    text-align: center;
 }
 
 .page-card {

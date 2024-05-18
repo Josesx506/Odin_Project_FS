@@ -1,4 +1,4 @@
-let loadCss = false;
+let loadHomeCss = false;
 
 const intro = (function () {
     const element = document.createElement("div");
@@ -161,11 +161,11 @@ const caterMenu = (function () {
 }) ();
 
 export default function homePage(){
-    loadCss = true;
-    if (loadCss) {
+    loadHomeCss = true;
+    if (loadHomeCss) {
         import("./css/home.css");
     }
-    console.log("This is the homepage");
+    
     const element = document.createElement("div");
     element.classList.add("home-page-content");
 
@@ -175,6 +175,6 @@ export default function homePage(){
     element.appendChild(reservationsMenu)
     element.appendChild(caterMenu)
 
-    loadCss = false;
+    loadHomeCss = false;
     return element;
 };

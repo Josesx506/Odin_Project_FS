@@ -1,5 +1,33 @@
 let loadAboutCss = false;
 
+const hoursOperation = (function () {
+    const element = document.createElement("div");
+    element.classList.add("hours-operations");
+    
+    const sunday = document.createElement("div");
+    sunday.textContent = "Sunday: 8am - 8pm";
+    const monday = document.createElement("div");
+    monday.textContent = "Monday: 6am - 6pm";
+    const tuesday = document.createElement("div");
+    tuesday.textContent = "Tuesday: 6am - 6pm";
+    const wednesday = document.createElement("div");
+    wednesday.textContent = "Wednesday: 6am - 6pm";
+    const thursday = document.createElement("div");
+    thursday.textContent = "Thursday: 6am - 10pm";
+    const friday = document.createElement("div");
+    friday.textContent = "Friday: 6am - 10pm";
+    const saturday = document.createElement("div");
+    saturday.textContent = "Saturday: 8am - 10pm";
+
+    const daysOfWeek = [sunday,monday,tuesday,wednesday,thursday,friday,saturday];
+    daysOfWeek.forEach((item) => {
+        item.classList.add("day-operating-hours");
+        element.appendChild(item);
+    });
+
+    return element
+}) ()
+
 function Contact(title,phone,email) {
     this.title = title;
     this.phone = phone;
@@ -38,7 +66,6 @@ const contactTypes = (function () {
         
         element.appendChild(card);
     });
-
     return element
 }) ()
 
@@ -50,13 +77,19 @@ function aboutPage(){
     
     const element = document.createElement("div");
     element.classList.add("about-page-content");
-    // element.textContent = "This is about";
 
+    const hours = document.createElement("div");
+    hours.classList.add("mid-about-titles");
+    hours.textContent = "Hours";
+
+    const contactTitle = document.createElement("div");
+    contactTitle.classList.add("mid-about-titles");
+    contactTitle.textContent = "Contact";
+    
+    element.appendChild(hours)
+    element.appendChild(hoursOperation)
+    element.appendChild(contactTitle)
     element.appendChild(contactTypes)
-    // element.appendChild(aboutMenu)
-    // element.appendChild(drinksMenu)
-    // element.appendChild(reservationsMenu)
-    // element.appendChild(caterMenu)
 
     loadAboutCss = false;
     return element;

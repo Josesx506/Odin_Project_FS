@@ -1,4 +1,5 @@
-import "@fortawesome/fontawesome-free/js/all"
+import "@fortawesome/fontawesome-free/js/all";
+import "./css/index.css";
 import homePage from "./home";
 import menuPage from "./menu";
 import aboutPage from "./about";
@@ -17,9 +18,13 @@ function loadcomponent(pages) {
     body.appendChild(pages);
 };
 
+// Load the home page for the first time
+const onload = new homePage();
+loadcomponent(onload);
+
 navHome.addEventListener("click", (e) => {
     const home = new homePage();
-    loadcomponent(home)
+    loadcomponent(home);
     const foodMenuBtn = document.querySelector(".foodPage");
     const drinksMenuBtn = document.querySelector(".drinksPage");
     foodMenuBtn.addEventListener("click", (ev) => {
@@ -29,12 +34,11 @@ navHome.addEventListener("click", (e) => {
     // Load the drinks menu
     drinksMenuBtn.addEventListener("click", (ev) => {
         const menu = new menuPage();
-        loadcomponent(menu)
+        loadcomponent(menu);
         const drinksHeader = document.querySelector(".mid-titles.drinks");
         drinksHeader.scrollIntoView({ behavior: "smooth" });
     });
 })
-
 
 navMenu.addEventListener("click", (e) => {
     const menu = new menuPage();

@@ -1,0 +1,32 @@
+
+.contact-options {
+    display: grid;
+    background-color: #0ea5e9;
+    grid-template-rows: repeat(1fr, 4);
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.contact-card {
+    display: grid;
+    color: white;
+    border: 1px solid wheat;
+    border-radius: 5px;
+    width: 80vw;
+}
+
+.card-title {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.card-body {
+    display: grid;
+    justify-items: left;
+    padding-left: 50px;
+}
+
+.card-body div {
+    font-size: large;
+}

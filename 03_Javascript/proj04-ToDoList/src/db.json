@@ -1,0 +1,32 @@
+[
+    {
+        "title":"General",
+        "active": false,
+        "items":[
+            {
+                "title":"Title 1",
+                "description":"Description of Item",
+                "dueDate":"2024-05-25",
+                "priority":"2",
+                "completed":false,
+                "notes":"These are notes"
+            },
+            {
+                "title":"Title 2",
+                "description":"Description of Item 2",
+                "dueDate":"2024-05-26",
+                "priority":"2",
+                "completed":false,
+                "notes":"These are notes 2"
+            },
+            {
+                "title":"Title 3",
+                "description":"Description of Item 2",
+                "dueDate":"2024-05-27",
+                "priority":"2",
+                "completed":false,
+                "notes":"These are notes 3"
+            }
+        ]
+    }
+]

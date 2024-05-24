@@ -1,14 +1,28 @@
-import {addProjBtn, addTodoBtn} from "../utils/buttons"
+import {addProjBtn, addProjForm, addTodoBtn, deleteProjBtn} from "../utils/buttons"
+import { refreshData } from "../utils/crud";
 
 let loadHomeCss = false;
 
-const projSidebar = (function() {
+function renderProjectButtons () {
+    const data = refreshData();
     const element = document.createElement("div");
-    element.classList.add("projects-sidebar");
-    element.appendChild(addProjBtn);
+    element.classList.add("projects-sidebar-cntr");
+
+    data.forEach((proj, index) => {
+        const projBtn = deleteProjBtn(proj.title);
+        projBtn.dataset.id = index;
+        element.appendChild(projBtn)
+    });
+
+    return element
+};
+
+function renderProjSidebar() {
+    const element = renderProjectButtons();
+    element.appendChild(addProjForm());
 
     return element;
-}) ();
+};
 
 function todoContainer(title,className){
     const header = document.createElement("div");
@@ -26,7 +40,7 @@ function todoContainer(title,className){
     return element;
 };
 
-const priorityContainers = (function() {
+function priorityContainers() {
     const element = document.createElement("div");
     element.classList.add("priority-containers");
 
@@ -57,29 +71,31 @@ const priorityContainers = (function() {
     element.appendChild(contentCntr3);
 
     return element;
-}) ();
+};
 
-const todoContent = (function() {
+function todoContent() {
     const element = document.createElement("div");
     element.classList.add("todo-lists");
     element.appendChild(addTodoBtn);
-    element.appendChild(priorityContainers);
+    element.appendChild(priorityContainers());
 
     return element;
-}) ();
+};
 
 
-export default  function renderHome() {
+const renderHome = function() {
     loadHomeCss = true;
     if (loadHomeCss) {
         import("../css/home.css");
     }
     const element = document.createElement("div");
-    element.textContent = "This is Todo"
+    element.classList.add("content-cntr");
 
-    element.appendChild(projSidebar);
-    element.appendChild(todoContent);
+    element.appendChild(renderProjSidebar());
+    element.appendChild(todoContent());
 
     loadHomeCss = false;
     return element;
 };
+
+export {renderHome};

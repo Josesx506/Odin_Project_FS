@@ -14,6 +14,59 @@ const navHome = document.querySelector(".home");
 const navCalendar = document.querySelector(".calendar");
 const body = document.getElementById("content");
 
+function dynamicEventListeners() {
+    // Cache the form entries
+    const projEntryForm = document.querySelector(".new-project-form");
+    const projEntryInput = document.querySelector(".new-project-entry");
+    const projTitleCntrs = document.querySelector(".projects-sidebar-cntr");
+    const deleteProjBtns = document.querySelectorAll(".delete-project-btn");
+    const todoListCntrs = document.querySelector(".priority-containers");
+    
+    projEntryForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const projName = projEntryInput.value;
+        if (projName === null || projName === "") {
+            console.log(`${projName} is a failed entry`);
+            return;
+        } else {
+            const newProj = new projectItem(projName, false, []);
+            const data = refreshData();
+            data.push(newProj);
+            writeData(data); // Write the data to local storage
+            renderEntireHomePage(renderHome());
+        };
+    });
+
+    projTitleCntrs.addEventListener("click", (e) => {
+        const targets = e.target.classList.value;
+        if (targets.includes("project-item-cntr") || targets === "project-item-selector") {
+            let allCntrs = todoListCntrs.childNodes;
+            allCntrs.forEach(i => i.classList.remove("selected"));
+            let selectedProjId = parseInt(e.target.dataset.id);
+            if (isNaN(selectedProjId)) {selectedProjId = parseInt(e.target.parentElement.dataset.id)};
+            let projData = refreshData();
+            projData.map((proj) => proj.active=false);
+            let selectedProj = projData[selectedProjId];
+            selectedProj.active = true;
+            let todoData = selectedProj.items;
+            writeData(projData);
+            renderEntireHomePage(renderHome());
+        };
+    });
+
+    deleteProjBtns.forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const projId = parseInt(item.getAttribute("data-id"));
+            let projData = refreshData();
+            projData.splice(projId,1);
+            writeData(projData);
+            renderEntireHomePage(renderHome());
+        })
+    });
+}
+
+
 // Register the json file in localStorage
 // localStorage.setItem("dbJSON", null);
 
@@ -24,81 +77,34 @@ function clearElement(element) {
     };
 };
 
-function renderEntirePage(pages) {
+function renderEntireHomePage(pages) {
+    if (!pages || !body) return;
+    clearElement(body);
+    body.appendChild(pages);
+    MultipleContainers();
+    dynamicEventListeners();
+};
+
+function renderEntireCalendarPage(pages) {
     if (!pages || !body) return;
     clearElement(body);
     body.appendChild(pages);
 };
 
+
+
+
+
+
 // Load the home page for the first time
-renderEntirePage(renderHome());
+renderEntireHomePage(renderHome());
 
 // Event Listener for the pages
 navHome.addEventListener("click", (e) => {
-    renderEntirePage(renderHome())
+    renderEntireHomePage(renderHome());
+    dynamicEventListeners();
 });
+
 navCalendar.addEventListener("click", (e) => {
-    console.log("home click");
-    renderEntirePage(renderCalendar())
+    renderEntireCalendarPage(renderCalendar());
 });
-
-// Cache the form entries
-const projEntryForm = document.querySelector(".new-project-form");
-const projEntryInput = document.querySelector(".new-project-entry");
-const projTitleCntrs = document.querySelector(".projects-sidebar-cntr");
-const todoListCntrs = document.querySelector(".priority-containers");
-
-function renderTodoLists(cntr, itemsData) {
-    // if (!cntr || !itemsData) return;
-    console.log(cntr);
-    clearElement(cntr);
-};
-
-
-projEntryForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const projName = projEntryInput.value;
-    if (projName === null || projName === "") {
-        console.log(`${projName} is a failed entry`);
-        return;
-    } else {
-        const newProj = new projectItem(projName, false, []);
-        console.log(newProj);
-        const data = refreshData();
-        data.push(newProj);
-        writeData(data); // Write the data to local storage
-        renderEntirePage(renderHome());
-    };
-});
-
-projTitleCntrs.addEventListener("click", (e) => {
-    const targets = e.target.classList.value;
-    if (targets.includes("project-item-cntr") || targets === "project-item-selector") {
-        let allCntrs = todoListCntrs.childNodes;
-        let selectedProjId = parseInt(e.target.dataset.id);
-        if (isNaN(selectedProjId)) {selectedProjId = parseInt(e.target.parentElement.dataset.id)};
-        let projData = refreshData();
-        let selectedProj = projData[selectedProjId];
-        selectedProj.active = true;
-        let todoData = selectedProj.items;
-        writeData(projData);
-
-        // console.log(todoData);
-        // allCntrs.forEach((parentCntr) => {
-        //     renderTodoLists(parentCntr.childNodes[1],todoData);
-        //     console.log(parentCntr.childNodes[1]);
-        // })
-        
-    };
-})
-
-
-MultipleContainers();
-
-
-
-
-
-// localStorage.setItem("app", JSON.stringify("padi mi"))
-// let app= JSON.parse(localStorage.getItem("app"))
-// console.log(app);

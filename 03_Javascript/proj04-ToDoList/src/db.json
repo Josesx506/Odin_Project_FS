@@ -7,7 +7,7 @@
                 "title":"Title 1",
                 "description":"Description of Item",
                 "dueDate":"2024-05-25",
-                "priority":"2",
+                "priority":"1",
                 "completed":false,
                 "notes":"These are notes"
             },

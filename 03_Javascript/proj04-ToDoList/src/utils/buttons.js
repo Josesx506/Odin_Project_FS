@@ -40,10 +40,11 @@ const addTodoBtn = (function(){
     return btn;
 }) ()
 
-function deleteProjBtn(text) {
+function deleteProjBtn(text,id) {
     const btn = document.createElement("div");
     btn.classList.add("project-item-cntr","clickable-btn");
     btn.innerHTML = `<span class="project-item-selector">${text}</span><button class="delete-project-btn"><i class="fa-solid fa-folder-minus"></i></button>`;
+    btn.childNodes[1].dataset.id = id;
 
     return btn;
 };

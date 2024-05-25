@@ -1,5 +1,5 @@
 import {addProjBtn, addProjForm, addTodoBtn, deleteProjBtn} from "../utils/buttons"
-import { refreshData } from "../utils/crud";
+import { refreshData, writeData } from "../utils/crud";
 
 let loadHomeCss = false;
 
@@ -9,8 +9,11 @@ function renderProjectButtons () {
     element.classList.add("projects-sidebar-cntr");
 
     data.forEach((proj, index) => {
-        const projBtn = deleteProjBtn(proj.title);
+        const projBtn = deleteProjBtn(proj.title, index);
         projBtn.dataset.id = index;
+        if (proj.active) {
+            projBtn.classList.add("selected");
+        };
         element.appendChild(projBtn)
     });
 
@@ -24,7 +27,7 @@ function renderProjSidebar() {
     return element;
 };
 
-function todoContainer(title,className){
+function todoPriorityContainer(title,className){
     const header = document.createElement("div");
     header.classList.add("cntr-title");
     header.textContent = title;
@@ -40,31 +43,50 @@ function todoContainer(title,className){
     return element;
 };
 
+function todoListContainer(listItem, id) {
+    const todoElement = document.createElement("div");
+    todoElement.textContent = listItem.title;
+    todoElement.dataset.priority = parseInt(listItem.priority);
+    todoElement.dataset.id = id;
+    todoElement.setAttribute("draggable",true);
+    todoElement.classList.add("todo-item");
+
+    return todoElement;
+}
+
+function getActiveProject() {
+    const data = refreshData();
+    let selectedProj = data.filter((proj) => proj.active === true);
+    if (selectedProj.length === 0) {
+        const general = data.filter((proj) => proj.title === "General");
+        selectedProj = general;
+    };
+    writeData(data);
+
+    return selectedProj[0].items;
+}
+
 function priorityContainers() {
     const element = document.createElement("div");
     element.classList.add("priority-containers");
-
-    const contentCntr1 = new todoContainer("In Progress", "low");
+    
+    const contentCntr1 = new todoPriorityContainer("In Progress", "low");
     contentCntr1.dataset.priority = 1;
-    const contentCntr2 = new todoContainer("To Do", "med");
+    const contentCntr2 = new todoPriorityContainer("To Do", "med");
     contentCntr2.dataset.priority = 2;
 
-    // Test todo items - Give each item an item on load from the json
-    let testTodo = document.createElement("div");
-    testTodo.textContent = "Todo item 1";
-    testTodo.setAttribute("draggable",true);
-    testTodo.classList.add("todo-item");
-    testTodo.dataset.priority = 2;
-    let testTodo1 = document.createElement("div");
-    testTodo1.textContent = "Todo item 2";
-    testTodo1.setAttribute("draggable",true);
-    testTodo1.classList.add("todo-item");
-    testTodo1.dataset.priority = 2;
-    contentCntr1.childNodes[1].appendChild(testTodo);
-    contentCntr2.childNodes[1].appendChild(testTodo1);
-
-    const contentCntr3 = new todoContainer("Completed", "high");
+    const contentCntr3 = new todoPriorityContainer("Completed", "high");
     contentCntr3.dataset.priority = 3;
+
+    // Populate Priority Containers
+    const priorityDict = {"1":contentCntr1,"2":contentCntr2,"3":contentCntr3,};
+    const activeProjTodos = getActiveProject();
+    if (activeProjTodos.length > 0) {
+        activeProjTodos.forEach((todoItem, indexId) => {
+            const todoElement = todoListContainer(todoItem, indexId);
+            priorityDict[todoItem.priority].childNodes[1].appendChild(todoElement);
+        })
+    };
 
     element.appendChild(contentCntr1);
     element.appendChild(contentCntr2);
@@ -98,4 +120,4 @@ const renderHome = function() {
     return element;
 };
 
-export {renderHome};
+export {getActiveProject, renderHome};

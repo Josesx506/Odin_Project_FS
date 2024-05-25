@@ -1,9 +1,25 @@
-import {addProjBtn, addProjForm, addTodoBtn, deleteProjBtn} from "../utils/buttons"
+import { addTodoBtn, deleteProjBtn } from "../utils/buttons"
+import { addProjForm } from "../utils/forms";
 import { refreshData, writeData } from "../utils/crud";
 
 let loadHomeCss = false;
 
+function getActiveProject() {
+    const data = refreshData();
+    let selectedProj = data.filter((proj) => proj.active === true);
+    if (selectedProj.length === 0) {
+        const general = data.filter((proj) => proj.title === "General");
+        general.active = true;
+        selectedProj = general;
+    };
+    writeData(data);
+
+    return selectedProj[0].items;
+}
+
 function renderProjectButtons () {
+    let tmp = getActiveProject();
+
     const data = refreshData();
     const element = document.createElement("div");
     element.classList.add("projects-sidebar-cntr");
@@ -54,18 +70,6 @@ function todoListContainer(listItem, id) {
     return todoElement;
 }
 
-function getActiveProject() {
-    const data = refreshData();
-    let selectedProj = data.filter((proj) => proj.active === true);
-    if (selectedProj.length === 0) {
-        const general = data.filter((proj) => proj.title === "General");
-        selectedProj = general;
-    };
-    writeData(data);
-
-    return selectedProj[0].items;
-}
-
 function priorityContainers() {
     const element = document.createElement("div");
     element.classList.add("priority-containers");
@@ -74,7 +78,6 @@ function priorityContainers() {
     contentCntr1.dataset.priority = 1;
     const contentCntr2 = new todoPriorityContainer("To Do", "med");
     contentCntr2.dataset.priority = 2;
-
     const contentCntr3 = new todoPriorityContainer("Completed", "high");
     contentCntr3.dataset.priority = 3;
 

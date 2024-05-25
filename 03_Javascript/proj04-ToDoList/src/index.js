@@ -5,8 +5,9 @@ import "./css/index.css";
 import { refreshData, writeData } from "./utils/crud"
 import { projectItem, todoItem } from "./utils/structs";
 import {renderHome} from "./pages/home";
+import { createTodoListForm } from "./utils/forms";
+import MultipleContainers from "./utils/sortable";
 import {renderCalendar} from "./pages/calendar";
-import MultipleContainers from "./utils/sortable"
 
 
 // Cache nav buttons and body
@@ -21,6 +22,7 @@ function dynamicEventListeners() {
     const projTitleCntrs = document.querySelector(".projects-sidebar-cntr");
     const deleteProjBtns = document.querySelectorAll(".delete-project-btn");
     const todoListCntrs = document.querySelector(".priority-containers");
+    const addTodoEntry = document.querySelector(".add-todo");
     
     projEntryForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -63,6 +65,13 @@ function dynamicEventListeners() {
             writeData(projData);
             renderEntireHomePage(renderHome());
         })
+    });
+
+    addTodoEntry.addEventListener("click", (e) => {
+        console.log(e.target.parentElement);
+        // e.target.parentElement.innerHTML = "";
+        // e.target.parentElement.appendChild(createTodoListForm());
+        
     });
 }
 

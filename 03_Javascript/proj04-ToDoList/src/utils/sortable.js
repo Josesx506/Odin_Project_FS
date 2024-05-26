@@ -9,7 +9,7 @@ function updateTodoPriority(todoId,newPriority) {
     writeData(data);
 }
 
-export default function MultipleContainers() {
+function MultipleContainers() {
     const containers = document.querySelectorAll(".cntr-body");
   
     if (containers.length === 0) {
@@ -37,4 +37,6 @@ export default function MultipleContainers() {
         });
     
     return sortable;
-};  
+};
+
+export { MultipleContainers }

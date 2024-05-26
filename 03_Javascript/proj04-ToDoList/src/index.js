@@ -6,7 +6,8 @@ import { refreshData, writeData } from "./utils/crud"
 import { projectItem, todoItem } from "./utils/structs";
 import {renderHome} from "./pages/home";
 import { createTodoListForm } from "./utils/forms";
-import MultipleContainers from "./utils/sortable";
+import { createModal } from "./modals/modals";
+import { MultipleContainers } from "./utils/sortable";
 import {renderCalendar} from "./pages/calendar";
 
 
@@ -14,15 +15,19 @@ import {renderCalendar} from "./pages/calendar";
 const navHome = document.querySelector(".home");
 const navCalendar = document.querySelector(".calendar");
 const body = document.getElementById("content");
+const overlay = document.getElementById("overlay");
 
 function dynamicEventListeners() {
     // Cache the form entries
     const projEntryForm = document.querySelector(".new-project-form");
     const projEntryInput = document.querySelector(".new-project-entry");
-    const projTitleCntrs = document.querySelector(".projects-sidebar-cntr");
+    const projTitleCntrs = document.querySelectorAll(".project-item-cntr");
     const deleteProjBtns = document.querySelectorAll(".delete-project-btn");
     const todoListCntrs = document.querySelector(".priority-containers");
-    const addTodoEntry = document.querySelector(".add-todo");
+    const popAddTodoEntry = document.querySelector(".add-todo");
+    const modalCntr = document.querySelector(".modal");
+    const closeModalBtn = document.querySelector(".modal-close-btn");
+    const todoEntryForm = document.querySelector("#new-todo-list-entry-cntr");
     
     projEntryForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -39,22 +44,22 @@ function dynamicEventListeners() {
         };
     });
 
-    projTitleCntrs.addEventListener("click", (e) => {
-        const targets = e.target.classList.value;
-        if (targets.includes("project-item-cntr") || targets === "project-item-selector") {
+    projTitleCntrs.forEach(div => {
+        div.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = div.closest(".project-item-cntr");
             let allCntrs = todoListCntrs.childNodes;
             allCntrs.forEach(i => i.classList.remove("selected"));
-            let selectedProjId = parseInt(e.target.dataset.id);
-            if (isNaN(selectedProjId)) {selectedProjId = parseInt(e.target.parentElement.dataset.id)};
+            let selectedProjId = parseInt(target.dataset.id);
             let projData = refreshData();
             projData.map((proj) => proj.active=false);
             let selectedProj = projData[selectedProjId];
+            if (selectedProj === undefined || selectedProj === null) return;
             selectedProj.active = true;
-            let todoData = selectedProj.items;
             writeData(projData);
             renderEntireHomePage(renderHome());
-        };
-    });
+        })
+    })
 
     deleteProjBtns.forEach(item => {
         item.addEventListener("click", (e) => {
@@ -67,16 +72,51 @@ function dynamicEventListeners() {
         })
     });
 
-    addTodoEntry.addEventListener("click", (e) => {
-        console.log(e.target.parentElement);
-        // e.target.parentElement.innerHTML = "";
-        // e.target.parentElement.appendChild(createTodoListForm());
-        
+    popAddTodoEntry.addEventListener("click", (e) => {
+        overlay.classList.add("active");
+        modalCntr.classList.add("active");
     });
+
+    todoEntryForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let formInput = document.querySelectorAll(".todo-list-entry-input");
+        let newItem = new todoItem();
+        let projTitle;
+        formInput.forEach((inputdiv) => {
+            let [key, value] = [inputdiv.dataset.dataKey, inputdiv.childNodes[1].value];
+            if (key === "proj-title") {
+                projTitle = value;
+            } else if (key === "dueDate") {
+                newItem[key] = new Date(value);
+            } else {
+                newItem[key] = value;
+            };
+        })
+        newItem.completed = false;
+
+        try {
+            modalCntr.remove();
+            const data = refreshData();
+            const projIdx = data.findIndex((proj) => proj.title === projTitle);
+            data.map(proj => proj.active = false);
+            data[projIdx].items.push(newItem);
+            data[projIdx].active = true;
+            writeData(data); 
+            renderEntireHomePage(renderHome());
+        } catch {
+            renderEntireHomePage(renderHome());
+        }
+    });
+
+    closeModalBtn.addEventListener("click", (e) => {
+        todoEntryForm.reset();
+        const modal = closeModalBtn.closest(".modal");
+        closeModal(modal);
+    })
 }
 
 
-// Register the json file in localStorage
+// Reset the json file in localStorage
 // localStorage.setItem("dbJSON", null);
 
 function clearElement(element) {
@@ -90,6 +130,8 @@ function renderEntireHomePage(pages) {
     if (!pages || !body) return;
     clearElement(body);
     body.appendChild(pages);
+    document.body.appendChild(createModal("New Todo",createTodoListForm()));
+    overlay.classList.remove("active");
     MultipleContainers();
     dynamicEventListeners();
 };
@@ -98,6 +140,12 @@ function renderEntireCalendarPage(pages) {
     if (!pages || !body) return;
     clearElement(body);
     body.appendChild(pages);
+};
+
+function closeModal(modal) {
+    if (modal === null) return;
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
 };
 
 
@@ -117,3 +165,10 @@ navHome.addEventListener("click", (e) => {
 navCalendar.addEventListener("click", (e) => {
     renderEntireCalendarPage(renderCalendar());
 });
+
+overlay.addEventListener("click", (e) => {
+    const modals = document.querySelectorAll(".modal.active");
+    modals.forEach(modal => {
+        closeModal(modal);
+    })
+})

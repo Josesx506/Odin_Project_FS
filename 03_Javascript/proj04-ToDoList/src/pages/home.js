@@ -8,9 +8,9 @@ function getActiveProject() {
     const data = refreshData();
     let selectedProj = data.filter((proj) => proj.active === true);
     if (selectedProj.length === 0) {
-        const general = data.filter((proj) => proj.title === "General");
-        general.active = true;
-        selectedProj = general;
+        const generalIdx = data.findIndex((proj) => proj.title === "General");
+        data[generalIdx].active = true;
+        selectedProj = [data[generalIdx]];
     };
     writeData(data);
 
@@ -106,7 +106,6 @@ function todoContent() {
 
     return element;
 };
-
 
 const renderHome = function() {
     loadHomeCss = true;

@@ -128,7 +128,7 @@ function createTodoListForm() {
     element.id = "new-todo-list-entry-cntr";
     element.classList.add("modal-body");
 
-    const data = refreshData();
+    const data = refreshData(true);
     const projOptions = data.map(i => i.title);
 
     const titleDiv = createInputFormDivs("todo-list-entry-input","todo-list-title","Title","title");

@@ -42,12 +42,19 @@
 
 .clickable-btn {
     width: 140px;
+    cursor: pointer;
 }
 
 .add-todo {
     justify-self: end;
     margin-right: 10px;
     font-size: medium;
+}
+
+.add-todo:focus {
+    transform: scale(1.05);
+    font-weight: bold;
+    color: #34d399;
 }
 
 .add-project, .project-item-cntr {
@@ -83,7 +90,8 @@
 .icon-btns, 
 .add-project svg,
 .add-todo span path,
-.modal-close-btn {
+.modal-close-btn,
+.todo-item-right-cntr button {
     cursor: pointer;
     border: none;
     outline: none;
@@ -91,13 +99,19 @@
     font-size: 1.05rem;
 }
 
-.delete-project-btn {
+.delete-project-btn,
+.todo-item-right-cntr {
     justify-self: end;
 }
 
 .delete-project-btn:hover,
-.modal-close-btn:hover {
+.modal-close-btn:hover,
+.delete-todo-item:hover {
     color: #C70000;
+}
+
+.edit-todo-item:hover {
+    color: #f59e0b;
 }
 
 .new-project-entry {
@@ -116,6 +130,35 @@
     min-height: 20px;
     margin: 5px;
     border-radius: 5px;
+    gap: 5px;
+    padding: 5px;
+}
+
+.cntr-title {
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.todo-item {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: start;
+    border: 0.5px solid #0ea5e9;
+    align-items: center;
+}
+
+.todo-item-left-cntr,
+.todo-item-right-cntr {
+    align-items: center;
+}
+
+.todo-item-left-cntr.checked {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.check-todo-item.checked {
+    color: #34d399;
 }
 
 .modal {

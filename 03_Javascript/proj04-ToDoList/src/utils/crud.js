@@ -8,7 +8,7 @@ function initialRender() {
     localStorage.setItem(LOCAL_STORAGE_KEY, myJSON);
 }
 
-function refreshData() {
+function refreshData(deactivate=false) {
     let checkText = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (checkText === "null") {
         initialRender();
@@ -16,6 +16,9 @@ function refreshData() {
 
     let text = localStorage.getItem(LOCAL_STORAGE_KEY);
     let savedData = JSON.parse(text);
+    if (deactivate) {
+        savedData.map((proj) => proj.active=false);
+    };
     const projectList = savedData.map(proj => new projectItem(proj.title, proj.active, proj.items.map(listItem => new todoItem(listItem.title, listItem.description, new Date(listItem.dueDate), listItem.priority, listItem.completed, listItem.notes))));
     return projectList;
 };

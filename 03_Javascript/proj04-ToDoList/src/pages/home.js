@@ -1,4 +1,4 @@
-import { addTodoBtn, deleteProjBtn } from "../utils/buttons"
+import { addTodoBtn, deleteProjBtn, modifyTodoBtns } from "../utils/buttons"
 import { addProjForm } from "../utils/forms";
 import { refreshData, writeData } from "../utils/crud";
 
@@ -14,12 +14,11 @@ function getActiveProject() {
     };
     writeData(data);
 
-    return selectedProj[0].items;
+    return [selectedProj[0].title, selectedProj[0].items];
 }
 
 function renderProjectButtons () {
-    let tmp = getActiveProject();
-
+    getActiveProject();
     const data = refreshData();
     const element = document.createElement("div");
     element.classList.add("projects-sidebar-cntr");
@@ -61,11 +60,36 @@ function todoPriorityContainer(title,className){
 
 function todoListContainer(listItem, id) {
     const todoElement = document.createElement("div");
-    todoElement.textContent = listItem.title;
     todoElement.dataset.priority = parseInt(listItem.priority);
     todoElement.dataset.id = id;
     todoElement.setAttribute("draggable",true);
     todoElement.classList.add("todo-item");
+
+    const leftCntr = document.createElement("div");
+    leftCntr.classList.add("todo-item-left-cntr");
+    const checkBox = document.createElement("input");
+    checkBox.setAttribute("type", "checkbox");
+    checkBox.classList.add("check-todo-entry");
+    const spanText = document.createElement("span");
+    spanText.classList.add("todo-item-span")
+    spanText.textContent = listItem.title;
+    leftCntr.appendChild(checkBox);
+    leftCntr.appendChild(spanText);
+
+    const rightCntr = modifyTodoBtns();
+
+    if (listItem.completed) {
+        leftCntr.classList.add("checked");
+        leftCntr.querySelector(".check-todo-entry").checked = true;
+        rightCntr.querySelector(".check-todo-item").classList.add("checked");
+    } else {
+        leftCntr.classList.remove("checked");
+        leftCntr.querySelector(".check-todo-entry").checked = false;
+        rightCntr.querySelector(".check-todo-item").classList.remove("checked");
+    }
+    
+    todoElement.appendChild(leftCntr);
+    todoElement.appendChild(rightCntr);
 
     return todoElement;
 }
@@ -83,10 +107,11 @@ function priorityContainers() {
 
     // Populate Priority Containers
     const priorityDict = {"1":contentCntr1,"2":contentCntr2,"3":contentCntr3,};
-    const activeProjTodos = getActiveProject();
+    const [activeProjTitle, activeProjTodos] = getActiveProject();
     if (activeProjTodos.length > 0) {
         activeProjTodos.forEach((todoItem, indexId) => {
             const todoElement = todoListContainer(todoItem, indexId);
+            todoElement.dataset.projTitle = activeProjTitle;
             priorityDict[todoItem.priority].childNodes[1].appendChild(todoElement);
         })
     };

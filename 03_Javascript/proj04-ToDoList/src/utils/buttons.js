@@ -16,4 +16,23 @@ function deleteProjBtn(text,id) {
     return btn;
 };
 
-export { addTodoBtn, deleteProjBtn};
+function modifyTodoBtns() {
+    const rightCntr = document.createElement("div");
+    rightCntr.classList.add("todo-item-right-cntr");
+    const checkBtn = document.createElement("button");
+    checkBtn.classList.add("check-todo-item");
+    checkBtn.innerHTML = `<i class="fa-solid fa-square-check"></i>`;
+    const editBtn = document.createElement("button");
+    editBtn.classList.add("edit-todo-item");
+    editBtn.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
+    const delBtn = document.createElement("button");
+    delBtn.classList.add("delete-todo-item");
+    delBtn.innerHTML = `<i class="fa-regular fa-square-minus"></i>`;
+
+    rightCntr.appendChild(checkBtn);
+    rightCntr.appendChild(editBtn);
+    rightCntr.appendChild(delBtn);
+    return rightCntr
+};
+
+export { addTodoBtn, deleteProjBtn, modifyTodoBtns };

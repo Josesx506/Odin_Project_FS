@@ -28,5 +28,19 @@
                 "notes":"These are notes 3"
             }
         ]
+    },
+    {
+        "title":"Odin Project",
+        "active": false,
+        "items":[
+            {
+                "title":"Complete JS",
+                "description":"Work on JS project",
+                "dueDate":"2024-05-31",
+                "priority":"1",
+                "completed":false,
+                "notes":"Complete additional projects on DOM manipulation."
+            }
+        ]
     }
 ]

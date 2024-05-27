@@ -1,5 +1,5 @@
 import todoData from "../db.json";
-import { projectItem, todoItem } from "../utils/structs";
+import { projectItem, todoItem, calendarEvent } from "../utils/structs";
 
 const LOCAL_STORAGE_KEY = "dbJSON";
 
@@ -23,6 +23,26 @@ function refreshData(deactivate=false) {
     return projectList;
 };
 
+function refreshCalendarEvents() {
+    let checkText = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (checkText === "null") {
+        initialRender();
+    };
+
+    let text = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let savedData = JSON.parse(text);
+    const allEvents = [];
+    savedData.forEach(proj => {
+        if (proj.items.length > 0) {
+            proj.items.forEach((listItem, idx) => {
+                allEvents.push(new calendarEvent(`${proj}-${idx}`,listItem.title, listItem.dueDate, listItem.completed));
+            })
+        };
+    });
+    
+    return JSON.parse(JSON.stringify(allEvents));
+};
+
 function writeData(update) {
     // Update the dueDate to String
     update.map((projKey) => {
@@ -39,4 +59,4 @@ function writeData(update) {
     localStorage.setItem(LOCAL_STORAGE_KEY, text);
 };
 
-export { refreshData, writeData }
+export { refreshData, writeData, refreshCalendarEvents }

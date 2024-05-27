@@ -1,0 +1,10 @@
+.calendar-content-cntr {
+    padding: 20px;
+    display: flex;
+    justify-self: center;
+}
+
+.fc {
+    width: 95%;
+    height: 90vh;
+}

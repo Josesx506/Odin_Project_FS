@@ -7,7 +7,7 @@ import {renderHome} from "./pages/home";
 import { createTodoListForm, editTodoListForm, expandTodoView } from "./utils/forms";
 import { createModal } from "./modals/modals";
 import { MultipleContainers } from "./utils/sortable";
-import {renderCalendar} from "./pages/calendar";
+import { renderCalendar } from "./pages/calendar";
 
 
 // Cache nav buttons and body
@@ -272,10 +272,10 @@ function renderEntireHomePage(pages) {
     dynamicEventListeners();
 };
 
-function renderEntireCalendarPage(pages) {
-    if (!pages || !body) return;
+function renderEntireCalendarPage() {
+    if (!body) return;
     clearElement(body);
-    body.appendChild(pages);
+    renderCalendar(body)
 };
 
 function closeModal(modal) {
@@ -299,7 +299,7 @@ navHome.addEventListener("click", (e) => {
 });
 
 navCalendar.addEventListener("click", (e) => {
-    renderEntireCalendarPage(renderCalendar());
+    renderEntireCalendarPage();
 });
 
 overlay.addEventListener("click", (e) => {

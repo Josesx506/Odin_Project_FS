@@ -17,6 +17,15 @@ class todoItem{
     }
 }
 
+class calendarEvent{
+    constructor (id,title,start,done) {
+        this.id = id;
+        this.title = title;
+        this.start = start;
+        this.done = done;
+    }
+}
+
 function getDueTodos(date,cutoff=1) {
     let now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -38,4 +47,4 @@ function getDueTodos(date,cutoff=1) {
     };
 };
 
-export { projectItem, todoItem, getDueTodos };
+export { calendarEvent, projectItem, todoItem, getDueTodos };

@@ -4,6 +4,26 @@ import { projectItem, todoItem, calendarEvent } from "../utils/structs";
 const LOCAL_STORAGE_KEY = "dbJSON";
 
 function initialRender() {
+    const curDate = new Date();
+    const threeDaysAhead = new Date();
+    threeDaysAhead.setDate(curDate.getDate() + 3);
+
+    todoData[0].items.push({
+        "title":"Due Event",
+        "description":"Due todo-example",
+        "dueDate":curDate.toISOString().split("T")[0],
+        "priority":"2",
+        "completed":false,
+        "notes":"Show how a due todo is formatted."
+    });
+    todoData[0].items.push({
+        "title":"Complete Event",
+        "description":"Complete todo-example",
+        "dueDate":threeDaysAhead.toISOString().split("T")[0],
+        "priority":"3",
+        "completed":true,
+        "notes":"Show how a complete todo is formatted."
+    });
     const myJSON = JSON.stringify(todoData);
     localStorage.setItem(LOCAL_STORAGE_KEY, myJSON);
 }

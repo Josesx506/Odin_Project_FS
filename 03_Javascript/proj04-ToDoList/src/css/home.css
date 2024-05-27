@@ -38,6 +38,7 @@
     width: 100%;
     justify-items: center;
     text-align: center;
+    overflow: scroll;
 }
 
 .clickable-btn {
@@ -145,6 +146,10 @@
     justify-items: start;
     border: 0.5px solid #0ea5e9;
     align-items: center;
+}
+
+.todo-item.due-todo {
+    border-left: 4px solid #C70000;
 }
 
 .todo-item-left-cntr,

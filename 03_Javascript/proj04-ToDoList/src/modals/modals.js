@@ -1,18 +1,6 @@
-
-// function closeModal() {
-//     // modal
-//     // if (modal === null) return;
-//     // modal.classlist.remove("active");
-//     overlay.classlist.remove("active");
-// };
-
-function createModal(titleText, body) {
+function createModalHeader(titleText) {
     const element = document.createElement("div");
-    element.id = "modal";
-    element.classList.add("modal");
-
-    const header = document.createElement("div");
-    header.classList.add("modal-header");
+    element.classList.add("modal-header");
 
     const title = document.createElement("div");
     title.classList.add("modal-title");
@@ -20,13 +8,22 @@ function createModal(titleText, body) {
     const closeBtn = document.createElement("button");
     closeBtn.classList.add("modal-close-btn");
     closeBtn.innerHTML = `&times;`;
-    header.appendChild(title);
-    header.appendChild(closeBtn);
+    element.appendChild(title);
+    element.appendChild(closeBtn);
 
+    return element;
+}
+
+function createModal(titleText, body) {
+    const element = document.createElement("div");
+    element.id = "modal";
+    element.classList.add("modal");
+
+    const header = createModalHeader(titleText);
     element.appendChild(header);
     element.appendChild(body);
 
     return element;
 };
 
-export { createModal };
+export { createModalHeader, createModal };

@@ -1,6 +1,7 @@
 import { addTodoBtn, deleteProjBtn, modifyTodoBtns } from "../utils/buttons"
 import { addProjForm } from "../utils/forms";
 import { refreshData, writeData } from "../utils/crud";
+import { getDueTodos } from "../utils/structs"; 
 
 let loadHomeCss = false;
 
@@ -64,6 +65,9 @@ function todoListContainer(listItem, id) {
     todoElement.dataset.id = id;
     todoElement.setAttribute("draggable",true);
     todoElement.classList.add("todo-item");
+    if (getDueTodos(listItem.dueDate)) {
+        todoElement.classList.add("due-todo");
+    };
 
     const leftCntr = document.createElement("div");
     leftCntr.classList.add("todo-item-left-cntr");

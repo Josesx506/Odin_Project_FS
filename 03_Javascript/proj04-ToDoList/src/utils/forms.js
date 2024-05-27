@@ -1,7 +1,6 @@
 import { refreshData } from "./crud";
 
 function addProjForm(){
-    // 10:46 for checkboxes
     const element = document.createElement("div");
     element.classList.add("add-project","clickable-btn");
 
@@ -14,6 +13,7 @@ function addProjForm(){
     input.setAttribute("type","text");
     input.classList.add("new-project-entry");
     input.id = "new-project-entry";
+    input.setAttribute("maxlength","20");
     input.setAttribute("name","new-project-entry");
     input.setAttribute("placeholder","create project");
     input.setAttribute("aria-label","create project");
@@ -26,7 +26,7 @@ function addProjForm(){
     return element;
 };
 
-function createInputFormDivs(divClass,inputId,labelText,dataKey) {
+function createInputFormDivs(divClass,inputId,labelText,dataKey,maxlen=null) {
     const element = document.createElement("div");
     element.classList.add(divClass);
     element.dataset.dataKey = dataKey;
@@ -42,6 +42,11 @@ function createInputFormDivs(divClass,inputId,labelText,dataKey) {
     inputDivInput.required = true;
     inputDivInput.setAttribute("type","text");
     inputDivInput.setAttribute("name",inputId);
+    if (maxlen !== null) {
+        inputDivInput.setAttribute("maxlength",maxlen);
+        inputDivInput.setAttribute("placeholder",`${maxlen} char. max`);
+    }
+        
 
     element.appendChild(inputDivLabel);
     element.appendChild(inputDivInput);
@@ -112,8 +117,8 @@ function createTextareaFormDivs(divClass,inputId,labelText,dataKey) {
     const inputDivInput = document.createElement("textarea");
     inputDivInput.classList.add("todo-list-form-input");
     inputDivInput.id = inputId;
-    inputDivInput.setAttribute("maxlength",40);
-    inputDivInput.setAttribute("placeholder","40 char. max");
+    inputDivInput.setAttribute("maxlength",50);
+    inputDivInput.setAttribute("placeholder","50 char. max");
     inputDivInput.setAttribute("name",inputId);
 
     element.appendChild(inputDivLabel);
@@ -128,12 +133,14 @@ function createTodoListForm() {
     element.id = "new-todo-list-entry-cntr";
     element.classList.add("modal-body");
 
-    const data = refreshData(true);
+    const data = refreshData(false);
+    const activeProjIdx = data.findIndex((proj) => proj.active === true);
     const projOptions = data.map(i => i.title);
 
-    const titleDiv = createInputFormDivs("todo-list-entry-input","todo-list-title","Title","title");
+    const titleDiv = createInputFormDivs("todo-list-entry-input","todo-list-title","Title","title",20);
     const descriptionDiv = createInputFormDivs("todo-list-entry-input","todo-list-description","Description","description");
     const projectsDiv = createSelectFormDivs("todo-list-entry-input","todo-list-projects","Project",projOptions,"proj-title");
+    projectsDiv.childNodes[1].childNodes[activeProjIdx].selected = true;
     const priorityDiv = createSelectFormDivs("todo-list-entry-input","todo-list-priority","Priority",[1,2,3],"priority");
     priorityDiv.childNodes[1].childNodes[1].selected = true;
     const dateDiv = createDateFormDivs("todo-list-entry-input","todo-list-date","Date","dueDate");
@@ -154,4 +161,19 @@ function createTodoListForm() {
     return element;
 };
 
-export { addProjForm, createTodoListForm }
+function editTodoListForm(projTitle, todoItem) {
+    const form = createTodoListForm();
+    form.childNodes.forEach((inputdiv) => {
+        let key = inputdiv.dataset.dataKey;
+        if (key === "proj-title") {
+            inputdiv.childNodes[1].value = projTitle;
+        } else if (key === "dueDate") {
+            inputdiv.childNodes[1].value = todoItem[key].toISOString().split("T")[0];
+        } else if (key !== null && key != undefined) {
+            inputdiv.childNodes[1].value = todoItem[key];
+        };
+    });
+    return form;
+};
+
+export { addProjForm, createTodoListForm, editTodoListForm }

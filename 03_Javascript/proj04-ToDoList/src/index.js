@@ -5,8 +5,8 @@ import "./css/index.css";
 import { refreshData, writeData } from "./utils/crud"
 import { projectItem, todoItem } from "./utils/structs";
 import {renderHome} from "./pages/home";
-import { createTodoListForm } from "./utils/forms";
-import { createModal } from "./modals/modals";
+import { createTodoListForm, editTodoListForm } from "./utils/forms";
+import { createModalHeader, createModal } from "./modals/modals";
 import { MultipleContainers } from "./utils/sortable";
 import {renderCalendar} from "./pages/calendar";
 
@@ -29,7 +29,68 @@ function dynamicEventListeners() {
     const closeModalBtn = document.querySelector(".modal-close-btn");
     const todoEntryForm = document.querySelector("#new-todo-list-entry-cntr");
     const checkTodos = document.querySelectorAll(".check-todo-entry");
+    const editTodos = document.querySelectorAll(".edit-todo-item");
     const deleteTodos = document.querySelectorAll(".delete-todo-item");
+
+    function submitModalFormEntry() {
+        let formInput = document.querySelectorAll(".todo-list-entry-input");
+        let newItem = new todoItem();
+        let projTitle;
+        formInput.forEach((inputdiv) => {
+            let [key, value] = [inputdiv.dataset.dataKey, inputdiv.childNodes[1].value];
+            if (key === "proj-title") {
+                projTitle = value;
+            } else if (key === "dueDate") {
+                newItem[key] = new Date(value);
+            } else {
+                newItem[key] = value;
+            };
+        })
+        newItem.completed = false;
+
+        try {
+            modalCntr.remove();
+            const data = refreshData();
+            const projIdx = data.findIndex((proj) => proj.title === projTitle);
+            data.map(proj => proj.active = false);
+            data[projIdx].items.push(newItem);
+            data[projIdx].active = true;
+            writeData(data); 
+            renderEntireHomePage(renderHome());
+        } catch {
+            renderEntireHomePage(renderHome());
+        }
+    };
+
+    function updateModalFormEntry(todoId,checked) {
+        let formInput = document.querySelectorAll(".todo-list-entry-input");
+        let newItem = new todoItem();
+        let projTitle;
+        formInput.forEach((inputdiv) => {
+            let [key, value] = [inputdiv.dataset.dataKey, inputdiv.childNodes[1].value];
+            if (key === "proj-title") {
+                projTitle = value;
+            } else if (key === "dueDate") {
+                newItem[key] = new Date(value);
+            } else {
+                newItem[key] = value;
+            };
+        })
+        newItem.completed = checked;
+        
+        try {
+            modalCntr.remove();
+            const data = refreshData();
+            const projIdx = data.findIndex((proj) => proj.title === projTitle);
+            data.map(proj => proj.active = false);
+            data[projIdx].items[todoId] = newItem;
+            data[projIdx].active = true;
+            writeData(data); 
+            renderEntireHomePage(renderHome());
+        } catch {
+            renderEntireHomePage(renderHome());
+        }
+    };
     
     projEntryForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -54,7 +115,6 @@ function dynamicEventListeners() {
             allCntrs.forEach(i => i.classList.remove("selected"));
             let selectedProjId = parseInt(target.dataset.id);
             let projData = refreshData(true);
-            // projData.map((proj) => proj.active=false);
             let selectedProj = projData[selectedProjId];
             if (selectedProj === undefined || selectedProj === null) return;
             selectedProj.active = true;
@@ -95,6 +155,38 @@ function dynamicEventListeners() {
         })
     });
 
+    editTodos.forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const mainCntr = item.closest(".todo-item");
+            let [projTitle,todoId] = [mainCntr.dataset.projTitle,parseInt(mainCntr.dataset.id)];
+            
+            const data = refreshData();
+            const projIdx = data.findIndex(proj => proj.title === projTitle);
+            const todoItem = data[projIdx].items[todoId];
+
+            if (modalCntr) {
+                const title = modal.querySelector(".modal-title");
+                title.textContent = "Edit Todo";
+                modalCntr.childNodes[1].remove();
+                modalCntr.appendChild(editTodoListForm(projTitle, todoItem));
+            };
+
+            overlay.classList.add("active");
+            modalCntr.classList.add("active");
+
+            const todoEditForm = document.querySelector("#new-todo-list-entry-cntr");
+            todoEditForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const mainCntr = item.closest(".todo-item");
+                const leftCntr = mainCntr.querySelector(".todo-item-left-cntr");
+                const checkStatus = leftCntr.classList.contains("checked");
+                const projId = parseInt(mainCntr.dataset.id);
+                updateModalFormEntry(projId, checkStatus);
+            });
+        })
+    })
+
     deleteTodos.forEach(item => {
         item.addEventListener("click", (e) => {
             e.preventDefault();
@@ -115,45 +207,26 @@ function dynamicEventListeners() {
 
     todoEntryForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        let formInput = document.querySelectorAll(".todo-list-entry-input");
-        let newItem = new todoItem();
-        let projTitle;
-        formInput.forEach((inputdiv) => {
-            let [key, value] = [inputdiv.dataset.dataKey, inputdiv.childNodes[1].value];
-            if (key === "proj-title") {
-                projTitle = value;
-            } else if (key === "dueDate") {
-                newItem[key] = new Date(value);
-            } else {
-                newItem[key] = value;
-            };
-        })
-        newItem.completed = false;
-
-        try {
-            modalCntr.remove();
-            const data = refreshData();
-            const projIdx = data.findIndex((proj) => proj.title === projTitle);
-            data.map(proj => proj.active = false);
-            data[projIdx].items.push(newItem);
-            data[projIdx].active = true;
-            writeData(data); 
-            renderEntireHomePage(renderHome());
-        } catch {
-            renderEntireHomePage(renderHome());
-        }
+        submitModalFormEntry();
     });
 
     closeModalBtn.addEventListener("click", (e) => {
         todoEntryForm.reset();
         const modal = closeModalBtn.closest(".modal");
+        resetModal(modal);
         closeModal(modal);
-    })
+    });
 }
-
 
 // Reset the json file in localStorage
 // localStorage.setItem("dbJSON", null);
+
+function resetModal(modal) {
+    const title = modal.querySelector(".modal-title");
+    title.textContent = "New Todo";
+    modal.childNodes[1].remove();
+    modal.appendChild(createTodoListForm());
+};
 
 function clearElement(element) {
     if (!element) return;
@@ -207,6 +280,7 @@ navCalendar.addEventListener("click", (e) => {
 overlay.addEventListener("click", (e) => {
     const modals = document.querySelectorAll(".modal.active");
     modals.forEach(modal => {
+        resetModal(modal);
         closeModal(modal);
     })
 })

@@ -10,7 +10,7 @@ function initialRender() {
 
 function refreshData(deactivate=false) {
     let checkText = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (checkText === "null") {
+    if (!checkText || checkText === null || checkText === undefined) {
         initialRender();
     };
 
@@ -25,7 +25,7 @@ function refreshData(deactivate=false) {
 
 function refreshCalendarEvents() {
     let checkText = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (checkText === "null") {
+    if (!checkText || checkText === null || checkText === undefined) {
         initialRender();
     };
 

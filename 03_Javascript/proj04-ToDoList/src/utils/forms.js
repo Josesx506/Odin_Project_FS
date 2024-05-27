@@ -176,4 +176,69 @@ function editTodoListForm(projTitle, todoItem) {
     return form;
 };
 
-export { addProjForm, createTodoListForm, editTodoListForm }
+function expandTodoView(todoItem) {
+    const element = document.createElement("div");
+    element.classList.add("expanded-todo-item");
+
+    const descriptionCntr = document.createElement("div");
+    descriptionCntr.classList.add("expanded-todo-field-cntr","description");
+    const descriptionLabel = document.createElement("div");
+    descriptionLabel.classList.add("expanded-todo-label");
+    descriptionLabel.textContent = "Description";
+    const description = document.createElement("div");
+    description.classList.add("expanded-todo-description");
+    description.textContent = todoItem.description;
+
+    descriptionCntr.appendChild(descriptionLabel);
+    descriptionCntr.appendChild(description);
+
+    const notesCntr = document.createElement("div");
+    notesCntr.classList.add("expanded-todo-field-cntr","notes");
+    const notesLabel = document.createElement("div");
+    notesLabel.classList.add("expanded-todo-label");
+    notesLabel.textContent = "Notes";
+    const notes = document.createElement("div");
+    notes.classList.add("expanded-todo-notes");
+    notes.textContent = todoItem.notes;
+    
+    notesCntr.appendChild(notesLabel);
+    notesCntr.appendChild(notes);
+
+    const datesCntr = document.createElement("div");
+    datesCntr.classList.add("expanded-todo-field-cntr","date");
+    const datesLabel = document.createElement("div");
+    datesLabel.classList.add("expanded-todo-label");
+    datesLabel.textContent = "Date:";
+    const dates = document.createElement("div");
+    dates.classList.add("expanded-todo-dates");
+    dates.textContent = todoItem.dueDate.toISOString().split("T")[0];
+    
+    datesCntr.appendChild(datesLabel);
+    datesCntr.appendChild(dates);
+
+    const priorityCntr = document.createElement("div");
+    priorityCntr.classList.add("expanded-todo-field-cntr","priority");
+    const priorityLabel = document.createElement("div");
+    priorityLabel.classList.add("expanded-todo-label");
+    priorityLabel.textContent = "Priority:";
+    const priority = document.createElement("div");
+    priority.classList.add("expanded-todo-dates");
+    priority.textContent = todoItem.priority;
+    
+    priorityCntr.appendChild(priorityLabel);
+    priorityCntr.appendChild(priority);
+
+    const lowerCntr = document.createElement("div");
+    lowerCntr.classList.add("expanded-todo-lower-cntr");
+
+    lowerCntr.appendChild(datesCntr);
+    lowerCntr.appendChild(priorityCntr);
+
+    element.appendChild(descriptionCntr);
+    element.appendChild(notesCntr);
+    element.appendChild(lowerCntr);
+
+    return element;
+}
+
+export { addProjForm, createTodoListForm, editTodoListForm, expandTodoView }

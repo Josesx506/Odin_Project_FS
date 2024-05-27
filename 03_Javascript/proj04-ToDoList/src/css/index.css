@@ -1,0 +1,31 @@
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    padding: 10px 10px;
+    margin-left: 25%;
+}
+
+.nav-btn a {
+    text-decoration: none;
+    color: #9ca3af;
+}
+
+.nav-btn {
+    font-size: larger;
+    color: #9ca3af;
+    border-radius: 5px;
+    border: 1.5px solid #6b7280;
+    background-color: transparent;
+    width: 160px;
+}
+
+.nav-btn:hover {
+    cursor: pointer;
+}
+
+.nav-btn:active, .nav-btn a:active {
+    color: #0284c7;
+    font-weight: bold;
+}

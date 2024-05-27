@@ -143,9 +143,12 @@ const renderHome = function() {
     }
     const element = document.createElement("div");
     element.classList.add("content-cntr");
+    const documentation = document.createElement("div");
+    documentation.textContent = "Hold and drag list items to change priority interactively";
 
     element.appendChild(renderProjSidebar());
     element.appendChild(todoContent());
+    element.appendChild(documentation);
 
     loadHomeCss = false;
     return element;

@@ -1,12 +1,11 @@
-// const fs = require("fs");
 import "@fortawesome/fontawesome-free/js/all";
 import "./css/index.css";
 
 import { refreshData, writeData } from "./utils/crud"
 import { projectItem, todoItem } from "./utils/structs";
 import {renderHome} from "./pages/home";
-import { createTodoListForm, editTodoListForm } from "./utils/forms";
-import { createModalHeader, createModal } from "./modals/modals";
+import { createTodoListForm, editTodoListForm, expandTodoView } from "./utils/forms";
+import { createModal } from "./modals/modals";
 import { MultipleContainers } from "./utils/sortable";
 import {renderCalendar} from "./pages/calendar";
 
@@ -31,6 +30,7 @@ function dynamicEventListeners() {
     const checkTodos = document.querySelectorAll(".check-todo-entry");
     const editTodos = document.querySelectorAll(".edit-todo-item");
     const deleteTodos = document.querySelectorAll(".delete-todo-item");
+    const expandTodos = document.querySelectorAll("div.todo-item");
 
     function submitModalFormEntry() {
         let formInput = document.querySelectorAll(".todo-list-entry-input");
@@ -135,8 +135,9 @@ function dynamicEventListeners() {
     });
 
     checkTodos.forEach(item => {
-        item.addEventListener("change", (e) => {
+        item.addEventListener("click", (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const mainCntr = item.closest(".todo-item");
             let [projTitle,todoId] = [mainCntr.dataset.projTitle,parseInt(mainCntr.dataset.id)];
             const checkCntr = mainCntr.querySelector(".todo-item-left-cntr");
@@ -158,6 +159,8 @@ function dynamicEventListeners() {
     editTodos.forEach(item => {
         item.addEventListener("click", (e) => {
             e.preventDefault();
+            // Prevent the event from bubbling up to the parent and clashing with expandTodos
+            e.stopPropagation();
             const mainCntr = item.closest(".todo-item");
             let [projTitle,todoId] = [mainCntr.dataset.projTitle,parseInt(mainCntr.dataset.id)];
             
@@ -198,6 +201,28 @@ function dynamicEventListeners() {
             writeData(data);
             renderEntireHomePage(renderHome());
         })
+    });
+
+    expandTodos.forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const mainCntr = item.closest(".todo-item");
+            let [projTitle,todoId] = [mainCntr.dataset.projTitle,parseInt(mainCntr.dataset.id)];
+            
+            const data = refreshData();
+            const projIdx = data.findIndex(proj => proj.title === projTitle);
+            const todoItem = data[projIdx].items[todoId];
+
+            if (modalCntr) {
+                const title = modal.querySelector(".modal-title");
+                title.textContent = todoItem.title;
+                modalCntr.childNodes[1].remove();
+                modalCntr.appendChild(expandTodoView(todoItem));
+            };
+
+            overlay.classList.add("active");
+            modalCntr.classList.add("active");
+        });
     });
 
     popAddTodoEntry.addEventListener("click", (e) => {

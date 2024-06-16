@@ -1,0 +1,105 @@
+.slides-outer {
+    display: grid;
+    justify-content: center;
+    margin: 10px;
+}
+
+.mySlides {
+    display: none;
+}
+
+.slide-img {
+    vertical-align: middle;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 95vw;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.captiontext {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 0;
+  position: absolute;
+  bottom: 0px;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgba(100, 111, 103, 0.5);
+  justify-self: center;
+}
+
+/* Number text */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+.dotCntr {
+    display: inline;
+    justify-self: center;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  vertical-align: middle;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Next & previous buttons */
+.prev-slide, .next-slide {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .next-slide {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a grey background color */
+  .prev-slide:hover, .next-slide:hover {
+    background-color: #f1f1f1;
+    color: black;
+  }
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 2.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}

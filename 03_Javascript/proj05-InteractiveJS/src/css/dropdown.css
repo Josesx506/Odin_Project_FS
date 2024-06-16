@@ -3,7 +3,7 @@
     font-size: 30px;
     padding-top: 0.5em;
     padding-left: 1em;
-    display: block;
+    display: grid;
     cursor: pointer;
 }
 

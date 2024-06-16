@@ -1,6 +1,5 @@
 let loadDropdownCss = false;
 
-
 function renderNav(items = ["Home","About","Contact"]) {
     const element = document.createElement("div");
     element.classList.add("dd-nav");
@@ -26,21 +25,19 @@ function openNav() {
     openBtn.style.display = "none";
     const navOptions = document.querySelector(".dd-nav");
     navOptions.style.width = "100%";
-    // navOptions.style.margin = "1em 0 0 1em";
 };
 
 function closeNav() {
     const openBtn = document.querySelector(".open-dd-nav");
-    openBtn.style.display = "block";
+    openBtn.style.display = "grid";
     const navOptions = document.querySelector(".dd-nav");
     navOptions.style.width = "0";
-    // navOptions.style.margin = "0";
 };
 
 function renderMobileBtn() {
     const element = document.createElement("span");
     element.classList.add("open-dd-nav");
-    element.innerHTML = `&#9776`
+    element.innerHTML = `&#9776 Menu`
 
     return element
 }
@@ -60,6 +57,7 @@ function renderDropdown() {
     element.appendChild(ddElements);
     element.appendChild(ddBtn);
 
+    loadDropdownCss = false;
     return element
 }
 

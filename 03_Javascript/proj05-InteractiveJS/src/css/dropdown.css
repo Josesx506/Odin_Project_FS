@@ -1,0 +1,57 @@
+.open-dd-nav {
+    background-color: white;
+    font-size: 30px;
+    padding-top: 0.5em;
+    padding-left: 1em;
+    display: block;
+    cursor: pointer;
+}
+
+.open-dd-nav:hover {
+    color: #0284c7;
+}
+
+/* Make it an overlay on top of everything */
+.dd-nav {
+    width: 0;
+    overflow-x: hidden;
+    z-index: 1;
+    position: fixed;
+    background-color: rgba(34,65,93,0.8);
+    transition: 0.1s;
+    display: block;
+    text-align: center;
+}
+
+.dd-nav a {
+    clear: left;
+    color: white;
+    font-size: 30px;
+    display: block;
+    text-decoration: none;
+    padding-top: 0.5em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.dd-nav a:last-child {
+    padding-bottom: 0.5em;
+}
+
+a.close-dd-nav {
+    float: left;
+    font-size: 30px;
+    padding-left: 1em;
+}
+
+.dd-nav a:first-child:hover {
+    color: tomato;
+}
+
+.dd-nav a:not(:first-child):hover {
+    background-color: cadetblue;
+}
+
+.open:hover {
+    display: "none";
+}

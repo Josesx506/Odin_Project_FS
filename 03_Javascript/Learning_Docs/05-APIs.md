@@ -1,0 +1,2 @@
+### Application Programming Interface
+Learn how to make api requests with JS using `fetch`, handling promises, and catching errors. An examaple using fetch with the Giphy API can be found in the `proj06-GiphyAPI` folder. You can generate new api keys from giphys dev page at https://developers.giphy.com/dashboard/.

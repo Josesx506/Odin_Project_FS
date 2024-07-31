@@ -1,0 +1,35 @@
+body div {
+    display: grid;
+    justify-content: center;
+    gap: 10px;
+    margin: 5px;
+}
+
+h1 {
+    text-align: center;
+    font-style: italic;
+}
+
+#giphy_img {
+    height: auto;
+    width: 360px;
+}
+
+form, input {
+    font-size: x-large;
+}
+
+label {
+    color: blue;
+}
+
+#gifSearch {
+    width: 200px;
+    font-style: italic;
+    font-weight: lighter;
+    color: lightslategray;
+}
+
+#searchText {
+    font-style: oblique;
+}

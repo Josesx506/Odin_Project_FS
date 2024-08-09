@@ -146,3 +146,53 @@ Promise.race([
 Other tips can be found
 - https://github.com/getify/You-Dont-Know-JS/blob/1st-ed/async%20%26%20performance/ch2.md
 - https://github.com/getify/You-Dont-Know-JS/blob/1st-ed/async%20%26%20performance/ch3.md
+
+
+### Async / Await
+`async` and `await` are syntactic wrappers around promises that make it easier to understand how the code is written. 
+- `await` statements can ***only*** be called inside an `async` function. await literally suspends the function execution until the promise settles, and then resumes it with the promise result.
+- `async` functions ***always*** return promises. It means you can't simply assign the results of an async function to a variable and print it out, you have to use the `.then()` method to trigger the promises.
+  ```JS
+  async function test_plus_5(num) {
+    return num + 5
+  };
+
+  let val = test_plus_5(5);
+  console.log(val);        // Return Promise object -> Promise { 10 }
+  val.then(console.log);   // Return actual result -> 10
+  ```
+  The `then` statement defines what the returned promise should do when resolved
+
+- Examples
+  - Original fetch request with callbacks
+    ```JS
+    function loadJson(url) {
+      return fetch(url)
+        .then(response => {
+          if (response.status == 200) {
+            return response.json();
+          } else {
+            throw new Error(response.status);
+          }
+        });
+    }
+
+    loadJson('https://javascript.info/no-such-user.json')
+      .catch(alert); // Error: 404
+    ```
+  - Refactored fetch request with async functions
+    ```JS
+    async function loadJson(url) { // (1)
+      let response = await fetch(url); // (2)
+
+      if (response.status == 200) {
+        let json = await response.json(); // (3)
+        return json;
+      }
+
+      throw new Error(response.status);
+    }
+
+    loadJson('https://javascript.info/no-such-user.json')
+      .catch(alert); // Error: 404 (4)
+    ```

@@ -3,13 +3,23 @@ const searchForm = document.querySelector("#searchForm");
 const searchInput = document.querySelector("#gifSearch");
 const searchText = document.querySelector("#searchText");
 
-fetch("https://api.giphy.com/v1/gifs/translate?api_key=dpZgAvRpgnJRokfF9JkUIyBwDin7pT0y&s=cats", {mode: "cors"})
-.then(function(response) {
-    return response.json();
-})
-.then(function(response) {
-    img.src = response.data.images.original.url;
-});
+// Using Promises
+// fetch("https://api.giphy.com/v1/gifs/translate?api_key=dpZgAvRpgnJRokfF9JkUIyBwDin7pT0y&s=cats", {mode: "cors"})
+// .then(function(response) {
+//     return response.json();
+// })
+// .then(function(response) {
+//     img.src = response.data.images.original.url;
+// });
+
+// Using Async await
+async function getCats() {
+    const response = await fetch("https://api.giphy.com/v1/gifs/translate?api_key=dpZgAvRpgnJRokfF9JkUIyBwDin7pT0y&s=cats", {mode: "cors"});
+    const catData = await response.json();
+    img.src = catData.data.images.original.url;
+};
+
+getCats();
 
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();

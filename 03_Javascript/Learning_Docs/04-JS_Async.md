@@ -196,3 +196,48 @@ Other tips can be found
     loadJson('https://javascript.info/no-such-user.json')
       .catch(alert); // Error: 404 (4)
     ```
+- When using `async` + `await`, be careful about awaiting too many requests. This can cause blocking especially when multiple requests can be obtained concurrently. 
+  - `await` should only be used if the second request depends on the first request. e.g.
+    ```JS
+    async function getData(id) {
+      let userName = await db.get(`SELECT name FROM users WHERE id = '${id}'`);
+      let userPosts = await db.get(`SELECT * FROM posts WHERE username = '${userName}'`);
+
+      return userPosts;
+    };
+    ```
+  - In scenarios where, multiple promises can be obtained simulataneously, using await on each promise, blocks each function call and makes the overall implementation slower. Using `Promise.all([])` is a more efficient way of extracting the results concurrently. e.g.
+    ```JS
+    async function getFruit(name) {
+      const fruits = {
+        "pineapple": "🍍",
+        "mango": "🥭",
+        "banana": "🍌",
+        "orange": "🍊",
+        "strawberry": "🍓",
+        "watermelon": "🍉",
+      };
+
+      await delay(1000) // 1 sec sleep to mimic api call
+
+      return fruits[name];
+    };
+
+    async function badSmoothie() {
+      // bad function call with blocking, runs in 2 secs
+      const a = await getFruit("pineapple");
+      const b = await getFruit("strawberry");
+
+      return [a, b];
+    };
+
+    async function goodSmoothie() {
+      // good function call with concurrent operations, runs in 1 sec
+      const a = getFruit("pineapple");
+      const b = getFruit("strawberry");
+      const smoothie = await Promise.all([a, b]);
+
+      return smoothie;
+    };
+    ```
+    emojis link - [emojipedia](https://emojipedia.org/)

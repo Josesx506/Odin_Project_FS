@@ -16,8 +16,7 @@ function citySearch() {
 
     let searchSubmit = document.createElement("button");
     searchSubmit.setAttribute("type","submit");
-    // searchSubmit.innerHTML = `<i class="fa fa-search"></i>`;
-    searchSubmit.innerHTML = `<i class="fa-solid fa-cloud-bolt-sun"></i>`;
+    searchSubmit.innerHTML = `<i class="fa fa-search"></i>`;
 
     form.appendChild(searchInput);
     form.appendChild(searchSubmit);

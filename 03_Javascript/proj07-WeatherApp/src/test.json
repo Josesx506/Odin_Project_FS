@@ -5666,7 +5666,7 @@
         "solarenergy": 0,
         "uvindex": 0,
         "conditions": "Overcast",
-        "icon": "cloudy",
+        "icon": "wind",
         "stations": [
             "D5621",
             "F6665",

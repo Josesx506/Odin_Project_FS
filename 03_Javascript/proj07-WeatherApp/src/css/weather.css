@@ -1,26 +1,63 @@
-.content-cntr {
-    font-size: 1em;
-    margin-top: 20px;
+.cloudy svg {
+    color: #ffe168;
 }
 
-
-
-
-.search-form-body {
-    display: grid;
-    justify-items: center;
+.clear-day svg {
+    color: #ffe168;
 }
 
-.search-form-body button, #search-city-input {
-    font-size: 1.2em;
+.clear-night svg {
+    color: darkgray;
 }
 
-.search-form-body button {
-    background-color:#6c8094;
-    color: white;
+.fog svg {
+    color: #8bb1cb;
 }
 
-.temp-sepr {
-    border-left: solid 1px #70757a;
-    margin: 0 4px;
+.hail svg {
+    color: #c7cbd4;
+}
+
+.partly-cloudy-day svg {
+    color: #ded5beec;
+}
+
+.partly-cloudy-night svg {
+    color: lightgray;
+}
+
+.rain-snow-showers-day svg,
+.rain-snow-showers-night svg,
+.snow-showers-day svg,
+.snow-showers-night svg {
+    color: #4b8dd5;
+}
+
+.rain-snow svg, 
+.rain svg,
+.thunder svg {
+    color: #1764e4;
+}
+
+.showers-day svg {
+    color: #c6c24c;
+}
+
+.showers-night svg,
+.wind svg {
+    color: lightgray;
+}
+
+.sleet svg {
+    color: #7179a1;
+}
+
+.thunder-rain svg,
+.thunder-showers-day svg,
+.thunder-showers-night svg {
+    color: #30639c;
+}
+
+.cloudy.overcast svg {
+    color: lightgray;
 }

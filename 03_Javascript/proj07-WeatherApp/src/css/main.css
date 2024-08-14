@@ -1,0 +1,107 @@
+.content-cntr {
+    font-size: 1em;
+    margin-top: 20px;
+    display: grid;
+    gap: 15px;
+}
+
+
+
+
+.search-form-body {
+    display: grid;
+    justify-items: center;
+}
+
+.search-form-body button, #search-city-input {
+    font-size: 1.2em;
+}
+
+.search-form-body button {
+    background-color:#6c8094;
+    color: white;
+}
+
+.active-city-name {
+    font-size: xx-large;
+    font-weight: bolder;
+    font-style: oblique;
+    text-align: center;
+}
+
+.current-weather-cntr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+}
+
+.current-conditions-left-cntr {
+    display: grid;
+    justify-content: left;
+    grid-auto-flow: column;
+    gap: 10px;
+    align-content: center;
+}
+
+.current-weather-icon > :first-child {
+    height: 80%;
+    width: auto;
+    margin: 0 5%;
+    align-self: center;
+    justify-content: center;
+}
+
+.current-temp-cntr {
+    display: grid;
+    grid-auto-flow: column;
+    padding: 5px 0;
+}
+
+.current-temp-value {
+    display: grid;
+    font-size: 60px;
+    grid-row: 1 / 5;
+    justify-content: center;
+    align-items: center;
+}
+
+.current-temp-units {
+    display: grid;
+    grid-auto-flow: column;
+    grid-row: 1;
+}
+
+.current-temp-units button {
+    background-color: transparent;
+    border: 0;
+    font-size: 1em;
+    padding: 0;
+    cursor: pointer;
+}
+
+.current-temp-cntr {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 0.5fr;
+}
+
+.current-conditions-right-cntr {
+    display: grid;
+    justify-self: right;
+    grid-template-rows: 1.5fr 1fr 1fr;
+    align-items: center;
+}
+
+.current-conditions-title {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.ccnd-text {
+    font-size: medium;
+}
+
+.temp-sepr {
+    border-left: solid 1px #70757a;
+    margin: 0 4px;
+}

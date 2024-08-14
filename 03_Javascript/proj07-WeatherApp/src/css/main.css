@@ -65,6 +65,11 @@
     align-items: center;
 }
 
+.temp-sepr {
+    border-left: solid 1px #70757a;
+    margin: 0 4px;
+}
+
 .current-temp-units {
     display: grid;
     grid-auto-flow: column;
@@ -77,6 +82,12 @@
     font-size: 1em;
     padding: 0;
     cursor: pointer;
+}
+
+.current-temp-units button:active {
+    transform: scale(1.05);
+    font-weight: bold;
+    transition: background-color 0.1s ease;
 }
 
 .current-temp-cntr {
@@ -101,7 +112,6 @@
     font-size: medium;
 }
 
-.temp-sepr {
-    border-left: solid 1px #70757a;
-    margin: 0 4px;
+.inactive-unit {
+    color: gray;
 }

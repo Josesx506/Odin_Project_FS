@@ -1,7 +1,4 @@
-.cloudy svg {
-    color: #ffe168;
-}
-
+.cloudy svg,
 .clear-day svg {
     color: #ffe168;
 }
@@ -22,10 +19,6 @@
     color: #ded5beec;
 }
 
-.partly-cloudy-night svg {
-    color: lightgray;
-}
-
 .rain-snow-showers-day svg,
 .rain-snow-showers-night svg,
 .snow-showers-day svg,
@@ -44,7 +37,9 @@
 }
 
 .showers-night svg,
-.wind svg {
+.partly-cloudy-night svg,
+.wind svg,
+.cloudy.overcast svg {
     color: lightgray;
 }
 
@@ -56,8 +51,4 @@
 .thunder-showers-day svg,
 .thunder-showers-night svg {
     color: #30639c;
-}
-
-.cloudy.overcast svg {
-    color: lightgray;
 }

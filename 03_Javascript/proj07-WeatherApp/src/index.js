@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-free/js/all";
 import "./css/index.css";
 
-import { renderWeather, getCityWeather } from "./weather";
+import { getCityWeather, renderWeather } from "./weather";
 
 const content = document.querySelector("#weatherContent");
 const weatherHomeBtn = document.querySelector(".home");
@@ -25,11 +25,11 @@ function clearElement(element) {
     };
 };
 
-function renderWeatherPage(pages) {
+function renderWeatherPage(pages, city="London", unit="us") {
     if (!pages || !content) return;
     clearElement(content);
     content.appendChild(pages);
-    getCityWeather("London");
+    getCityWeather(city, unit);
     dynamicEventListeners();
 };
 

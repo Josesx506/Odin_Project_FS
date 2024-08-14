@@ -63,8 +63,16 @@ function updateCityName(cityName) {
     activeCityDiv.textContent = cityName;
 }
 
-function currWeatherLeftCntr(data) {
+function currWeatherLeftCntr(data, unit="us") {
     import("./css/weather.css");
+
+    let windUnit;
+
+    if (unit === "us") {
+        windUnit = "mph";
+    } else if (unit === "metric") {
+        windUnit = "km/h";
+    };
 
     const element = document.createElement("div");
     element.classList.add("current-conditions-left-cntr");
@@ -85,10 +93,12 @@ function currWeatherLeftCntr(data) {
     let tempUnits = document.createElement("div");
     tempUnits.classList.add("current-temp-units");
     let fahrLabel = document.createElement("button");
+    fahrLabel.classList.add("fahrenheit-btn");
     fahrLabel.textContent = "°F";
     let labelSepr = document.createElement("span");
     labelSepr.classList.add("temp-sepr");
     let celsLabel = document.createElement("button");
+    celsLabel.classList.add("celsius-btn");
     celsLabel.textContent = "°C";
 
     tempUnits.appendChild(fahrLabel);
@@ -108,7 +118,7 @@ function currWeatherLeftCntr(data) {
     humidity.textContent = `Humidity: ${data["humidity"]}%`;
     let windSpeed = document.createElement("div");
     windSpeed.classList.add("current-windspeed","ccnd-text");
-    windSpeed.textContent = `Wind Speed: ${data["windspeed"]} mph`;
+    windSpeed.textContent = `Wind Speed: ${data["windspeed"]} ${windUnit}`;
     let visibility = document.createElement("div");
     visibility.classList.add("current-visibility","ccnd-text");
     visibility.textContent = `Visibility: ${data["visibility"]}%`;
@@ -155,12 +165,16 @@ function currWeatherRightCntr(data) {
     return element;
 }
 
-function renderCurrWeather(currData) {
+function hourlyDataCard(data) {
+
+}
+
+function renderCurrWeather(currData, unit="us") {
 
     const currWeatherCntr = document.querySelector(".current-weather-cntr");
     currWeatherCntr.innerHTML = "";
 
-    let leftCntr = currWeatherLeftCntr(currData);
+    let leftCntr = currWeatherLeftCntr(currData, unit);
     let rightCntr = currWeatherRightCntr(currData);
 
     currWeatherCntr.appendChild(leftCntr);
@@ -179,8 +193,33 @@ async function getCityWeather(city, unit="us") {
         // let resp = wData;
 
         updateCityName(resp["address"])
-        renderCurrWeather(resp["currentConditions"]);
-        
+        renderCurrWeather(resp["currentConditions"], unit);
+
+        let fahrBtn = document.querySelector(".fahrenheit-btn");
+        let celsBtn = document.querySelector(".celsius-btn");
+        const activeCity = document.querySelector(".active-city-name");
+
+        if (unit === "us") {
+            fahrBtn.classList.remove("inactive-unit");
+            celsBtn.classList.add("inactive-unit");
+        } else if (unit === "metric") {
+            fahrBtn.classList.add("inactive-unit");
+            celsBtn.classList.remove("inactive-unit");
+        };
+
+        fahrBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let currCity = activeCity.textContent;
+            getCityWeather(currCity, "us");
+        });
+
+        celsBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let currCity = activeCity.textContent;
+            getCityWeather(currCity, "metric");
+        });
+
+        console.log(resp);
         return resp;
 
     } catch (error) {

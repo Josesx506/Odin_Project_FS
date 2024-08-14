@@ -11,10 +11,7 @@ const apiKey = process.env.VCWApiKey;
 
 const weatherIcons = {
     "clear-day" : `<i class="fa-solid fa-sun"></i>`,
-    "clear-night" : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
-                        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                     </svg>`,
+    "clear-night" : `<i class="fa-solid fa-cloud-moon"></i>`,
     "cloudy" : `<i class="fa-solid fa-cloud"></i>`,
     "fog" : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-fog-fill" viewBox="0 0 16 16">
                 <path d="M3 13.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m10.405-9.473a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 12H13a3 3 0 0 0 .405-5.973"/>
@@ -23,7 +20,7 @@ const weatherIcons = {
                 <path d="M3.75 15.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m.408-3.724a.5.5 0 0 1 .316.632l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.316M7.75 15.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m.408-3.724a.5.5 0 0 1 .316.632l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.316m3.592 3.724a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m.408-3.724a.5.5 0 0 1 .316.632l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.316m1.247-6.999a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 10.5H13a3 3 0 0 0 .405-5.973"/>
               </svg>`,
     "partly-cloudy-day" : `<i class="fa-solid fa-cloud-sun"></i>`,
-    "partly-cloudy-night" : `<i class="fa-solid fa-cloud-moon"></i>`,
+    "partly-cloudy-night" : `<i class="fa-solid fa-circle-half-stroke"></i>`,
     "rain-snow-showers-day" : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-snow-fill" viewBox="0 0 16 16">
                                 <path d="M2.625 11.5a.25.25 0 0 1 .25.25v.57l.501-.287a.25.25 0 0 1 .248.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m2.75 2a.25.25 0 0 1 .25.25v.57l.5-.287a.25.25 0 0 1 .249.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m5.5 0a.25.25 0 0 1 .25.25v.57l.5-.287a.25.25 0 0 1 .249.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 0 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m-2.75-2a.25.25 0 0 1 .25.25v.57l.5-.287a.25.25 0 0 1 .249.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 1 1-.5 0v-.57l-.501.287a.25.25 0 0 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m5.5 0a.25.25 0 0 1 .25.25v.57l.5-.287a.25.25 0 0 1 .249.434l-.495.283.495.283a.25.25 0 0 1-.248.434l-.501-.286v.569a.25.25 0 0 1-.5 0v-.57l-.501.287a.25.25 0 1 1-.248-.434l.495-.283-.495-.283a.25.25 0 0 1 .248-.434l.501.286v-.569a.25.25 0 0 1 .25-.25m-.22-7.223a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 10.25H13a3 3 0 0 0 .405-5.973"/>
                                </svg>`,
@@ -166,8 +163,53 @@ function currWeatherRightCntr(data) {
 }
 
 function hourlyDataCard(data) {
+    const element = document.createElement("div");
+    element.classList.add("hourly-card-cntr");
 
-}
+    const hourTime = document.createElement("div");
+    hourTime.classList.add("hourly-time");
+    hourTime.textContent = convertToAmPm(data["datetime"], false);
+
+    const hourIcon = document.createElement("div");
+    let firstCondition = data["conditions"].toLowerCase();
+    firstCondition = firstCondition.split(" ")[0];
+    hourIcon.classList.add("hourly-icon", data["icon"], firstCondition);
+    hourIcon.innerHTML = weatherIcons[data["icon"]];
+
+    const hourTemp = document.createElement("div");
+    hourTemp.classList.add("hourly-temp");
+    hourTemp.textContent = `${Math.round(data["temp"])}°`;
+
+    element.appendChild(hourTime);
+    element.appendChild(hourIcon);
+    element.appendChild(hourTemp);
+
+    return element;
+};
+
+function renderHourlyTempForToday(hourlyData) {
+    const hrlyWeatherCntr = document.querySelector(".hourly-weather-cntr");
+    hrlyWeatherCntr.innerHTML = "";
+
+    let todayOutlook = hourlyData["description"];
+    let hourlyCards = hourlyData["hours"];
+
+    const title = document.createElement("div");
+    title.classList.add("today-weather-summary");
+    title.textContent = todayOutlook;
+
+    const dailyCards = document.createElement("div");
+    dailyCards.classList.add("today-weather-cards");
+
+    hourlyCards.forEach(cardData => {
+        let cardElem = hourlyDataCard(cardData);
+        dailyCards.appendChild(cardElem);
+    });
+
+    hrlyWeatherCntr.appendChild(title);
+    hrlyWeatherCntr.appendChild(dailyCards);
+};
+
 
 function renderCurrWeather(currData, unit="us") {
 
@@ -190,10 +232,11 @@ async function getCityWeather(city, unit="us") {
         })
         resp = await resp.json();
 
-        // let resp = wData;
+        // let resp = await wData;
 
         updateCityName(resp["address"])
         renderCurrWeather(resp["currentConditions"], unit);
+        renderHourlyTempForToday(resp["days"][0]);
 
         let fahrBtn = document.querySelector(".fahrenheit-btn");
         let celsBtn = document.querySelector(".celsius-btn");
@@ -243,6 +286,9 @@ function renderWeather() {
     const currWthrCntr = document.createElement("div");
     currWthrCntr.classList.add("current-weather-cntr");
 
+    const hourlyWthrCntr = document.createElement("div");
+    hourlyWthrCntr.classList.add("hourly-weather-cntr");
+
     const documentation = document.createElement("div");
     documentation.textContent = "This is the weather";
 
@@ -250,6 +296,7 @@ function renderWeather() {
     element.appendChild(form);
     element.appendChild(activeCityName);
     element.appendChild(currWthrCntr);
+    element.appendChild(hourlyWthrCntr);
 
     loadCss = false;
     return element;

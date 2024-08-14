@@ -32,7 +32,11 @@
 .current-weather-cntr {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 10px;
+    margin: 5px;
+    padding: 5px;
+    border: 0 2px;
+    border: solid 1px black;
+    border-radius: 5px;
 }
 
 .current-conditions-left-cntr {
@@ -43,11 +47,14 @@
     align-content: center;
 }
 
-.current-weather-icon > :first-child {
+.current-weather-icon svg {
     height: 80%;
     width: auto;
     margin: 0 5%;
-    align-self: center;
+}
+
+.current-weather-icon {
+    align-content: center;
     justify-content: center;
 }
 
@@ -114,4 +121,45 @@
 
 .inactive-unit {
     color: gray;
+}
+
+/* Daily weather insights */
+.hourly-weather-cntr {
+    display: grid;
+    gap: 10px;
+}
+
+.today-weather-summary {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.today-weather-cards {
+    display: grid;
+    grid-auto-flow: column;
+    overflow: scroll;
+    gap: 5px;
+}
+
+.hourly-card-cntr {
+    display: grid;
+    width: 70px;
+    grid-template-rows: 1fr 3fr 1fr;
+}
+
+.hourly-card-cntr {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px black;
+    background-color: snow;
+    border-radius: 8px;
+}
+
+.hourly-icon svg {
+    height: auto;
+    width: 80%;
+    margin: 0 5%;
+    justify-content: center;
 }

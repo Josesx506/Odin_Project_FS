@@ -1,3 +1,26 @@
 .content-cntr {
     font-size: 1em;
+    margin-top: 20px;
+}
+
+
+
+
+.search-form-body {
+    display: grid;
+    justify-items: center;
+}
+
+.search-form-body button, #search-city-input {
+    font-size: 1.2em;
+}
+
+.search-form-body button {
+    background-color:#6c8094;
+    color: white;
+}
+
+.temp-sepr {
+    border-left: solid 1px #70757a;
+    margin: 0 4px;
 }

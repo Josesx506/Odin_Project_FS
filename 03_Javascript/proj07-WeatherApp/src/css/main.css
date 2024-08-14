@@ -163,3 +163,45 @@
     margin: 0 5%;
     justify-content: center;
 }
+
+.today-weather-navs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.today-weather-navs svg {
+    font-size: x-large;
+}
+
+.today-weather-navs svg:active {
+    transform: scale(1.65);
+    font-weight: bold;
+    transition: background-color 0.1s ease;
+}
+
+.hourly-weather-cntr {
+    margin: 5px;
+    padding: 5px;
+    border: 0 2px;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+.loader {
+    height: 4px;
+    width: 130px;
+    --c:no-repeat linear-gradient(#eede00 0 0);
+    background: var(--c),var(--c),#7b7b7a;
+    background-size: 60% 100%;
+    animation: l16 3s infinite;
+    justify-self: center;
+  }
+  @keyframes l16 {
+    0%   {background-position:-150% 0,-150% 0}
+    66%  {background-position: 250% 0,-150% 0}
+    100% {background-position: 250% 0, 250% 0}
+  }
+
+.hidden {
+    display: none;
+}

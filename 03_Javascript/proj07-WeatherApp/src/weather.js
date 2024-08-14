@@ -1,6 +1,6 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { citySearch } from "./forms";
-import { convertToAmPm } from "./utils";
+import { convertToAmPm, hideLoader, showLoader } from "./utils";
 
 import wData from "./test.json";
 
@@ -187,6 +187,24 @@ function hourlyDataCard(data) {
     return element;
 };
 
+function scrollNavs(className) {
+    let element = document.createElement("div");
+    element.classList.add(className);
+
+    let leftScroll = document.createElement("div");
+    leftScroll.classList.add(`${className}-left`);
+    leftScroll.innerHTML = `<i class="fa-solid fa-circle-left"></i>`;
+
+    let rightScroll = document.createElement("div");
+    rightScroll.classList.add(`${className}-right`);
+    rightScroll.innerHTML = `<i class="fa-solid fa-circle-right"></i>`;
+
+    element.appendChild(leftScroll);
+    element.appendChild(rightScroll);
+    
+    return element;
+}
+
 function renderHourlyTempForToday(hourlyData) {
     const hrlyWeatherCntr = document.querySelector(".hourly-weather-cntr");
     hrlyWeatherCntr.innerHTML = "";
@@ -206,8 +224,23 @@ function renderHourlyTempForToday(hourlyData) {
         dailyCards.appendChild(cardElem);
     });
 
+    const dailyNav = scrollNavs("today-weather-navs");
+
     hrlyWeatherCntr.appendChild(title);
     hrlyWeatherCntr.appendChild(dailyCards);
+    hrlyWeatherCntr.appendChild(dailyNav);
+
+    const scrollLeftBtn = document.querySelector(".today-weather-navs-left");
+    const scrollRightBtn = document.querySelector(".today-weather-navs-right");
+    const gridContent = document.querySelector(".today-weather-cards");
+
+    scrollLeftBtn.addEventListener("click", () => {
+        gridContent.scrollBy({ left: -200, behavior: "smooth" });
+    });
+
+    scrollRightBtn.addEventListener("click", () => {
+        gridContent.scrollBy({ left: 200, behavior: "smooth" });
+    });
 };
 
 
@@ -223,16 +256,27 @@ function renderCurrWeather(currData, unit="us") {
     currWeatherCntr.appendChild(rightCntr);
 };
 
+function task1() {  
+    return wData;
+}
+
 async function getCityWeather(city, unit="us") {
     try {
+        showLoader();
+
         // unitGroup (optional) – The system of output data units. Supported values are us, uk, metric, base.
-        
         let resp = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/next7days?unitGroup=${unit}&key=${apiKey}&contentType=json`, {
             mode: "cors"
         })
         resp = await resp.json();
 
-        // let resp = await wData;
+        // Dummy implementation for testing
+        // let resp = wData;
+        // let resp = await new Promise((resolve) => {
+        //     setTimeout(() => {
+        //         resolve(task1());
+        //     }, 3000);
+        // });
 
         updateCityName(resp["address"])
         renderCurrWeather(resp["currentConditions"], unit);
@@ -263,6 +307,8 @@ async function getCityWeather(city, unit="us") {
         });
 
         console.log(resp);
+
+        hideLoader();
         return resp;
 
     } catch (error) {
@@ -286,21 +332,29 @@ function renderWeather() {
     const currWthrCntr = document.createElement("div");
     currWthrCntr.classList.add("current-weather-cntr");
 
+    const progressBar = document.createElement("div");
+    progressBar.classList.add("loader","hidden");
+
     const hourlyWthrCntr = document.createElement("div");
     hourlyWthrCntr.classList.add("hourly-weather-cntr");
 
     const documentation = document.createElement("div");
-    documentation.textContent = "This is the weather";
+    documentation.textContent = "This is a simple async weather data api query";
+    documentation.style.display = "flex";
+    documentation.style.justifyContent = "center";
 
     let form = citySearch();
     element.appendChild(form);
+    element.appendChild(progressBar);
     element.appendChild(activeCityName);
     element.appendChild(currWthrCntr);
     element.appendChild(hourlyWthrCntr);
+    element.appendChild(documentation);
 
     loadCss = false;
     return element;
 };
 
 
-export { renderWeather, getCityWeather };
+export { getCityWeather, renderWeather };
+

@@ -12,4 +12,14 @@ function convertToAmPm(timeStr, long=true) {
     }
 };
 
-export { convertToAmPm }
+function showLoader() {
+    const loader = document.querySelector(".loader");
+    loader.classList.remove("hidden");
+};
+
+function hideLoader() {
+    const loader = document.querySelector(".loader");
+    loader.classList.add("hidden");
+};
+
+export { convertToAmPm, showLoader, hideLoader }

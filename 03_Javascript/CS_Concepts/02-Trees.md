@@ -15,7 +15,8 @@ In Depth First Search, the order in which we access a node in can be
 - In-order - <left_node><`root_node`><right_node>
 - Post-order - <left_node><right_node><`root_node`>
 
->!Note - The position of the root-node diagonally decreases from left to right as you access the nodes from pre-order -> in-order -> post-order. In-order traversal of a binary-search-tree gives a sorted list.
+>[!Note]
+> The position of the root-node diagonally decreases from left to right as you access the nodes from pre-order -> in-order -> post-order. In-order traversal of a binary-search-tree gives a sorted list.
 
 Breadth First Search can only be traversed from left to right in a pattern known as Level-order traversal. This uses a queue or array to append and pop items respectively from the tree.
 

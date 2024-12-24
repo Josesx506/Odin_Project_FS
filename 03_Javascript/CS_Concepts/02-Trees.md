@@ -22,3 +22,11 @@ Breadth First Search can only be traversed from left to right in a pattern known
 
 ### Complexity
 Max. Time and Space complexity -> `O(n)`. Best/Average Time/Space Complexity -> `O(log n)`
+
+### Height and Depth
+***Height*** is defined as the number of edges in the longest path from a given node to a leaf node. <br>
+***Depth*** is defined as the number of edges in the path from a given node to the tree’s **root** node. <br><br>
+
+Whenever items are inserted into a tree, the new node should always be inserted as a leaf 
+node. The tree can then be rebalanced. To balance a tree, use a traversal method (DFS/BFS) to 
+get a array of values. Sort the array, and then rebuild the tree with the sorted array using the recursive array midpoints.

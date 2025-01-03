@@ -1,5 +1,5 @@
 function capitalize(string) {
-    let cap = string.charAt(0).toUpperCase() + string.slice(1);
+    let cap = string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     return cap;
 };
 

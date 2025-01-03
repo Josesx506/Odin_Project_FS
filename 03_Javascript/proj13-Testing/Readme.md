@@ -44,3 +44,55 @@ matchers can be found on the jest website [here](https://jestjs.io/docs/using-ma
     }
     ```
     and execute `npm run watch` in terminal to interactively run the tests as you update the test script.
+
+### Mocking
+Mocking is required when the units used to break the large problem down into smaller parts depend on each other. Put another way, *mocking 
+is required when our supposed atomic units of composition are not really atomic*, and our decomposition strategy has failed to decompose 
+the larger problem into smaller, independent problems. If the unit(modules, functions, classes) can't be tested without mocking dependencies, 
+it’s tightly coupled to the mocked dependencies.<br>
+
+***Don’t unit test I/O***. I/O is for integrations. Use integration tests, instead. It’s perfectly OK to mock and fake for **integration tests**.<br>
+
+Create a mock test in JS using `jest.fn()`. The mock function can have a callback *e.g. `jest.fn(x => x+42)`*. You can also mock the return 
+value directly e.g.
+```JS
+it("Mock tests", ()=> {
+    const mock = jest.fn();
+    // Hard code the return value - Can be repeated multiple times
+    mock.mockReturnValueOnce(true).mock.mockReturnValueOnce("Hello");
+    const results = mock();
+    const results2 = mock();         // Second call to access the second return value
+    expect(results).toBe(true);      // Test for the first mocked `true` value
+    expect(results2).toBe("Hello");  // Test for the second mocked `"Hello"` value
+})
+```
+
+Http requests can be mocked with jest too.
+```JS
+const axios = require("axios");
+
+// Original function that needs to be mocked
+const fetchData = async (id) => {
+    // The returned object should have an id and data keys
+    const results = await axios.get(`https://jsonplaceholder.typicode.com/${id}`);
+    return results.data
+}
+
+test("Mock axios get request", async () => {
+    // Use Jest to intercept calls to axios.get and return the mocked object instead of actually performing the HTTP request.
+    // jest.spyOn(object, "methodName") - mock setup
+    jest.spyOn(axios, "get").mockReturnValueOnce({
+        data: {
+            id: 1,
+            todo: "Complete todo item"
+        }
+    });
+
+    // Call the function where the mocked value will be returned instead of making api call
+    const results = await fetchData(1);
+    expect(results.todo).toBe("Complete todo item");
+});
+```
+
+When you have to setup and teardown a db/data/file I/O before a series of tests in Jest, you can use the 
+`beforeEach(), afterEach(), beforeAll(), afterAll()` functions. Check the [docs](https://jestjs.io/docs/setup-teardown) for additional info.

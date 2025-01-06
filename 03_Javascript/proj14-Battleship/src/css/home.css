@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    background-color: #F3F3F3;
+    overflow-x: hidden;
+}
+
+*,*::before, *::after {
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+.home-page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 66vh;
+    width: 100%;
+    gap: 10px;
+}
+
+.home-title {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+}
+
+.new-game-btn {
+    border-radius: 0.5em;
+    font-size: larger;
+    background-color: antiquewhite;
+}
+
+.new-game-btn:hover {
+    cursor: pointer;
+}
+
+.home-battleship-icon {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    width: 100%;
+    transform: rotateY(180deg);
+    pointer-events: none;
+    opacity: .25;
+    height: 40%;
+}

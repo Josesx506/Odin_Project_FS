@@ -25,8 +25,7 @@ class Gameboard{
     }
 
     // Check if a ship can be inserted
-    canPlaceShip(startX, startY, ship, direction) {
-        let length = ship.length;
+    canPlaceShip(startX, startY, length, direction) {
 
         // Check each cell based on direction
         for (let i = 0; i < length; i++) {
@@ -52,7 +51,7 @@ class Gameboard{
     placeShip(startX, startY, shipLen, direction) {
         let newShip = new Ship(shipLen);
 
-        if (!this.canPlaceShip(startX, startY, newShip, direction)) {
+        if (!this.canPlaceShip(startX, startY, newShip.length, direction)) {
             throw new Error("Invalid ship placement.");
         }
 
@@ -70,6 +69,33 @@ class Gameboard{
             this.board[x][y] = newShip; // Store a reference to the ship
         };
         this.ships.push(newShip);
+    };
+
+    removeShip(startX, startY, shipLen, direction) {
+
+        let targetShip;
+        
+        // Place the ship on the board
+        for (let i = 0; i < shipLen; i++) {
+            let x = startX;
+            let y = startY;
+
+            if (direction === "hor") {
+                y += i;
+            } else if (direction === "ver") {
+                x += i;
+            }
+
+            if (typeof this.board[x][y] !== "object") {
+                throw new Error("Invalid ship location");
+            } else {
+                targetShip = this.board[x][y]; // Store a reference to the ship
+            };
+            
+            this.board[x][y] = null;
+        };
+        let shipIndex = this.ships.indexOf(targetShip);
+        this.ships.splice(shipIndex,1);
     };
 
     receiveAttack(x, y) {

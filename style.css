@@ -73,6 +73,12 @@ img.box-img {
     border-radius: 5px;
 }
 
+i.box-img {
+    justify-self: center;
+    font-size: calc(var(--box-widths) - 40px);
+    color: rgb(34, 35, 35);
+}
+
 span.link-name {
     font-size: 1.2rem;
     text-align: center;

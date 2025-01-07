@@ -201,7 +201,6 @@ function triggerStart(shipPlaceholder, shipElement) {
             startDOM.style.color = "white";
             startDOM.style.backgroundColor = "red";
             msgDOM.innerHTML = "Player1's turn.";
-            PubSub.publish("GAME_STARTED","hello world!");
         });
 
     }

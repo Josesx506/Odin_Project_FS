@@ -7,6 +7,7 @@ function gameLogic(p1, pAI) {
     let pAIBoard = document.querySelector(".btshp-grid-cntr.ai");
     let resetGame = document.querySelector(".start-game-btn button");
     let msgInfo = document.querySelector(".msg-board");
+    let hardReset = document.querySelector(".home-reset");
 
     pAI.active = true;
     let aiMoves = new AIController(p1.board);
@@ -50,7 +51,6 @@ function gameLogic(p1, pAI) {
         });
         p1Board.classList.add("inactive-board");
         pAIBoard.classList.add("inactive-board");
-        PubSub.publish("GAME_ENDED", ()=> {resetGame});
     }
 
     function handleAITurn() {
@@ -116,11 +116,15 @@ function gameLogic(p1, pAI) {
         }
     }
 
+    switchTurns();
+    // if (shipPlaceholder.children.length === 0 && resetGame.classList.contains("reset-game")) { 
+        
+    // }
 
-    if (shipPlaceholder.children.length === 0 && resetGame.classList.contains("reset-game")) { 
-        switchTurns();
-        PubSub.publish("GAME_PROGRESS", resetGame);
-    }
+    resetGame.addEventListener("click", (e) => {
+        e.preventDefault();
+        hardReset.click();
+    })
 }
 
 function handleClick(e, player, msg, opp, switchTurns) {

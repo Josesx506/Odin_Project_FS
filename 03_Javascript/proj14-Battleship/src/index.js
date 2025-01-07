@@ -1,7 +1,6 @@
 import homePage from "./views/home";
 import { SetupController } from "./views/controller";
 import { gameLogic } from "./views/logic";
-import PubSub from "pubsub-js";
 
 const hardReset = document.querySelector(".home-reset");
 const body = document.getElementById("content");
@@ -20,37 +19,30 @@ function renderApplication(pages) {
 };
 
 // Load the home page for the first time
-renderApplication(new homePage());
+function main () {
+    renderApplication(new homePage());
 
-const initGame = document.querySelector(".new-game-btn");
-initGame.addEventListener("click", (e) => {
-    e.preventDefault();
-    // Setup the game by placing your ships. AI locations are random
-    let setupObj = new SetupController();
-    renderApplication(setupObj.body);
+    const initGame = document.querySelector(".new-game-btn");
+    let startDOM;
+    let setupObj;
 
-    // Begin game after ship placement
-    PubSub.subscribe("GAME_STARTED", () => {
-        gameLogic(setupObj.p1,setupObj.pAI)});
-});
-
-PubSub.subscribe("GAME_PROGRESS", (msg, resetBtn) => {
-    console.log(msg);
-    console.log(resetBtn);
-    resetBtn.addEventListener("click", (e) => {
+    initGame.addEventListener("click", (e) => {
         e.preventDefault();
-        renderApplication(new homePage());
-    });
-});
+        // Setup the game by placing your ships. AI locations are random
+        setupObj = new SetupController();
+        renderApplication(setupObj.body);
+        startDOM = document.querySelector(".start-game-btn");
 
-PubSub.subscribe("GAME_ENDED", (msg, resetBtn) => {
-    resetBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        renderApplication(new homePage());
-    });
-});
+        // Begin game after ship placement
+        startDOM.addEventListener("click", (e)=>{
+            e.preventDefault();
+            gameLogic(setupObj.p1,setupObj.pAI)});
+    })
+}
+
+main();
 
 hardReset.addEventListener("click", (e) => {
     e.preventDefault();
-    renderApplication(new homePage());
+    main();
 });

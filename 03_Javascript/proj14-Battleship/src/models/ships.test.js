@@ -1,7 +1,7 @@
 import { Ship } from "./ships";
 
 test("Hit Ship", () => {
-    let ship = new Ship(3);
+    let ship = new Ship(3,"cruiser");
     ship.hit();
 
     expect(ship.hits).toBe(1);
@@ -9,7 +9,7 @@ test("Hit Ship", () => {
 });
 
 test("Sink Carrier", () => {
-    let ship = new Ship(5);
+    let ship = new Ship(5,"carrier");
     ship.hit();
     ship.hit();
     ship.hit();

@@ -9,13 +9,13 @@ describe("Gameboard Tests", () => {
     });
 
     test("Insert Ship", () => {
-        board.placeShip(0, 1, 4, "hor"); 
+        board.placeShip(0, 1, 4, "hor", "battleship"); 
         expect(board.board[0][1]).toEqual(board.ships[0]); 
         expect(board.board[0][3]).toEqual(board.ships[0]);
     });
 
     test("Invalid Ship Placement", () => {
-        expect(() => board.placeShip(0, 4, 3, "hor")).toThrow("Invalid ship placement.");
+        expect(() => board.placeShip(0, 4, 3, "hor", "cruiser")).toThrow("Invalid ship placement.");
     });
 
     test("Receive Attack - Miss", () => {
@@ -31,7 +31,7 @@ describe("Gameboard Tests", () => {
     });
 
     test("Receive Attack - Hit", () => {
-        board.placeShip(2, 2, 5, "ver");
+        board.placeShip(2, 2, 5, "ver", "carrier");
         const result = board.receiveAttack(2, 2); // Attack a cell with a ship
         expect(result).toBe("Hit");
         expect(board.board[2][2]).toBe(-1);       // Ensure the board registered the hit

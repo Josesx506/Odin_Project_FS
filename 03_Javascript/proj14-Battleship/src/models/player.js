@@ -4,6 +4,7 @@ class Player{
     constructor(id){
         this.id = id;
         this.board = new Gameboard();
+        this.active = false;
     }
 };
 

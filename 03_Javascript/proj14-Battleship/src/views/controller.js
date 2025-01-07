@@ -1,5 +1,6 @@
 import { Player } from "../models/player";
-import { randomShipPositioning } from "./oppo_ai";
+import { randomShipPositioning } from "./aiShips";
+import PubSub from 'pubsub-js';
 
 let loadGameCss = false;
 
@@ -81,6 +82,7 @@ function createMessageBoard () {
 
 function dragPlayerShips(player) {
     let draggedShip;
+    let shipPlaceholder = document.querySelector(".ships-placeholder");
 
     function rotateShip(e) {
         e.preventDefault();
@@ -100,7 +102,8 @@ function dragPlayerShips(player) {
                     e.target.parentElement.classList.toggle("vertical");
     
                     player.board.removeShip(gridX,gridY,shipSize,currOrientation);
-                    player.board.placeShip(gridX,gridY,shipSize,newOrientation);
+                    let shipName = activeShip.classList[1].replace("-cntr","");
+                    player.board.placeShip(gridX,gridY,shipSize,newOrientation,shipName);
                     // console.log(player.board.printBoard());
                     activeShip.style.margin = 0;
                 }
@@ -133,7 +136,8 @@ function dragPlayerShips(player) {
         let shipOrientation = draggedShip.classList.contains("vertical") ? "ver" : "hor";
 
         if (player.board.canPlaceShip(gridX,gridY,shipSize,shipOrientation)) {
-            player.board.placeShip(gridX,gridY,shipSize,shipOrientation);
+            let shipName = draggedShip.classList[1].replace("-cntr","");
+            player.board.placeShip(gridX,gridY,shipSize,shipOrientation,shipName);
             // console.log(player.board.printBoard());
 
             if (draggedShip.parentElement) {
@@ -145,8 +149,7 @@ function dragPlayerShips(player) {
             
             draggedShip.style.margin = 0;
         }
-
-        triggerStart(player,allShips);
+        triggerStart(shipPlaceholder,allShips);
     }
 
     const allShips = document.querySelectorAll(".ship.draggable-source");
@@ -163,7 +166,7 @@ function dragPlayerShips(player) {
     });
 }
 
-function startGame () {
+function createStartBtn () {
     let element = document.createElement("div");
     element.classList.add("start-game-btn");
 
@@ -175,11 +178,11 @@ function startGame () {
     return element;
 }
 
-function triggerStart(player, shipElement) {
+function triggerStart(shipPlaceholder, shipElement) {
     let startDOM = document.querySelector(".start-game-btn button");
     let msgDOM = document.querySelector(".msg-board");
     
-    if (player.board.ships.length===5) {
+    if (shipPlaceholder.children.length===0) {
         startDOM.disabled=false;
         msgDOM.innerHTML = "All ships have been placed. <br>Click Start to begin."
     
@@ -198,13 +201,14 @@ function triggerStart(player, shipElement) {
             startDOM.style.color = "white";
             startDOM.style.backgroundColor = "red";
             msgDOM.innerHTML = "Player1's turn.";
+            PubSub.publish("GAME_STARTED","hello world!");
         });
 
     }
 }
 
 
-function GameController() {    
+function SetupController() {    
     loadGameCss = true;
     if (loadGameCss) {
         import("../css/game.css");
@@ -229,7 +233,7 @@ function GameController() {
     const msgCntr = createMessageBoard();
 
     // Create the start button
-    const startBtn = startGame();
+    const startBtn = createStartBtn();
 
     element.appendChild(gameCntr);
     element.appendChild(shipCntr);
@@ -246,7 +250,10 @@ function GameController() {
     
 
     loadGameCss = false;
-    return element;
+    return {body: element,
+        p1: p1,
+        pAI: pAI
+    };
 }
 
-export { GameController };
+export { SetupController };

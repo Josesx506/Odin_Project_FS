@@ -20,6 +20,11 @@
     margin: 0;
 }
 
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .ships-placeholder {
     display: flex;
     flex-wrap: wrap;
@@ -43,7 +48,7 @@
     width: calc((4.6vmin * var(--width, 1)));
     height: calc((4.6vmin * var(--height, 1)));
     /* border-radius: 1vmin; */
-    border: 0.1vmin solid #000;
+    /* border: 0.1vmin solid #000; */
     box-sizing: content-box;
 }
 
@@ -120,4 +125,27 @@ legend {
 
 .start-game-btn button:disabled {
     cursor: not-allowed;
+}
+
+.hit-shot::after,
+.miss-shot::after {
+    content: '';
+    display: block;
+    width: 1.2vmin;
+    height: 1.2vmin;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.miss-shot::after {
+    background-color: white;
+}
+
+.hit-shot::after {
+    background-color: red;
 }

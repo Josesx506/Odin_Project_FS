@@ -48,8 +48,8 @@ class Gameboard{
     }
 
     // Place a ship
-    placeShip(startX, startY, shipLen, direction) {
-        let newShip = new Ship(shipLen);
+    placeShip(startX, startY, shipLen, direction, shipName) {
+        let newShip = new Ship(shipLen,shipName);
 
         if (!this.canPlaceShip(startX, startY, newShip.length, direction)) {
             throw new Error("Invalid ship placement.");

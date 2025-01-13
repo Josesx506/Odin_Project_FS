@@ -1,3 +1,8 @@
+# Content
+- [Transforms](#css-transforms)
+- [Transitions](#css-transitions)
+- [Animations](#css-animations)
+
 ## CSS Transforms
 Transforms are ways to adjust HTML replaced elements e.g `<a>, <iframe>, and <img>`. Most elements can be transformed, with the exception of non-replaced 
 elements like `<col>, <colgroup>` and inline elements like ` <span>, <b>, and <em>`. You should try to apply the transform property to an element and 
@@ -135,8 +140,75 @@ button {
 ```
 ---
 > [!Tip]
-> You should keep your animations to only affecting `opacity` and `transform` if you want absolute best performance for animations on your web page.
+> You should restrict your animations to only affect `opacity` and `transform` if you want absolute best performance for animations on your web page.
 ---
 
 Stacking context (z-index) is a three-dimensional conceptualization of HTML elements along an imaginary z-axis relative to the user, who is assumed to be 
-facing the viewport or the webpage.
+facing the viewport or the webpage. <br>
+
+### Differences between Transitions and Animations
+- Transitions were designed to animate an element from one state to another. 
+- They can loop, but they weren’t designed for that. Transitions need a trigger, such as the use of pseudo-classes like `:hover` or `:focus`, or by 
+  adding/removing a class via JavaScript. 
+- Transitions are not as flexible as using animations.
+
+Both animations and transitions have their use cases and best judgement is required to avoid overkill.
+
+
+## CSS Animations
+Animations were designed with the purpose of explicitly enabling loops. They can work without triggers and can start running immediately the page loads.
+`animate` has four main properties
+- `animation-duration` - length of an animation cycle following which it will restart.
+- `animation-name` - custom variable name of the animation rules. Must match the name assigned in `@keyframes` argument.
+- `animation-iteration-count` - number of animation cycles. Can be an integer or *infinite*.
+- `animation-direction` - This property decides if our animation should *alternate* direction on the completion of one cycle, or reset to the start point and 
+  repeat itself. Valid arguments are `normal; reverse; alternate; alternate-reverse;`. Using normal or reverse starts the animate from the beginning or end, 
+  and skips the animation back to the beginning immediate. Using alternate allows the animation to start from 0->100,100->0,0->100 etc. This avoids jumping 
+  back to the beginning at the end of each animation loop and makes it smoother. alternate-reverse is similar to alternate but begins the animation from the 
+  end.
+
+```CSS
+/* Long definition */
+#ball {
+  /* ... other CSS properties ... */
+  animation-duration: 2s;
+  animation-name: change-color;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+```
+
+**`@keyframes`** define the sequence of rules for each animation loop. A keyframe requires a variable name, initial rule defined with `from`, final rule 
+defined with `to`, and intermediate rules can be defined by specifying the value *at* each percentage of the loop. *from* and *to* are aliases for `0%` 
+and `100%` respectively. The `!important` declaration in a keyframe can be used to suppress a rule you don't want to include. Seems easier to delete or 
+comment out the rule in my opinion.
+
+```CSS
+@keyframes change-color {
+  from {
+    background-color: red;
+  }
+  
+  33% {
+    background-color: yellow;
+  }
+  
+  66% {
+    background-color: aqua;
+    transform: scale(1.5) !important;
+  }
+
+  to {
+    background-color: green;
+  }
+}
+```
+In the example above, we want to change the background color of the ball element from `red -> yellow -> aqua -> green` in each animation loop. Additional 
+rules like `transform: scale(1.5);` can also be applied to any of the keyframe timestamps. The definiition of the animation can also be shortened to 
+
+```CSS
+#ball {
+  /* ... other CSS properties ... */
+  animation: 2s change-color infinite alternate;
+}
+```

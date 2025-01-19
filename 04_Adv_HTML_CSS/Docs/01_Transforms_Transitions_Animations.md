@@ -209,6 +209,14 @@ rules like `transform: scale(1.5);` can also be applied to any of the keyframe t
 ```CSS
 #ball {
   /* ... other CSS properties ... */
-  animation: 2s change-color infinite alternate;
+  animation: change-color 2s infinite alternate;
 }
 ```
+
+Additional animation properties include
+```CSS
+.element {
+  animation: [name] [duration] [timing-function] [delay] [iteration-count] [direction] [fill-mode] [play-state];
+}
+```
+`timing-function` uses generic timing functions like transition properties e.g ***ease-in,ease-out,ease-in-out*** etc.

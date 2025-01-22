@@ -8,9 +8,12 @@ body {
     display: grid;
     gap: 20px;
     margin: 0;
-    padding: 10px;
+    padding: 1em 2em;
 }
 
+a {
+    text-decoration: None;
+}
 .header > h1 {
     display: flex;
     position: relative;
@@ -21,8 +24,7 @@ body {
 
 .all-project-levels {
     display: grid;
-    /* grid-template-rows: repeat(var(--number-modules), 1fr); */
-    gap: 18px;
+    gap: 1rem;
 }
 
 .level-container {
@@ -60,7 +62,6 @@ body {
 }
 
 .project-box a {
-    text-decoration: None;
     color: white;
     display: grid;
     grid-template-rows: 1fr 4fr;
@@ -68,9 +69,9 @@ body {
 }
 
 .project-box a:hover {
-    color: #f4f665;
+    color: black;
     font-weight: bold;
-    transition: 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 img.box-img {
@@ -83,8 +84,19 @@ img.box-img {
 i.box-img {
     justify-self: center;
     font-size: calc(var(--box-widths) - 40px);
-    color: rgb(34, 35, 35);
+}
+
+i.btshp {
     transform: scaleX(0.9);
+    color: rgb(34, 35, 35);
+}
+
+.box-img {
+    transition: transform .3s ease-in-out;
+}
+
+.box-img:hover {
+    transform: scale(0.9);
 }
 
 span.link-name {
@@ -100,4 +112,22 @@ span.link-name {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.contact-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 10rem;
+    a i {
+        font-size: 2rem;
+        transition: transform .5s ease-in-out;
+    }
+    a i.github {color: black};
+    a i.linkedin {color: rgb(10, 102, 194)};
+    a:hover {
+        transform: scale(1.5);
+    }
 }

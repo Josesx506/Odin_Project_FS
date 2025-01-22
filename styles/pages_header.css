@@ -6,6 +6,8 @@
     background-color: #1f2937;
     align-self: center;
     width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
 }
 
 .left-nav {

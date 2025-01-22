@@ -1,0 +1,347 @@
+:root {
+    --theme-color: rgb(8, 145, 178);
+    --page-margins: 0 auto;
+    --page-width: 100%;
+    --cntr-padding: 2em;
+    --box-widths: 250px;
+}
+
+body {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none !important;
+    background-color: none;
+    transition: transform .3s ease-in-out;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+}
+
+/* Header */
+header {
+    margin-bottom: 1rem;
+}
+  
+.diagonal-box {
+    position: relative;
+    margin: var(--page-margins);
+    background-color: #fff;
+    width: var(--page-width);
+}
+
+.diagonal-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--theme-color);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 100%);
+    margin: 0;
+    padding: 0;
+}
+
+.hdr-cntr {
+    padding: var(--cntr-padding);
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-family: "Playfield Display";
+    color: #fff;
+    align-items: center;
+}
+
+.hdr-name {
+    position: absolute;
+    font-family: "Playfair Display";
+    text-align: center;
+    transform: translateY(-100%) translateX(5%);
+    font-size: 4rem;
+}
+
+.hdr-about {
+    color: black;
+    text-align: center;
+    font-family: "Playfield Display";
+    font-size: x-large;
+    z-index: 1;
+    background-color: #fff;
+    padding: 1em;
+    box-shadow: .4rem .4rem .4rem rgba(0, 0, 0, 0.2);
+    h1 {
+        margin: 1rem 0;
+    }
+}
+
+.hdr-about div {
+    margin-bottom: 1rem;
+}
+
+.about-me-txt {
+    color: rgb(86,86,86);
+}
+
+/* Main Body */
+.main-cntr {
+    margin: var(--page-margins);
+    width: var(--page-width);
+    padding: 0 var(--cntr-padding);
+    box-sizing: border-box;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    h1 {
+        margin: 1rem 0;
+    };
+}
+
+.projects-cntr {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--box-widths),1fr));
+    gap: 2rem 2rem;
+    resize: both;
+    overflow: auto;
+    justify-content: start;
+    width: 100%;
+}
+
+.proj-exmp {
+    display: flex;
+    flex-direction: column;
+}
+
+.proj-scrsht {
+    height: var(--box-widths);
+    &._1 {background-color: rgb(124, 117, 202)};
+    &._2 {background-color: rgb(216, 143, 57)};
+    &._3 {background-color: rgb(94, 143, 77)};
+    &._4 {background-color: rgb(202, 117, 153)};
+    &._5 {background-color: rgb(70, 146, 217)};
+    &._6 {background-color: rgb(94, 143, 77)};
+}
+
+.proj-desc {
+    padding: 1em;
+    font-family: "Playfield Display";
+}
+
+.proj-desc-upr {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10%;
+    margin-bottom: 0.5rem;
+    .proj-links{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        i {
+            font-size: 1.5rem;
+            color: black;
+        }
+    }
+}
+
+.proj-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Footer */
+footer {
+    margin-top: 1rem;
+}
+
+.ftr-cntr {
+    background-color: var(--theme-color);
+    margin: var(--page-margins);
+    width: var(--page-width);
+    padding: var(--cntr-padding);
+    box-sizing: border-box; /* Pad div without increase element size */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2em;
+}
+
+.ftr-contact {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    font-family: "Roboto";
+    font-size: larger;
+    .footer-img {
+        flex-shrink: 0;
+    }
+}
+
+.get-in-touch {
+    font-size: larger;
+}
+
+.contact-logos {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.contact-logos a i {
+    font-size: 2.5rem;
+    color: black;
+}
+
+.hdr-img, .footer-img {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.hdr-img img, .footer-img img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.email, .tel {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    ion-icon {
+        flex-shrink: 0;
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 431px) and (max-width: 1366px) {
+    .hdr-about div.contact-logos {
+        display: none;
+        visibility: hidden;
+    }
+
+    .contact-logos {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .hdr-cntr {
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .hdr-visuals {
+        float: none;
+        margin-right: 2rem;
+        margin-bottom: 2rem;
+        width: 40%;
+        position: relative;
+        transform: translateY(60%);
+    }
+
+    .hdr-img img {
+        width: 100%;
+        height: auto;
+        display: inline;
+    }
+
+    .hdr-about {
+        overflow: hidden;
+        margin: 0 auto;
+        max-width: 75%;
+    }
+
+    .hdr-name {
+        position: absolute;
+        top: 0;
+        right: 100;
+        text-align: left;
+        transform: translateX(105%);
+        width: 100%;
+        font-size: 4rem;
+    }
+
+    .hdr-cntr {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .about-me-txt {
+        line-height: 1.6;
+        margin-bottom: 20px;
+        position: relative;
+    }
+}
+
+@media (max-width: 430px) {
+    .diagonal-box::before {
+        height: 50%;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 100%);
+    }
+
+    .hdr-cntr, .main-cntr, .ftr-cntr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hdr-visuals {
+        padding: 1em 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .hdr-about {
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .hdr-name {
+        position: absolute;
+        font-family: "Playfair Display";
+        bottom: 5%;
+        transform: translateX(2%);
+        text-align: left;
+    }
+
+    .main-cntr {
+        align-items: center;
+    }
+
+    .contact-logos {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .ftr-cntr {
+        padding: 0;
+    }
+
+    .footer-img {
+        max-width: 100%;
+    }
+
+    .ftr-contact {
+        padding: 2em 1.5em;
+    }
+
+    .ftr-contact h1 {
+        text-align: center;
+        margin: 0;
+    }
+
+    .tmp-icons {
+        display: none;
+        visibility: hidden;
+    }
+  }

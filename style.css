@@ -7,8 +7,9 @@
 body {
     display: grid;
     gap: 20px;
-    margin: 0;
-    padding: 1em 2em;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 a {
@@ -25,6 +26,8 @@ a {
 .all-project-levels {
     display: grid;
     gap: 1rem;
+    padding: 1em 2em;
+    box-sizing: border-box;
 }
 
 .level-container {

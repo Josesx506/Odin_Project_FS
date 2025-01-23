@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+.main-cntr {
+    width: min(1500px, 100%);
+    margin: 0 auto;
+    background-color: #23424A;
+}
+
+.container {
+    width: 50%;
+    color: white;
+    padding: 4em;
+    font-family: "Roboto";
+}
+
+.dummy-text {
+    font-size: 1.3rem;
+    padding-bottom: 1em;
+    line-height: 1.6;
+}
+
+.click-btn {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 1em 2em;
+    background-color: #38CFD9;
+    border-radius: 2em;
+    margin-top: 2em;
+    color: black;
+}

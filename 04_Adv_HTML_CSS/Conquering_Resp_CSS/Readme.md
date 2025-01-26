@@ -13,3 +13,5 @@
 - Default `rem` value is 16px. It is a global variable except you manually change it in the `::root{}` argument. `rem` is great for fontsizes but not so 
     good for setting margin and padding arguments because it doesn't change as dynamically as em.
 
+### Review of second week
+- `<div>`s have a default width of 100%.

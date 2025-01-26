@@ -88,8 +88,10 @@ from one component, will not trigger a reaction on the second component even if 
 ### Hooks
 Hooks are functions that let you use React features. All hooks are recognizable by the `use` prefix. For example, `useState` is a hook. We’ll use more of these as we get further 
 into the course. For now, remember that hooks have rules that we need to abide by:
-1. Hooks can only be called from the top level of a functional component.
+1. Hooks can only be called from the top level of a functional component (they don't work in class components).
 2. Hooks can’t be called from inside loops, conditions, or other nested functions.
+
+Hooks don't work in class components, because class components already have a way to do what hooks do.
 
 
 ### Import stateChange performance by minimizing Re-rendering

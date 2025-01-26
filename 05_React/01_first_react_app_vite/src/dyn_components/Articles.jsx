@@ -6,11 +6,16 @@ export default function Gallery() {
   const [showMore, setShowMore] = useState(true);
 
   function handleNextClick() {
+    // Bad way to update Index with useState.
+    // Works but doesn't account for previous state
+    // If repeated, doesn't increment the index more than once
     index<=10 && setIndex(index + 1);
   }
 
   function handlePrevClick() {
-    index>=1 && setIndex(index - 1);
+    // Better way to update Index with useState.
+    // If repeated, decrements the index more than once
+    index>=1 && setIndex(prevIndex => prevIndex- 1);
   }
 
   function handleMoreClick() {

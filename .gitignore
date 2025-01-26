@@ -2,7 +2,7 @@
 01_Foundations/03_JS_Projects/package-lock.json
 .DS_Store
 
-
+*.pdf
 node_modules
 */node_modules
 */*/node_modules

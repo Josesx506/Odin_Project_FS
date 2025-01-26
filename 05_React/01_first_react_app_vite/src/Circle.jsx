@@ -1,10 +1,10 @@
 function Circle() {
     return (
     <>
-    <h1>Test title</h1>
-    <div className="container*">
-        <svg>
-            <circle cx="25" cy="75" r="20" stroke="green" fill="white" strokeWidth="6" style={{color: "white"}} />
+    <div className="container">
+        <svg width="50px" height="50px">
+            <circle cx="50%" cy="50%" r="20" stroke="green" fill="white" 
+            strokeWidth="6" style={{color: "white", margin:0}} />
         </svg>
     </div>
     <form>

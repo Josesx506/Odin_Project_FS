@@ -208,4 +208,6 @@ export default function Profile() {
   );
 }
 ```
-This can be useful for when we want to nest multliple items like cards in a card list, or projects in a project list.
+This can be useful for when we want to nest multliple items like cards in a card list, or projects in a project list. It is also very useful when 
+dealing with slow components. Using a wrapper component with a stateChange around slower components, ensures the slower components are represented 
+as props, and will prevent re-rendering them when simple actions like scrolling are implemented.

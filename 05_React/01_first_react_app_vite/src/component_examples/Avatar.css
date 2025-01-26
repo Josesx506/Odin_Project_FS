@@ -1,0 +1,14 @@
+.avatar {
+    border-radius: 50%;
+    border: 0.1rem solid black;
+    animation: 1s logo-spin 10  alternate;
+}
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

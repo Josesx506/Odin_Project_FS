@@ -1,5 +1,5 @@
 function Greeting() {
-    return <h1>&quot;I swear by my pretty floral bonnet, I will end you.&quot;</h1>;
+    return <h3>&quot;I swear by my pretty floral bonnet, I will end you.&quot;</h3>;
 }
 
 export default Greeting;

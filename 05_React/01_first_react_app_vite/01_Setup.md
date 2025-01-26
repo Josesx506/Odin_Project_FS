@@ -1,7 +1,7 @@
 ### Create the first react app with Vite
 1. Don't run this inside the current folder you want to work in. The command needs to create a new empty folder
     ```bash
-    npm create vite@latest my-first-react-app -- --template react
+    npm create vite@latest 01_first_react_app_vite -- --template react
     ```
 2. Answer the prompt
     ```bash

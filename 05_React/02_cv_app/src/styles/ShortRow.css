@@ -1,0 +1,34 @@
+* {
+    box-sizing: border-box;
+}
+
+:root{
+    --line: 0.15rem solid rgb(211, 211, 211);
+}
+
+.shortRowCntr {
+    /* margin-bottom: 1.5em; */
+    border-top: var(--line);
+    /* border-bottom: var(--line); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shortRowEntry {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.3rem;
+    padding: 0.3em 0.5em;
+    cursor: pointer;
+    border-top: var(--line);
+    border-bottom: var(--line);
+    & button {
+        all: unset;
+    }
+}
+
+/* .shortRowEntry:last-child {
+    border-bottom:  2.3rem solid rgb(211, 211, 211);
+} */

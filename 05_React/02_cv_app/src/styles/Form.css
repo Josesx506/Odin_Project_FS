@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+}
+
+div form {
+    padding: 1rem;
+    padding-top: 0;
+    /* width: 20rem; */
+}
+
+.form_input_div.dt {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    & div {
+        width: 45%;
+        & input {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.form_input_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    & label {
+        text-transform: capitalize;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    & input {
+        font-size: 1.1rem;
+        margin: 0.2rem 0;
+        border-radius: 0.6rem;
+        padding: 0 0.3em;
+        background-color: rgb(241, 241, 241);
+    }
+    & textarea {
+        font-size: 1.1rem;
+        margin: 0.2rem 0;
+        padding: 0 0.3em;
+        max-width: inherit;
+    } 
+}
+
+.form__actnBtsn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    & button {
+        font-size: 1rem;
+        border-radius: 0.3rem;
+        padding: 0.25rem 0.5rem;
+        border: 0;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    & .save {
+        color: white;
+        background-color: rgb(24, 127, 245);
+    }
+    & .delete, & .cancel {
+        color: gray;
+    }
+    & .delete svg {
+        padding-right: 0.5rem;
+    }
+    & .delete:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.form__actnBtsn.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}

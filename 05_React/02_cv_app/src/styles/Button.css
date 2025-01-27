@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+
+.form__submitBtn {
+    background-color: white;
+    color: blue;
+    padding: 0.25em 0.5em;
+    margin: 1em 0;
+    border-radius: 1em;
+    cursor: pointer;
+    font-size: 1rem;
+    min-width: 7rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.form__submitBtn.delete {
+    color: red;
+}
+
+.form__submitBtn:hover, .form__submitBtn:focus {
+    transform: scale(1.2);
+}

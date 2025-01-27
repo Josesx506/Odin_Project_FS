@@ -85,6 +85,82 @@ State is isolated and private to a component. Reusing the a component that has a
 from one component, will not trigger a reaction on the second component even if they're wrapped in the same root element e.g. `<div>`.
 
 
+### Structuring state
+State variables should be immutable i.e. don't edit them directly without the help of `setState` like the example below. If you must use objects as state variables, avoid
+using nested array objects because you have to copy all nested items too when updating state.
+```JS
+function Person() {
+  const [person, setPerson] = useState({ name: "John", age: 100 });
+
+  // BAD - Don't do this! mutating the current state object
+  const handleIncreaseAge = () => {
+    person.age = person.age + 1;
+    setPerson(person);
+  };
+
+  // GOOD - Do this! copy the existing person object into a new object while updating the age property
+  const handleIncreaseAge = () => {
+    const newPerson = { ...person, age: person.age + 1 };
+    setPerson(newPerson);
+  };
+  ...
+}
+```
+State updates are asynchronous. What this implies is that whenever you call the `setState` function, React will apply the update in the **next** component render. Wherever possible, React batches the state updates. This is useful when using `state updaters`, which allows the component to only re-renders once. This concept can take a while to 
+wrap your head around.
+
+### Infinite Loops
+Infinite loops can occur when using state
+```JS
+function Component() {
+  const [count, setCount] = useState(0);
+
+  setCount(count + 1); // State is updated during rendering flow and triggers a re-render immediately causing loop
+
+  return <h1>{count}</h1>;  // component flow never gets here
+}
+```
+
+### State Types
+When a state is locally embedded within a component, it is known as an **uncontrolled** component i.e. parent component cannot affect its behavior. When state variables 
+and setState functions are passed into a child component via props from a parent element, this is known as a **controlled** component. This can be useful where a parent 
+component has 2 or more child components, and the behavior in any of the children (target), should affect the remaining children e.g. toggling panels on and off.
+
+
+### Managing State Storage
+Data can be stored in state as `objects` or `arrays`. This allows you to update entries into a state variable.
+```JS
+import { useState } from 'react';
+
+const initialList = [
+  { id: 0, title: 'Big Bellies', seen: false },
+  { id: 1, title: 'Lunar Landscape', seen: false },
+  { id: 2, title: 'Terracotta Army', seen: true },
+];
+
+export default function BucketList() {
+  const [list, setList] = useState(initialList);
+  ...
+
+  function handleAdd(e) {
+    e.preventDefault();
+    // Create a new item to add to the list
+    const newEntry = {
+      id: crypto.randomUUID(), // Generate unique ID
+      title: newTitle,
+      seen: newSeen,
+    };
+
+    setList([...list, newEntry]);
+    // Reset the form states etc.
+  }
+
+}
+```
+While this is useful, components with many state updates spread across many event handlers can get overwhelming. For these cases, you can use the `useReducer` hook.
+Additional details can be found in the [React docs](https://react.dev/learn/managing-state#extracting-state-logic-into-a-reducer).
+
+
 ### Hooks
 Hooks are functions that let you use React features. All hooks are recognizable by the `use` prefix. For example, `useState` is a hook. We’ll use more of these as we get further 
 into the course. For now, remember that hooks have rules that we need to abide by:

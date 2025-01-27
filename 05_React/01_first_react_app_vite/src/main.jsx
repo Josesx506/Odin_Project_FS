@@ -11,6 +11,8 @@ import Colors from './dyn_components/Colors.jsx';
 import Gallery from './dyn_components/Articles.jsx';
 import Form from './dyn_components/Form.jsx';
 import "./dyn_components/Colors.css"
+import SearchList from './dyn_components/SearchList.jsx'
+import ReducerTasks from './dyn_components/ReducerTasks.jsx'
 
 function handleButtonClick (url) {
   window.location.href = url;
@@ -32,6 +34,8 @@ createRoot(document.getElementById('root')).render(
       <Colors />
       <Gallery />
       <Form />
+      <SearchList />
+      <ReducerTasks />
     </section>
   </StrictMode>,
 )

@@ -8,8 +8,10 @@ Hooks only work in functional components and can only be called at the top of a 
 - [useMemo](#usememo)
 
 ### useState()
-`useState()` is used to save temporary memory in a div to preserve data in the component during re-rendering. When implementing it as a 
-counter, it is better to update it with an arrow function e.g.
+`useState()` is used to save temporary memory / preserve data in the component during re-rendering. When a callback is passed to the `setState` function, it 
+ensures that the latest state is passed in as an argument to the callback. This is known as a `state updater` and can be represent as an arrow function. Using 
+an `updater` is not always necessary. If you want to change the state using your previous state and you prefer consistency over verbosity, then you might 
+consider using an updater e.g. when implementing this counter, it is better to update it with an updater e.g.
 ```JS
 export default function Button() {
   const [index, setIndex] = useState(0);
@@ -203,3 +205,87 @@ useEffect only changes when the person's name changes as originally intended. <b
 
 `useMemo` consumes memory overhead, so it should only be used when performance improvements can be achieved, and it shouldn't be used to cache every single variable within a 
 variable. `useMemo` can only memoize a value while `useEffect` can be used to run any code when dependencies change.
+
+
+### useReducer
+The `useReducer` hook is a more advanced version of useState, and it accepts 2 prop arguments.
+1. A function to update the state `reducer()`.
+2. An initial value. Can be a variable(*check caveat below*), object, or array.
+The `reducer()` function also takes 2 arguments, i.e the current state, and the action (*variable*) that should be performed.
+```JS
+// using useReducer() hook instead of useState for simple variable
+import { useReducer } from "react";
+
+function reducer(state, action){
+    switch (action.type) {
+        case "increment":
+            return { count: state.count + 1 };
+        case "decrement":
+            return { count: state.count - 1 };
+        default:
+            return state; // Return current state for invalid arguments
+    }
+};
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+function increment() {
+    dispatch( { type: "increment" } )
+}
+function decrement() {
+    dispatch( { type: "decrement" } )
+}
+```
+It returns 2 variables, name the `state` and `dispatch`. Like useState, dispatch is a function for updating our state value. Whenever we call the `dispatch()` function, 
+it defines the action that will be used by `reducer()`, reducer processes the current state, and returns the updated state values. <br>
+
+> `Caveat` - Because it's meant to simplify dealing with components where many states are tracked and using `useState` is overwhelming, the initial value should be an 
+object/array. If dealing with a single variable, you can use `useState` directly.
+<br>
+
+To minimize typo-errors when repeating actions, we can declare global variables like
+```JS
+const ACTIONS = {
+    INCREMENT: "increment",
+    DECREMENT: "decrement",
+}
+
+dispatch( { type: ACTIONS.INCREMENT } );
+```
+This way, the actions are globally set across multiple components with auto-complete and reduced risk of typo-errors.<br><br>
+
+The `dispatch()` function always accepts an object with a ***type*** key `dispatch( { type: "increment" } )`.  This key can be used to define cases within the `reducer()` 
+where we want to perform different actions e.g. update, delete, or add to a state. This is **extremely useful** when your state is an array or objects and you need to 
+add, edit, or delete objects to the array [example](https://react.dev/learn/managing-state#extracting-state-logic-into-a-reducer). <br>
+When dealing with forms, we can extend the `dispatch()` function to include a `payload` or any other key e.g. `dispatch( { type: "decrement", payload: {} } )`. The 
+payload can be an object e.g. entries from a form. To retrieve input from the form, we can pass dispatch into the `onSubmit()` function as a callback.
+```JS
+function reducer(todos, action){
+    // todos is the new variable representing state
+    switch (action.type) {
+        case ACTION.ADD_TODO:
+            return [...todos, newTodo(action.payload)]; // Update the todos state with  a new state
+        default:
+            return todos;
+    }
+};
+
+function newTodo(data) {
+    return { id: crypto.randomUUID(),
+      name: data.name,
+      complete: false,
+    }
+}
+function handleSubmit(e) {
+    e.preventDefault()
+    dispatch( { type: "decrement", payload: {name: "", age: 16} } );
+    // reset the form refs/state here
+    setName("");          // state example
+    refName.current = ""; // ref example
+}
+
+form onSubmit={handleSubmit}>...</form>;
+```
+
+When rendering the items in another component, we can make the component receive the dispatch function as a prop argument e.g. `<Todos key={todo.id} dispatch={dispatch}>`, 
+allowing us to edit, delete, or toggle elements across components. Delete operations can use the `filter` method to remove elements from state.
+

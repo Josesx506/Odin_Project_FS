@@ -1,3 +1,7 @@
+### Setup
+Install this vscode react [extension](https://marketplace.visualstudio.com/items?itemName=rodrigovallades.es7-react-js-snippets). Open a new `.js/.jsx` file and 
+type ***`rfc`*** to generate boilerplate code for a react functional component. Similar to using `!` for emmet in gtml files.
+
 ### Getting started with Components
 React allows you to break a UI (User Interface) down into independent reusable chunks, which we will refer to as ***components***. 
 In other words, components are essentially JS functions that return raw html (called JSX). If the function does not return JSX, it's still referred to a function and not 

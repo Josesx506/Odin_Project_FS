@@ -15,3 +15,49 @@
 
 ### Review of second week
 - `<div>`s have a default width of 100%.
+- When putting an image as a child into a flex container, flex automatically stretches/shrinks the image to match the text size, workarounds include wrapping 
+    the image in a `<div>` so the div container is stretched but the image dimensions are preserved, or using `justify/align-self` to modify the img behaviour.
+- Giving all images on a page a `max-width: 100%` ensures that they never grow outside a container such as extending outside div near edges.
+- `flex-flow` argument combines flex-direction and flex-wrap into a single command.
+- `align-content` behaves like justify-content and clashes with align-items. Best applied when you have **more** than 1 row or column to arrange.
+- Every element is a flex container is a flex item, just saying. `flex-grow` and `flex-shrink`, 0 is false, any value > 1 is magnitude of growth/shrink.
+    e.g flex-grow 4 would grow the item at a faster rate than flex-grow of 2. Same concept applies to shrink. `flex-basis` is the typical flex size e.g 250px.
+- `flex` is a shorthand argument for grow, shink, and basis together e.g. `flex: 0 2 250px` means don't grow, shrink twice as fast, with a typical size of 250px.
+- When using `display:grid`, if you explicityly declare grid-template-rows, avoid also declaring columns and vice versa. Makes it easier to handle.
+    Also easier to avoid setting grid-template-rows as much as we avoid setting element heights.
+- grid-row is shorthand for grid-row-start and grid-row-end. Same for columns. You don't have to explicity set line numbers like `grid-row: 1 / 3`, you 
+    can use dynamic arrangements like `grid-row: 1 / span 2`, start at row 1 and occupy 2 columns.
+- `grid-template-areas` is complex for initial setup but works great for dyanmic sizing. It starts with assigning variables for where you want each section to be with 
+    strings on the grid container. Columns stay on the same line, and rows are broken into separate lines. This definition can be specified for different media queries too
+    ```CSS
+    .container {
+        display: grid;
+        grid-template-areas: 
+            'one'
+            'two'
+            'three';
+    }
+    @media (min-width: 50em) {
+        .container {
+            grid-template-areas: 
+                'one one'
+                'two three';
+        };
+    };
+    /* Assign the variables to children without strings */
+    .container.item1 {
+        grid-area: one;
+    }
+    .container.item2 {
+        grid-area: two;
+    }
+    .container.item3 {
+        grid-area: three;
+    }
+    ```
+    What this example shows is a simple default view of 3 rows where the items are arranged on top of each other like flex-direction:column. At larger screens, we want the 
+    first child to span 2 columns, and the remaining 2 ichildren to span 1 column each on the lower row. The flexibility it gives is that you can easily arrange complex 
+    items in a grid, without worrying too much about your initial arrangement because the variable assignments helps you drag and drop elements across your entire layout.
+    **NOTE**: The template are assignment uses strings and must end with a semi-colon but the variables assignment does not use strings.
+- `grid-template-areas` automatically resizes the row and column sizes to make it fit your definitions but you can use `grid-auto-rows: 1fr` or columns to ensure that all 
+    columns or rows have the same size.

@@ -61,3 +61,8 @@
     **NOTE**: The template are assignment uses strings and must end with a semi-colon but the variables assignment does not use strings.
 - `grid-template-areas` automatically resizes the row and column sizes to make it fit your definitions but you can use `grid-auto-rows: 1fr` or columns to ensure that all 
     columns or rows have the same size.
+- To push a single item in a list to the right (set a different className), set the `margin-left: auto`. This pushes that item, and any other items below it to the right. 
+    `margin-right: auto`, pushes all other items in the list above the target element to the left. `margin: 0 auto` centers an elemnt, because both auto margins pushes the 
+    element towards the middle.
+- If you have 2 items in a flex container with *justifiy-content: space-between*, you can set `margin: 0 auto` to center any one of the items, allowing you to combine flex 
+    and margin positioning.

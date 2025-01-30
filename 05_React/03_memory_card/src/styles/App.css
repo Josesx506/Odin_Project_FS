@@ -1,0 +1,29 @@
+.app-difficulty {
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    margin: 1rem auto;
+    & button {
+        /* all: unset; */
+        font-size: 2rem;
+        font-weight: bold;
+        padding: 0.5em 2em;
+        border-radius: 1.25rem;
+        cursor: pointer;
+        transition: opacity 0.1s ease-in-out, color 0.1s ease-in-out;
+    }
+    & button:hover {
+        opacity: 60%;
+    }
+    & button:focus {
+        color: lightgray;
+        background: #5C7285;
+    }
+}
+
+@media (max-width: 425px) {
+    .app-difficulty {
+        display: flex;
+        flex-direction: column;
+    }
+}

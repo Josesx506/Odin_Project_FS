@@ -1,0 +1,42 @@
+.game {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.game-card-cntr {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 1rem;
+    resize: both;
+    overflow: auto;
+    padding: 1rem 1rem;
+    margin: 0 auto;
+    max-height: 70vh;
+}
+
+
+.game-scorecard {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem auto;
+    gap: 2rem;
+    font-size: 1.8rem;
+    color: rgb(252,218,35);
+    font-weight: bolder;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    & div {
+        width: auto;
+        background-color: rgb(3,69,156);
+        border: 1px solid white;
+        border-radius: 0.5em;
+        padding: 0.25em 0.5em;
+    }
+}
+
+
+
+@media (max-width: 425px) {
+    .game-card-cntr {
+        max-height: 50vh;
+    }
+}

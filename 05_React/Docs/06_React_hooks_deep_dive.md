@@ -6,6 +6,7 @@ Hooks only work in functional components and can only be called at the top of a 
 - [useContext](#usecontext)
 - [useRef](#useref)
 - [useMemo](#usememo)
+- [useReducer](#usereducer)
 
 ### useState()
 `useState()` is used to save temporary memory / preserve data in the component during re-rendering. When a callback is passed to the `setState` function, it 
@@ -57,15 +58,22 @@ This is only recommended when 2 states are usually updated synonymously e.g.(tra
 states to monitor each variable.
 
 ### useEffect()
-`useEffect()` is a hook that's used to update something whenever something changes within a component. 
+`useEffect()` is a hook that's used to update something whenever something changes within a component. Effects are reactive blocks of code. They 
+**re-synchronize** when the values you read inside of them change. Unlike event handlers, which only run once per interaction, Effects run whenever 
+synchronization is necessary. 
+> The single question that you can ask yourself before you use an effect is if there are any such external systems that need to be synced with, apart from props or state?
 ```JS
 export default function App() {
+    useEffect(() => {
+        // This runs after every render
+    });
+
     useEffect(() => {
         console.log("Do something only when the component is mounted the first time")
     }, [])
 
     useEffect(() => {
-        console.log("Do something everytime it is triggered")
+        console.log("Do something everytime it is triggered by a change in the [trigger] state")
     }, [trigger])
 
     useEffect(() => {
@@ -94,11 +102,43 @@ export default function App() {
 ```
 `useEffect` can be set to only trigger when the component is mounted e.g. make an api call to pull data from an api for plotting. It can also be set to run whenever the 
 state of a trigger changes e.g. when a form is submitted. Multiple triggers can be assigned in the array `[trigger1,trigger2]`, and `useEffect` is triggered when any of 
-trigger states are updated. <br>
+trigger states are updated. This is usually known as an **effect dependency**.  <br>
+Values declared inside the component body are “*reactive*”. Setting an empty list of dependencies like `[]` ensures the effect is only triggered when the 
+component renders. Values like a url can be set as `const` inside the effect or outside the component, if you don't want to associate them with any state. 
+```JS
+function ChatRoom() {
+  useEffect(() => {
+    const serverUrl = 'https://localhost:1234'; // serverUrl is not reactive (no state is attached)
+    const roomId = 'general';                   // roomId is not reactive
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, []); // ✅ All dependencies declared
+  // ...
+}
+```
 
 It can also be used to change the state of a component e.g. plot or print out the value of an api call whenever `useEffect` is triggered. When used to track behaviors like 
 event listeners, it's recommended to include a return statement that removes the event listener, when the component is unmounted to prevent readding the same event listener 
-multiple times.
+multiple times. <br>
+
+The single question that you can ask yourself before you use an effect is if there are any such external systems that need to be synced with, apart from 
+props or state.*** Unnecessary useEffect hooks are code-smell, error-prone, and cause unnecessary performance issues***.
+
+####  Few cases where useEffect does not need to be used.
+- You do not need to use an effect if you are only calculating something based** on the state** during rendering. For a change in a component, due to a change 
+    in the props, you can calculate and set it during rendering.
+- You do not need effects for events (event handlers like onClick). Code that runs when a component is displayed should be in effects, the rest should be in events.
+- You do not need an effect to **reset** the state based on a condition most of the time. React keys already update components when change is detected. 
+- If you are having issues with managing your state and want to use an effect to update the state of a parent or some other non-child component, consider 
+    lifting the state to a parent.
+- Avoid: Chains of Effects that adjust the state solely to trigger each other
+- Avoid objects as dependencies - Because of the objects creation and referential equality problem, it's wise to avoid objects as deps in useEffect()
+
+It's always a good idea to include a return statement withing useEffects. This way React can stop synchronizing effects when changes are interrupted e.g. 
+you sop requesting data from a chatroom endpoint, or the component is dismounted (you change the page).
 
 ### useContext
 Context is for passing props from a parent component all the way down to its children, without having to manually repeat the prop definition in each child component. It uses 

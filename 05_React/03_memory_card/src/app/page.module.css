@@ -1,0 +1,119 @@
+.page {
+  --gray-rgb: 0, 0, 0;
+  --white-rgb: 255, 255, 255;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: grid;
+  grid-template-rows: 1px 1fr 20px;
+  align-items: start;
+  justify-items: center;
+  /* height: 100%; */
+  padding: 1rem 80px;
+  gap: 2rem;
+  font-family: var(--font-geist-sans);
+  width: min(100%,2000px);
+  margin: 0 auto;
+  background-image: url("https://static.vecteezy.com/system/resources/previews/024/625/582/non_2x/cute-yellow-mouse-character-background-free-vector.jpg");
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
+
+.main {
+  gap: 2rem;
+  width: 100%;
+  grid-row-start: 2;
+  & h1 {
+    font-size: 3rem;
+    color: rgb(232,66,50);
+    background-color: white;
+    border-radius: 0.2em;
+    padding: 0.5em 1em;
+    width: fit-content;
+    margin: 1rem auto;
+    text-align: center;
+  }
+  height: 90vh;
+}
+
+.instructions {
+  background-color: rgba(var(--white-rgb), 0.75);
+  width: fit-content;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.1rem 2rem;
+  border-radius: 0.25rem;
+}
+
+.reset__game {
+  background-color: rgb(236,111,105);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 0.25em;
+  width: fit-content;
+  margin: 1rem auto;
+  transition: opacity 0.3s ease-in-out;
+  & button {
+    all: unset;
+    padding: 0.5em 1em;
+    cursor: pointer;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.footer {
+  grid-row-start: 3;
+  display: flex;
+  gap: 24px;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer img {
+  flex-shrink: 0;
+}
+
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+    padding-bottom: 80px;
+    margin: 0 auto;
+  }
+
+  .main {
+    align-items: center;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+}

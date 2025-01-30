@@ -1,0 +1,31 @@
+.card-pokemon {
+    box-shadow: 0 0 0 0.3em rgb(255, 141, 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.5em;
+    padding: 1em;
+    background-color: white;
+}
+
+.card-img-cntr {
+    height: 80%; /* clip the height to avoid offseting text */
+}
+
+.card-img {
+    width: 90%;
+    height: 90%;
+    max-width: 100%;
+    object-fit: cover; 
+    max-width: 100%;
+}
+
+.card-name {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    font-weight: bold;
+    margin-top: auto;
+    /* flex-shrink: 0; */
+}

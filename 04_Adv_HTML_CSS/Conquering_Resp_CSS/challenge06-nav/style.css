@@ -71,10 +71,25 @@ h1 {
 header {
     background: #136c72;
     padding: .5em 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav__logo {
+    margin-right: 2em;
 }
 
 nav {
     padding: 1em;
+    display: flex;
+    align-items: center;
+    max-width: 100%; /* Prevent it from growing outside the container */
+}
+
+.nav__list-cntr {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
 }
 
 .nav__list {
@@ -83,6 +98,10 @@ nav {
     list-style: none;
     display: flex;
     gap: 2em;
+}
+
+.nav__list--primary {
+    margin: 0 auto;     /* Use margin positioning to center the flex-item */
 }
 
 .nav__link {

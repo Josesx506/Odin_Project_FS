@@ -21,3 +21,11 @@ I followed this example [tutorial](https://www.youtube.com/watch?v=Q9n2mLqXFpU).
     The github pages appeared to render a static file without any styling
 7. So I switched to using github actions. github actions has a default NextJS template for deployment which renders the styling and 
     functionality correctly. Note: The **`package.json`** file must be include for it to run the gh-actions successfully.
+
+
+### Vercel
+1. Go to the vercel [website](https://vercel.com/new).
+2. Import your git repository with the standalone project and click `publish`. 
+    It publishes the site as a vercel app and creates an endpoint for you.
+3. It includes a CI/CD pipeline to main like github actions and subsequent commits to main trigger a redeployment.
+4. You can deploy the same repo to vercel and github pages - https://odin-memory-card-react.vercel.app/

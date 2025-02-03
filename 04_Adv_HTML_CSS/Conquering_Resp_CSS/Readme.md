@@ -1,6 +1,10 @@
 ### Conquering Responsive Layouts by Kevin Powell [\[Link\]](https://courses.kevinpowell.co/view/courses/conquering-responsive-layouts)
 21 day responsive layout CSS challenge
 
+- [Week 1](#review-of-first-week)
+- [Week 2](#review-of-second-week)
+- [Week 3](#review-of-third-week)
+
 
 ### Review of first week
 - Percentages should be used for width rules to prevent adjust designs too much for small screens
@@ -66,3 +70,10 @@
     element towards the middle.
 - If you have 2 items in a flex container with *justifiy-content: space-between*, you can set `margin: 0 auto` to center any one of the items, allowing you to combine flex 
     and margin positioning.
+
+
+### Review of third week
+- Minimize media queries as much as possible and always try to use the minimum amount of breakpoints. 
+- Interact with the page in DevTools, and insert breakpoints at screen-sizes where the design begins to fall apart.
+> Remember, users don't switch the screen sizes and target getting a responsive design with just enough breakpoints.
+- Common breakpoints are 600px, 900px, 1200px, and 1800px if you plan on giving the giant-monitor people something special. 

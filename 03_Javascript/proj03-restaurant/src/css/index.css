@@ -1,9 +1,16 @@
+#content {
+    width: min(100%, 1500px);
+    margin: 0 auto;
+}
+
 nav {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
     padding: 10px 10px;
+    width: min(90%, 1200px);
+    margin: 0 auto;
 }
 
 .nav-btn a {

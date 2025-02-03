@@ -1,12 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+#weatherContent {
+    width: min(90%, 1200px);
+    margin: 0 auto;
+}
+
 .content-cntr {
     font-size: 1em;
     margin-top: 20px;
     display: grid;
     gap: 15px;
+    padding: 0 2em;
 }
-
-
-
 
 .search-form-body {
     display: grid;
@@ -32,8 +39,8 @@
 .current-weather-cntr {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin: 5px;
-    padding: 5px;
+    /* margin: 5px; */
+    padding: 0.5rem 1rem;
     border: 0 2px;
     border: solid 1px black;
     border-radius: 5px;
@@ -126,7 +133,8 @@
 /* Daily weather insights */
 .hourly-weather-cntr {
     display: grid;
-    gap: 10px;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .today-weather-summary {
@@ -136,9 +144,11 @@
 
 .today-weather-cards {
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: repeat(12, 1fr);
+    /* grid-auto-flow: column;
+    grid-auto-columns: 0; */
     overflow: scroll;
-    gap: 5px;
+    gap: 1rem 0.5rem;
 }
 
 .hourly-card-cntr {
@@ -180,8 +190,6 @@
 }
 
 .hourly-weather-cntr {
-    margin: 5px;
-    padding: 5px;
     border: 0 2px;
     border: solid 1px black;
     border-radius: 5px;

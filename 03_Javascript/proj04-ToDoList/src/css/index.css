@@ -2,9 +2,10 @@ nav {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: flex-start;
+    justify-content: center;
     padding: 10px 10px;
-    margin-left: 25%;
+    width: min(90%, 1200px);
+    margin: 0 auto;
 }
 
 .nav-btn a {

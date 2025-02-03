@@ -1,6 +1,10 @@
+.wrapper {
+    position: relative;
+}
+
 .open-dd-nav {
     background-color: white;
-    font-size: 30px;
+    font-size: 1.5rem;
     padding-top: 0.5em;
     padding-left: 1em;
     display: grid;
@@ -13,10 +17,11 @@
 
 /* Make it an overlay on top of everything */
 .dd-nav {
-    width: 0;
+    width: 100%;
     overflow-x: hidden;
     z-index: 1;
-    position: fixed;
+    top: 10%;
+    position: absolute;
     background-color: rgba(34,65,93,0.8);
     transition: 0.1s;
     display: block;
@@ -26,7 +31,7 @@
 .dd-nav a {
     clear: left;
     color: white;
-    font-size: 30px;
+    font-size: 1.5rem;
     display: block;
     text-decoration: none;
     padding-top: 0.5em;
@@ -40,7 +45,7 @@
 
 a.close-dd-nav {
     float: left;
-    font-size: 30px;
+    font-size: 1.5rem;
     padding-left: 1em;
 }
 

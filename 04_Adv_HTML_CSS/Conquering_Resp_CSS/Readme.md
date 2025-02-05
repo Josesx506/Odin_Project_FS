@@ -77,3 +77,5 @@
 - Interact with the page in DevTools, and insert breakpoints at screen-sizes where the design begins to fall apart.
 > Remember, users don't switch the screen sizes and target getting a responsive design with just enough breakpoints.
 - Common breakpoints are 600px, 900px, 1200px, and 1800px if you plan on giving the giant-monitor people something special. 
+- The `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is what ensures that the page is responsive and set to the device width. Without it,
+    `@media` queries are useless. It is set automatically with Emmet, so when using VSCode, use Emmet to start out the html boilerplate code.

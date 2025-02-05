@@ -246,3 +246,17 @@ const routes = [
   },
 ];
 ```
+
+### React Router Tutorial on contact cards
+I used vite for the tutorial and the link to the tutorial is [here](https://reactrouter.com/6.28.0/start/tutorial)
+```bash
+npm create vite@latest 07_contact_cards -- --template react
+# npx create-next-app 07_contact_cards
+cd 07_contact_cards/
+npm install react-router-dom
+npm install localforage match-sorter sort-by
+npm run dev
+```
+React-Router uses loaders to fetch data for route components, minimizing `useEffect` calls within our components.
+> [!Note]
+> nextJS has its own in-built router.

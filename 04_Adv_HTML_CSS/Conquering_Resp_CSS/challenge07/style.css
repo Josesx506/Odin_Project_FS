@@ -40,6 +40,7 @@ img {
 
 .row__1.container div {
     text-transform: uppercase;
+    letter-spacing: 0.3rem;
 }
 
 .row__2 {
@@ -81,3 +82,22 @@ img {
     width: 48%;
 }
 
+@media (max-width: 600px) {
+    .row__text_p {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row__3, .row__4 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row__2, .row__3, .row__4 {
+        padding: 1em 0;
+    }
+
+    .row__text, .row__img, .row__text_p > p {
+        width: 95%;
+    }
+}

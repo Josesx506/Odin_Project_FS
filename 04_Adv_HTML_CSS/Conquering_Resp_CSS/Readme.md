@@ -79,3 +79,5 @@
 - Common breakpoints are 600px, 900px, 1200px, and 1800px if you plan on giving the giant-monitor people something special. 
 - The `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is what ensures that the page is responsive and set to the device width. Without it,
     `@media` queries are useless. It is set automatically with Emmet, so when using VSCode, use Emmet to start out the html boilerplate code.
+- You can increase the horizontal spacing between text characters with the `letter-spacing` rule in css e.g.`letter-spacing: 2px`. This useful for headers, titles etc.
+- When dealing with large font-sizes in headers and titles, it also makes sense to manually reduce the `line-height` of text to avoid wide vertical gaps between lines.

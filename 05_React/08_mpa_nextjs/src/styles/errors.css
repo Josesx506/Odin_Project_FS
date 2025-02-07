@@ -1,0 +1,10 @@
+.notFound {
+    text-align: center;
+}
+
+.notFound__title, 
+.notFound__subtitle, 
+.notFound__message {
+    padding-bottom: 1.2em;
+    line-height: 1.1;
+}

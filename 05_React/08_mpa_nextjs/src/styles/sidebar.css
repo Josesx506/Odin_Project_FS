@@ -1,0 +1,123 @@
+.mainSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+#sidebar {
+    background-color: lightgray;
+    padding: 1em 1.5em;
+    border-radius: 1em;
+    max-height: 80vh;
+}
+
+.sidebarForms {
+    display: flex;
+    justify-content: flex-start;
+    padding: 1em 0;
+    align-items: center;
+    width: 100%;
+}
+
+#q {
+    font-size: 1.2rem;
+    padding: 0.25em 0.5em;
+    width: 85%;
+    border-radius: 1em;
+}
+
+#createContact {
+    font-size: 1.2rem;
+    padding: 0.25em 0.75em;
+    border-radius: 1em;
+}
+
+.sideBarContacts {
+    width: 100%;
+    max-height: 25vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.contactSummary {
+    background-color: #fff;
+    width: 95%;
+    border-radius: 0.5em;
+    padding: 0.25em 0.5em;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.contactSummary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: red;
+    border-radius: 1em;
+    transition: width 0.3s ease-in-out;
+}
+
+.contactSummary:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.contactSummary:hover::before {
+    width: 0.3rem;
+}
+
+#searchForm {
+    position: relative;
+}
+
+#search-spinner {
+    width: 1rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='red' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M20 4v5h-.582m0 0a8.001 8.001 0 00-15.356 2m15.356-2H15M4 20v-5h.581m0 0a8.003 8.003 0 0015.357-2M4.581 15H9' /%3E%3C/svg%3E");
+    animation: spin 1s infinite linear;
+    position: absolute;
+    right: 0.625rem;
+    top: 0.75rem;
+}
+  
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+@media (min-width: 800px) {
+    .mainSection {
+        display: grid;
+        grid-template-columns: 0.5fr 1.2fr;
+        grid-auto-flow: row;
+    }
+
+    #sidebar {
+        min-height: 80vh;
+    }
+
+    .sideBarContacts {
+        max-height: 50%;
+    }
+}

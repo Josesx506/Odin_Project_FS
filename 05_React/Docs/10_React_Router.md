@@ -260,3 +260,61 @@ npm run dev
 React-Router uses loaders to fetch data for route components, minimizing `useEffect` calls within our components.
 > [!Note]
 > nextJS has its own in-built router.
+
+In nextJS, new pages are defined by creating new folders in the `app` directory. Check this [explanation video](https://www.youtube.com/watch?v=gSSsZReIFRk). To create a `contact` route.
+- `app/contact/page.js`
+The default component for each route is a `page.js{x}` file, and nested routes are created in each sub-directory
+- `app/contact/favorites/page.js`
+Dynamic routes directory names require square brackets, which tell nextJS that a value in the route can be modified
+- `app/contact/[id]/page.js`. Like react-router, nextJS allows you to extract the parameter value from a dynamic route. Because these 
+  values are dynamic, they are rendered as promises and you need to use `async await` to retrieve them. You can retrieve regular route 
+  parameters as `params` and search arguments with `searchParams`
+- ```JS
+  export default async function Page({ params,searchParams }) {
+    const urlParams = await params;
+    const searchVal = await searchParams;
+    console.log(urlParams,searchVal);
+    return (<h1>ID: {urlParams.id}</h1>);
+  }
+  ```
+  A route query like `localhost:3000/contact/1234?q=5` will save params as `{id: '1234'}` and searchParams as `{q: '5'}`
+- To use `<Link>` and navigate between pages, you import it from next and include it within components.
+  ```JS
+  import Link from 'next/Link'
+
+  export default function Page() {
+    return (<Link href="/contact">Contact</Link>);
+  }
+  ```
+- By default, all the data from the page is rendered from a static html cache. To avoid that and force server rendering for every request, 
+  you can extend the `fetch` with 
+  ```JS
+  await fetch(url, {cache: "no-store"})
+  ```
+  or implement Intermediate Static Regeneration from nextJS with 
+  ```JS 
+  await fetch(url, {next: {revalidate: 5}}) // duration is in seconds not ms
+  ```
+<br>
+
+Within the `src` directory and outside of the `app` directory, we can create a `componenets` directory for reusable componenets like navbars, footer, product cards, etc. 
+which can then be used within different components in an app. <br>
+NextJS also has a **`layouts.js`** file that wraps all the pages in an app. It is created by default in the `src/app` directory. Reusable components across multiple pages
+like a navbar or footer can be used within the layout component like
+```JS
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+```
+Every page in the application will then have these components with the appropriate links to navigate to any page. This avoids importing the navbar component into every 
+other component and makes components easily reusable. <br>
+Custom error pages can be made by creating a `not-found.jsx` page within the `app` directory. Here you can style the page as desired and even include logic to redirect the 
+user back to the homepage.

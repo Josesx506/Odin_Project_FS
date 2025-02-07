@@ -1,0 +1,104 @@
+.nav {
+    position: relative;
+    padding: 3em 0;
+    width: 100%;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+
+.navToggle {
+    display: flex;           
+    align-items: center;    
+    justify-content: center;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: #fff;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    transition: opacity 500ms ease;
+}
+
+.navToggle:hover {
+    opacity: .75;
+}
+
+.hamburger {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0 auto;
+}
+
+.navItems {
+    visibility: hidden;
+    height: 0;
+    position: relative;
+}
+
+.navItemsVisible {
+    visibility: visible;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    /* Make the mobile menu right justified */
+    /* left: 50%; */
+    width: 100%;
+}
+
+.navList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position: relative;
+}
+
+.navItem {
+    justify-self: center;
+}
+
+
+@media (min-width: 800px) {
+    .navToggle {
+        display: none;
+    }
+
+    .navItems {
+        visibility: visible;
+        display: flex;
+        justify-content: flex-start;
+        gap: 1em;
+        width: 100%;
+        text-align: center;
+        align-items: center;
+    }
+
+    .navItemsVisible {
+        left: 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .navItemsVisible, .navList {
+        flex-direction: row;
+    }
+
+    .navList.left {
+        margin-right: auto;
+    }
+
+    .navList.center {
+        margin: 0 auto;
+    }
+
+    .navList.right {
+        margin-left: auto;
+    }
+}

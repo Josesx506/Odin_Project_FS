@@ -58,3 +58,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Utilized useRef where possible (forms) to reduce reliance on useState. Minimized repeated useEffects, and included return statements where
     applicable to properly unmount components.
 - Suffered while trying to force server components to use client functions/data and vice versa.
+    - Learnt how to use client components inside server components for dynamic routes. 

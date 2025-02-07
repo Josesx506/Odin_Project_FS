@@ -318,3 +318,7 @@ Every page in the application will then have these components with the appropria
 other component and makes components easily reusable. <br>
 Custom error pages can be made by creating a `not-found.jsx` page within the `app` directory. Here you can style the page as desired and even include logic to redirect the 
 user back to the homepage.
+
+
+> [!Important]
+> Learn how to use client components within server components and pass the contextData as props. This can help minimize the clashes I encountered in the nextJS router project.

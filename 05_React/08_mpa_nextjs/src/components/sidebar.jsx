@@ -25,7 +25,6 @@ export default function SideBar({ children }) {
 
   function handleChange(e) {
     e.preventDefault();
-    console.log(e.target.value)
     setQuery(e.target.value);
     e.target.value == "" ? searching.current = false : searching.current = true;
     router.push("/contacts/")

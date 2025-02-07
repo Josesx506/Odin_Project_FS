@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <div>
       <h1 style={{marginBottom:"1em"}}>Contact Page</h1>
-      <h3>There are current {contacts.length} contacts in your directory</h3>
+      <h3>There are currently {contacts.length} contacts in your directory</h3>
       <div style={{paddingTop:"1em"}}>Click <code>Search?</code> to find someone specific.</div>
       <div style={{paddingTop:"1em"}}>Click on the search results to view contact details.</div>
       <div style={{paddingTop:"1em"}}>Click on the <code>+New</code> to create new contacts.</div>

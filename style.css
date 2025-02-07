@@ -8,7 +8,7 @@ body {
     display: grid;
     gap: 20px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1024px;
     margin: 0 auto;
 }
 
@@ -50,9 +50,9 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(var(--box-widths), 1fr));
     /* grid-auto-rows:  var(--row-heights); */
-    gap: 10px 10px;
+    gap: 0.6rem 0.6rem;
     /* resize: both; */
-    overflow: auto;
+    /* overflow: auto; */
     justify-content: start;
 }
 
@@ -90,8 +90,19 @@ i.box-img {
 }
 
 i.btshp {
-    transform: scaleX(0.9);
     color: rgb(34, 35, 35);
+}
+
+i.medium {
+    -webkit-text-stroke: 4px rgb(76,178,255);
+}
+
+i.thin {
+    -webkit-text-stroke: 7px rgb(76,178,255);
+}
+
+i.btshp.thin {
+    animation: logo-spin infinite 20s linear;
 }
 
 .box-img {
@@ -134,3 +145,12 @@ span.link-name {
         transform: scale(1.5);
     }
 }
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

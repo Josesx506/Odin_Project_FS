@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+h1 {
+    margin: 0;
+    letter-spacing: 0.01rem;
+    font-family: "Oswald";
+    font-weight: bold;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(95%, 1200px);
+    margin: 0 auto;
+    position: relative;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 1.5em;
+    gap: 1.5em;
+}
+
+.nav__holder {
+    padding: 0.5em 1em;
+    height: auto;
+    background-color: #2E323F;
+    width: 100%;
+}
+
+#hamburger {
+    background-color: #A59678;
+    width: fit-content;
+    padding: 0.5em 0.65em;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+
+#hamburger .line{
+    width: 1.5rem;
+    height: 4px;
+    background-color: #ecf0f1;
+    display: block;
+    margin: 0.25rem auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+  
+#hamburger:hover{
+    cursor: pointer;
+}
+  
+#hamburger.is-active .line:nth-child(2){
+    opacity: 0;
+}
+  
+#hamburger.is-active .line:nth-child(1){
+    -webkit-transform: translateY(0.5rem) rotate(45deg);
+    -ms-transform: translateY(0.5rem) rotate(45deg);
+    -o-transform: translateY(0.5rem) rotate(45deg);
+    transform: translateY(0.5rem) rotate(45deg);
+}
+  
+#hamburger.is-active .line:nth-child(3){
+    -webkit-transform: translateY(-0.5rem) rotate(-45deg);
+    -ms-transform: translateY(-0.5rem) rotate(-45deg);
+    -o-transform: translateY(-0.5rem) rotate(-45deg);
+    transform: translateY(-0.5rem) rotate(-45deg);
+}
+
+.nav__logo {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.nav__cntr {
+    visibility: hidden;
+    height: 0;
+    font-family: "Oswald";
+    font-weight: bold;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.nav__cntr.visible {
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding-top: 0.75em;
+
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    
+    font-family: "Oswald";
+    font-weight: bold;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.nav__list {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 99%;
+    background-color: #2E323F;
+    margin: 0 auto;
+}
+
+
+.nav__items {
+    all: unset;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+    &:hover {
+        opacity: 0.75;
+    }
+    &.sign-up {
+        background-color: #A59678;
+        padding: 0.25em 1em;
+        border-radius: 1em;
+        width: fit-content;
+        margin: 0 auto;
+    }
+}
+
+.container.row.header {
+    background-color: #3B4050;
+    color: #FFFFFF;
+    font-family: "Oswald";
+    font-weight: bold;
+    font-size: 1.5rem;
+    & h1 {
+        font-size: 3.5rem;
+    }
+    & h1 span:last-child {
+        color: #A59678;
+    }
+}
+
+.header__item div:first-child {
+    font-family: "Montserrat";
+    font-weight: 100;
+    line-height: 1.2;
+}
+
+.header__btn {
+    margin-top: 1em;
+    background-color: #A59678;
+    padding: 0.25em 1em;
+    border-radius: 1em;
+    text-transform: uppercase;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.row.section {
+    background-color: rgb(241,241,241);
+}
+
+.cards {
+    text-align: center;
+    padding: 1em;
+    border-radius: 1em;
+    &.light h2 {
+        color: #A59678;
+    }
+    & h2 {
+        font-family: "Oswald";
+        font-weight: bold;
+    }
+    &.dark {
+        color: #FFFFFF;
+        background-color: #3B4050;
+    }
+}
+
+.card__body {
+    font-family: "Montserrat";
+    font-size: 1.2rem;
+    letter-spacing: 1.1;
+    line-height: 1.2;
+}
+
+.main__body {
+    & h1 {
+        color: #A59678;
+        margin-bottom: 0.75rem;
+    }
+    & p {
+        font-family: "Montserrat";
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+}
+
+.main_aside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.footer {
+    background-color: #6F737F;
+    & h1 {
+        color: #FFFFFF;
+        text-align: center;
+    }
+}
+
+.contact, .contact_subset {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.bottom__title {
+    font-family: "Oswald";
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #A59678;
+}
+
+.bottom__body {
+    font-family: "Montserrat";
+    font-size: 1rem;
+    line-height: 2;
+    letter-spacing: 2;
+    color: #ecf0f1;
+    &.about {
+        line-height: 1;
+    }
+}
+
+@media (min-width: 700px) {
+    #hamburger {
+        visibility: hidden;
+    }
+
+    .nav__holder {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .nav__logo {
+        margin: 0;
+    }
+
+    .nav__cntr, .nav__cntr.visible, .nav__list {
+        visibility: visible;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: auto;
+        width: auto;
+    }
+
+    .nav__cntr, .nav__cntr.visible {
+        gap: 3em;
+        padding-top: 0;
+    }
+
+    .nav__list {gap: 2em;}
+
+    .main_aside, .section {
+        flex-direction: row;
+    }
+
+    .contact_subset {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1000px) {
+    .row {
+        padding: 2em;
+    }
+    .header {
+        display: grid;
+        grid-template-columns: 0.8fr 1fr;
+        align-items: last baseline;
+        padding: 3em 2em;
+        & h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+        }
+    }
+
+    .main {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        align-items: flex-start;
+        padding: 2em 1.5em;
+    }
+
+    .main_aside {
+        flex-direction: column;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .contact {
+        flex-direction: row;
+        & .bottom.about {
+            width: 60%;
+        }
+    }
+}

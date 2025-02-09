@@ -1,0 +1,153 @@
+.navHolder {
+    position: relative;
+    width: 100%;
+    padding: 2em 0;
+    background-color: #ecf0f1;
+    margin-bottom: 1em;
+}
+
+
+#hamburger {
+    background-color: #FFB4A2;
+    width: fit-content;
+    padding: 0.5em 0.65em;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.navLogo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    transform: translateX(-10%);
+    overflow: hidden;
+}
+
+#hamburger .line{
+    width: 1.5rem;
+    height: 4px;
+    background-color: #ecf0f1;
+    display: block;
+    margin: 0.25rem auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+  
+#hamburger:hover{
+    cursor: pointer;
+}
+  
+#hamburger.is-active .line:nth-child(2){
+    opacity: 0;
+}
+  
+#hamburger.is-active .line:nth-child(1){
+    -webkit-transform: translateY(0.5rem) rotate(45deg);
+    -ms-transform: translateY(0.5rem) rotate(45deg);
+    -o-transform: translateY(0.5rem) rotate(45deg);
+    transform: translateY(0.5rem) rotate(45deg);
+}
+  
+#hamburger.is-active .line:nth-child(3){
+    -webkit-transform: translateY(-0.5rem) rotate(-45deg);
+    -ms-transform: translateY(-0.5rem) rotate(-45deg);
+    -o-transform: translateY(-0.5rem) rotate(-45deg);
+    transform: translateY(-0.5rem) rotate(-45deg);
+}
+
+.navList, .navList--visible {
+    visibility: visible;
+    height: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    gap: 1em;
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 1;
+    background-color: #ecf0f1;
+    padding: 1em 0;
+    font-family:  var(--font-oswald);
+}
+
+.navList--internal {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.navList {
+    visibility: hidden;
+    height: 0;
+}
+
+.navItem > div {
+    font-family:  var(--font-oswald);
+    font-weight: bold;
+    transform: translateY(-50%);
+}
+
+.navItem {
+    transition: opacity 0.4s ease-in-out;
+    position: relative;
+}
+
+.navItem:hover {
+    opacity: 0.7;
+}
+
+.navItem > span {
+    position: absolute;
+    bottom: 0;
+    font-size: 0.8rem;
+    z-index: 2;
+    border-radius: 50%;
+    background-color: #FFB4A2;
+    padding: 0.1em;
+}
+
+
+@media (min-width:600px) {
+    #hamburger {
+        visibility: hidden;
+    }
+
+    .navHolder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navList, .navList--visible {
+        visibility: visible;
+        flex-direction: row;
+        width: 90%;
+        gap: 3em;
+        padding: 0;
+        font-size: 1.8rem;
+        font-weight: bold;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .navList--internal {
+        flex-direction: row;
+        gap: 3em;
+        margin: 0 auto;
+    }
+
+    .navItem.cart  {
+        position: absolute;
+        right: 0;
+    }
+}

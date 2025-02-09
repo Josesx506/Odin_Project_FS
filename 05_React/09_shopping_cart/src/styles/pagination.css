@@ -1,0 +1,55 @@
+.pageVertical {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    justify-content: space-between;
+}
+
+.pageGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap: 3em;
+}
+
+.pagination {
+    display: grid;
+    width: min(90%,25em);
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: "btn1 btn2 btn3 btn4 btn5";
+    margin: 0 auto;
+    font-size: 0.9rem;
+    gap: 1em;
+    padding: 1em 0;
+    align-items: center;
+}
+
+.pgnBtn {
+    all: unset;
+    font-size: 0.9rem;
+    padding: 0.2em 0.4em;
+    border-radius: 1em;
+    background-color: #FFCDB2;
+    text-align: center;
+    align-self: center;
+    outline-color: transparent;
+    box-shadow: 0 0 0 1 rgb(0, 0, 0);
+    text-transform: capitalize;
+    font-family:  var(--font-roboto);
+}
+
+.pgn_status {
+    text-align: center;
+}
+
+.pgnBtn .one { grid-area: btn1; }
+.pgnBtn .two { grid-area: btn2; }
+.pgn_status { grid-area: btn3; }
+.pgnBtn .four { grid-area: btn4; }
+.pgnBtn .five { grid-area: btn5; }
+
+.pgnBtn__next--hidden, .pgnBtn__prev--hidden {
+    visibility: hidden;
+    background-color: none;
+    pointer-events: none;
+    grid-column: span 1;
+}

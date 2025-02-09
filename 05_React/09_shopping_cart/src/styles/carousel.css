@@ -1,0 +1,126 @@
+.carouselHolder {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    background-color: white;
+    position: relative;
+}
+
+.itemList {
+    vertical-align: middle;
+    display: inline-block;
+    max-width: 70vw;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+  
+/* Hide scrollbar */
+.itemList::-webkit-scrollbar {
+    display: none;
+}
+
+.item {
+    height: 80px;
+    width: 80px;
+    font-size: 25px;
+    margin: 0.5em;
+    display: inline-block;
+    /* line-height: 80px;  */
+    border: 0.1rem solid black;
+    border-radius: 0.5em;
+    transition: transform 0.5s ease-in-out;
+    position: relative;
+}
+
+.carouselPrice {
+    z-index: 1;
+    font-size: 1rem;
+    justify-self: center;
+    align-self: center;
+}
+
+.carouselDiscount, .carouselRating {
+    position: absolute;
+    font-size: 1rem;
+    justify-self: center;
+    align-self: center;
+    top: 0;
+    left: 48%;
+    font-weight: bold;
+    padding: 0 0.25em;
+    border-radius: 0.5em;
+    color: #fff;
+    background-color: #23486A;
+}
+
+.carouselView:hover .itemList {
+    animation-play-state: paused;
+}
+
+.prevBtn, .nextBtn {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    height: 100%;
+    margin: 0 auto;
+    cursor: pointer;
+    color: black;
+    transition: 0.6s ease;
+    z-index: 2;
+}
+
+.nextBtn {
+    margin-left: 0.5em;
+}
+
+.prevBtn {
+    margin-right: 0.5em;
+}
+
+.prevBtn:hover, .nextBtn:hover {
+    color: white;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+
+
+/* .carouselView {
+    display: flex;
+    align-items: center;
+    width: 80vw;
+    overflow: hidden;
+    position: relative;
+} */
+  
+/* .carouselView .itemList {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: nowrap;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+    animation: slide 5s infinite alternate;
+} */
+
+
+/* calc(-1 * 100 * var(--mx)) */
+/* Autoplay Animation */
+/* @keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%) }
+} */
+
+
+/* #item {
+    scroll-snap-align: center;
+    min-width: 80px;
+    height: 80px;
+    border: 0.1rem solid black;
+    border-radius: 0.5em;
+    display: inline-block;
+} */

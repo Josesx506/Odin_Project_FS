@@ -33,15 +33,15 @@ export default function NavBar() {
   return (
     <div className="navHolder">
       <div className="navLogo">
-        <Link className="navItem" onClick={closeMenu} href="/">
+        <Link className="navItem" onClick={closeMenu} href="https://josesx506.github.io/Odin_Project_FS/">
           <Image
             src="/store.svg"
             alt="Store Icon"
-            width={80}
-            height={40}
+            width={80} height={40}
+            priority
             style={{margin:0, padding:0}}
           />
-          <div style={{justifySelf: "center"}}>Home</div>
+          <div style={{justifySelf: "center"}}>Odin</div>
         </Link>
       </div>
       <div onClick={handleClick} id="hamburger" className={toggleRef.current}>
@@ -51,6 +51,7 @@ export default function NavBar() {
       </div>
       <nav className={navRef.current}>
         <div className="navList--internal">
+          <Link className="navItem" onClick={closeMenu} href="/">Home</Link>
           <Link className="navItem" onClick={closeMenu} href="/shop">Shop</Link>
           <Link className="navItem" onClick={closeMenu} href="/about">About</Link>
         </div>

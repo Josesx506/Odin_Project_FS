@@ -14,8 +14,24 @@ export default function ProductsProvider({ children }) {
       data.then((resp) => setProducts(resp));
     }, [])
 
+    function topDiscounts () {
+      // Sort by discount and return top 10
+      const discounted = products.sort((a, b) => b.discountPercentage - a.discountPercentage)
+      return discounted.slice(0,10);
+    }
+
+    function topRatings () {
+      // Sort by rating and return top 10
+      const rating = products.sort((a, b) => b.rating - a.rating)
+      return rating.slice(0,10);
+    }
+
     return (
-        <ProductsContext.Provider value={{ products }}>
+        <ProductsContext.Provider value={{
+          products,
+          topDiscounts,
+          topRatings
+        }}>
           {children}
         </ProductsContext.Provider>
       );

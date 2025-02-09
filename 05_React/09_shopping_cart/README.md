@@ -37,6 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 ### Dependencies
-`npm install babel-plugin-react-compiler`
+- `npm install babel-plugin-react-compiler`
+- Currency formatter `npm install intl`
 - `npm i --save @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons`
 - `npm i --save @fortawesome/free-brands-svg-icons @fortawesome/react-fontawesome@latest`

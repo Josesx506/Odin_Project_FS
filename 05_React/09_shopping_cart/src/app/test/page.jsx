@@ -1,17 +1,40 @@
 "use client"
 
-import useProducts from '@/hooks/useProducts'
-// import { getProducts } from '@/components/pullJSON'
-import React from 'react'
+import Carousel from '@/components/carousel';
+import useProducts from '@/hooks/useProducts';
 
 export default function Page() {
-  const data = useProducts();
-
-  console.log(data);
+  const { topRatings } = useProducts();
+  const products = topRatings();
+  console.log(products);
 
   return (
     <div>
-      <h1>Test Data</h1>
+      <div>This</div>
+      <Carousel products={products} metric={"rating"} />
     </div>
   )
 }
+
+
+// export function DiscountCarousel() {
+//   const { topDiscounts } = useProducts();
+//   const products = topDiscounts();
+
+//   return (
+//     <div>
+//       <Carousel products={products} metric={"discountPercentage"} />
+//     </div>
+//   )
+// }
+
+// export function RatingCarousel() {
+//   const { topRatings } = useProducts();
+//   const products = topRatings();
+
+//   return (
+//     <div>
+//       <Carousel products={products} metric={"rating"} />
+//     </div>
+//   )
+// }

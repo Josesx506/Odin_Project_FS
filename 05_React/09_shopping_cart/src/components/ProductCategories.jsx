@@ -9,9 +9,8 @@ export default function ProductCategories({ name, page }) {
     "beauty": ["beauty","fragrances",,"skin-care"],
     "electronics": ["smartphones","tablets","laptops","mobile-accessories"],
     "men": ["mens-shirts","mens-shoes","mens-watches"],
-    "tops": ["tops"],
     "watches": ["mens-watches","womens-watches"],
-    "women": ["womens-bags","womens-dresses","womens-jewellery","womens-shoes","womens-watches"],
+    "women": ["tops","womens-bags","womens-dresses","womens-jewellery","womens-shoes","womens-watches"],
   }
 
   const { products } = useProducts();

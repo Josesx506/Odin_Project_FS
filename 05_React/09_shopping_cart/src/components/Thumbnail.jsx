@@ -1,11 +1,12 @@
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import "../styles/thumbnail.css"
+import Image from 'next/image';
+import Link from 'next/link';
+import "../styles/thumbnail.css";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import useCart from '@/hooks/useCart';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { formatCurrency } from '@/utils/currency';
 
 
 export default function Thumbnail({ product }) {
@@ -24,13 +25,16 @@ export default function Thumbnail({ product }) {
 
   return (
     <div className="productThumbnail">
-      <Link className="productLink" href={`/shop/${product.id}`}>
+      <Link className="productLink" href={`/${product.id}`}>
         <div className="productImg">
             <Image src={product.thumbnail} priority={true} 
               width={200} height={200}
               style={{maxWidth:"100%", objectFit:"cover"}}
               alt={`DummyJSON product id: ${product.id}`}
             />
+            <div className="productPrice">
+              {formatCurrency(product.price)}
+            </div>
         </div>
         <div className="productTitle">
             {product.title}

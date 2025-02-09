@@ -37,6 +37,15 @@
     }
 }
 
+.productPrice {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    background-color: rgb(246,246,246);
+}
+
 .productCart {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
@@ -52,7 +61,7 @@
     & button {
         font-size: 1.2rem;
         font-weight: bold;
-        background-color: #4C7B8B;
+        background-color: #0070f3;
         outline-color: transparent;
         border-radius: 2em;
         color: white;
@@ -64,6 +73,5 @@
         opacity: 0.75;
         color: black;
         background-color: #FFCDB2;
-        /* filter: invert(100%); */
     }
 }

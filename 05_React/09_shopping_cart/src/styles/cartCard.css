@@ -1,0 +1,106 @@
+.emptyCart {
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 3em;
+    & a {
+        background-color: #ecf0f1;
+        color: black;
+        font-weight: bold;
+        padding: 0.25em 0.5em;
+        border-radius: 1em;
+    }
+}
+
+.cartPage {
+    width: 98%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.cartBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9em;
+    max-height: 50vh;
+    overflow-y: scroll;
+    margin: 2em auto;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    width: fit-content;
+}
+
+.cartCard {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.cartCardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 200px;
+}
+
+.cartCardTitle {
+    font-family: var(--font-oswald);
+    font-weight: bold;
+    letter-spacing: 1.2;
+    font-size: 1.2rem;
+    text-wrap: wrap;
+}
+
+.cartCardTitle:hover {
+    filter: invert(1);
+}
+
+.cartCardUpdate {
+    display: grid;
+    grid-template-columns: 2rem 5rem 2rem;
+    font-size: 1rem;
+    gap: 1em;
+    align-items: center;
+    & div {
+        grid-column: span 1;
+        text-align: center;
+    }
+    & button {
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: #0070f3;
+        outline-color: transparent;
+        border-radius: 50%;
+        color: white;
+        padding: 0.25em;
+        transition: opacity 0.3s ease-in-out;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+    & button:hover {
+        opacity: 0.75;
+        filter: invert(1);
+    }
+}
+
+.cartCardLowerDetails {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.delCartItem {
+    all: unset;
+    margin-left: auto;
+}
+
+.cartTotal {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 2em 0;
+}

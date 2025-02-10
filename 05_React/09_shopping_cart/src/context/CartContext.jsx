@@ -18,28 +18,28 @@ export default function CartProvider({ children }) {
     return quantity;
   }
 
-  function increaseCartQuantity(id) {
+  function increaseCartQuantity(id, price) {
     // loop through the items in the cart
     setCartItems(currItems => {
         const updatedCart = currItems.find(item => item.id === id) ?
                             currItems.map((item) =>
                                 // Increment existing cart item && Pass unedited items
                                 item.id === id ? { ...item, quantity: item.quantity + 1 } : item) : 
-                                [...currItems, { id, quantity:1}]// Create a new cart item
+                                [...currItems, { id, quantity:1, price:price}]// Create a new cart item
         
         cacheCart(updatedCart); // Update the cache
         return updatedCart;
     });
   }
 
-  function bulkInsertCart(id, quantity) {
+  function bulkInsertCart(id, quantity, price) {
     // loop through the items in the cart
     setCartItems(currItems => {
         const updatedCart = currItems.find(item => item.id === id) ?
                             currItems.map((item) =>
                                 // Increment existing cart item && Pass unedited items
                                 item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : 
-                                [...currItems, { id, quantity}]// Create a new cart item with multivalues
+                                [...currItems, { id, quantity, price}]// Create a new cart item with multivalues
         
         cacheCart(updatedCart); // Update the cache
         return updatedCart;
@@ -69,15 +69,24 @@ export default function CartProvider({ children }) {
     const totalItems = cartItems.reduce((quantity, item) => (item.quantity + quantity), 0);
     return totalItems;
   }
+
+  function calculateTotal() {
+    const cartValue = cartItems.reduce((total,item) => {
+      return total + (item.price * item.quantity)
+    }, 0)
+    return cartValue;
+  }
   
   return (
     <CartContext.Provider value={{
-        getItemQuantity,
-        increaseCartQuantity,
-        bulkInsertCart,
-        decreaseCartQuantity,
-        removeFromCart,
-        cartQuantity,
+      cartItems,
+      getItemQuantity,
+      increaseCartQuantity,
+      bulkInsertCart,
+      decreaseCartQuantity,
+      removeFromCart,
+      cartQuantity,
+      calculateTotal,
     }}>
       {children}
     </CartContext.Provider>

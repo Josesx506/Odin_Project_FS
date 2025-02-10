@@ -43,7 +43,7 @@ export default function Thumbnail({ product }) {
       <div className="productCart">
         <button onClick={()=>decreaseCartQuantity(product.id)}>{minusIcon}</button>
         <div>{getItemQuantity(product.id)}</div>
-        <button onClick={()=>increaseCartQuantity(product.id)}>{plusIcon}</button>
+        <button onClick={()=>increaseCartQuantity(product.id, product.price)}>{plusIcon}</button>
       </div>
     </div>
   )

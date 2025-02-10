@@ -1,15 +1,15 @@
 "use client"
 
-import useCart from '@/hooks/useCart';
+import useCart from "@/hooks/useCart";
 import useProducts from "@/hooks/useProducts";
-import { formatCurrency } from '@/utils/currency';
-import Error from 'next/error';
-import Image from 'next/image';
-import { useRef } from 'react';
+import { formatCurrency } from "@/utils/currency";
+import Error from "next/error";
+import Image from "next/image";
+import { useRef } from "react";
 import "../styles/details.css";
-import ReviewDetails from './ReviewDetails';
+import ReviewDetails from "./ReviewDetails";
 
-import StarRating from './starRating';
+import StarRating from "./starRating";
 
 export default function ProductDetails({ id }) {
   const { products } = useProducts();
@@ -18,10 +18,10 @@ export default function ProductDetails({ id }) {
   const purchaseQty = useRef();
   console.log(product)
 
-  function handleInsert(e,id) {
+  function handleInsert(e,id,price) {
     e.preventDefault();
     let qty = parseInt(purchaseQty.current.value);
-    bulkInsertCart(id,qty);
+    bulkInsertCart(id,qty,price);
     purchaseQty.current.value = "";
   }
 
@@ -35,16 +35,16 @@ export default function ProductDetails({ id }) {
           </div>
           <div className="productDesc">
             <h2>{product.title}</h2>
-            <div className='descText'>{product.description}</div>
+            <div className="descText">{product.description}</div>
             <div className="descPrice">
               <span>Price: </span>
-              (<span className='priceLineThrough'>{formatCurrency(product.price*(1+(product.discountPercentage/100)))}</span>)
+              (<span className="priceLineThrough">{formatCurrency(product.price*(1+(product.discountPercentage/100)))}</span>)
               <span>&nbsp;&nbsp;{formatCurrency(product.price)}</span>
             </div>
             <div className="descRating">
               <span>Rating: &nbsp;</span><StarRating rating={product.rating} />
             </div>
-            <div className='descDimensions'>
+            <div className="descDimensions">
               <div style={{fontWeight:"bold"}}>Dimensions</div>
               <ul>
                 <li>Width: {product.dimensions.width}"</li>
@@ -54,11 +54,11 @@ export default function ProductDetails({ id }) {
               </ul>
             </div>
             <div className="detailsProductCart">
-              <form onSubmit={(e)=> handleInsert(e,product.id)}>
-                <input ref={purchaseQty} min="1" max={`${product.stock}`} required placeholder=''
+              <form onSubmit={(e)=> handleInsert(e,product.id,product.price)}>
+                <input ref={purchaseQty} min="1" max={`${product.stock}`} required placeholder=""
                   style={{width:"3rem", textAlign:"center"}} type="number"
                   onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} />
-                <button type='submit'>Add to Cart</button>
+                <button type="submit">Add to Cart</button>
               </form>
             </div>
           </div>

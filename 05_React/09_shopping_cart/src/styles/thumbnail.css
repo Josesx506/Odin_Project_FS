@@ -57,6 +57,7 @@
     align-items: center;
     & div {
         grid-column: span 1;
+        text-align: center;
     }
     & button {
         font-size: 1.2rem;

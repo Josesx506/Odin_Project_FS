@@ -1,0 +1,122 @@
+.productDetailCntr {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.productDetail {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.productImage {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: fit-content;
+}
+
+.productDesc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.descText {
+    max-width: 600px;
+}
+
+.descPrice span:first-child {
+    font-weight: bold;
+}
+
+.priceLineThrough {
+    text-decoration: line-through;
+    color: red;
+}
+
+.descRating {
+    display: flex;
+    align-items: center;
+    & span {
+        font-weight: bold;
+    }
+}
+
+.yellowStar {
+    fill: yellow;
+}
+
+.ratingVal {
+    font-family: var(--font-roboto);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.descDimensions ul li {
+    display: block;
+    margin-left: 1rem;
+    padding: 0.2rem 0;
+}
+
+.detailsProductCart {
+    margin-left: 0.5rem;
+    & form {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        & input {
+            font-weight: bold;
+            padding: 0.2em 0.3em;
+            font-size: 1.3rem;
+            min-width: 4rem;
+        }
+        & input:invalid:not(:placeholder-shown)  {
+            border: 0.15em dashed red;
+        }
+        & button {
+            text-transform: uppercase;
+            padding: 0.2em 0.3em;
+            border-radius: 0.7em;
+            font-size: 1.3rem;
+            background-color: #0070f3;
+            color: #fff;
+        }
+    }
+}
+
+/* Review Cards */
+.reviewCard {
+    width: min(100%, 600px);
+    margin: 0 auto;
+    padding: 0.5em 1em;
+    border: 2px solid gray;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    margin-bottom: 1em;
+}
+
+.reviewRow {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.reviewName {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.reviewDate {
+    align-self: flex-end;
+}
+
+@media (min-width: 600px) {
+    .productDetail {
+        flex-direction: row;
+        gap: 3em;
+        margin: 2em auto;
+    }
+
+}

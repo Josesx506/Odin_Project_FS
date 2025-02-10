@@ -30,7 +30,20 @@ export default function CartProvider({ children }) {
         cacheCart(updatedCart); // Update the cache
         return updatedCart;
     });
-   
+  }
+
+  function bulkInsertCart(id, quantity) {
+    // loop through the items in the cart
+    setCartItems(currItems => {
+        const updatedCart = currItems.find(item => item.id === id) ?
+                            currItems.map((item) =>
+                                // Increment existing cart item && Pass unedited items
+                                item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : 
+                                [...currItems, { id, quantity}]// Create a new cart item with multivalues
+        
+        cacheCart(updatedCart); // Update the cache
+        return updatedCart;
+    });
   }
 
   function decreaseCartQuantity(id) {
@@ -61,6 +74,7 @@ export default function CartProvider({ children }) {
     <CartContext.Provider value={{
         getItemQuantity,
         increaseCartQuantity,
+        bulkInsertCart,
         decreaseCartQuantity,
         removeFromCart,
         cartQuantity,

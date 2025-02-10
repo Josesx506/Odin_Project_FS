@@ -1,12 +1,13 @@
 import React from 'react'
+import ProductDetails from '@/components/ProductDetails';
 
 export default async function Pages({ params, searchParams }) {
   const urlParams = await params;
-  const id = urlParams.id;
+  const id = parseInt(urlParams.id);
 
   return (
     <div>
-      <h1>ID:{id}</h1>
+      <ProductDetails id={id} />
     </div>
   )
 }

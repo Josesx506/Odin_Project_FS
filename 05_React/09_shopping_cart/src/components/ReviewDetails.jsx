@@ -1,5 +1,5 @@
-import React from 'react'
-import StarRating from './starRating'
+import React from "react"
+import StarRating from "./starRating"
 
 export default function ReviewDetails({reviews}) {
   return (
@@ -9,12 +9,12 @@ export default function ReviewDetails({reviews}) {
       <div>{reviews.map((review, index) => {
         return (
             <div key={index} className="reviewCard">
-              <div className='reviewRow'>
-                <div className='reviewName'>{review.reviewerName}</div>
+              <div className="reviewRow">
+                <div className="reviewName">{review.reviewerName}</div>
                 <StarRating rating={review.rating} />
               </div>
-              <div className='reviewComment'>{review.comment}</div>
-              <div className='reviewDate'>{review.date.split(".")[0]}</div>
+              <div className="reviewComment">{review.comment}</div>
+              <div className="reviewDate">{review.date.split(".")[0]}</div>
             </div>
         )
       })}</div>

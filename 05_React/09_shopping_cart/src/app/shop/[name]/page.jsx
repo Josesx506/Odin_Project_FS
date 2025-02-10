@@ -1,6 +1,5 @@
 import ProductCategories from "@/components/ProductCategories";
 
-
 export default async function Page({ params, searchParams }) {
   const urlParams = await params;
   const name = urlParams.name;

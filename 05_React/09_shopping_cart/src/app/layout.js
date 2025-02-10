@@ -1,8 +1,10 @@
-import { Geist, Geist_Mono, Oswald, Roboto, Montserrat } from "next/font/google";
-import "./globals.css";
+import Footer from "@/components/footer";
 import NavBar from "@/components/navbar";
-import ProductsProvider from "@/context/ProductsContext";
 import CartProvider from "@/context/CartContext";
+import ProductsProvider from "@/context/ProductsContext";
+import { Geist, Geist_Mono, Montserrat, Oswald, Roboto } from "next/font/google";
+import "./globals.css";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +48,7 @@ export default function RootLayout({ children }) {
                 <>
                 <NavBar />
                 {children}
+                <Footer />
                 </>
               }
             </CartProvider>

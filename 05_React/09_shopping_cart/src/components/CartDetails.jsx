@@ -3,8 +3,8 @@
 import useCart from "@/hooks/useCart"
 import useProducts from "@/hooks/useProducts"
 import { formatCurrency } from "@/utils/currency"
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"

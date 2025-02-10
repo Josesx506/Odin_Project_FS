@@ -1,0 +1,51 @@
+.Footer {
+    margin-top: 2em;
+    height: fit-content;
+    background-color: #ecf0f1;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    & div > h2 {
+        margin-bottom: 0.3em;
+    }
+    & div {
+        font-family: var(--font-montserrat);
+    }
+}
+
+.dummyText {
+    line-height: 1.5;
+}
+
+.navFtr {
+    display: block;
+    line-height: 1.5;
+    & a {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    } & a:hover {
+        font-weight: bold;
+    }
+}
+
+.socialIcons {
+    display: flex;
+    font-size: 2rem;
+    gap: 1em;
+    & svg {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+    & svg:hover {
+        opacity: 0.75;
+        scale: 1.2;
+    }
+}
+
+@media (min-width: 600px) {
+    .Footer {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+} 

@@ -1,6 +1,6 @@
 "use client"
 
-import { formatCurrency } from '@/utils/currency';
+import { formatCurrency } from "@/utils/currency";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";

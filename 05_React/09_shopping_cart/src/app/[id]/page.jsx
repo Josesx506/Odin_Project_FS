@@ -1,5 +1,4 @@
-import React from 'react'
-import ProductDetails from '@/components/ProductDetails';
+import ProductDetails from "@/components/ProductDetails";
 
 export default async function Pages({ params, searchParams }) {
   const urlParams = await params;

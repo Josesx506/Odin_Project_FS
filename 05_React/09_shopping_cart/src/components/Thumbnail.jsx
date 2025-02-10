@@ -1,12 +1,12 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 import "../styles/thumbnail.css";
 
-import useCart from '@/hooks/useCart';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useCart from "@/hooks/useCart";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { formatCurrency } from '@/utils/currency';
+import { formatCurrency } from "@/utils/currency";
 
 
 export default function Thumbnail({ product }) {
@@ -17,11 +17,6 @@ export default function Thumbnail({ product }) {
     increaseCartQuantity,
     decreaseCartQuantity
   } = useCart();
-
-  if (!increaseCartQuantity) {
-    console.error("increaseCartQuantity is undefined!");
-  }
-
 
   return (
     <div className="productThumbnail">

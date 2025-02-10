@@ -16,7 +16,6 @@ export default function ProductDetails({ id }) {
   const product = products.find(prod => prod.id === id);
   const { bulkInsertCart} = useCart();
   const purchaseQty = useRef();
-  console.log(product)
 
   function handleInsert(e,id,price) {
     e.preventDefault();

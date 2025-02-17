@@ -248,7 +248,11 @@ variable. `useMemo` can only memoize a value while `useEffect` can be used to ru
 
 
 ### useReducer
-The `useReducer` hook is a more advanced version of useState, and it accepts 2 prop arguments.
+Reducers are pure functions that take a previous state and an action to return a new state. If a component only needs to update 
+its state in a couple of simple ways, you don’t need to use reducers. The opposite can be said when a component has become too 
+big, hard to read or debug because of its state logic. <br>
+By using reducers, we can separate the state logic and even store it in a different file or directory, leading to smaller 
+components that are easier to read. The `useReducer` hook is a more advanced version of useState, and it accepts 2 prop arguments.
 1. A function to update the state `reducer()`.
 2. An initial value. Can be a variable(*check caveat below*), object, or array.
 The `reducer()` function also takes 2 arguments, i.e the current state, and the action (*variable*) that should be performed.

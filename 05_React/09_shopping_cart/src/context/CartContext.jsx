@@ -1,7 +1,7 @@
 "use client";
 
 import { getCartItems, cacheCart } from "@/components/pullJSON";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 
 export const CartContext = createContext();
 
@@ -70,12 +70,16 @@ export default function CartProvider({ children }) {
     return totalItems;
   }
 
-  function calculateTotal() {
-    const cartValue = cartItems.reduce((total,item) => {
-      return total + (item.price * item.quantity)
-    }, 0)
-    return cartValue;
-  }
+  // Cache total cartItems calculation to minimize recalculation during re-renders
+  useCallback(
+    function calculateTotal() {
+      const cartValue = cartItems.reduce((total,item) => {
+        return total + (item.price * item.quantity)
+      }, 0)
+      return cartValue;
+    },
+    [cartItems]
+  )
   
   return (
     <CartContext.Provider value={{

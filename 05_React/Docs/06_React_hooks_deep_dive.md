@@ -55,7 +55,7 @@ export default function App() {
 ```
 Although we're not updating `theme`, we need to pass it into `setState()` because the state is overwritten each time the component is being re-rendered.
 This is only recommended when 2 states are usually updated synonymously e.g.(tracking the mouse on the screen). If this is too complex, use to separate 
-states to monitor each variable.
+states to monitor each variable. `useState` manages an immutable state that triggers re-renders when updated.
 
 ### useEffect()
 `useEffect()` is a hook that's used to update something whenever something changes within a component. Effects are reactive blocks of code. They 
@@ -138,15 +138,21 @@ props or state.*** Unnecessary useEffect hooks are code-smell, error-prone, and 
 - Avoid objects as dependencies - Because of the objects creation and referential equality problem, it's wise to avoid objects as deps in useEffect()
 
 It's always a good idea to include a return statement withing useEffects. This way React can stop synchronizing effects when changes are interrupted e.g. 
-you sop requesting data from a chatroom endpoint, or the component is dismounted (you change the page).
+you sop requesting data from a chatroom endpoint, or the component is dismounted (you change the page). 
+> [!Note]
+>  `rendering` and `painting` of the screen comes first before React runs the `useEffect`.
 
 ### useContext
-Context is for passing props from a parent component all the way down to its children, without having to manually repeat the prop definition in each child component. It uses 
-a `Theme.Provider` class combined with a `useContext` hook but I found it too complex, and I wouldn't be using it for early projects.
-
+Context is for passing props from a parent component all the way down to its children, without having to manually repeat the prop definition in each child 
+component. It uses a `Theme.Provider` object combined with a `useContext` hook but I found it too complex, and I wouldn't be using it for early projects.
+> [!Tip]
+> I used context providers for the react router and shopping cart projects. It's great for managing state across multiple components while minimizing prop
+    drilling. 
+Checkout the doc on [context api](./13_Context_API.md) for more.
 
 ### useRef
-A ref is very similar to state in that it persists data between renders, but a ref doesn't cause a component to re-render when it is changed. Unlike state, refs are typically 
+The `useRef` hook lets you manage a value that’s not needed for rendering. A ref is very similar to state in that it persists data between renders, but a ref 
+doesn't cause a component to re-render when it is changed. Unlike state, refs are typically 
 objects with a structure `{current: initialValue}`
 ```JS
 import { useRef } from 'react';
@@ -193,12 +199,15 @@ export default function App() {
     )
 }
 ```
-When `useState` is used in forms, everytime a character is type, the component is re-rendered. This can can reduce performance on large apps. Since only the final values of the form 
-inputs are required, `useRef` can be used to persist data by passing the refs into the `ref={ref}` attribute in JSX without re-rendering the entire component. When the form is submitted,
-we still have all the data that `useState` will have saved without the performance drawbacks. <br>
+When `useState` is used in forms, everytime a character is type, the component is re-rendered. This can can reduce performance on large apps. Since only the final 
+values of the form inputs are required, `useRef` can be used to persist data by passing the refs into the `ref={ref}` attribute in JSX without re-rendering the 
+entire component. When the form is submitted, we still have all the data that `useState` will have saved without the performance drawbacks. <br>
 
-When tracking state with refs, ensure you don't update logic within functions like `onSubmit()`, and instead employ `useEffect` to implement state change operations. Basically update 
-state changes with *useEffect* and not where you *setState(...)*.
+When tracking state with refs, ensure you don't update logic within functions like `onSubmit()`, and instead employ `useEffect` to implement state change operations. 
+Basically update state changes with *useEffect* and not where you *setState(...)*. Oher scenarios where refs can be useful are 
+- DOM manipulation - e.g. focusing a button/element when the page loads (useRef + useEffect with [] dependencies), scrolling to a specific position, measuring the 
+    dimensions of an element, triggering animations etc. Basically useful for many things you use `querySelector` for in vanilla JS.
+- Form validation - check that the `ref.current.value` matches the expected pattern in the `onSubmit` callback.
 
 
 ### useMemo
@@ -240,12 +249,50 @@ const person1 = { fname, lname};
 const person2 = { fname, lname};
 console.log(person1 === person2); //false
 ```
-To prevent over-running useEffect and slowing down our application, we can cache person with `useMemo` and set it only to change when *fname* or *lname* are updated. This way, the 
-useEffect only changes when the person's name changes as originally intended. <br>
+To prevent over-running useEffect and slowing down our application, we can cache person with `useMemo` and set it only to change when *fname* or *lname* are 
+updated. This way, the useEffect only changes when the person's name changes as originally intended. <br>
 
-`useMemo` consumes memory overhead, so it should only be used when performance improvements can be achieved, and it shouldn't be used to cache every single variable within a 
-variable. `useMemo` can only memoize a value while `useEffect` can be used to run any code when dependencies change.
+`useMemo` consumes memory overhead, so it should only be used when performance improvements can be achieved, and it shouldn't be used to cache every single 
+variable within a variable. `useMemo` can only memoize a value while `useEffect` can be used to run any code when dependencies change.
 
+> [!Note]
+> `useMemo` caches variables and not functions. If you want to use it with a function, you have to pass the function to a variable via an arrow function before 
+    caching the variable with `useMemo`.
+
+In the shopping cart project, it can be used to cache the total cart price within context to avoid large recalculations when the number of items in the cart is 
+large. For it to work, the total value **must** be a constant variable and not a a function. If it is a function, use the `useCallback` instead or convert it to 
+an arrow function and pass it into a variable. You can use the [`<Profiler />`](https://react.dev/reference/react/Profiler) component to evaluate performance 
+programmatically. <br>
+Check out this code sandbox [example](https://codesandbox.io/p/sandbox/lm2qlq). In a `contextProvider`, you might see `useMemo` being used frequently like
+```JS
+const value = useMemo(
+  () => ({ someState, someFunction }),
+  [someState, someFunction]
+);
+
+return (
+    <Context.Provider value={value}>
+        {children}
+    </Context.Provider>
+);
+```
+
+### useCallback
+The `useCallback` hook provides another way to memoize a value, not just any value like `useMemo`. ***It can only memoize a function***. It has dependencies just 
+like useMemo and useEffect, but it's specifically designed for functions. There’s nothing extra to `useCallback` other than it only memoizes functions. So the main 
+difference between `useMemo` and `useCallback` is just the type of value it returns. e.g. say we wanted to memoize a handle click function
+```JS
+// useMemo requires an arrow function
+const memoizedHandleClick = useMemo(() => handleClick, []);
+// useCallback works directly on the function
+const memoizedHandleClick = useCallback(handleClick, []);
+// OR if you want the function to be hoisted when the script is run
+useCallback(function handleClick(){
+    ...
+}, [])
+```
+Which one should we use, then? Use `useMemo` for **any value types**, and use `useCallback` specifically for functions. At the end of the day, they both do similar 
+things with a tiny difference, so use whatever you prefer.
 
 ### useReducer
 Reducers are pure functions that take a previous state and an action to return a new state. If a component only needs to update 

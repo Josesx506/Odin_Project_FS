@@ -1,0 +1,13 @@
+{
+  "name": "simple_server",
+  "version": "1.0.0",
+  "description": "simple node js barebones server with static html pages and routing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "watch": "node --watch index"
+  },
+  "author": "Joe",
+  "license": "ISC"
+}

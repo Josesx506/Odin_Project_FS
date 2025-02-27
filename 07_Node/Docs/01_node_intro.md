@@ -1,5 +1,14 @@
+### Content
+- [Creating a server](#creating-a-server)
+- [Handling Requests](#handling-requests)
+- [File system](#handling-files)
+- [Handling URLS](#urls)
+- [Event Emitters](#event-emitters)
+
+
 ## Creating a server
-A server instance can be created in node using the `http.createServer` method
+A server instance can be created in node using the `http.createServer` method. The server takes in a function with request and response 
+arguments, and requires a port where it can listen for requests come in at the end
 ```JS
 const http = require('http');
 
@@ -83,36 +92,49 @@ PUT and DELETE requests use the same POST request format - you just need to chan
 
 
 ## Handling files
-File system in node is similar to `os` library in python. It allows you to open, create, delete, write, or watch  files / 
-directories for changes
+File system in node is similar to `os` library in python but node also has a dedicated `os` module too. `fs` allows you to open, create, delete, 
+write, or watch files/directories for changes. `os` allows you to check home directory, system properties like num. cpu's, total uptime, system 
+platform etc. node also has a `path` module. `path` allows you to join directories, find path basename, extension etc. Overall, `fs`,`os`, and 
+`path` can be likened to os and pathlib libraries in python. To get started with any of them
 ```JS
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
 ```
-One peculiar thing about the `fs` module is that all the methods are asynchronous by default, but they can also work 
-synchronously by appending Sync. It's easier to just work with the async mode to minimize callback hell
+One peculiar thing about the `fs` module is that all the methods are asynchronous by default, but they can also work synchronously by appending 
+`Sync` when calling the method name. It's easier to just work with the async mode to minimize callback hell. <br>
+`fs` can be used read, append, and delete files/directories. When run in ***`async`*** mode, it requires 
 ```JS
-// Example: Read a file and change its content and read
-// it again using promise-based API.
-const fs = require('fs/promises');
+fs.writeFile(filePath, fileData, callBack) {
+  // Execute call back with if-else statement for error handling
+  ...
+}
+```
+In ***`sync`*** mode, no callback is required but the statement has to be wrapped in a `try-catch` statement
+```JS
+try {
+  fs.writeFileSync(filePath, fileData);
+} catch (err) {
+  console.error(err);
+}
+```
+Lastly they can be run within functions as ***`asynchronous promises`***. This requires a slightly different import, but also extends 
+the fs module to resolve promises with async/await wrapped inside try-catch statements.
+```JS
+const fsp = require('node:fs/promises');
 
-async function example() {
-  const fileName = '/Users/joe/test.txt';
+async function asyncWrite() {
   try {
-    const data = await fs.readFile(fileName, 'utf8');
-    console.log(data);
-    const content = 'Some content!';
-    await fs.writeFile(fileName, content);
-    console.log('Wrote some content!');
-    const newData = await fs.readFile(fileName, 'utf8');
-    console.log(newData);
+    await fsp.writeFile(filePath, fileData,  options, callback);
   } catch (err) {
     console.log(err);
   }
 }
-example();
+
+asyncWrite(); // Call the function
 ```
-When using async mode, you can specify flags to read or append to existing files e.g `r+`, `w+`, `a`, `a+`. These flags are 
-useful for oerwriting or appending rows to a file like linux/python expressions. <br>
+When creating or editing files, you can specify flags as object **`options`** to read or append to existing files e.g [`r+`, `w+`, `a`, `a+`]. 
+These flags are useful for overwriting or appending rows to a file like linux/python expressions. <br>
 Like writing files reading files can also be done synchronously, asynchronously, or with promises
 
 
@@ -123,23 +145,28 @@ URL strings in nodejs are like flask app/blueprint routes. It's imported by defa
 const myURL = new URL('/foo', 'https://example.org/');
 // URL(endpoint, base_url) returns https://example.org/foo 
 ```
-You set or get properties like the `endpoint`, `host`, `port`, `host name`, `href`, `params` etc. 
+You set or get properties about the endpoint like the `host`, `port`, `hostname`, `href`, `params` etc. 
 ```JS
-const myURL = new URL('https://example.org:8080/foo#bar');
-console.log(myURL.hash);  // get # argument
-// Prints #bar
-
-myURL.hash = 'baz';      // set params
-console.log(myURL.href);
-// Prints https://example.org:8080/foo#baz
-
-console.log(myURL.host);
-// Prints example.org:8080
-
-console.log(myURL.hostname);
-// Prints example.org
+const myURL = new URL('https://example.org:8080/foo?q=todo1&year=2025#baz');
+console.log(myURL);
+// Prints 
+URL {
+  href: 'https://example.org:8080/foo?q=todo1&year=2025#baz',
+  origin: 'https://example.org:8080',
+  protocol: 'https:',
+  username: '',
+  password: '',
+  host: 'example.org:8080',
+  hostname: 'example.org',
+  port: '8080',
+  pathname: '/foo',
+  search: '?q=todo1&year=2025',
+  searchParams: URLSearchParams { 'q' => 'todo1', 'year' => '2025' },
+  hash: '#baz'
+}
 ```
-A list to all the URL methods is on the nodejs site [here](https://nodejs.org/api/url.html#url_the_whatwg_url_api).
+You can also get the search parameters as a string `myUrl.search` or as a serialized object `myUrl.searchParams`. A list to all 
+the URL methods is on the nodejs site [here](https://nodejs.org/api/url.html#url_the_whatwg_url_api).
 
 
 ## Event Emitters
@@ -166,4 +193,5 @@ eventEmitter.on('start', (start, end) => {
 eventEmitter.emit('start', 1, 100);
 ```
 You can set the emitter to be triggered only once, remove a single emitter `removeListener() / off()` or remove all emitters 
-`removeAllListeners()`
+`removeAllListeners()`. They're useful for logging events and using any other types of event listeners. Can be combined with 
+`fs.writeFile` to create logging file on a server.

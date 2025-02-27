@@ -1,0 +1,26 @@
+body {
+    padding: 2rem 0;
+    width: min(95%, 800px); 
+    margin: 0 auto; 
+    justify-items: center;
+}
+
+ul {
+    all: unset; 
+    display: flex; 
+    gap: 1rem; 
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    border: 0.12rem solid black;
+    transition: 0.1s font-weight ease-in-out;
+    &:hover {
+        font-weight: bold;
+    }
+}

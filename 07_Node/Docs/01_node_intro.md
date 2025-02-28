@@ -4,6 +4,7 @@
 - [File system](#handling-files)
 - [Handling URLS](#urls)
 - [Event Emitters](#event-emitters)
+- [Environment Variables](#environment-variables)
 
 
 ## Creating a server
@@ -195,3 +196,37 @@ eventEmitter.emit('start', 1, 100);
 You can set the emitter to be triggered only once, remove a single emitter `removeListener() / off()` or remove all emitters 
 `removeAllListeners()`. They're useful for logging events and using any other types of event listeners. Can be combined with 
 `fs.writeFile` to create logging file on a server.
+
+
+## Environment Variables
+Environment variables are variables that have environment-specific values. Environment variables are used to store screts/leys for applications 
+can be accessed within scripts using `process.env`. The variables can be passed to the app when launching it in terminal like
+```bash
+NODE_ENV=prod VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0" node index.js
+```
+or with `export` inside a shell session
+```bash
+export NODE_ENV=prod VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0"
+node index.js
+```
+To view all environment variables in the current shell, you can run `printenv` in terminal. It's much easier to save all the environment variables 
+in a `.env` file and load it with the `dotenv` npm package. Install the package in your app directory
+```bash
+# .env file example
+NODE_ENV=prod
+VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0"
+```
+Add the environment file to your `.gitignore` file to avoid sharing your secrets and call `require("dotenv").config();` at the top of your script. 
+`config` will read your .env file, parse the contents, assign it to `process.env`, and return an Object with a parsed key containing the loaded content 
+or an error key if it failed. You can then access the variables in the app like
+```JS
+// You can specify custom file names/paths to dotenv config
+// they're loaded in order
+require('dotenv').config({ path: ['.env.prod', '.env'] })
+
+const PORT = process.env.PORT;
+if (process.env.NODE_ENV === "prod") {
+    // do production-specific stuff
+}
+```
+During deployment, either supply it to docker containers in save it inside the dedicated secrets manager for your platform.

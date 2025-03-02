@@ -10,6 +10,11 @@ app.get("/", (req,res) => {
     res.sendFile("index.html");
 })
 
+// Handling redirects
+app.get("/about-me", (req,res) => {
+    res.redirect("/about.html");
+})
+
 // Handle errors - should come last to prevent intercepting valid requests
 app.get("*", (req,res) => {
     let filePath = path.join(__dirname,"public", "404.html");

@@ -30,10 +30,16 @@ app.get("/", (req,res) => {
     res.sendFile("index.html");
 })
 
+app.get("/about-me", (req,res) => {
+    res.redirect("/about.html");
+})
+
 // Handle errors - should come last to prevent intercepting valid requests
 app.get("*", (req,res) => {
     let filePath = path.join(__dirname,"public", "404.html");
     res.sendFile(filePath);
+    // OR
+    // res.sendFile("./public/404.html", { root: __dirname })
 })
 ```
 Once the public directory is mounted, all files in the directoy can be accessed from the `/` path prefix (endpoint). If it was 
@@ -65,3 +71,32 @@ admin.get('/', function (req, res) {
 
 app.use('/admin', admin)       // mount the sub app
 ```
+
+### Views
+Express also allows rendering of html files with view templates like flask and the netNinja tutorial used the `.ejs` views template. 
+I never liked *views* in flask and I still don't like them in express. I'll be using react for frontend rendering and stick to using 
+node for transmitting backend data and not html.
+
+
+### Middleware
+We can access middleware or create middleware for different things in an express server. Middleware is used for different things like 
+- Authentication
+- Logging
+- Modularity etc.
+To log some request details we can use the catch all middleware `app.use`, 
+```JS
+// If included at the top of all endpoints, it runs before any endpoint is accessed
+app.use((req,res,next) => {
+    console.log('new request made');
+    console.log('host: ', req.hostname);
+    console.log('path: ', req.path);
+    console.log('method: ', req.method); // GET, POST etc
+    next()
+})
+```
+Including this middleware at the top of our server ensures that the request details are logged into the browser. The `next` function 
+in express is a default function and is similar to *continue* in python. It essentially tells express to execute the middleware and 
+continue down the list of endpoints to send a response back to the server. If the next function is not called, the server gets 
+stuck inside the middleware and will not send a response back to the browser. <br>
+The are many middleware functions on the npm site that can be installed to improve express server functionality, install them in 
+your project to get started.

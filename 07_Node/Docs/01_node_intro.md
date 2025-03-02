@@ -19,6 +19,31 @@ http.createServer(function (req, res) {
   res.end();
 }).listen(8080);
 ```
+Different endpoints can defined using a `switch` statement or using a single function that can handle different placeholders
+```JS
+const app = http.createServer(function (req, res) {
+  switch (req.url) {
+    case "/":
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.write('Hello World!');
+      res.end();
+      break;
+    case "/about":
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.write('About Page');
+      res.end();
+    case "/about-me":
+      // redirect the about-me endpoint to the about page
+      res.writeHead(301, {'Location': '/about'});
+      res.end();
+    default:
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.write('Error 404');
+      res.end();
+  }
+  app.listen(8080);
+})
+```
 You can lauch the server with `node app.js` or watch it with `node --watch app.js`. 
 > [!Note]
 > Creating a http`s` server on localhost threw an error for me

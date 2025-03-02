@@ -105,3 +105,53 @@ async function asyncRead() {
 asyncWrite();
 asyncAppend();
 asyncRead();
+
+
+/**
+ * Stream Input/Output of large files as chunks instead of rendering at once
+ * This is useful for webpages where you can start rendering the data before 
+ * the read operation fully loads. The readStream operation is triggered like 
+ * an event emitter
+ * 
+ * readStream(topicName,anonymousFunction)
+ */
+
+// const { LoremIpsum } = require('lorem-ipsum');
+
+// // Configure the Lorem Ipsum generator
+// const lorem = new LoremIpsum({
+//   sentencesPerParagraph: {
+//     max: 8,
+//     min: 4,
+//   },
+//   wordsPerSentence: {
+//     max: 16,
+//     min: 4,
+//   },
+// });
+
+// // Generate random  Lorem Ipsum text and write to a file with writeStream
+// function generateLoremIpsumFile(filePath, paragraphCount) {
+//   const stream = fs.createWriteStream(filePath, { flags: 'a' });
+//   for (let i = 0; i < paragraphCount; i++) {
+//     // Write the paragraph as a chunk and append it to the file
+//     const paragraph = lorem.generateParagraphs(1);
+//     writeStream.write('\nNEW CHUNK\n'); 
+//     stream.write(paragraph + '\n\n');
+//   }
+//   stream.end();
+// }
+// generateLoremIpsumFile(`${dirName}/large_file_write.txt`,100);
+
+// // Stream read the large file in chunks
+// const readStream = fs.createReadStream(`${dirName}/large_file.txt`, {encoding:'utf8'});
+
+// readStream.on('data', (chunk)=>{
+//   // Print the large file to terminal 
+//   console.log('--------- NEW CHUNK ---------');
+//   console.log(chunk);
+// })
+
+// OR you can pipe the read operation into the write operation if the large already exists 
+// readStream.pipe(writeStream);
+

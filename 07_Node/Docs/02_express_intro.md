@@ -55,7 +55,7 @@ For interactive development, you can start your servers with `node --watch app.j
 [Nodemon](https://www.npmjs.com/package//nodemon) also provides the watch compatibility but Odin prefers sticking to in-built 
 packages/modules.
 
-### Modular servers
+### Modular servers / Express Router
 Express also allows different parts of large application to be built separately and merged in a master file like flask 
 blueprints 
 ```JS
@@ -71,6 +71,28 @@ admin.get('/', function (req, res) {
 
 app.use('/admin', admin)       // mount the sub app
 ```
+You can also use the router object from express directly to implement modularity
+```JS
+// routes/blog.js
+const express = require('express')
+
+const router = express.Router()         // the sub app
+
+router.get("/",(req,res)=>{
+    // ...
+})
+
+module.exports = { router }
+```
+and then use the middleware to link it to the main app with 
+```JS
+// app.js
+const blogRouter = require("./routes/blog")
+
+const app = express()     // the main app
+app.use(blogRouter)       // mount the sub app
+```
+
 
 ### Views
 Express also allows rendering of html files with view templates like flask and the netNinja tutorial used the `.ejs` views template. 
@@ -79,7 +101,8 @@ node for transmitting backend data and not html.
 
 
 ### Middleware
-We can access middleware or create middleware for different things in an express server. Middleware is used for different things like 
+We can access middleware or create middleware for different things in an express server. A list of express 
+[middleware methods](https://expressjs.com/en/api.html#express.methods). Middleware is used for different things like 
 - Authentication
 - Logging
 - Modularity etc.
@@ -91,7 +114,7 @@ app.use((req,res,next) => {
     console.log('host: ', req.hostname);
     console.log('path: ', req.path);
     console.log('method: ', req.method); // GET, POST etc
-    next()
+    next() // pass control to the next handler
 })
 ```
 Including this middleware at the top of our server ensures that the request details are logged into the browser. The `next` function 

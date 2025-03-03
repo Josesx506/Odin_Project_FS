@@ -1,0 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: min(90%, 1250px);
+    margin: 0 auto;
+}
+
+.dynamic > ul {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.link-hover:hover {
+    opacity: 0.75;
+}

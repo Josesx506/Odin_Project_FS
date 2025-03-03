@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header', { links: links }) %>
+<body>
+  <div class="container">
+      <h2>Hi, I am <%= user.firstName  %> <%= user.lastName %></h2>
+      <h3>Welcome to the Odin Blog</h3>
+  </div>
+  <div class="container dynamic">
+    <%= message %>
+    <%= locals.foo %>
+    <ul>
+        <% users.forEach((user) => { %>
+          <li><%= user %></li>
+        <% }); %>
+    </ul>
+  </div>
+  <div class="container">
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit corporis reprehenderit dolores minima. Similique ratione 
+    necessitatibus obcaecati itaque quibusdam, impedit perspiciatis tenetur assumenda, suscipit, pariatur veritatis consectetur 
+    vero quasi excepturi.
+  </div>
+</body>
+<%- include('partials/footer') %>
+</html>

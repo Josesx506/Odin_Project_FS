@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header', { title: title }) %>
+<body>
+    <div class="container renderPost">
+        <h3 class="renderUser">User: <%= message.user || "Guest" %></h3>
+        <div class="renderText">
+            <p>Post</p>
+            <div><%= message.text %></div>
+        </div>
+        <div class="renderDate"><span>Posted on:</span> <%= message.added %></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- views/search.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<%- include("partials/header.ejs", {title: title}) %>
+<body>
+    <div class="main container">
+        <h3 class="title">
+            <%= title %>
+        </h3>
+        <%- include("partials/errors.ejs") %>
+        <div class="internal">
+            <form class="findUserForm" action="/search" method="GET">
+                <input type="text" placeholder="Enter name" name="name">
+                <input type="email" placeholder="Enter email" name="email" >
+                <button class="submitBtn" type="submit">Find User</button>
+            </form>
+
+            <div class="searchResults">
+                <% if (users.length>0) { %>
+                    <div class="totalSearch">
+                        <%= `${users.length} user(s) matched your query`  %>
+                    </div>
+                <% } %>
+                <div class="searchTable">
+                    <div class="searchRow">
+                        <span style="font-weight: bold;">First Name</span>
+                        <span style="font-weight: bold;">Last Name</span>
+                        <span style="font-weight: bold;">Email</span>
+                    </div>
+                    <% users.forEach((user) => { %>
+                        <div class="searchRow">
+                            <span style="text-transform: capitalize;"><%= user.firstName %></span>
+                            <span style="text-transform: capitalize;"><%= user.lastName %></span>
+                            <span style="text-transform: lowercase;"><%= user.email %></span>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

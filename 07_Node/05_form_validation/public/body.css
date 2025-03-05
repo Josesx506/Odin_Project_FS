@@ -1,0 +1,166 @@
+input, textarea {
+    border-radius: 0.5rem;
+    padding: 0.35em;
+}
+
+#bio {
+    resize: none;
+    width: 10rem;
+}
+
+/* View Users */
+.viewBox {
+    all: unset;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(90%, 768px);
+    margin: 0 auto;
+    text-align: center;
+    gap: 0.5em;
+}
+
+.viewUsers {
+    display: flex;
+    /* width: fit-content; */
+    padding: 0.2em 0.5em;
+    gap: 1em;
+    font-size: 1.2rem;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+
+.editBtn {
+    all: unset;
+    cursor: pointer;
+    transition: scale 0.3s ease-in-out;
+    &:hover {
+        scale: 1.2;
+        color: rgb(135,206,250);
+    }
+}
+
+.deleteBtn {
+    all: unset;
+    cursor: pointer;
+    transition: scale 0.3s ease-in-out;
+    &:hover {
+        scale: 1.2;
+        color: rgb(245,101,101);
+    }
+}
+
+/* Create User */
+.createUser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(80%, 20rem);
+    margin: 0 auto;
+    font-family: Montserrat;
+    gap: 0.5em;
+}
+
+.createEntry {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    & #bio {
+        width: 100%;
+    }
+}
+
+/* Edit User */
+.editUserForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.inputRows {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.submitBtn {
+    border-radius: 0.5rem;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+}
+
+.editUserSubmit {
+    width: fit-content;
+}
+
+/* Find User */
+.findUserForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    padding: 1em;
+    border-radius: 1em;
+    width: fit-content;
+    margin: 0 auto;
+    & input {
+        min-width: 12rem;
+    }
+    margin-bottom: 1em;
+}
+
+.totalSearch {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.searchTable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: min(100%, 768px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.searchRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    font-size: 0.9rem;
+    padding: 0.2em 0.5em;
+    gap: 0.5em;
+    background-color: white;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    & span {
+        font-family: Montserrat;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    }
+}
+  
+.searchRow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+  
+
+@media(min-width:450px) {
+    #bio {
+        width: 20rem;
+    }
+
+    .findUserForm {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+}

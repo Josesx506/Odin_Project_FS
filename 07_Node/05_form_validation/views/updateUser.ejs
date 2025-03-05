@@ -1,0 +1,28 @@
+<!-- views/updateUser.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<%- include("partials/header.ejs", {title: title}) %>
+<body>
+    <div class="main container">
+        <h3 class="title">
+            <%= title %>
+        </h3>
+        <%- include("partials/errors.ejs") %>
+        <form class="editUserForm internal" action="/<%= user.id %>/update" onsubmit="return alert('user info has been updated');" method="POST">
+            <div class="inputRows">
+                <input type="text" name="firstName" value="<%= user.firstName %>" required>
+                <input type="text" name="lastName" value="<%= user.lastName %>" required>
+            </div>
+            <div class="inputRows">
+                <input type="email" name="email" value="<%= user.email %>" required>
+                <input type="number" placeholder="age" name="age" value="<%= user.age %>">
+            </div>
+            <div class="inputRows">
+                <textarea rows="3" type="text" placeholder="bio" name="bio" id="bio"><%= user.bio %></textarea>
+            </div>
+            <button class="editUserSubmit submitBtn" type="submit">Update User</button>
+        </form>
+    </div>
+</body>
+
+</html>

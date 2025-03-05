@@ -16,7 +16,8 @@ advised — it will make your life a lot easier.
 
 ### Deployment
 Following [review](https://www.youtube.com/watch?v=prjMJtXCR-g) of different hosting providers, [Railway](https://railway.com/) seemed like the best option for 
-hosting backend servers, dbs, and containers in a portfolio scenario. AWS can be used for production grade applications.
+hosting backend servers, dbs, and containers in a portfolio scenario. AWS can be used for production grade applications. Don't forget to specify your node 
+[version](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#engines) in the package.json file to minimize package versioning errors during deployment.
 <br>
 
 Like webpack, you can watch a node script with `node --watch app.js`

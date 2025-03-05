@@ -1,0 +1,37 @@
+<!-- views/createUser.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<%- include("partials/header.ejs", {title: title}) %>
+<body>
+    <div class="main container">
+        <h3 class="title">
+            <%= title %>
+        </h3>
+        <%- include("partials/errors.ejs") %>
+        <form class="createUser" action="/create" method="POST">
+            <div class="createEntry">
+                <label for="firstName">First Name: </label>
+                <input type="text" name="firstName" id="firstName" required>
+            </div>
+            <div class="createEntry">
+                <label for="lastName">Last Name: </label>
+                <input type="text" name="lastName" id="lastName" required>
+            </div>
+            <div class="createEntry">
+                <label for="email">Email: </label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="createEntry">
+                <label for="age">Age: </label>
+                <input type="number" name="age" id="age">
+            </div>
+            <div class="createEntry">
+                <label for="bio">Bio: </label>
+                <textarea type="text" name="bio" id="bio"></textarea>
+            </div>
+            <button class="submitBtn" type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

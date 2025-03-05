@@ -1,0 +1,16 @@
+.errorList {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 0;
+}
+
+.errorLine {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    & svg {
+        color: red;
+    }
+}

@@ -29,7 +29,8 @@ Middleware can be related to the application object or the router obect
     - They don't run if the request-response cycle ends before reaching them.
     - Typically, these middleware functions are placed on top of our application code to ensure they always run first.
     - Useful examples are body parsers `express.json`, `express.urlencoded` which allow us to parse arguments in post requests,
-        and access them via `req.body`.
+        and access them via `req.body`. When `extended` is `false`, our server will only accept a string or an array of data, so 
+        we set it to `true` for some added flexibility.
     - Another example is `express.static` which we've used for parsing static files in the info_site project.
 - ***Router-level middleware*** works similarly to an application-level middleware, but it’s bound to an instance of Express 
     router using `router.use` or `router.METHOD` (e.g. router.get) functions

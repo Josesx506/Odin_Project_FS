@@ -14,4 +14,9 @@ advised — it will make your life a lot easier.
 ### What is Node?
 > As an asynchronous event driven JavaScript runtime, Node is designed to build scalable network applications.
 
+### Deployment
+Following [review](https://www.youtube.com/watch?v=prjMJtXCR-g) of different hosting providers, [Railway](https://railway.com/) seemed like the best option for 
+hosting backend servers, dbs, and containers in a portfolio scenario. AWS can be used for production grade applications.
+<br>
+
 Like webpack, you can watch a node script with `node --watch app.js`

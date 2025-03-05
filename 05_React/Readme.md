@@ -44,3 +44,9 @@ ReactDOM.render(
     </div>,
     document.getElementById("root"))
 ```
+
+### Deployment
+Following review of different hosting providers, and since I decided to go with NextJS to improve fullstack integration, [vercel](https://vercel.com/) seemed like 
+the best option for deploying React apps, but I converted all my react apps to static pages and used localForage to persist state which allowed me to deploy them 
+for free on github pages. Big kala till I get to node and I'm forced to pay for a hosting service :v:.
+<br>

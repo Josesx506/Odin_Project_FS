@@ -12,14 +12,27 @@
     
 </head>
 <body>
-    <div class="header">
-        <h1>Odin Project Links</h1> 
-        <nav>
-            
+    <header class="header container">
+        <h1>Odin Project Cards</h1> 
+        <nav class="dynNav" role="navigation">
+            <div id="menuToggle">
+                <div class="hamburger toggleBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul id="menu">
+                    <li class="nav-item"><a href="#foundations" class="nav-link">Foundations</a></li>
+                    <li class="nav-item"><a href="#intCss" class="nav-link">Int. CSS</a></li>
+                    <li class="nav-item"><a href="#intJs" class="nav-link">Int. JS</a></li>
+                    <li class="nav-item"><a href="#react" class="nav-link">React</a></li>
+                    <li class="nav-item"><a href="#node" class="nav-link">NodeJS</a></li>
+                </ul>
+            </div>
         </nav>
-    </div>
-    <div class="all-project-levels">
-        <div class="level-container">
+    </header>
+    <div class="all-project-levels container">
+        <div id="foundations" class="level-container">
             <div class="level-title">Foundation Projects</div>
             <div class="project-links-track">
                 <div class="project-box">
@@ -54,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="level-container">
+        <div id="intCss" class="level-container">
             <div class="level-title">Intermediate/Advanced CSS Projects</div>
             <div class="project-links-track">
                 <div class="project-box">
@@ -87,7 +100,7 @@
                 </div>
             </div>
         </div>
-        <div class="level-container">
+        <div id="intJS" class="level-container">
             <div class="level-title">Intermediate JS Projects</div>
             <div class="project-links-track">
                 <div class="project-box">
@@ -140,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <div class="level-container">
+        <div id="react" class="level-container">
             <div class="level-title">React Projects</div>
             <div class="project-links-track">
                 <div class="project-box">
@@ -194,8 +207,24 @@
                 </div>
             </div>
         </div>
+        <div id="node" class="level-container">
+            <div class="level-title">Node Backend Projects</div>
+            <div class="project-links-track">
+                <div class="project-box">
+                    <a href="https://odin-mini-msg.up.railway.app/mini">
+                        <span class="link-name">Mini Chats</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="box-img btshp" width="100%" height="100" 
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" 
+                            stroke-linejoin="round" class="lucide lucide-messages-square">
+                            <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/>
+                            <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="footer">
+    <div class="footer container">
         <h1>Contact: </h1>
         <div class="contact-links">
             <a href="https://github.com/Josesx506" target="_blank">
@@ -207,4 +236,36 @@
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.querySelector('.toggleBtn');
+        const menu = document.getElementById('menu');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Toggle menu 
+        toggleBtn.addEventListener('click', () => {
+            menu.classList.toggle('visible');
+            toggleBtn.classList.toggle('active');
+        });
+        
+        // Close menu when nav items are clicked
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth < 600) {
+                    menu.classList.remove('visible');
+                    toggleBtn.classList.remove('active');
+                    // toggleBtn.checked = false;
+                }
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 600) {
+                menu.classList.remove('visible');
+                toggleBtn.classList.remove('active');
+            }
+        });
+    });
+</script>
 </html>

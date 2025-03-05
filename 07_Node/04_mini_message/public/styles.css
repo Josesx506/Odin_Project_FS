@@ -13,19 +13,27 @@
     width: 95%;
 }
 
-nav {
+
+.navBar {
     position: sticky;
     top: 0;
     background-color: white;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-nav > a {
+.navBar > a {
     all: unset;
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
+    & > h2 {
+        margin: 0.1em 0;
+    }
     &:hover {
         opacity: 0.75;
         color: rgb(5, 70, 211);
+        box-shadow: rgba(200, 200, 200, 0.4) 0px 1px 0px;
     }
 }
 

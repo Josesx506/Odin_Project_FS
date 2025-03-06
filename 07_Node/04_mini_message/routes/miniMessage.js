@@ -1,5 +1,6 @@
 const express = require('express');
-const data = require('../model/data');
+const fileController = require('../controller/fileController');
+const dbController = require('../controller/dbController')
 
 const router = express.Router();
 
@@ -11,41 +12,17 @@ router.use((req,res,next)=>{
     next();
 })
 
+// Using the postgres db to store data (railway prod deployment only)
+// router.get('/',dbController.getMessages)
+// router.post('/new', dbController.postNewMessage)
+// router.get('/new/:id', dbController.getMessageId)
 
-router.get('/',(req,res)=>{
-    res.render('index', { 
-            title: "Mini Messageboard",
-            messages: data.messages,
-            timeOpt: data.timeOptions,
-            dateOpt: data.dateOptions
-    });
-})
 
-router.post('/new', (req,res) => {
-    const newMsg = req.body;
-    data.messages.push({ 
-        text: newMsg.message, 
-        user: newMsg.author, 
-        added: new Date(),
-        id: crypto.randomUUID() });
-    res.redirect("/");
-})
+// Using the ../model/data.js file to store data (local deployment)
+router.get('/',fileController.getMessages)
+router.post('/new', fileController.postNewMessage)
+router.get('/new/:id', fileController.getMessageId)
 
-router.get('/new/:id', (req,res,next) => {
-    const id = req.params.id;
-    const msg = data.messages.filter((msg)=>msg.id===id);
-    if (msg.length===0) {
-        const error = new Error("Post not found");
-        error.statusCode = 404;
-        error.id = id;
-        next(error);
-    } else {
-        res.render('post', { 
-            title: "Message Page",
-            message: msg[0],
-    });
-    }
-})
 
 router.use((err, req, res, next) => {
     res.status(404).render('404', { 

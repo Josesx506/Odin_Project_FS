@@ -3,7 +3,7 @@
 <%- include('partials/header', { title: title }) %>
 <body>
     <div class="container renderPost">
-        <h3 class="renderUser">User: <%= message.user || "Guest" %></h3>
+        <h3 class="renderUser">User: <%= message.username || "Guest" %></h3>
         <div class="renderText">
             <p>Post</p>
             <div><%= message.text %></div>

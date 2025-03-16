@@ -3,6 +3,7 @@
 .DS_Store
 
 .env
+*.pem
 *.pdf
 node_modules
 */node_modules

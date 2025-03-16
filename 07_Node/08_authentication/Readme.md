@@ -25,3 +25,6 @@ A _dev_ key is added to our package.json file as `"dev": node populateDB.js && n
 be started with `npm run dev`. This allows us to create our session db table and launch the server simultaneously. The 
 app can be accessed at http://localhost:3000/.
 
+>[!Note]
+> This app is very simple and does not throw errors when the wrong username / password is inserted. It just redirects you 
+    to the homepage.

@@ -9,16 +9,15 @@ CREATE TABLE IF NOT EXISTS users (
 );
 `
 
-// I created the pgSession table as `user_sessions` instead of using the default `session` tablename
 const CREATE_SESSIONS = `
-CREATE TABLE IF NOT EXISTS "user_sessions" (
+CREATE TABLE IF NOT EXISTS "sessions" (
   "sid" varchar PRIMARY KEY NOT NULL COLLATE "default",
   "sess" json NOT NULL,
   "expire" timestamp(6) NOT NULL
 )
 WITH (OIDS=FALSE);
 
-CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "user_sessions" ("expire");
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "sessions" ("expire");
 `
 
 async function main() {
@@ -28,7 +27,7 @@ async function main() {
   await client.query(CREATE_USERS);
   await client.query(CREATE_SESSIONS);
   await client.end();
-  console.log("done");
+  console.log("table creation completed");
 }
 
 main();

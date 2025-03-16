@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container main header">
+        <h1>Hello JWT Auth!</h1>
+        <button class="submitBtn">
+            <a href="/auth/register">Sign Up</a>
+        </button>
+    </div>
+
+    <% if ( token ) {%>
+        <div class="container main">
+            <h2>Welcome back User: <%= user.username %></h2>
+            <button class="submitBtn" onclick="removeJWT()">
+                <a href="/auth/logout">
+                    LOG OUT 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="1rem" viewBox="0 0 24 24" fill="none" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                        class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+                    </svg>
+                </a>
+            </button>
+        </div>
+    <% } else { %>
+        <div class="container">
+            <h2>Log in</h2>
+            <form class="authForm" action="/auth/login" method="POST">
+                <div class="inputGroup">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" placeholder="username" type="text" required />
+                </div>
+                <div class="inputGroup">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" placeholder="password" type="password" required />
+                </div>
+                <button class="submitBtn">Log In</button>
+            </form>
+        </div>
+    <%}%>
+    <script>
+        function removeJWT() {
+          localStorage.removeItem('jwt');
+        }
+        
+        // Check if token exists in localStorage, if not, store it
+        document.addEventListener('DOMContentLoaded', function () {
+          const token = "<%= token %>";
+          const storedToken = localStorage.getItem('jwt');
+          
+          if (token && token !== "undefined" && !storedToken) {
+            localStorage.setItem('jwt', token);
+            console.log('Token stored in localStorage');
+          } 
+        });
+    </script>
+</body>
+</html>
+    

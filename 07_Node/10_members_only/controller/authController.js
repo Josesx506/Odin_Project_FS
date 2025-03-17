@@ -5,9 +5,13 @@ const { validationResult } = require('express-validator');
 
 
 function getRegisterUser(req, res) {
-    res.render("auth/signUp", {
-        title: "sign up"
-    });
+    if(req.user){
+        res.redirect('/');
+    } else {
+        res.render("auth/signUp", {
+            title: "sign up"
+        })
+    };
 }
 
 async function postRegisterUser (req, res, next) {
@@ -25,9 +29,12 @@ async function postRegisterUser (req, res, next) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = await dbController.registerUser(req.body.username,req.body.email,hashedPassword);
         
-        return res.render('index', { 
-          title: 'Home page',
-          user: {username: req.body.username}
+        // Log the user in after registration
+        req.login(user[0], (err) => {
+          if (err) {
+            return next(err);
+          }
+            return res.redirect('/');
         });
       
       } catch(err) {
@@ -38,9 +45,12 @@ async function postRegisterUser (req, res, next) {
 
 
 function getSignUserIn(req, res) {
-    res.render("auth/signIn", {
+    if(req.user){
+        res.redirect('/');
+    } else {
+        res.render("auth/signIn", {
         title: "sign in"
-    });
+    })};
 }
 
 async function postSignUserIn (req, res, next) {
@@ -74,15 +84,21 @@ function getSignUserOut(req, res, next) {
 }
 
 function getAdmin(req, res, next) {
-    console.log(req.query)
     res.render('auth/admin', {
         title: "update membership",
+        alert: req.flash('alert'),
     })
 }
 
 async function postAdmin (req, res, next) {
-    await dbController.updateUserStatus(req.user.id,req.body.status);
-    res.redirect('/auth/admin?err=' + encodeURIComponent(`User Role is now: ${req.body.status}`));
+    const status = req.user.admin ? 'admin' : 'basic';
+    if (status !== req.body.status) {
+        await dbController.updateUserStatus(req.user.id,req.body.status);
+        req.flash('alert',`User Role: ${req.body.status}`);
+    } else {
+        req.flash('alert',"No changes detected!");
+    }
+    res.redirect('/auth/admin');
 }
 
 module.exports = { 

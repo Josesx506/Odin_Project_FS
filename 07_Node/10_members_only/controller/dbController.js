@@ -24,7 +24,7 @@ async function updateUserStatus(id,status) {
 }
 
 async function registerUser(username,email,hashedPassword) {
-  const { rows } = await pool.query("INSERT INTO mem_users (username, email, password) VALUES ($1, $2, $3)", 
+  const { rows } = await pool.query("INSERT INTO mem_users (username, email, password) VALUES ($1, $2, $3) RETURNING *", 
     [ username,email,hashedPassword,]);
   return rows;
 }

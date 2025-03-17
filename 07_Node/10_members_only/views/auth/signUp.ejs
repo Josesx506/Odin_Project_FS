@@ -13,19 +13,19 @@
         <form class="authForm" action="<%= `${locals.baseUrl}/register` %>" method="POST">
             <div class="signUpInput">
                 <label for="username"></label>
-                <input class="username" name="username" placeholder="Username" type="text" required>
+                <input id="username" name="username" placeholder="Username" type="text" required>
             </div>
             <div class="signUpInput">
                 <label for="email"></label>
-                <input class="email" name="email" placeholder="Email" type="email" required>
+                <input id="email" name="email" placeholder="Email" type="email" required>
             </div>
             <div class="signUpInput">
                 <label for="password"></label>
-                <input class="password" name="password" placeholder="Password" type="password" required>
+                <input id="password" name="password" placeholder="Password" type="password" required>
             </div>
             <div class="signUpInput">
                 <label for="confirmPassword"></label>
-                <input class="confirmPassword" name="confirmPassword" placeholder="Confirm Password" type="password">
+                <input id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" type="password">
             </div>
             <div class="submitBtn">
                 <button>Submit</button>

@@ -4,12 +4,12 @@
 <link rel="stylesheet" href="/css/auth.css">
 <body>
     <%- include('../partials/nav') %>
+    <%- include("../partials/alerts.ejs") %>
     <div class="container formHolder">
         <div class="formTitle">
-            <h3>Membership Class</h3>
+            <h3>Account Type</h3>
         </div>
         <%- include("../partials/errors.ejs") %>
-        <%= console.log(locals.alerts) %>
         <form class="authForm" action="<%= `${locals.baseUrl}/admin` %>" method="POST">
             <div class="adminRow">
                 <div class="adminInput">

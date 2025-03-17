@@ -1,0 +1,1 @@
+npm install bcryptjs connect-pg-simple dotenv ejs express express-session passport passport-local pg

@@ -1,11 +1,12 @@
 const path = require('path');
 const express = require('express');
+const flash = require("connect-flash");
 const passport = require('./config/passport').passport;
 const expressSessConf = require('./config/express-session');
 const passportStrategy = require('./config/passport').localStrategy;
+const indexCntlr = require('./controller/indexController');
 const authRoute = require('./routes/auth');
 const postsRoute = require('./routes/posts');
-const flash = require("connect-flash");
 
 app = express();
 
@@ -31,9 +32,9 @@ app.use('/auth',authRoute)
 app.use('/posts',postsRoute)
 
 
-app.get("/", (req, res) => {
-    res.render("index",{title: "Home Page"})
-})
+app.get("/", indexCntlr.getLimitedPosts);
+app.use(indexCntlr.catchAll);
+app.use(indexCntlr.errHandler);
 
 
 app.listen(3000, ()=>{

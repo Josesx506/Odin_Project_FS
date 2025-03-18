@@ -114,3 +114,8 @@
 .cardBody {
     font-family: Montserrat;
 }
+
+.caution a {
+    text-decoration: underline;
+    color: tomato;
+}

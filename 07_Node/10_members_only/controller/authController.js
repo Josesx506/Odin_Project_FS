@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 
 
 function getRegisterUser(req, res) {
-    if(req.user){
+    if(req.isAuthenticated()){
         res.redirect('/');
     } else {
         res.render("auth/signUp", {
@@ -45,7 +45,7 @@ async function postRegisterUser (req, res, next) {
 
 
 function getSignUserIn(req, res) {
-    if(req.user){
+    if(req.isAuthenticated()){
         res.redirect('/');
     } else {
         res.render("auth/signIn", {
@@ -95,13 +95,18 @@ function getSignUserOut(req, res, next) {
 }
 
 function getAccount(req, res) {
+  if (req.isAuthenticated()) {
     res.render('auth/account', {
         title: "update membership",
         alert: req.flash('alert'),
     })
+  } else {
+    res.status(401).redirect("/auth/signin");
+  }
 }
 
 async function postAccount(req, res) {
+  if (req.isAuthenticated()) {
     const update = req.user.member !== req.body.member;
     if (update) {
         await dbController.updateUserStatus(req.user.id,req.body.member);
@@ -110,26 +115,33 @@ async function postAccount(req, res) {
         req.flash('alert',"No changes detected!");
     }
     res.redirect('/auth/account');
+  } else {
+    res.status(401).redirect("/auth/signin");
+  }
 }
 
 async function postJoin(req, res) {
-    const errors = validationResult(req);
+    if (req.isAuthenticated()) {
+      const errors = validationResult(req);
     
-    if (!errors.isEmpty()) {
-      return res.status(400).render("auth/account", {
-        title: "update membership",
-        errors: errors.array(),
-      });
-    
-    } else {
-      const correct = req.body.answer.toLowerCase() === 'odin';
-      if (correct) {
-        await dbController.updateUserStatus(req.user.id,'basic');
-        req.flash('alert','Welcome to the Club!');
+      if (!errors.isEmpty()) {
+        return res.status(400).render("auth/account", {
+          title: "update membership",
+          errors: errors.array(),
+        });
+      
       } else {
-        req.flash('alert',"Uh Oh! Wrong Answer");
+        const correct = req.body.answer.toLowerCase() === 'odin';
+        if (correct) {
+          await dbController.updateUserStatus(req.user.id,'basic');
+          req.flash('alert','Welcome to the Club!');
+        } else {
+          req.flash('alert',"Uh Oh! Wrong Answer");
+        }
+        res.redirect('/auth/account');
       }
-      res.redirect('/auth/account');
+    } else {
+      res.status(401).redirect("/auth/signin");
     }
 }
 

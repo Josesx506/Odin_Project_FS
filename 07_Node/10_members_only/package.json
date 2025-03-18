@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "clear && node config/database && node --watch index"
+    "dev": "clear && node config/database && node --watch index",
+    "start": "node config/database && node index"
   },
   "keywords": [],
   "author": "Joe",

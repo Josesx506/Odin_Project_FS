@@ -22,32 +22,45 @@ async function getPosts(req, res) {
 }
 
 async function postNewBlog(req, res) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const posts = await dbController.getDBPosts();
-      return res.status(400).render("posts", {
-        title: "member posts",
-        posts: posts,
-        dtFmtr: formatDateTime,
-        errors: errors.array(),
-      });
+    if (req.isAuthenticated()) {
+        const errors = validationResult(req);
     
+        if (!errors.isEmpty()) {
+          const posts = await dbController.getDBPosts();
+          return res.status(400).render("posts", {
+            title: "member posts",
+            posts: posts,
+            dtFmtr: formatDateTime,
+            errors: errors.array(),
+          });
+        
+        } else {
+            const user_id = req.user.id;
+            const title = req.body.title;
+            const body = req.body.content;
+            await dbController.createPost(user_id,title,body);
+            req.flash('alert',"Post created successfully");
+            res.redirect('/posts');
+        }
     } else {
-        const user_id = req.user.id;
-        const title = req.body.title;
-        const body = req.body.content;
-        await dbController.createPost(user_id,title,body);
-        req.flash('alert',"Post created successfully");
-        res.redirect('/posts');
+        res.status(401).redirect("/auth/signin");
     }
 }
 
 async function getDeleteBlog(req, res) {
-    const postId = req.query.pid;
-    await dbController.deletePost(postId);
-    req.flash('alert',"Post deleted successfully");
-    res.redirect('/posts');
+    if (req.isAuthenticated()) {
+        const postId = req.query.pid;
+        if (req.isAuthenticated()) {
+            await dbController.deletePost(postId);
+            req.flash('alert',"Post deleted successfully");
+            res.redirect('/posts');
+        } else {
+            req.flash('alert',"You wan delete wetin you no write?");
+            res.redirect('/posts');
+        }
+    } else {
+        res.status(401).redirect("/auth/signin");
+    }
 }
 
 module.exports = { getPosts, postNewBlog, getDeleteBlog }

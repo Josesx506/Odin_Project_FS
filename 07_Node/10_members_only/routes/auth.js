@@ -1,5 +1,3 @@
-
-// const passport = require('passport');
 const router = require('express').Router();
 const validate = require('../config/validator');
 const authCntlr = require('../controller/authController');
@@ -16,7 +14,8 @@ router.post("/register", validate.validateSignUp, authCntlr.postRegisterUser);
 router.get("/signin", authCntlr.getSignUserIn);
 router.post("/signin", validate.validateSignIn, authCntlr.postSignUserIn);
 router.get("/signout", authCntlr.getSignUserOut);
-router.get("/admin", authCntlr.getAdmin);
-router.post("/admin", authCntlr.postAdmin);
+router.get("/account", authCntlr.getAccount);
+router.post("/account", authCntlr.postAccount);
+router.post("/join", validate.validateJoin, authCntlr.postJoin);
 
 module.exports = router;

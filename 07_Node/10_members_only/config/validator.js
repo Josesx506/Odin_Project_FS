@@ -35,7 +35,6 @@ const validateSignUp = [
       })
 ];
 
-
 const validateSignIn = [
   body("email")
     .trim()
@@ -43,8 +42,26 @@ const validateSignIn = [
     .isEmail(),
   body("password")
     .trim()
-    // .escape()
     .notEmpty().withMessage("Password cannot be empty.")
 ]
 
-module.exports = { validateSignUp, validateSignIn }
+const validateJoin = [
+  body("answer")
+    .trim()
+    .blacklist("<>")
+    .isLength({ max: 10 }).withMessage("Answer must be at most 10 characters.")
+]
+
+const validatePosts = [
+  body("title")
+    .trim()
+    .blacklist("<>")
+    .isLength({ max: 128 }).withMessage("Title must be at most 128 characters long."),
+  body("content")
+    .trim()
+    .blacklist("<>")
+    .notEmpty().withMessage("Post body cannot be empty.")
+    .isLength({ min: 10, max: 300 }).withMessage("Post body must be between 10 and 300 characters.")
+]
+
+module.exports = { validateSignUp, validateSignIn, validateJoin, validatePosts }

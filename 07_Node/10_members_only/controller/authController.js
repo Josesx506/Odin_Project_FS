@@ -54,24 +54,35 @@ function getSignUserIn(req, res) {
 }
 
 async function postSignUserIn (req, res, next) {
-    passport.authenticate("local", (err, user, info) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("auth/signIn", {
+        title: "sign in",
+        errors: errors.array(),
+      });
+    
+    } else {
+      passport.authenticate("local", (err, user, info) => {
         if (err) {
-            return next(err);
+          return next(err);
         }
         if (!user) {
-            return res.render("auth/signIn", { 
-                title: "sign in",
-                errors: [ {msg: info.message} ]
-            });
-        }
+          return res.render("auth/signIn", { 
+            title: "sign in",
+            errors: [ {msg: info.message} ]
+        })};
+        
         // Successful login
         req.logIn(user, (err) => {
-            if (err) {
-                return next(err);
-            }
-            return res.redirect("/");
+          if (err) {
+            return next(err);
+          }
+          return res.redirect("/");
         });
-    })(req, res, next);
+      })(req, res, next);
+    }
 }
 
 function getSignUserOut(req, res, next) {
@@ -83,26 +94,48 @@ function getSignUserOut(req, res, next) {
     });
 }
 
-function getAdmin(req, res, next) {
-    res.render('auth/admin', {
+function getAccount(req, res) {
+    res.render('auth/account', {
         title: "update membership",
         alert: req.flash('alert'),
     })
 }
 
-async function postAdmin (req, res, next) {
-    const status = req.user.admin ? 'admin' : 'basic';
-    if (status !== req.body.status) {
-        await dbController.updateUserStatus(req.user.id,req.body.status);
-        req.flash('alert',`User Role: ${req.body.status}`);
+async function postAccount(req, res) {
+    const update = req.user.member !== req.body.member;
+    if (update) {
+        await dbController.updateUserStatus(req.user.id,req.body.member);
+        req.flash('alert',`User Role: ${req.body.member}`);
     } else {
         req.flash('alert',"No changes detected!");
     }
-    res.redirect('/auth/admin');
+    res.redirect('/auth/account');
+}
+
+async function postJoin(req, res) {
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+      return res.status(400).render("auth/account", {
+        title: "update membership",
+        errors: errors.array(),
+      });
+    
+    } else {
+      const correct = req.body.answer.toLowerCase() === 'odin';
+      if (correct) {
+        await dbController.updateUserStatus(req.user.id,'basic');
+        req.flash('alert','Welcome to the Club!');
+      } else {
+        req.flash('alert',"Uh Oh! Wrong Answer");
+      }
+      res.redirect('/auth/account');
+    }
 }
 
 module.exports = { 
     getRegisterUser,postRegisterUser,
     getSignUserIn,postSignUserIn,
-    getSignUserOut,getAdmin,postAdmin
+    getSignUserOut,getAccount,
+    postAccount,postJoin
 }

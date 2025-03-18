@@ -4,6 +4,7 @@ const passport = require('./config/passport').passport;
 const expressSessConf = require('./config/express-session');
 const passportStrategy = require('./config/passport').localStrategy;
 const authRoute = require('./routes/auth');
+const postsRoute = require('./routes/posts');
 const flash = require("connect-flash");
 
 app = express();
@@ -19,8 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(expressSessConf)              // express-session
 app.use(passport.session());          // passportjs
 passport.use(passportStrategy);       // local strategy
-
-app.use(flash());
+app.use(flash());                     // transmitting alerts/messages
 app.use((req, res, next) => {
     res.locals.user = req.user || null;
     next();
@@ -28,10 +28,10 @@ app.use((req, res, next) => {
 
 // Middleware for routes
 app.use('/auth',authRoute)
+app.use('/posts',postsRoute)
 
 
 app.get("/", (req, res) => {
-    console.log(req.session, res.locals)
     res.render("index",{title: "Home Page"})
 })
 

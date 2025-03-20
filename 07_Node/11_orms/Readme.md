@@ -8,6 +8,16 @@ Tutorial project for installing and completing exercises with prisma
         variables (such as your database connection)
 3. If you already have an existing database you want to integrate with Prisma, run `npx prisma db pull` to 
     turn your database schema into a Prisma schema.
-4. Install prisma client with `npm install @prisma/client`
-4. Define you schema in the `prisma/schema.prisma` file and run `npx prisma generate` to generate a Prisma 
-    Client (UI)
+4. Install prisma client with `npm install @prisma/client`. Installing the `@prisma/client` package 
+    invokes the prisma generate command, which reads your Prisma schema and generates Prisma Client code.
+5. Define you schema in the `prisma/schema.prisma` file and run `npx prisma generate` to regenerate any 
+    changes to the Prisma Client schemas.
+6. Migrate the db to create the tables if they don't exist yet - `npx prisma migrate dev`
+7. View tables and relationships in the browser GUI by running `npx prisma studio`, and access the server 
+    at http://localhost:5555.
+
+### CRUD operations
+Prisma is optimized for CRUD operationd and can be combined with fakerJS to bulk insert multiple dummy 
+profiles into portfolio projects. Check out their website for query 
+[examples](https://www.prisma.io/docs/orm/prisma-client/queries/crud).
+

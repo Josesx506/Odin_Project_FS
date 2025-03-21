@@ -20,6 +20,17 @@ const prisma = new PrismaClient();
 //       published: true,
 //     },
 // })
+// 
+// Create a combined query that defines entries in the users and post tables
+// const user = await prisma.user.create({
+//     data: {
+//       name: 'Alice',
+//       email: 'alice@prisma.odin',
+//       posts: {
+//         create: { title: 'Join us for Prisma Day 2020' },
+//       },
+//     },
+// })
 
 const allUsers = await prisma.user.findMany();
 console.log(allUsers);
@@ -43,20 +54,18 @@ const filteredPosts = await prisma.post.findMany({
 })
 console.log(filteredPosts);
 
-// Create a combined query that defines entries in the users and post tables
-const user = await prisma.user.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@prisma.odin',
-      posts: {
-        create: { title: 'Join us for Prisma Day 2020' },
-      },
-    },
-})
-
 // Update an existing entry
 const post = await prisma.post.update({
     where: { id: 2 },
     data: { published: true },
 })
 console.log(post);
+
+// Delete an entry
+const delPost = await prisma.post.delete({
+    where: { id: 2 }
+})
+console.log('Deleted', delPost);
+
+const allPosts = await prisma.post.findMany();
+console.log(allPosts);

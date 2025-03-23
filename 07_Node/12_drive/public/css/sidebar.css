@@ -1,0 +1,17 @@
+.logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    & a {
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.2em;
+        & span {
+            color: rgb(255, 220, 125);
+        }
+    }
+}
+
+.logo a:hover {
+    opacity: 0.75;
+}

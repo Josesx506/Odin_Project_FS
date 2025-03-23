@@ -8,6 +8,7 @@ const utils = require('./utils');
 
 // Routes
 const authRoute = require('./routes/auth');
+const driveRoute = require('./routes/drive');
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.use((req, res, next) => {
 });
 
 // Middleware for routes
-app.use('/auth',authRoute)
+app.use('/auth',authRoute);
+app.use('/drive',driveRoute);
 
 
 // INCOMPLETE

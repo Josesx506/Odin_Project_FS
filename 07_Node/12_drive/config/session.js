@@ -1,9 +1,7 @@
+const prisma = require('./prismaClient');
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
-const { PrismaClient } = require('@prisma/client');
 require('dotenv').config();
-
-const prisma =  new PrismaClient();
 
 const prismaSessStore = new PrismaSessionStore(
     prisma,

@@ -19,5 +19,8 @@ Tutorial project for installing and completing exercises with prisma
 ### CRUD operations
 Prisma is optimized for CRUD operationd and can be combined with fakerJS to bulk insert multiple dummy 
 profiles into portfolio projects. Check out their website for query 
-[examples](https://www.prisma.io/docs/orm/prisma-client/queries/crud).
+[examples](https://www.prisma.io/docs/orm/prisma-client/queries/crud). <br>
+
+`prisma.db.findUnique()` approach is generally preferred to `prisma.db.findFirst()` when querying by a 
+primary key or unique field, as it can leverage database indexes more efficiently.
 

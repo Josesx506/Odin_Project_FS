@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<%- include('partials/header') %>
 <body>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="upldFile"></label>
-            <input id="upldFile" name="upldFile" type="file">
-        </div>
-        <button>Submit</button>
-    </form>
+    <%- include('partials/nav') %>
+    <h3>Welcome to media drive</h3>
 </body>
 </html>

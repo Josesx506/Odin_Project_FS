@@ -10,5 +10,16 @@
           const hamburger = document.querySelector(".hamburger");
           hamburger.classList.toggle("active");
         }
+
+        function toggleSideBar() {
+          const sideToggle = document.getElementById("sideToggle");
+          const storage = document.querySelector(".storage");
+          const dirList = document.querySelector(".dirList");
+          const sideItems = document.querySelectorAll(".sideItems");
+          sideToggle.classList.toggle("collapsed");
+          storage.classList.toggle("collapsed");
+          dirList.classList.toggle("collapsed");
+          sideItems.forEach((item)=>item.classList.toggle("collapsed"));
+        }
     </script>
 </head>

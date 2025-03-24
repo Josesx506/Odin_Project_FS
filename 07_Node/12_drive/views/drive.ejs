@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/css/drive.css">
 <body>
-    <%- include('partials/sidebar') %>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="upldFile"></label>
-            <input id="upldFile" name="upldFile" type="file">
+    <%- include('partials/nav') %>
+    <div class="container asidePage">
+        <%- include('partials/sidebar') %>
+        <div class="asideMain">
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="upldFile"></label>
+                    <input id="upldFile" name="upldFile" type="file">
+                </div>
+                <button>Submit</button>
+            </form>
         </div>
-        <button>Submit</button>
-    </form>
+
+    </div>
     
 </body>
 </html>

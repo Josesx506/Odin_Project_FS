@@ -1,11 +1,40 @@
 const utils = require('../utils');
-const prisma = require('../config/prismaClient');
+const prismaCntlr = require('./prismaController');
 const cloudinary = require('../config/cloudinary');
 
 
+async function getDriveView(req,res) {
+  const itemId = req.params.itemId || null;
+  if (itemId) {
+    const content = await prismaCntlr.getFolderContents(parseInt(req.user.id), parseInt(itemId));
+    const root = await prismaCntlr.findRootDir(parseInt(req.user.id));
+    const directories = await prismaCntlr.getUserRootDescendants(parseInt(req.user.id));
+    console.log(directories); //,content,root
+  }
+  res.render("drive", {
+      title: "Media Drive",
+      itemId: itemId,
+      alert: req.flash('alert')
+  });
+}
+
 async function postFolder(req,res) {
   const name = utils.escapeString(req.body.createFolder);
-  res.status(200).json({folname: name});
+  const itemId = req.query.itemId || null;
+  const userId = req.user.id;
+  
+  if (itemId) {
+    // Create a new directory inside an existing parent
+    await prismaCntlr.createFolder(name, parseInt(itemId), userId);
+    req.flash('alert',"Folder created successfully");
+    res.redirect(`/drive/${itemId}`);
+  } else {
+    // Create a new directory from the root directory
+    const rootDir = await findRootDir(userId);
+    await prismaCntlr.createFolder(name, parseInt(rootDir.id), userId);
+    req.flash('alert',"Folder created successfully");
+    res.redirect(`/drive/${rootDir.id}`);
+  }
 }
 
 async function postFile(req,res) {
@@ -58,4 +87,4 @@ async function postFile(req,res) {
 
 
 
-module.exports = { postFolder,postFile }
+module.exports = { getDriveView,postFolder,postFile }

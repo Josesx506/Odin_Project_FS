@@ -30,7 +30,16 @@ async function postRegisterUser (req, res, next) {
             data: {
                 name: req.body.username,
                 email: req.body.email.toLowerCase(),
-                password: hashedPassword
+                password: hashedPassword,
+                driveItem: {
+                  create: {
+                    name: 'root',
+                    type: 'FOLDER',
+                  }
+                }
+            },
+            include: {
+              items: true // Include the created items in the response
             }
         });
         

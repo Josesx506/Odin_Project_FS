@@ -5,6 +5,7 @@
 <script src="/scripts/modals.js"></script>
 <body>
     <%- include('partials/nav') %>
+    <%- include('partials/alerts.ejs') %>
     <div class="container asidePage">
         <%- include('partials/sidebar') %>
         <div class="asideMain">
@@ -14,10 +15,10 @@
                         <h3>Create New Folder</h3>
                         <button id="closeFolderModal">&times;</button>
                     </div>
-                    <form action="/drive/create" method="POST" class="modalForm">
+                    <form action="/drive/create<%= itemId ? '?itemId=' + itemId : '' %>" method="POST" class="modalForm">
                         <div class="modalEntry">
                             <label for="createFolder"></label>
-                            <input name="createFolder" id="createFolder" maxlength="10" placeholder="Enter Name (10 chars)" type="text">
+                            <input name="createFolder" id="createFolder" maxlength="10" placeholder="Enter Name (10 chars)" type="text" required>
                         </div>
                         <div class="modalSubmit">
                             <button>Create Folder</button>

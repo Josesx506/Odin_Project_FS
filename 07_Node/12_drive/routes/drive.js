@@ -8,12 +8,7 @@ router.use((req,res,next)=>{
   next();
 })
 
-router.get("/", (req,res)=>{
-    res.render("drive", {
-        title: "Media Drive"
-    })
-});
-
+router.get("/:itemId?", driveCntlr.getDriveView);
 router.post("/create", driveCntlr.postFolder);
 router.post("/upload", driveCntlr.postFile);
 

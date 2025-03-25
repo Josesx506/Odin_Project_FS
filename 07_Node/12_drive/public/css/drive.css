@@ -9,3 +9,90 @@
     border-radius: 0.3em;
     width: 100%;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modalContent {
+    position: relative;
+    padding: 0.75em 1em;
+    border-radius: 0.75em;
+    width: fit-content;
+    margin: 35vh auto;
+    background-color: whitesmoke;
+    box-shadow: 0 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4em;
+    gap: 2em;
+    & h3 {
+        font-family: Poppins;
+        font-weight: 600;
+    }
+}
+
+#closeFolderModal, #closeFileModal {
+    color: white;
+    border-radius: 50%;
+    width: 1.5em;
+    height: 1.5em;
+    display: block;
+    aspect-ratio: 1;
+    background-color: rgb(238,107,96);
+    border: 0.5px solid darkgray;
+    transition: scale 0.2s ease;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+        color: black;
+    }
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.modalEntry input {
+    width: 100%;
+    font-family: Montserrat;
+    padding: 0.25em 0.5em;
+    border-radius: 0.3em;
+    border: 1px solid darkgray;
+}
+
+.modalSubmit {
+    margin-left: auto;
+    font-family: Montserrat;
+    transition: color 0.2s ease;
+    & > button {
+        padding: 0.25em 0.5em;
+        border-radius: 0.3em;
+        border: 1px solid darkgray;
+    }
+    & > button:hover {
+        cursor: pointer;
+        color: #5186ed;
+    }
+}
+
+#upldFile {
+    width: 230px;
+}
+
+#folderModal.active, #fileModal.active {
+    display: block;
+}

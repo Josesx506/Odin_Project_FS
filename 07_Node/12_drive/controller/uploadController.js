@@ -1,8 +1,12 @@
-const utils = require('./utils');
-const PrismaClient = require('@prisma/client');
-const cloudinary = require('./config/cloudinary');
+const utils = require('../utils');
+const prisma = require('../config/prismaClient');
+const cloudinary = require('../config/cloudinary');
 
-const prisma = new PrismaClient();
+
+async function postFolder(req,res) {
+  const name = utils.escapeString(req.body.createFolder);
+  res.status(200).json({folname: name});
+}
 
 async function postFile(req,res) {
   if (!req.file) {
@@ -12,6 +16,7 @@ async function postFile(req,res) {
     const tag = req.file.mimetype.split("/")[1];
     const fileExt = req.file.originalname.split('.').pop().toLowerCase();
     const resourceType = utils.resolveResourceType(fileExt);
+    const fileName = utils.escapeString(req.file.originalname);
 
     const userName = req.user.name;
     const rootDir = req.user.dirName;
@@ -22,13 +27,14 @@ async function postFile(req,res) {
         resource_type: resourceType,
         public_id: utils.escapeString(req.file.originalname),
         overwrite: true,
+        invalidate: true,
         folder: uploadDir  }, // folder name is a combination of username and user directory
         
         (err, result) => {
         if(err) {
           return res.status(500).json({
             success: false,
-            message: "Error"
+            message: "Upload Error"
           })
         }
     
@@ -45,6 +51,11 @@ async function postFile(req,res) {
   }
 }
 
+        // // Private link flow
+        // let link = cloudinary.utils.private_download_url(result.public_id,fileExt,
+        //     attachment=true,
+        //     format=fileExt,);
 
 
-module.exports = { postFile }
+
+module.exports = { postFolder,postFile }

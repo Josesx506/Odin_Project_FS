@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const validate = require('../config/validator');
-// const authCntlr = require('../controller/authController');
+const driveCntlr = require('../controller/uploadController');
 
 // Middleware to add the baseUrl to response.locals
 router.use((req,res,next)=>{
@@ -14,5 +14,7 @@ router.get("/", (req,res)=>{
     })
 });
 
+router.post("/create", driveCntlr.postFolder);
+router.post("/upload", driveCntlr.postFile);
 
 module.exports = router;

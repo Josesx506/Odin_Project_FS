@@ -2,18 +2,47 @@
 <html lang="en">
 <%- include('partials/header') %>
 <link rel="stylesheet" href="/css/drive.css">
+<script src="/scripts/modals.js"></script>
 <body>
     <%- include('partials/nav') %>
     <div class="container asidePage">
         <%- include('partials/sidebar') %>
         <div class="asideMain">
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <div>
-                    <label for="upldFile"></label>
-                    <input id="upldFile" name="upldFile" type="file">
+            <div class="modal" id="folderModal">
+                <div class="modalContent">
+                    <div class="modalHeader">
+                        <h3>Create New Folder</h3>
+                        <button id="closeFolderModal">&times;</button>
+                    </div>
+                    <form action="/drive/create" method="POST" class="modalForm">
+                        <div class="modalEntry">
+                            <label for="createFolder"></label>
+                            <input name="createFolder" id="createFolder" maxlength="10" placeholder="Enter Name (10 chars)" type="text">
+                        </div>
+                        <div class="modalSubmit">
+                            <button>Create Folder</button>
+                        </div>
+                    </form>
                 </div>
-                <button>Submit</button>
-            </form>
+            </div>
+
+            <div class="modal" id="fileModal">
+                <div class="modalContent">
+                    <div class="modalHeader">
+                        <h3>Upload File</h3>
+                        <button id="closeFileModal">&times;</button>
+                    </div>
+                    <form action="/drive/upload" method="POST" class="modalForm" enctype="multipart/form-data">
+                        <div class="modalEntry">
+                            <label for="upldFile"></label>
+                            <input id="upldFile" name="upldFile" type="file">
+                        </div>
+                        <div class="modalSubmit">
+                            <button>Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </div>

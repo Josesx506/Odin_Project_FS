@@ -40,49 +40,49 @@ app.get("/",(req,res)=>{
 })
 
 
-app.post("/upload",multerMdlwr,(req,res) => {
+// app.post("/upload",multerMdlwr,(req,res) => {
 
-    if (!req.file) {
-        return res.status(400).json({ success: false, message: "Error: No file uploaded!" });
-    }
+//     if (!req.file) {
+//         return res.status(400).json({ success: false, message: "Error: No file uploaded!" });
+//     }
 
-    const fileSize = req.file ? utils.bytesToMB(req.file.size) : 0;
-    const tag = req.file.mimetype.split("/")[1];
-    const fileExt = req.file.originalname.split('.').pop().toLowerCase();
-    const resourceType = utils.resolveResourceType(fileExt);
-    const fileName = utils.escapeString(req.file.originalname);
+//     const fileSize = req.file ? utils.bytesToMB(req.file.size) : 0;
+//     const tag = req.file.mimetype.split("/")[1];
+//     const fileExt = req.file.originalname.split('.').pop().toLowerCase();
+//     const resourceType = utils.resolveResourceType(fileExt);
+//     const fileName = utils.escapeString(req.file.originalname);
     
-    cloudinary.uploader.upload_stream({ 
-        resource_type: resourceType,
-        overwrite: true,
-        invalidate: true,
-        public_id: fileName,
-        folder: "odin_drive"  }, 
-        // folder name will be a combination of username and root directory
-        (err, result) => {
-        if(err) {
-          return res.status(500).json({
-            success: false,
-            message: "Error"
-          })
-        }
+//     cloudinary.uploader.upload_stream({ 
+//         resource_type: resourceType,
+//         overwrite: true,
+//         invalidate: true,
+//         public_id: fileName,
+//         folder: "odin_drive"  }, 
+//         // folder name will be a combination of username and root directory
+//         (err, result) => {
+//         if(err) {
+//           return res.status(500).json({
+//             success: false,
+//             message: "Error"
+//           })
+//         }
 
-        // Private link flow
-        let link = cloudinary.utils.private_download_url(result.public_id,fileExt,
-            attachment=true,
-            format=fileExt,);
-        // console.log(link)
+//         // Private link flow
+//         let link = cloudinary.utils.private_download_url(result.public_id,fileExt,
+//             attachment=true,
+//             format=fileExt,);
+//         // console.log(link)
     
-        res.status(200).json({
-            title: "Odin Drive",
-            tag: tag,
-            fileName: req.file.originalname,
-            size: `${fileSize} mb`,
-            public_id: result.public_id, 
-            url: result.secure_url
-        })
-    }).end(req.file.buffer);
-})
+//         res.status(200).json({
+//             title: "Odin Drive",
+//             tag: tag,
+//             fileName: req.file.originalname,
+//             size: `${fileSize} mb`,
+//             public_id: result.public_id, 
+//             url: result.secure_url
+//         })
+//     }).end(req.file.buffer);
+// })
 
 
 app.listen(3000, ()=>{

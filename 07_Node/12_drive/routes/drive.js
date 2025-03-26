@@ -9,8 +9,9 @@ router.use((req,res,next)=>{
   next();
 })
 
-router.get("/:itemId?", driveCntlr.getDriveView);
+router.get("/view/:itemId?", driveCntlr.getDriveView);
 router.post("/create", driveCntlr.postFolder);
 router.post("/upload", multerMdlwr, driveCntlr.postFile);
+router.post("/delete/:itemId?", driveCntlr.deletebyId);
 
 module.exports = router;

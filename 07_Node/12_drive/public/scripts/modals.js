@@ -26,10 +26,50 @@ document.addEventListener('DOMContentLoaded', function() {
     closeFile.addEventListener("click", () => {
         fileModal.classList.remove("active");
     })
-    // Close modals when clicking outside modal content
     fileModal.addEventListener("click", (event) => {
         if (event.target === fileModal) {
             fileModal.classList.remove("active");
         }
     });
+
+    const deleteItems = document.querySelectorAll('.deleteItem');
+    const closeDelete = document.getElementById("closeDeleteModal");
+    const deleteModal = document.getElementById("deleteModal");
+    const cancelDelete = document.querySelector('.cancelDelete');
+
+    deleteItems.forEach((btn)=>{
+        btn.addEventListener('click',()=>{
+            const delUrl = btn.dataset.href;
+            deleteModal.classList.add("active");
+            const delForm = deleteModal.querySelector('.modalForm');
+            delForm.action = delUrl;
+        })
+    })
+    cancelDelete.addEventListener("click", (e) => {
+        e.preventDefault();
+        deleteModal.classList.remove("active");
+        const delForm = deleteModal.querySelector('.modalForm');
+        delForm.action = "#";
+    })
+    closeDelete.addEventListener("click", () => {
+        deleteModal.classList.remove("active");
+        const delForm = deleteModal.querySelector('.modalForm');
+        delForm.action = "#";
+    })
+    deleteModal.addEventListener("click", (event) => {
+        if (event.target === deleteModal) {
+            deleteModal.classList.remove("active");
+            const delForm = deleteModal.querySelector('.modalForm');
+            delForm.action = "#";
+        }
+    });
+
+    const modalForms = document.querySelectorAll('.modalForm');
+    modalForms.forEach((subForm)=>{
+        subForm.addEventListener('submit',()=>{
+            const submitButton = subForm.querySelector("button[type='submit']");
+            submitButton.disabled = true;
+            submitButton.innerText = "Processing...";
+        })
+    })
 });

@@ -6,19 +6,16 @@ function bytesToMB (bytes) {
 };
 
 function resolveResourceType(ext) {
-    let type = "auto";
-    switch (ext) {
-        case (['mp4', 'mov', 'avi', 'wmv', 'flv', 'mkv'].includes(ext)): 
-            type = "video";
-            break
-        case (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'heic', 'webp', 'avif'].includes(ext)):
-            type = "image";
-            break
-        default:
-            type = "raw";
-            break
+    const videoTypes = ['mp4', 'mpg', 'mpeg', 'mov', 'avi', 'wmv', 'flv', 'mkv'];
+    const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'heic', 'webp', 'avif'];
+    
+    if (videoTypes.includes(ext)) {
+        return "video";
+    } else if (imageTypes.includes(ext)) {
+        return "image";
+    } else {
+        return "raw";
     }
-    return type;
 }
 
 const escapeString = (str) => {

@@ -4,7 +4,7 @@
             <li class="<%= item.id === currId ? 'currDir' : '' %>">
                 <details open>
                     <summary>
-                        <a class="dirLink" href="<%= `${locals.baseUrl}/${item.id}` %>">
+                        <a class="dirLink" href="<%= `${locals.baseUrl}/view/${item.id}` %>">
                             <span class="dirIcon material-symbols-rounded">folder_open</span>
                             <span class="dirLabel"><%= item.name %></span>
                         </a>

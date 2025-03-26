@@ -63,7 +63,17 @@ async function getFolderContents(userId, folderId) {
       { name: 'asc' }
     ]
   });
-  return rows;
+
+  // Extract basename from file public_id
+  const renamedRows = rows.map(row => { 
+    if (row.type === 'FOLDER') {
+      return {...row};
+    } else if (row.type === 'FILE') {
+      return {...row, name: row.name.split('/').pop()}
+    }
+  });
+
+  return renamedRows;
 }
 
 async function findRootDirId(userId) {
@@ -166,8 +176,19 @@ async function getFilePathPg(itemId) {
 //   return filePath;
 // }
 
-async function getAllChildrenRecursive(userId,itemId) {
-  // This uses PostgreSQL's WITH RECURSIVE feature - unused
+async function getItemRow(userId,itemId) {
+  const row = await prisma.driveItem.findFirst({
+    where: {
+      ownerId: userId,
+      id: itemId
+    }
+  })
+  return row;
+}
+
+async function getAllChildrenFiles(userId,itemId) {
+  // This uses PostgreSQL's WITH RECURSIVE feature to 
+  // extract all children files linked to parent folder
   const result = await prisma.$queryRaw`
     WITH RECURSIVE tree AS (
       SELECT * FROM "DriveItem" WHERE id = ${itemId} AND "ownerId" = ${userId}
@@ -175,7 +196,7 @@ async function getAllChildrenRecursive(userId,itemId) {
       SELECT i.* FROM "DriveItem" i
       INNER JOIN tree t ON i."parentId" = t.id
     )
-    SELECT * FROM tree ORDER BY name;
+    SELECT * FROM tree WHERE type = 'FILE' ORDER BY name;
   `;
   
   return result;
@@ -185,5 +206,5 @@ async function getAllChildrenRecursive(userId,itemId) {
 module.exports = { 
   buildFolderTree, getAllFolders, getFolderContents, 
   findRootDirId, createFolder, uploadFile, getFilePathPg, 
-  getStorageUsed, getAllChildrenRecursive, 
+  getStorageUsed, getItemRow, getAllChildrenFiles, 
 }

@@ -1,4 +1,5 @@
 const utils = require('../utils');
+const prisma = require('../config/prismaClient');
 const prismaCntlr = require('./prismaController');
 const cloudinary = require('../config/cloudinary');
 require('dotenv').config();
@@ -43,12 +44,12 @@ async function postFolder(req,res) {
 
   if (match.length>0) {
     req.flash('alert',"Name Error: Folder exists");
-    res.redirect(`/drive/${parentId}`);
+    res.redirect(`/drive/view/${parentId}`);
   } else {
     // Create a new directory inside an existing parent
     await prismaCntlr.createFolder(name, parentId, userId);
     req.flash('alert',"Folder created successfully");
-    res.redirect(`/drive/${parentId}`);
+    res.redirect(`/drive/view/${parentId}`);
   }
 }
 
@@ -79,15 +80,17 @@ async function postFile(req,res, next) {
   // Limit uploads by user storage
   if (userStorage+fileSize > maxStorage) {
     req.flash('alert',"Out of space. Delete items!");
-    res.redirect(`/drive/${parentId}`);
+    return res.redirect(`/drive/view/${parentId}`);
   } 
   // Check for duplicates
   const content = itemId ? await prismaCntlr.getFolderContents(userId, parentId) : [];
   const match = content.filter(item=>item.name.toLowerCase()===fileName.toLowerCase());
   if (match.length>0) {
     req.flash('alert',"Name Error: File already exists");
-    res.redirect(`/drive/${parentId}`);
-  } else {
+    return res.redirect(`/drive/view/${parentId}`);
+  } 
+  
+  else {
     cloudinary.uploader.upload_stream({ 
       resource_type: resourceType,
       public_id: fileName,
@@ -102,18 +105,107 @@ async function postFile(req,res, next) {
         
         // Upload to postgres
         await prismaCntlr.uploadFile(
-          userId,parentId,fileName,result.secure_url,
+          userId,parentId,result.public_id,result.secure_url,
           fileExt, fileSize
         )
         req.flash('alert',"File uploaded successfully");
-        res.redirect(`/drive/${parentId}`);
+        res.redirect(`/drive/view/${parentId}`);
   }).end(req.file.buffer); 
   }
-
-  
-
-    
 }
+
+async function deletebyId(req, res, next) { 
+  const userId = parseInt(req.user.id);
+  const rootId = await prismaCntlr.findRootDirId(userId);
+  let itemId = req.params.itemId || null;
+
+  if (!itemId) {
+    req.flash('alert',"Invalid delete request");
+    return res.redirect(`/drive/view/${rootId}`);
+  } 
+
+  if (parseInt(itemId) === rootId) {
+    req.flash('alert',"Root directory cannot be deleted");
+    return res.redirect(`/drive/view/${rootId}`);
+  } 
+  
+  else {
+    itemId = parseInt(itemId);
+    let itemRow = await prismaCntlr.getItemRow(userId,itemId);
+
+    // Delete all child files in a folder
+    if (itemRow.type==='FOLDER') {
+      
+      // Extract all the public ids for children files
+      let children = await prismaCntlr.getAllChildrenFiles(userId, itemId);
+      
+      const result = await prisma.$transaction(async (tx) => {
+        // All database operations go here - use tx instead of prisma for queries within the transaction
+        if (children.length>0) {
+          // All the children of a folder
+          children = children.map((child) => {
+            return { 
+              public_id: child.name, 
+              resourceType: utils.resolveResourceType(child.mimeType)
+            }});
+          
+          // Group the files using reduce
+          const groupedFiles = children.reduce((acc, file) => {
+              if (!acc[file.resourceType]) {
+                  acc[file.resourceType] = [];
+              }
+              acc[file.resourceType].push(file.public_id);
+              return acc;
+          }, {});
+          // Delete all non-empty groups
+          for (const [type, publicIds] of Object.entries(groupedFiles)) {
+            if (publicIds.length > 0) {
+                try {
+                    const response = await cloudinary.api.delete_resources(publicIds, { 
+                      resource_type: type, 
+                      invalidate: true 
+                    });
+                    // console.log(`Deleted ${type} files:`, response);
+                } catch (error) {
+                    return next(error);
+                }
+            }
+          }
+          // Remove db entry
+          const remove = await tx.driveItem.delete({ where: { id: itemRow.id }})
+        }
+      });
+    } 
+    
+    // Delete individual files
+    else {
+      const result = await prisma.$transaction(async (tx) => {
+        try {
+          const resp = await cloudinary.uploader.destroy(itemRow.name, { 
+            resource_type: utils.resolveResourceType(itemRow.mimeType), 
+            invalidate: true
+          })
+          // Delete the item from the db
+          const remove = await tx.driveItem.delete({ where: { id: itemRow.id }})
+        } catch (error) {
+          return next(error);
+        }
+      }) 
+    }
+
+    const parentId = itemRow.parentId || '';
+    req.flash('alert',`${itemRow.type.toLowerCase()} deleted successfully`);
+    res.redirect(`/drive/view/${parentId}`);
+  } 
+}
+
+
+async function shareById(req, res) {
+
+}
+// async function deleteFolder(req, res) {
+
+// }
 
         // // Private link flow
         // let link = cloudinary.utils.private_download_url(result.public_id,fileExt,
@@ -122,4 +214,6 @@ async function postFile(req,res, next) {
 
 
 
-module.exports = { getDriveView,postFolder,postFile }
+module.exports = { 
+  getDriveView,postFolder,postFile,
+  deletebyId,shareById }

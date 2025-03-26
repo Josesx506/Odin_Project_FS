@@ -15,14 +15,14 @@ const upload = multer({
 
 // Check file type
 function checkFileType(file, cb) {
-    const filetypes = /jpeg|jpg|png|gif|mp4|avi|mov|mkv/; // Image & video formats
+    const filetypes = /jpeg|jpg|png|gif|mp4|mpg|mpeg|avi|mov|mkv/; // Image & video formats
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb({ message: 'Error: Only images (jpeg, jpg, png, gif) and videos (mp4, avi, mov, mkv) are allowed!' });
+        cb({ message: 'Error: Only images (jpeg, jpg, png, gif) and videos (mp4, mpg, mpeg, avi, mov, mkv) are allowed!' });
     }
 }
 

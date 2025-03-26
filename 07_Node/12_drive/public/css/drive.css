@@ -43,7 +43,9 @@
     }
 }
 
-#closeFolderModal, #closeFileModal {
+#closeFolderModal, 
+#closeFileModal, 
+#closeDeleteModal {
     color: white;
     border-radius: 50%;
     width: 1.5em;
@@ -89,11 +91,17 @@
     }
 }
 
-#upldFile {
-    width: 230px;
+.modalSubmit button[data-delItem]:hover {
+    color: rgb(238,107,96);
 }
 
-#folderModal.active, #fileModal.active {
+#upldFile, .modalEntry > .modalMessage {
+    max-width: 230px;
+}
+
+#folderModal.active, 
+#fileModal.active, 
+#deleteModal.active {
     display: block;
 }
 

@@ -1,5 +1,6 @@
 <aside class="sidebar">
     <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/fileTree.css">
     <div class="sbrToggler">
         <span id="sideToggle" class="chevToggle material-symbols-rounded" onclick="toggleSideBar()">chevron_left</span>
     </div>
@@ -19,13 +20,9 @@
         </li>
     </ul>
 
-    <div class="dirList">
-        <div class="dirItem">
-            <a href="#">
-                <span class="dirIcon material-symbols-rounded">folder_open</span>
-                <span class="dirLabel">root</span>
-            </a>
-        </div>
+    <div class="dirTree">
+        <div class="treeHeader">Directory</div>
+        <%- include('fileTree', { folObj: dirObjs, currId: currId }) %>
     </div>
 
     <div class="storage">

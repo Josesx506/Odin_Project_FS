@@ -66,7 +66,7 @@
 
 .storage.collapsed,
 .sideItems.collapsed > a > .sideLabel, 
-.dirList.collapsed {
+.dirTree.collapsed {
     width: 0;
     visibility: hidden;
 }
@@ -88,7 +88,7 @@
         display: none;
     }
 
-    .storage, .dirList,
+    .storage, .dirTree,
     .sideItems > a > .sideLabel {
         width: 0;
         visibility: hidden;

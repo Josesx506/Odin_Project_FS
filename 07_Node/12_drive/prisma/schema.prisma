@@ -46,6 +46,8 @@ model DriveItem {
   children  DriveItem[] @relation("ItemToItem")
 
   @@unique([name, parentId, ownerId])
+
+  @@index([parentId])
 }
 
 enum Role {

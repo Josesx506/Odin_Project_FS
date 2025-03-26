@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validate = require('../config/validator');
+const multerMdlwr = require('../config/multer');
 const driveCntlr = require('../controller/uploadController');
 
 // Middleware to add the baseUrl to response.locals
@@ -10,6 +11,6 @@ router.use((req,res,next)=>{
 
 router.get("/:itemId?", driveCntlr.getDriveView);
 router.post("/create", driveCntlr.postFolder);
-router.post("/upload", driveCntlr.postFile);
+router.post("/upload", multerMdlwr, driveCntlr.postFile);
 
 module.exports = router;

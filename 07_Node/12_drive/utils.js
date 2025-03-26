@@ -2,7 +2,7 @@
 
 function bytesToMB (bytes) {
     const mb = (bytes / (1024 * 1024)).toFixed(2);
-    return mb;
+    return parseFloat(mb);
 };
 
 function resolveResourceType(ext) {
@@ -30,4 +30,17 @@ const escapeString = (str) => {
       .replace(/'/g, '&#039;');
 };
 
-module.exports = { bytesToMB,resolveResourceType, escapeString };
+function formatDateTime(date) {
+    return date.toLocaleString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        day: "2-digit",
+        month: "short",
+        hour12: false
+    })//.replace(",", " ·");
+};
+
+module.exports = { 
+    bytesToMB,resolveResourceType, 
+    escapeString, formatDateTime 
+};

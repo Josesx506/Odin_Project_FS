@@ -96,3 +96,137 @@
 #folderModal.active, #fileModal.active {
     display: block;
 }
+
+.mainView {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.fPathList {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow-x: hidden;
+    font-size: 0.75rem;
+    font-weight: bold;
+    font-family: Montesserat;
+    text-transform: lowercase;
+    gap: 0.2em;
+    margin-top: 1em;
+    & > span {
+        color: #696969;
+    }
+    & > span:not(:last-child) {
+        color: #5186ed;
+    }
+}
+
+.fPathItem > a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: inherit;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.fContent {
+    width: 100%;
+}
+
+.fContentHeader, 
+.fContentRowItem {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    padding: 0.25em 0.5em;
+    font-size: 0.8rem;
+    align-items: center;
+    gap: 0.1em;
+}
+
+.fContentHeader {
+    border-bottom: 1px solid black;
+    font-family: Poppins;
+    font-weight: 600;
+}
+
+.fContentHeader > div,
+.fContentRowItem > div {
+    overflow: hidden; /* Prevent content overflow */
+    text-overflow: ellipsis;
+}
+
+.fContentHeader > div:not(:first-child),
+.fContentRowItem > div:not(:first-child) {
+    text-align: center;
+}
+
+.fContentRows {
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    margin-top: 0.3em;
+    gap: 0.3em;
+    font-family: Montserrat;
+}
+
+.emptyContent {
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 150px;
+}
+
+.fContentRowItem {
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);
+    border-radius: 0.3em;
+}
+
+.contentName {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contentNameLink {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.1em;
+    overflow: hidden;
+}
+
+.contentNameLink > .crIcon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.contentNameLink > .crName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contentNameLink:hover {
+    cursor: pointer;
+    color: #5186ed;
+}
+
+.contentNameActions {
+    display: flex;
+    align-items: center;
+    gap: 0.1em;
+    & a > span {
+        font-size: 1rem;
+    }
+    & a:hover {
+        cursor: pointer;
+        color: #5186ed;
+    }
+}
+
+.contentDate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

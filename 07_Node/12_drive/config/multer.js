@@ -1,5 +1,6 @@
 const path = require('node:path');
 const multer = require('multer');
+const prismaCntlr = require('../controller/prismaController');
 
 // Set up Multer for handling file uploads in memory buffers without disk storage
 const storage = multer.memoryStorage();
@@ -28,9 +29,16 @@ function checkFileType(file, cb) {
 function uploadSingleFile (req, res, next) {
     // upldFile is the form input name attribute value
     upload.single("upldFile")(req, res, (err) => {
+        // Bad file format pattern
         if (err) {
-            return res.status(400).json({ success: false, message: err.message });
+            console.log(err.message)
+            return next(err)
         }
+        // No file uploaded
+        if (!req.file) {
+            return next(new Error("No file uploaded!"));
+        }
+        // No errors
         next();
     });
 };

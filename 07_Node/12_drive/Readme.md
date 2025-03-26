@@ -22,7 +22,8 @@ tips from the article below.
 > Dealing with hierarchical trees in Postgres [link](https://leonardqmarcq.com/posts/modeling-hierarchical-tree-data).
 
 Using appropriate row relationships allow us to recursively retrieve filepaths and associated children 
-for a specific user using PostgreSQL's `WITH RECURSIVE` CTEs through `prisma.$queryRaw`. 
+for a specific user using PostgreSQL's `WITH RECURSIVE` Common Table Expression (CTEs) through 
+`prisma.$queryRaw`. 
 
 ### Project Dependencies
 ```JS

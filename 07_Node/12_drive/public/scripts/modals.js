@@ -9,12 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     closeFolder.addEventListener("click", () => {
         folderModal.classList.remove("active");
     })
-    // Close modals when clicking outside modal content
-    folderModal.addEventListener("click", (event) => {
-        if (event.target === folderModal) {
-            folderModal.classList.remove("active");
-        }
-    });
 
     const newFile = document.getElementById('uploadFile');
     const closeFile = document.getElementById("closeFileModal");
@@ -26,11 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     closeFile.addEventListener("click", () => {
         fileModal.classList.remove("active");
     })
-    fileModal.addEventListener("click", (event) => {
-        if (event.target === fileModal) {
-            fileModal.classList.remove("active");
-        }
-    });
 
     const deleteItems = document.querySelectorAll('.deleteItem');
     const closeDelete = document.getElementById("closeDeleteModal");
@@ -56,14 +45,94 @@ document.addEventListener('DOMContentLoaded', function() {
         const delForm = deleteModal.querySelector('.modalForm');
         delForm.action = "#";
     })
-    deleteModal.addEventListener("click", (event) => {
-        if (event.target === deleteModal) {
-            deleteModal.classList.remove("active");
-            const delForm = deleteModal.querySelector('.modalForm');
-            delForm.action = "#";
-        }
+
+    const shareItems = document.querySelectorAll('.shareItem');
+    const closeShare = document.getElementById("closeShareModal");
+    const shareModal = document.getElementById("shareModal");
+    const cancelShare = document.querySelector('.cancelShare');
+    // const shareSubmit = document.querySelector('button[data-shareItem]');
+
+    function getShareLink(event,itemId,modal) {
+        event.preventDefault();
+        let subBtn = event.target;
+        subBtn.disabled = true;
+        subBtn.innerText = "Processing...";
+        const duration = modal.querySelector('input[name="shareDuration"]:checked').value;
+        const msgBox = modal.querySelector('.shareableLink');
+
+        const payload = {
+            duration: duration,
+            itemId: itemId
+        };
+
+        fetch("/drive/share", {  
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(resp => {
+            if (!resp.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return resp.json();
+        }).then(data => { 
+            msgBox.style.display = 'flex';
+            msgBox.value = data.link;
+            subBtn.disabled = false;
+            subBtn.innerText = "Generate";
+        })
+    }
+
+    shareItems.forEach((btn)=>{
+        btn.addEventListener('click',()=>{
+            const itemId = btn.dataset.itid;
+            shareModal.classList.add("active");
+            const shareSubmit = shareModal.querySelector('button[data-shareItem]');
+            shareSubmit.addEventListener('click',(e)=>{
+                getShareLink(e,itemId,shareModal);
+            })
+        })
+    })
+
+    cancelShare.addEventListener("click", (e) => {
+        e.preventDefault();
+        shareModal.classList.remove("active");
+        const msgBox = shareModal.querySelector('.shareableLink');
+        msgBox.value = '';
+        msgBox.style.display = 'none';
+    })
+
+    closeShare.addEventListener("click", () => {
+        shareModal.classList.remove("active");
+        const msgBox = shareModal.querySelector('.shareableLink');
+        msgBox.value = '';
+        msgBox.style.display = 'none';
+    })
+
+    // Close any modal when clicking outside modal content
+    const allModals = document.querySelectorAll('.modal');
+    allModals.forEach((modal) => {
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                modal.classList.remove("active");
+                if (modal.id === deleteModal.id) {
+                    const delForm = deleteModal.querySelector('.modalForm');
+                    delForm.action = "#";
+                }
+                if (modal.id === shareModal.id) {
+                    const msgBox = shareModal.querySelector('.shareableLink');
+                    msgBox.value = '';
+                    msgBox.style.display = 'none';
+                    const submitButton = modal.querySelector("button[type='submit']");
+                    if (submitButton.disabled) {
+                        submitButton.disabled = false;
+                        submitButton.innerText = 'Generate';
+                    };
+                }
+            }
+        })
     });
 
+    // Enforce atomic operations when submitting modal forms
     const modalForms = document.querySelectorAll('.modalForm');
     modalForms.forEach((subForm)=>{
         subForm.addEventListener('submit',()=>{

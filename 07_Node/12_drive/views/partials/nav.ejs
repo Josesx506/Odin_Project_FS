@@ -27,6 +27,7 @@
             <li><a href="<%= `/auth/signin` %>">Sign In</a></li>
             <li><a href="<%= `/auth/register` %>">Sign Up</a></li>
             <% } else { %>
+                <li><a href="<%= `/drive/view` %>">Drive</a></li>
                 <li><a href="<%= `/auth/signout` %>">Sign Out</a></li>
             <% } %>
     </ul>

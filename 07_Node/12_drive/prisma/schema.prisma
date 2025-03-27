@@ -20,6 +20,13 @@ model DriveSession {
   expiresAt DateTime
 }
 
+model DriveExpiry {
+  id         Int      @id @default(autoincrement())
+  downloadId String   @unique
+  privateUrl String
+  expiresAt  Int
+}
+
 model DriveUser {
   id       Int         @id @default(autoincrement())
   name     String?
@@ -46,7 +53,6 @@ model DriveItem {
   children  DriveItem[] @relation("ItemToItem")
 
   @@unique([name, parentId, ownerId])
-
   @@index([parentId])
 }
 

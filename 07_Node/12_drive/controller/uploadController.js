@@ -1,9 +1,18 @@
+const crypto = require('crypto');
 const utils = require('../utils');
 const prisma = require('../config/prismaClient');
 const prismaCntlr = require('./prismaController');
 const cloudinary = require('../config/cloudinary');
 require('dotenv').config();
 
+
+function protectRoutes(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/auth/signin')
+  }
+};
 
 async function getDriveView(req,res) {
   const userId = parseInt(req.user.id);
@@ -26,7 +35,8 @@ async function getDriveView(req,res) {
       folderContent: content,
       dateFmtr: utils.formatDateTime,
       userStorage: userStorage,
-      maxStorage: maxStorage
+      maxStorage: maxStorage,
+      prgFmtr: utils.getProgressBarColor
   });
 }
 
@@ -201,19 +211,30 @@ async function deletebyId(req, res, next) {
 
 
 async function shareById(req, res) {
+  const userId = parseInt(req.user.id);
+  const itemId = parseInt(req.body.itemId);
+  const expirationSeconds = parseInt(req.body.duration) * 60 * 60;
 
+  const expiresAt = Math.floor(Date.now() / 1000) + expirationSeconds;
+  
+
+  let itemRow = await prismaCntlr.getItemRow(userId,itemId);
+  let privLink = await cloudinary.utils.private_download_url(
+    itemRow.name,itemRow.mimeType, {
+      resource_type: utils.resolveResourceType(itemRow.mimeType),
+      type: 'upload',
+      expires_at: expiresAt,
+  });
+
+  // Create a link and insert it into the db
+  const downloadId = crypto.randomBytes(16).toString('hex');
+  const sharedLink = `${req.protocol}://${req.get('host')}/public-media/${downloadId}`;
+  const newLink = await prismaCntlr.createExpiryUrl(downloadId,privLink,expiresAt);
+
+  res.status(200).json({ link: sharedLink })
 }
-// async function deleteFolder(req, res) {
-
-// }
-
-        // // Private link flow
-        // let link = cloudinary.utils.private_download_url(result.public_id,fileExt,
-        //     attachment=true,
-        //     format=fileExt,);
-
 
 
 module.exports = { 
-  getDriveView,postFolder,postFile,
-  deletebyId,shareById }
+  protectRoutes,getDriveView,postFolder,
+  postFile,deletebyId,shareById }

@@ -31,15 +31,12 @@ async function postRegisterUser (req, res, next) {
                 name: req.body.username,
                 email: req.body.email.toLowerCase(),
                 password: hashedPassword,
-                driveItem: {
+                files: {
                   create: {
                     name: 'root',
                     type: 'FOLDER',
                   }
                 }
-            },
-            include: {
-              items: true // Include the created items in the response
             }
         });
         
@@ -54,7 +51,7 @@ async function postRegisterUser (req, res, next) {
 
 function getSignUserIn(req, res) {
     if(req.isAuthenticated()){
-        res.redirect('/drive');
+        res.redirect('/drive/view');
     } else {
         res.render("auth/signIn", {
         title: "Sign In"
@@ -87,7 +84,7 @@ async function postSignUserIn (req, res, next) {
           if (err) {
             return next(err);
           }
-          return res.redirect("/drive");
+          return res.redirect('/drive/view');
         });
       })(req, res, next);
     }

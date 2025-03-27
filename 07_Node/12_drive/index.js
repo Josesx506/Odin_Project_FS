@@ -10,6 +10,9 @@ const utils = require('./utils');
 const authRoute = require('./routes/auth');
 const driveRoute = require('./routes/drive');
 
+// Index controller
+const idxCntlr =  require('./controller/indexController');
+
 const app = express();
 
 // Middleware for views, json, and form body
@@ -31,29 +34,13 @@ app.use((req, res, next) => {
 app.use('/auth',authRoute);
 app.use('/drive',driveRoute);
 
-
-// INCOMPLETE
-app.get("/",(req,res)=>{
-    res.render("index",{
-        title: "Odin Drive"
-    })
-})
+// Index page for app
+app.get("/",idxCntlr.getHome)
+app.get("/public-media/:downloadId?", idxCntlr.getPublicLink)
 
 // Error Handlers
-app.use((req, res, next)=>{
-    const err = new Error("Page not found");
-    err.status = 404;
-    next(err);
-})
-
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(err.status || 500).render('404', {
-        title: 'error page',
-        id : err.status || 500, 
-        error: err.message 
-    });
-})
+app.use(idxCntlr.catchAll)
+app.use(idxCntlr.errorHandler)
 
 
 app.listen(3000, ()=>{

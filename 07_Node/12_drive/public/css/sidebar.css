@@ -77,6 +77,41 @@
 
 .storage {
     margin-top: auto;
+    pointer-events: none;
+}
+
+.progressContainer {
+    width: 100%;
+    background-color: #dddddd;
+    border-radius: 0.3em;
+}
+  
+.progressBar {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    border-radius: 0.3em;
+}
+  
+.progress-green {
+    background-color: #4CAF50;
+}
+  
+.progress-yellow {
+    background-color: #FFC107;
+}
+  
+.progress-red {
+    background-color: #F44336;
+}
+  
+.storage-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-family: Montesserat;
+    font-size: 0.7rem;
+    color: #333;
+    margin-top: 0.3em;
 }
 
 .sideNav.secondary {

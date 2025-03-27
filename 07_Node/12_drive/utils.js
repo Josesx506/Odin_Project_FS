@@ -18,6 +18,16 @@ function resolveResourceType(ext) {
     }
 }
 
+function getProgressBarColor(pct) {
+    if (pct < 50) {
+        return "progress-green";
+    } else if (pct < 80) {
+        return "progress-yellow";
+    } else {
+        return "progress-red";
+    }
+}
+
 const escapeString = (str) => {
     return str
       .replace(/&/g, '&amp;')
@@ -34,10 +44,11 @@ function formatDateTime(date) {
         day: "2-digit",
         month: "short",
         hour12: false
-    })//.replace(",", " ·");
+    });
 };
 
 module.exports = { 
     bytesToMB,resolveResourceType, 
-    escapeString, formatDateTime 
+    escapeString, formatDateTime,
+    getProgressBarColor
 };

@@ -202,9 +202,30 @@ async function getAllChildrenFiles(userId,itemId) {
   return result;
 }
 
+async function createExpiryUrl(downloadId, privateUrl, expiresAt) {
+  const row = await prisma.driveExpiry.create({
+    data: {
+      downloadId: downloadId,
+      privateUrl: privateUrl,
+      expiresAt: expiresAt
+    }
+  });
+  return row;
+}
+
+async function getExpiryUrl(downloadId) {
+  const row = await prisma.driveExpiry.findUnique({
+    where: {
+      downloadId: downloadId
+    }
+  })
+  return row;
+}
+
 
 module.exports = { 
   buildFolderTree, getAllFolders, getFolderContents, 
   findRootDirId, createFolder, uploadFile, getFilePathPg, 
   getStorageUsed, getItemRow, getAllChildrenFiles, 
+  createExpiryUrl, getExpiryUrl
 }

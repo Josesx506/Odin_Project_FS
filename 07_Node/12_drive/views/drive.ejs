@@ -7,7 +7,7 @@
     <%- include('partials/nav') %>
     <%- include('partials/alerts.ejs') %>
     <div class="container asidePage">
-        <%- include('partials/sidebar', { dirObjs: folders, currId: itemId }) %>
+        <%- include('partials/sidebar', { dirObjs:folders, currId:itemId, usedStg:userStorage, maxStg:maxStorage, prgFmtr:prgFmtr }) %>
         <div class="asideMain">
             <div class="container">
                 <div class="mainView">
@@ -49,11 +49,12 @@
                                             </a>
                                             <div class="contentNameActions">
                                                 <% if (item.type==='FILE') { %>
-                                                    <a href="">
+                                                    <a href="#"  class="shareItem" data-itid="<%= item.id %>">
                                                         <span class="material-symbols-rounded">share</span>
                                                     </a>
                                                 <% } %>
-                                                <a href="#" class="deleteItem" data-href="<%= `${locals.baseUrl}/delete/${item.id}` %>">
+                                                <a href="#" class="deleteItem" data-delIcon=""
+                                                    data-href="<%= `${locals.baseUrl}/delete/${item.id}` %>">
                                                     <span class="material-symbols-rounded">delete_forever</span>
                                                 </a>
                                             </div>
@@ -127,6 +128,47 @@
                         <div class="modalSubmit">
                             <button class="cancelDelete">Cancel</button>
                             <button data-delItem="" type="submit">Delete Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal" id="shareModal">
+                <div class="modalContent">
+                    <div class="modalHeader">
+                        <h3>Share File</h3>
+                        <button id="closeShareModal">&times;</button>
+                    </div>
+                    <form action="" method="POST" class="modalForm">
+                        <div class="modalEntry">
+                            <div class="modalMessage">
+                                Generate a public link to share the file?
+                            </div>
+                        </div>
+                        <div class="modalEntry">
+                            <div class="radioContainer">
+                                <div class="radioOption">
+                                  <input type="radio" id="dur1hr" name="shareDuration" value="1" checked>
+                                  <label for="dur1hr">1 hour</label>
+                                </div>
+                                
+                                <div class="radioOption">
+                                  <input type="radio" id="dur6hr" name="shareDuration" value="6">
+                                  <label for="dur6hr">6 hours</label>
+                                </div>
+                                
+                                <div class="radioOption">
+                                  <input type="radio" id="dur24hr" name="shareDuration" value="24">
+                                  <label for="dur24hr">1 day</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modalEntry">
+                            <input class="modalMessage shareableLink">
+                        </div>
+                        <div class="modalSubmit">
+                            <button class="cancelShare">Cancel</button>
+                            <button data-shareItem="" type="submit">Generate</button>
                         </div>
                     </form>
                 </div>

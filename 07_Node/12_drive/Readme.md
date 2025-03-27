@@ -105,3 +105,16 @@ Then I updated my `package.json` start command to use
 This allowed me to baseline my db without deleting prior tables with prisma. I don't know if it'll work 
 for future odin projects that use prisma and for how long I can keep using the same railway db instance, 
 but I'll keep pushing till the wheels fall off 🤞🏽.
+
+### Retrospect
+I had a poor experience using the Cloudinary api, in retrospect, I should have used supabase. Deleting 
+items are very complex on cloudinary and images and videos have to be deleted using separate api calls 
+because the `resourceType` argument is different, and if you don't use the correct resourceType, the 
+request will fail. I'll also run out of storage on my free tier if I don't clear user data from the 
+remote storage. This is only used when deleting multiple files that exist as embedded children within a 
+folder. Uploading files too is slightly complex but multer helped to handle some of the errors with form 
+validation for uploads. <br>
+The `Expiry` table which is used to handle shared links can easily rack up entries. In a real world 
+scenario, it'll be helpful to run a `pg_cron` job that removes all expired entries from the table to 
+avoid errors.
+

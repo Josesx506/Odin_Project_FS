@@ -73,4 +73,34 @@ I also created the home icon as a custom svg and I'm happy with the design.
 This required a good understanding of recursion, hashmaps and postgres to implement. A lot of the 
 functions were executed directly in sql because doing them in JS would be slow as seen from other Odin 
 project submissions. For forms, disable the submit button while the requests are processing to prevent 
-multiple requests that can crash the app. <br>
+multiple requests that can crash the app.
+
+### Deployment
+The app environment variables requires the following keys
+```bash
+DATABASE_URL=
+SESS_SECRET=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_SECRET_KEY=
+BASIC_STORAGE=
+```
+The production repo of the app was connecting to a postgres db that I've been using for all my other Odin 
+projects and migrating it with prisma would have deleted all my non-prisma tables. To fix it, I had to 
+baseline the db or find a way to run terminal commands in the docker environment that launches my app.
+I chose a workaround by creating a baseline bash script called `resetPrisma.sh`
+```bash
+rm -rf prisma/migrations/
+mkdir -p prisma/migrations/0_init
+npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
+npx prisma migrate resolve --applied 0_init
+```
+Then I updated my `package.json` start command to use 
+```JSON
+{
+  "start": "bash ./resetPrisma.sh && prisma migrate deploy && node index.js",
+}
+```
+This allowed me to baseline my db without deleting prior tables with prisma. I don't know if it'll work 
+for future odin projects that use prisma and for how long I can keep using the same railway db instance, 
+but I'll keep pushing till the wheels fall off 🤞🏽.

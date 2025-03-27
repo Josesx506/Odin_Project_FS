@@ -21,18 +21,56 @@ tips from the article below.
 >[!Tip]
 > Dealing with hierarchical trees in Postgres [link](https://leonardqmarcq.com/posts/modeling-hierarchical-tree-data).
 
-Using appropriate row relationships allow us to recursively retrieve filepaths and associated children 
+Using appropriate row relationships allowed me to recursively retrieve filepaths and associated children 
 for a specific user using PostgreSQL's `WITH RECURSIVE` Common Table Expression (CTEs) through 
 `prisma.$queryRaw`. 
 
 ### Project Dependencies
 ```JS
-npm install bcryptjs connect-flash dotenv ejs express express-session express-validator passport passport-local prisma @prisma/client @quixo3/prisma-session-store
+npm install bcryptjs crypto connect-flash dotenv ejs express express-session express-validator passport passport-local prisma @prisma/client @quixo3/prisma-session-store
 ```
 
 ### Sharing files
+Sharing files was a slightly complicated process. I used cloudinary to create a private download url, and 
+created a *random hash* id download id. The duration of the link is shared in the body of the request 
+using radio button options from a modal pop-up form. The Expiry table was created in postgres using prisma 
+
+| id | downloadId | privateUrl | expiresAt |
+| :--- | :----: | :----: | :---- |
+| 1 | 580d41344238e96d | https://api.cloudinary.com/... | 1743132214 |
+
+The `downloadId` was used to create a custom link
+```JS
+const downloadId = crypto.randomBytes(16).toString('hex');
+const sharedLink = `${req.protocol}://${req.get('host')}/public-media/${downloadId}`;
+```
+that can be accessed from the `/public-media/:downloadId` route. On the server side, I first retrieve 
+the entry that matches the downloadId from the db. Then I check whether the route is valid or throw an 
+expired link error. For valid links, I redirect the response to access the image via the signed 
+cloudinary link. <br>
+
+Protected routes were restricted using passportJS localStrategy, and the middleware redirects signed out 
+users to the sign in page.
+
+> [!Caution] 
+> The signed cloudinary link exposes my api key because the private url is not hosted on a cdn. I didn't 
+    want to use a new hosting service just to resolve this issue so I didn't change it. 
+
 Check `access_control` in https://cloudinary.com/documentation/image_upload_api_reference for restricting 
-link access by time
+link access by time. The cloudinary link also has an expiry date.
 
 > [!Important]
 > zip and pdf files are not served by default on cloudinary - visit [here](https://console.cloudinary.com/settings/c-825e97b0a11f6c2158044292115ae8/security) to manually change it.
+
+### Design
+I designed the styles and apps for all the main routes myself using vanilla html and css with styles 
+inspired from google search and youtube videos. The landing page was designed with v0 cause I was 
+tired after implementing all the other functionality. This was definitely harder than the members only 
+project but I loved the final result. <br>
+I also created the home icon as a custom svg and I'm happy with the design.
+
+### Tips
+This required a good understanding of recursion, hashmaps and postgres to implement. A lot of the 
+functions were executed directly in sql because doing them in JS would be slow as seen from other Odin 
+project submissions. For forms, disable the submit button while the requests are processing to prevent 
+multiple requests that can crash the app. <br>

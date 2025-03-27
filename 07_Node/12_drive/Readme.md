@@ -87,8 +87,9 @@ BASIC_STORAGE=
 ```
 The production repo of the app was connecting to a postgres db that I've been using for all my other Odin 
 projects and migrating it with prisma would have deleted all my non-prisma tables. To fix it, I had to 
-baseline the db or find a way to run terminal commands in the docker environment that launches my app.
-I chose a workaround by creating a baseline bash script called `resetPrisma.sh`
+[baseline](https://www.prisma.io/docs/orm/prisma-migrate/workflows/baselining) the db or find a way to 
+run terminal commands in the docker environment that launches my app. I chose a workaround by creating a 
+baseline bash script called `resetPrisma.sh`
 ```bash
 rm -rf prisma/migrations/
 mkdir -p prisma/migrations/0_init

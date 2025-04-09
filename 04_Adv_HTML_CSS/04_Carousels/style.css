@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    width: min(95%, 1000px);
+    margin: 0.5rem auto;
+}
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+ul,ol {
+    list-style: none;
+}
+
+/* Srollbar */
+::-webkit-scrollbar {
+    height: 0.25em;
+    width: 0.5em;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+
+/* Text descriptipn */
+.descText {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+
+/* Carousel */
+.carousel {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 1.5rem;
+    padding: 0 1em;
+    padding-top: 2em;
+
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+
+    /* Toggle off scroll bar */
+    scrollbar-width: none;
+
+    /* Anchor positioning */
+    anchor-name: --carousel;
+
+    /* Scroll marker group for <a> links - Can be placed before or after carousel */
+    scroll-marker-group: after;
+
+    /* 
+    Add this padding to the left and right to prevent 
+    skipping of the marker near the edges 
+    */
+    &:before,&:after {
+        content: "";
+        display: block;
+        inline-size: 50cqi;
+    }
+}
+
+
+/* Carousel Items */
+.carousel > li {
+    scroll-snap-align: center;
+    /*  Force it to only move the items one at a time */  
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+}
+.carousel > li:target-current {
+    opacity: 0.4;
+    transition: 200ms all ease-in-out;
+}
+
+/* Carousel Buttons */
+.carousel::scroll-button(*) {
+    position: absolute;
+    position-anchor: --carousel;
+    border: 1px solid whitesmoke;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    place-content: safe center;
+    margin-top: 0.75em;
+    z-index: 2;
+
+    &::focus-visible {
+        outline-offset: 5px;
+    }
+}
+.carousel::scroll-button(left) {
+    content: "⬅" / "Left";
+    left: anchor(left);
+}
+.carousel::scroll-button(right) {
+    content: "⮕" / "Right";
+    right: anchor(right);
+}
+
+
+/* Carousel Scroll Markers */
+.carousel::scroll-marker-group {
+    grid-area: markers;
+
+    /* Arrange Scroll markers */
+    display: grid;
+    place-content: safe center;
+    grid: 30px / auto-flow 30px;
+    gap: 0.75rem;
+    padding: 0.75rem 2em;
+    scroll-padding: 0.75rem;
+    align-items: center;
+    margin: 0 2.5rem;
+
+    /* handle overflow */
+    overflow: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    z-index: 1;
+}
+.carousel > li::scroll-marker {
+    content: ' ';
+
+    /* Style individual marker circles */
+    width: 1rem;
+    height: 1rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid #bbb;
+    margin: 0 auto;
+
+    /* snap if group is overflowing */
+    scroll-snap-align: center;
+}
+/* Active marker bakground style */
+.carousel > li::scroll-marker:target-current {
+    background: rgb(158,158,255);
+}
+
+/* Preferential Carousel Start Location */
+.scroll-start {
+    scroll-initial-target: nearest;
+}
+
+
+
+/* Card styling */
+.card {
+    position: relative;
+    & img {
+        border-radius: 0.5em;
+        border: 1px solid black;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.cardText {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    padding: 0.6em 0.5em;
+    background-color: rgb(255,255,255,0.5);
+    width: 100%;
+}

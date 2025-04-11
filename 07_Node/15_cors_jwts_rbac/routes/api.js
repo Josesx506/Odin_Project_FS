@@ -13,14 +13,12 @@ router.get("/guest", (req, res) => {
     res.json({title: "Welcome guest"})
 })
 
-router.get("/admin", authJWT, 
-    authRole(["view:messages"]), 
+router.get("/messages", 
+    authJWT, authRole(["view:messages"]), 
     (req, res) => {
-    res.json({
-        title: "Welcome admin",
-        messages,
-    });
-});
+    res.json({ title: "Welcome admin", messages,});
+    }
+);
 
 
 router.delete("/message/:messageId", authJWT, 

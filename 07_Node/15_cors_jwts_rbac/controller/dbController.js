@@ -39,5 +39,30 @@ async function retrieveUserById(id) {
     return user;
 }
 
+async function retrieveUserByToken(refreshToken) {
+    const user = await prisma.user.findFirst({ 
+        where: {
+            token: refreshToken
+        }
+    })
+    return user;
+}
 
-export { clearAllUsers,createUser,retrieveUserByEmail,retrieveUserById }
+async function updateRefreshToken(id,token) {
+    const user = await prisma.user.update({ 
+        where: {
+            id: id
+        },
+        data: {
+            token: token
+        }
+    })
+    return user;
+}
+
+
+export { 
+    clearAllUsers,createUser,
+    retrieveUserByEmail,retrieveUserById,retrieveUserByToken,
+    updateRefreshToken 
+}

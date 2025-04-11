@@ -5,6 +5,7 @@
 .env
 *.pem
 *.pdf
+generated
 node_modules
 */node_modules
 */*/node_modules

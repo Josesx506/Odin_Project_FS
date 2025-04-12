@@ -50,11 +50,13 @@ Similar to how I implemented JWTs with `passport-jwt` but this time, I didn't us
 - Send a json with a success status to frontend. Frontend server handles from validation and redirect to sign in page.
 - Upon sign in, generate two jwts with an expiry token and a secret key from the env variable. 
     - Each jwt contains the user's `id` and `role` as a payload.
-    - The first jwt is an access jwt that'll expire quickly (e.g. "5m"). This will be sent as json
+    - The first jwt is an access jwt that'll expire quickly (e.g. "5m"). This will be sent as json and includes the user
+        roles for RBAC.
     - The second jwt is a refresh jwt. This will be sent as a secure httpOnly cookie that JS can't access. The value is 
-        also saved in the db and has a longer expiration (e.g. "24h").
+        also saved in the db and has a longer expiration (e.g. "24h"). This doesn't need to include roles.37272
     - On the client, when a user is logged in, if the access token expires, request for a new access token from the 
         `/auth/refresh` endpoint which checks the cookie to generate a new access token.
+    - If the refresh token is expired, the user should be rerouted to login again.
     - When accessing the refresh route with fetch on the client, always include a `credentials: 'include'` entry or when 
         using axios, use `withCredentials: true`.
 - Roles and permissions are saved as a static key-value object in a file. The permissions a user has can be gotten with 

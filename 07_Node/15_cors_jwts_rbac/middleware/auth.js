@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { retrieveUserById } from "../controller/dbController.js";
-import { ROLES } from "./roles.js";
+import { ROLES } from "../config/roles.js";
 
 
 async function authJWT(req,res,next) {

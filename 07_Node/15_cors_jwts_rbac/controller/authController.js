@@ -41,7 +41,7 @@ async function login(req, res) {
                 { expiresIn: "5m" }
             )
             const refreshToken = jwt.sign(
-                { id: user.id, role: user.role }, 
+                { id: user.id }, 
                 process.env.REFRESH_JWT_SECRET,
                 { expiresIn: "1d" }
             )

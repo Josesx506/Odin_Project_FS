@@ -105,8 +105,10 @@ async function logout(req,res) {
     // Get the user from db using the refresh token
     const refreshToken = cookies.jwt;
     const user = await retrieveUserByToken(refreshToken);
+
+    res.clearCookie('jwt', cookieOptions);
+    
     if (!user) {
-        res.clearCookie('jwt', cookieOptions);
         return res.status(204).json({ message: "No Content" });
     } else {
         const clearUser = await updateRefreshToken(user.id, null);

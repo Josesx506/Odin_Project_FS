@@ -40,15 +40,10 @@ function authRole(permissions) {
     const userPermissions = ROLES[req.user?.role] || [];
     
     const hasPermission = permissions.some((permission) => {
-        if (permission.includes("own")) {
-            const ownerId = Number(req.query.authorId);
-            return (userPermissions.includes(permission) && req.user.id===ownerId)
-        } else {
-            return userPermissions.includes(permission)
-        }
+      return userPermissions.includes(permission);
     });
     if (!hasPermission) {
-        return res.status(401).json({ message: "Forbidden: Insufficient permissions" });
+        return res.status(403).json({ message: "Forbidden: Insufficient permissions" });
     }
     next();
   };

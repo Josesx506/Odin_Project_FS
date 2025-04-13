@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "bash ./resetPrisma.sh && prisma migrate deploy && node server.js"
+    "start": "bash ./resetPrisma.sh && prisma migrate deploy && node server.js",
+    "seed": "node prisma/seed"
   },
   "type": "module",
   "keywords": [],

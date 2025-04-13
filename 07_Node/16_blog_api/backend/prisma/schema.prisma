@@ -21,9 +21,9 @@ model BlogSession {
 }
 
 model BlogUser {
-  id       Int       @id @default(autoincrement())
+  id       Int           @id @default(autoincrement())
   name     String
-  email    String    @unique
+  email    String        @unique
   password String
   token    String?
   role     BlogRole      @default(USER)
@@ -32,13 +32,13 @@ model BlogUser {
 }
 
 model BlogPost {
-  id        Int       @id @default(autoincrement())
+  id        Int           @id @default(autoincrement())
   title     String
   body      String
   authorId  Int
   author    BlogUser      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  published Boolean   @default(false)
-  createdAt DateTime  @default(now())
+  published Boolean       @default(false)
+  createdAt DateTime      @default(now())
   comments  BlogComment[]
 }
 
@@ -46,9 +46,9 @@ model BlogComment {
   id        Int      @id @default(autoincrement())
   body      String
   authorId  Int
-  author    BlogUser     @relation(fields: [authorId], references: [id])
+  author    BlogUser @relation(fields: [authorId], references: [id], onDelete: Cascade)
   postId    Int
-  post      BlogPost     @relation(fields: [postId], references: [id])
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 

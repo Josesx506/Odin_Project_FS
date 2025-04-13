@@ -198,6 +198,12 @@ const blogPosts = [
           "body": "How do you deal with pests in a balcony garden? I tried growing tomatoes last year and they got completely destroyed by aphids."
         }
     ]
+  },
+  {
+    "title": "Short title for testing",
+    "published": false,
+    "body": `Lorem ipsum dolor sit amet, consectetur`,
+    "comments": []
   }
 ]
 

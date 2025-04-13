@@ -72,21 +72,21 @@ async function refreshJWT(req,res,next) {
     const cookies = req.cookies;
 
     if (!cookies?.jwt || cookies?.jwt === ' ') {
-        return res.status(401).json({ message: "No refresh token provided" });
+        return res.status(401).json({ message: "Unauthorized: No refresh token provided" });
     }
 
     // Get the user from db using the refresh token
     const refreshToken = cookies.jwt;
     const user = await retrieveUserByToken(refreshToken);
     if (!user) {
-        return res.status(403).json({ message: "Forbidden" });
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
     // Evaluate jwt
     try {
         const decode = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         if (Number(decode.id) !== user.id) {
-            return res.status(403).json({ message: "Forbidden" })
+            return res.status(403).json({ message: "Forbidden: Invalid token" })
         } else {
             const accessToken = jwt.sign(
                 { id: user.id, role: user.role }, 
@@ -96,7 +96,7 @@ async function refreshJWT(req,res,next) {
             return res.json({token: accessToken});
         }
     } catch(err) {
-        return res.status(403).json({ message: "Forbidden" });
+        return res.status(403).json({ message: "Forbidden: Invalid token" });
     }  
 }
 

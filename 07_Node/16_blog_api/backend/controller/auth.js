@@ -84,13 +84,13 @@ async function refreshJWT(req,res,next) {
 
     // Evaluate jwt
     try {
-        const decode = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET);
+        const decode = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         if (Number(decode.id) !== user.id) {
             return res.status(403).json({ message: "Forbidden" })
         } else {
             const accessToken = jwt.sign(
                 { id: user.id, role: user.role }, 
-                process.env.ACCESS_JWT_SECRET,
+                process.env.JWT_ACCESS_SECRET,
                 { expiresIn: "5m" }
             )
             return res.json({token: accessToken});
@@ -111,8 +111,10 @@ async function logout(req,res) {
     // Get the user from db using the refresh token
     const refreshToken = cookies.jwt;
     const user = await retrieveUserByToken(refreshToken);
+
+    res.clearCookie('jwt', cookieOptions);
+
     if (!user) {
-        res.clearCookie('jwt', cookieOptions);
         return res.status(204).json({ message: "No Content" });
     } else {
         const clearUser = await updateRefreshToken(user.id, null);

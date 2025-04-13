@@ -1,5 +1,6 @@
 This is a Next.js project for the blog api admin panel. Blog post authors and site admins should be able to login here. 
-Other users should log in at the basic page
+Other users should log in at the basic page. Authors can only see posts that they write, admins can see posts from 
+everyone.
 
 ## Getting Started
 
@@ -34,8 +35,8 @@ the backend logic resides
 
 > [!Note]
 > Comments are much shorter than posts, so it didn't make sense to create a dedicated page for them. Post owners 
-    can edit comments that they created. Admins can delete any comment but cannot edit comments. Users don't have 
-    access to this page.
+    and Admins can edit comments that they created. Admins can delete any comment but cannot edit comments. Users 
+    don't have access to this page.
 
 All comment modifications, create/edit/delete are handled on the `/:id/edit` page using interactive functionality from react.
 
@@ -48,3 +49,5 @@ All comment modifications, create/edit/delete are handled on the `/:id/edit` pag
 ### Todo
 - [ ] Reminder to create a time column for the comments data
 - [ ] Include the nav bar in the layout component
+- [ ] Include [tinyMCE](https://www.tiny.cloud/docs/tinymce/6/cloud-quick-start/) text editior if you like 
+https://www.youtube.com/watch?v=UTPsWbfHmFg

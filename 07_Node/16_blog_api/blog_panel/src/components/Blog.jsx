@@ -4,13 +4,18 @@ import React from 'react';
 import Link from 'next/link';
 import styles from '@/styles/blog.module.css';
 import ViewCommentsBtn, {EditPostBtn, DeletePostBtn} from './Buttons';
+import deleteBlogPost from '@/actions/blog';
 
 export default function BlogThumbnail({id, author, title, status, body, date, comments}) {
 
-  function postDeleteBlog(e) {
+  async function postDeleteBlog(e) {
     e.preventDefault();
-    const path = `/${id}`;
-    console.log("Executing delete request for ", path);
+    const result = await deleteBlogPost(id);
+    if (result.success) {
+      // Do something
+    } else {
+      // Do something else
+    }
   }
 
   return (

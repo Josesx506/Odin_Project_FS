@@ -18,6 +18,12 @@ const ROLES = {
         "view:comments",
         "create:comments",
         "update:ownComment"
+    ],
+    USER: [
+        "view:posts",
+        "view:comments",
+        "create:comments",
+        "update:ownComment"
     ]
 }
 

@@ -11,7 +11,8 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 export default function SignInPage() {
-  const { register, formState: { errors }, submitWithSanitization } = useFormValidation();
+  const { register, formState: { errors }, 
+    submitWithSanitization, reset } = useFormValidation();
 
   const navigate = useRouter();
   const [loading, setLoading] = useState(false);
@@ -21,12 +22,14 @@ export default function SignInPage() {
     try {
       setLoading(true);
       const result = await signUserInAction(sanitizedData);
-      if (result?.error) {
+      console.log(result)
+      if (!result.success) {
         toast.error(result.error);
+        reset();
       } else {
         toast.success('Logged In! Redirecting...');
         localStorage.setItem('token', result.token);
-        navigate.push('/posts');
+        // navigate.push('/posts');
       }
     } finally {
       setLoading(false);

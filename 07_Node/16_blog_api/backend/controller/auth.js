@@ -28,7 +28,7 @@ async function register(req, res, next) {
         } else {
             newUser = await createGenericUser(username, email, hashedPassword);
         }
-        return res.status(201).json({message: `New user registered with ${newUser.email}`})
+        return res.status(200).json({message: `New user registered with ${newUser.email}`})
     } catch(err) {
         return res.status(500).json({message: "Incorrect form structure"})
     }

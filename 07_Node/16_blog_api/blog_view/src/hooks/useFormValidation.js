@@ -13,8 +13,8 @@ const validationRules = {
       message: 'Username cannot exceed 20 characters'
     },
     pattern: {
-      value: /^[a-zA-Z0-9_]+$/,
-      message: 'Username can only contain letters, numbers and underscores'
+      value: /^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)?$/,
+      message: 'Username can only contain letters, numbers and underscores, or two words'
     }
   },
   email: {
@@ -27,8 +27,8 @@ const validationRules = {
   password: {
     required: 'Password is required',
     minLength: {
-      value: 6,
-      message: 'Password must be at least 6 characters'
+      value: 8,
+      message: 'Password must be at least 8 characters'
     },
     pattern: {
       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,

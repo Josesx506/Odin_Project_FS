@@ -76,9 +76,43 @@ async function getAllPosts() {
     const posts = await prisma.blogPost.findMany({
         include: {
             comments: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
         }
     });
     return posts;
+}
+
+async function getSomePosts(num) {
+    const posts = await prisma.blogPost.findMany({
+        take: num,
+        where: {
+            published: true,
+        },
+        include: {
+            comments: true,
+            author: { 
+                select: {name: true}
+            }
+        },
+        orderBy: {
+            createdAt: 'desc',
+        }
+    }).then(posts => {
+        return posts.map(post => ({ ...post, author: post.author.name}))
+    });
+    let thumbnails;
+    if (posts) {
+        thumbnails = posts.map(post=>{
+            let first3Sentences = post.body;
+            first3Sentences = first3Sentences.replace(/\n(?<=\s*)/g,"").trim();
+            first3Sentences = first3Sentences.split(". ").slice(0,2).join(". ")+".";
+            const maskedComments = post.comments.map(()=>({}));
+            return {...post, body: first3Sentences, comments: maskedComments};
+        })
+    }
+    return thumbnails;
 }
 
 async function getPostsByAuthorId(id) {
@@ -88,6 +122,9 @@ async function getPostsByAuthorId(id) {
         },
         include: {
             comments: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
         }
     })
     return posts;
@@ -238,9 +275,9 @@ async function deleteOwnComment(authorId, commentId) {
 }
 
 export {
-    createDBComment, createGenericUser, createDBPost, createUserWithRole, deleteCommentById, 
-    deleteOwnComment, deleteOwnPost, deletePostById, getAllPosts, getPostsByAuthorId, 
-    retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateComment, updatePost, 
+    createDBComment, createDBPost, createGenericUser, createUserWithRole, deleteCommentById,
+    deleteOwnComment, deleteOwnPost, deletePostById, getAllPosts, getPostsByAuthorId, getSomePosts, 
+    retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateComment, updatePost,
     updateRefreshToken
 };
 

@@ -9,6 +9,7 @@ import { refreshJWT } from './controller/auth.js';
 import { credentials } from "./middleware/credentials.js";
 import { router as adminRouter } from "./routes/admin.js";
 import { router as authRouter } from './routes/auth.js';
+import { getMostRecent } from "./controller/index.js";
 
 const app = express();
 
@@ -30,7 +31,13 @@ app.use('/v1/auth',authRouter);
 app.use("/v1/refresh", refreshJWT); // Include this after login
 app.use('/v1/panel',adminRouter);   // Admin panel routes
 
+app.get('/v1/freemium',getMostRecent); // Free api route
 
+// Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke and we could't resolve this request!");
+  });
 
 const PORT = process.env.PORT;
 app.listen(PORT, ()=>{

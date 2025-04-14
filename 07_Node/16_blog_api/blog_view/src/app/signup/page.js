@@ -13,7 +13,7 @@ import { toast } from 'react-hot-toast';
 export default function SignUpPage() {
   const { 
     register, formState: { errors }, 
-    watch, submitWithSanitization
+    watch, submitWithSanitization, reset
   } = useFormValidation();
 
   const password = watch("password");
@@ -25,8 +25,9 @@ export default function SignUpPage() {
     try {
       setLoading(true);
       const result = await registerUserAction(sanitizedData);
-      if (result?.error) {
+      if (!result.success) {
         toast.error(result.error);
+        reset ();
       } else {
         toast.success('User registered! Redirecting...');
         navigate.push('/signin');

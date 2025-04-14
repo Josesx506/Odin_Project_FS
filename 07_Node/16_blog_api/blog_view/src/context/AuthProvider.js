@@ -51,6 +51,31 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  useLayoutEffect(() => {
+    // Remove old interceptors for cleanup
+    if (interceptorsRef.current.request !== null) {
+      axiosApi.interceptors.request.eject(interceptorsRef.current.request);
+    }
+    if (interceptorsRef.current.response !== null) {
+      axiosApi.interceptors.response.eject(interceptorsRef.current.response);
+    }
+
+    const { reqId, resId } = setInterceptors(() => accessToken, refresh)
+    interceptorsRef.current.request = reqId;
+    interceptorsRef.current.response = resId;
+
+  }, [accessToken])
+
+  return (
+    <AuthContext.Provider value={{ accessToken, login, logout, refresh, loading }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+export default AuthContext;
+
+
+
   // useLayoutEffect(()=> {
   //   const authInterceptor = axiosApi.interceptors.request.use((config) => {
   //     config.headers.Authorization = !config._retry && accessToken 
@@ -86,26 +111,3 @@ export const AuthProvider = ({ children }) => {
 
   //   return () => { axiosApi.interceptors.response.eject(refreshInterceptor) }
   // })
-
-  useLayoutEffect(() => {
-    // Remove old interceptors for cleanup
-    if (interceptorsRef.current.request !== null) {
-      axiosApi.interceptors.request.eject(interceptorsRef.current.request);
-    }
-    if (interceptorsRef.current.response !== null) {
-      axiosApi.interceptors.response.eject(interceptorsRef.current.response);
-    }
-
-    const { reqId, resId } = setInterceptors(() => accessToken, refresh)
-    interceptorsRef.current.request = reqId;
-    interceptorsRef.current.response = resId;
-
-  }, [accessToken])
-
-  return (
-    <AuthContext.Provider value={{ accessToken, login, logout, refresh, loading }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
-export default AuthContext;

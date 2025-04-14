@@ -9,32 +9,47 @@ const axiosApi = axios.create({
 
 // For interceptor
 function setInterceptors(getAccessToken, refreshToken) {
-    const reqId = axiosApi.interceptors.request.use(async (config) => {
-      const token = getAccessToken()
-      console.log("\n\n\nRequest with token:", token ? "Token exists" : "No token","\n\n\n");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-      }
-      return config
-    })
+  let refreshAttempts = 0;
+  const MAX_REFRESH_ATTEMPTS = 2;
+
+  const reqId = axiosApi.interceptors.request.use(async (config) => {
+    const token = getAccessToken()
+    console.log("\n\n\nRequest with token:", token ? "Token exists" : "No token","\n\n\n");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  })
   
-    const resId = axiosApi.interceptors.response.use(
-      res => res,
-      async err => {
-        const originalRequest = err.config
-        if (err.response?.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true
-          const newToken = await refreshToken()
-          if (newToken) {
-            // axiosApi.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-            originalRequest.headers.Authorization = `Bearer ${newToken}`
-            return axiosApi(originalRequest)
-          }
-        }
-        return Promise.reject(err)
+  const resId = axiosApi.interceptors.response.use(
+    res => res,
+    async err => {
+      const originalRequest = err.config
+      
+      // ⛔️ Prevent infinite loop: Prevent retries from the refresh endpoint
+      if (originalRequest.url.includes('/refresh')) {
+        return Promise.reject(err);
       }
-    );
-    return { reqId, resId };
+
+      if (
+        err.response?.status === 401 && 
+        !originalRequest._retry  &&
+        refreshAttempts < MAX_REFRESH_ATTEMPTS
+      ) {
+        originalRequest._retry = true;
+        refreshAttempts += 1;
+
+        const newToken = await refreshToken()
+        
+        if (newToken) {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`
+          return axiosApi(originalRequest)
+        }
+      }
+      return Promise.reject(err)
+    });
+  
+  return { reqId, resId };
 }
 
 export { axiosApi,setInterceptors }

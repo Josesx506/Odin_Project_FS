@@ -60,8 +60,8 @@ async function generateLoginJWT(req,res,next) {
       // Send the accessToken that expires quickly as JSON
       return res.status(200).json({
           message: "successfully signed in",
-          token_type: "Bearer",
-          token: accessToken
+          accessToken: accessToken,
+          permissions: ROLES[user.role]
       })
     } catch(err) {
       next(err);
@@ -70,6 +70,7 @@ async function generateLoginJWT(req,res,next) {
 
 async function refreshJWT(req,res,next) {
     const cookies = req.cookies;
+    console.log(cookies)
 
     if (!cookies?.jwt || cookies?.jwt === ' ') {
         return res.status(401).json({ message: "Unauthorized: No refresh token provided" });
@@ -93,7 +94,10 @@ async function refreshJWT(req,res,next) {
                 process.env.JWT_ACCESS_SECRET,
                 { expiresIn: "5m" }
             )
-            return res.json({token: accessToken});
+            return res.json({
+                accessToken: accessToken,
+                permissions: ROLES[user.role]
+            });
         }
     } catch(err) {
         return res.status(403).json({ message: "Forbidden: Invalid token" });

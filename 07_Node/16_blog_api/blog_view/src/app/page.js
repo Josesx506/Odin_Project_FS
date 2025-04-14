@@ -4,12 +4,14 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import FreeLandingPage from "@/components/LandingPage";
+import useAuth from "@/hooks/useAuth";
 // import { isAuthenticated } from "@/utils/auth";
 
 export default function Home() {
-  const loggedIn = false;
-  // !localStorage.getItem("token")
-  if (!loggedIn) {
+  const { accessToken } = useAuth();
+  // const loggedIn = auth.token;
+  
+  if (!accessToken) {
     return <FreeLandingPage />
   }
   return (

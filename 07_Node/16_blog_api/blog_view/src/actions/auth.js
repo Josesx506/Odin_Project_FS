@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import axsapi from '@/api/axios';
+import { axiosApi } from '@/api/axios';
 
 async function registerUserAction(body,author=false,timeoutMs = 10000) {
   const user = body;
@@ -14,7 +14,7 @@ async function registerUserAction(body,author=false,timeoutMs = 10000) {
   }, timeoutMs);
   
   try {
-    const resp = await axsapi.post("/v1/auth/signup", 
+    const resp = await axiosApi.post("/v1/auth/signup", 
       JSON.stringify(user), { 
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
@@ -41,41 +41,40 @@ async function registerUserAction(body,author=false,timeoutMs = 10000) {
   }
 }
 
-async function signUserInAction(body,timeoutMs = 10000) {
-  const user = body;
-  const controller = new AbortController();
+// async function signUserInAction(body,timeoutMs = 10000) {
+//   const user = body;
+//   const controller = new AbortController();
 
-  // Set up timeout to abort in 10s if it takes too long
-  const timeoutId = setTimeout(() => {
-    controller.abort();
-  }, timeoutMs);
+//   // Set up timeout to abort in 10s if it takes too long
+//   const timeoutId = setTimeout(() => {
+//     controller.abort();
+//   }, timeoutMs);
 
-  try {
-    console.log(axsapi.defaults.baseURL)
+//   try {
 
-    const resp = await axsapi.post('/v1/auth/signin', JSON.stringify(user), {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-      signal: controller.signal
-    })
+//     const resp = await axiosApi.post('/v1/auth/signin', JSON.stringify(user), {
+//       headers: { 'Content-Type': 'application/json' },
+//       withCredentials: true,
+//       signal: controller.signal
+//     })
 
-    clearTimeout(timeoutId);
-    const data = resp.data;
+//     clearTimeout(timeoutId);
+//     const data = resp.data;
 
-    if (resp.status===200) {
-      return { success: true, token: data.token };
-    } else {
-      return { success: false, error: data?.message || 'Invalid Credentials' };
-    }
+//     if (resp.status===200) {
+//       return { success: true, token: data.token, permissions: data.permissions };
+//     } else {
+//       return { success: false, error: data?.message || 'Invalid Credentials' };
+//     }
   
-  } catch(err) {
-    clearTimeout(timeoutId);
-    if (err.name === 'AbortError') {
-      return { success: false, error: 'Request timed out. Please try again.'};
-    }
-    return { success: false, error: err.message || 'No server response' }
-  }
-}
+//   } catch(err) {
+//     clearTimeout(timeoutId);
+//     if (err.name === 'AbortError') {
+//       return { success: false, error: 'Request timed out. Please try again.'};
+//     }
+//     return { success: false, error: err.message || 'No server response' }
+//   }
+// }
 
 
-export { registerUserAction,signUserInAction }
+export { registerUserAction }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import BlogThumbnail from "./BlogThumbnail";
 import styles from "@/app/page.module.css";
-import axsapi from "@/api/axios";
+import { axiosApi } from "@/api/axios";
 
 export default function FreeLandingPage() {
   const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ export default function FreeLandingPage() {
 
     async function getData() {
       try {
-        const resp = await axsapi.get(`${process.env.NEXT_PUBLIC_EXPRESSURL}/v1/freemium`, { 
+        const resp = await axiosApi.get(`${process.env.NEXT_PUBLIC_EXPRESSURL}/v1/freemium`, { 
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true, 
           signal: controller.signal,

@@ -1,16 +1,28 @@
 'use client'
+
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 
 export default function ProtectedRoute({ children }) {
-  const { accessToken } = useAuth();
+  const { accessToken, loading } = useAuth();
   const router = useRouter();
-  console.log(accessToken);
+  // console.log(accessToken);
+
+  useEffect(() => {
+    if (!loading && !accessToken) {
+      router.push('/signin');
+    }
+  }, [accessToken, loading]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or any loading indicator
+  }
 
   if (!accessToken) {
-    router.push('/signin')
-    return null
+    return null;
   }
+
 
   return children
 }

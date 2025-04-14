@@ -17,7 +17,7 @@ export default function BlogThumbnail({id, author, authorId,  body, createdAt, c
       <div className={styles.thumbnailFooter}>
         <div className={styles.footerInfo}>
           <div style={{fontStyle:"italic"}}>{dateFormatter(createdAt)}</div>
-          <ViewCommentsBtn className={`${styles.blogComments} ${styles.scaleBtn}`} commentId={id} numComments={comments.length}/>
+          <ViewCommentsBtn className={`${styles.blogComments} ${styles.scaleBtn}`} postId={id} numComments={comments.length}/>
         </div>
         <div className={styles.footerInfo}>
           <EditPostBtn postId={id} published={published} className={styles.scaleBtn} onClick={()=>{`/posts/${id}/edit`}}/> 

@@ -61,7 +61,7 @@ async function generateLoginJWT(req,res,next) {
       return res.status(200).json({
           message: "successfully signed in",
           accessToken: accessToken,
-          permissions: ROLES[user.role]
+        //   permissions: ROLES[user.role]
       })
     } catch(err) {
       next(err);
@@ -70,7 +70,7 @@ async function generateLoginJWT(req,res,next) {
 
 async function refreshJWT(req,res,next) {
     const cookies = req.cookies;
-    console.log(cookies)
+    console.log(Date.now(),cookies?.jwt)
 
     if (!cookies?.jwt || cookies?.jwt === ' ') {
         return res.status(401).json({ message: "Unauthorized: No refresh token provided" });
@@ -96,7 +96,7 @@ async function refreshJWT(req,res,next) {
             )
             return res.json({
                 accessToken: accessToken,
-                permissions: ROLES[user.role]
+                // permissions: ROLES[user.role]
             });
         }
     } catch(err) {

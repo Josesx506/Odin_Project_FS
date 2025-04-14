@@ -1,0 +1,30 @@
+.authForm {
+    width: min(90%,400px);
+    margin: 0 auto;
+    display: grid;
+    gap: 1em;
+}
+
+.authInput {
+    display: flex;
+    flex-direction: column;
+    & input {
+        padding: 0.15em 0.3em;
+        border-radius: 0.5em;
+        border: 1px solid darkgray;
+        font-size: 1rem;
+    }
+}
+
+.authSubmit {
+    display: flex;
+    justify-content: center;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 0.75rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0.1em 0.5em;
+    border-radius: 0.3em;
+}

@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 const allowedOrigins = [
     'http://localhost:3000',
-    'http://localhost:3200',
+    'http://localhost:1800',
 ]
 
 const cookieOptions = { 

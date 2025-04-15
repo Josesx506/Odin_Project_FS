@@ -58,7 +58,7 @@ export default function PostDetailProvider({id}) {
     // Add the new comment to state
     setPost(prevPost => ({
       ...prevPost,
-      comments: [...prevPost.comments, { ...newComment }]
+      comments: [{ ...newComment }, ...prevPost.comments]
     }));
   }
 

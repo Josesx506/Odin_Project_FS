@@ -81,6 +81,7 @@ async function getOnePostById(postId) {
       comments: { 
         include: {
           author: { select: { name: true }} },
+          orderBy: { updatedAt: 'desc' },
         },
       author: {
         select: { name: true }
@@ -103,6 +104,7 @@ async function getOnePostByIdAndAuthor(authorId, postId) {
       comments: { 
         include: {
           author: { select: { name: true }} },
+          orderBy: { updatedAt: 'desc' },
         },
       author: { select: { name: true } }
     }
@@ -135,6 +137,7 @@ async function getOnePublishedPostById(postId) {
       comments: { 
         include: {
           author: { select: { name: true }} },
+          orderBy: { updatedAt: 'desc' },
         },
       author: {
         select: { name: true }
@@ -167,7 +170,7 @@ async function getSomePosts(num) {
       }
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     }
   }).then(posts => {
     return posts.map(post => ({ ...post, author: post.author.name }))
@@ -194,7 +197,7 @@ async function getAllPosts() {
       }
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     }
   }).then(posts => {
     return posts.map(post => ({ ...post, author: post.author.name }))
@@ -214,7 +217,7 @@ async function getAllPublishedPosts() {
       }
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     }
   }).then(posts => {
     return posts.map(post => ({ ...post, author: post.author.name }))
@@ -234,7 +237,7 @@ async function getPostsByAuthorId(authorId) {
       }
     },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     }
   }).then(posts => {
     return posts.map(post => ({ ...post, author: post.author.name }))

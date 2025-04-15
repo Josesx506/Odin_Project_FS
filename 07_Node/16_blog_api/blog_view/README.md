@@ -1,33 +1,28 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+To change the default port for the react app, modify the package.json file and include a `-p` port argument
+```json
+  "scripts": {
+    "dev": "next dev --turbopack -p 1800",
+    "start": "next start -p 1800",
+  },
 ```
+Then start the dev server with `npm run dev`.
+<br>
+Key highlights of this project was integrating JWTs stateless authentication in react. The main blog server is an express backend 
+that uses postgres and responds to api requests with json responses. I implemented role based access control (RBAC) with a ton 
+of middleware to prevent unauthorized access to the best of my ability at the time of build. <br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+On the client side, I stored the access token (short-lived) in react memory with a context provider, and stored the refresh token 
+(long-duration) in a httpOnly cookie. Using LocalStorage is not safe for sensitive data, and I tried to avoid it as much as possible.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+When the refresh token expires, the user is forced to sign in again. While active, it can be used to authenticate new access tokens 
+for persistent access on the client.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> [!Important]
+> For the axios interceptor, I used `useLayoutEffect` which is a hook that's identical to useEffect but it runs synchronously.
+    This allows it to block requests and attached the authorization header tokens before any request is sent.
 
 ## Deploy on Vercel
 

@@ -30,7 +30,6 @@ export default function SignIn() {
       toast.success('Logged in! Redirecting...')
       router.push('/posts'); // Navigate to previous route - from
     } catch(err) {
-      console.error(err)
       toast.error('Login failed. Please try again.')
       reset()
     } finally {

@@ -7,14 +7,13 @@ const axiosApi = axios.create({
     withCredentials: true
 })
 
-// For interceptor
+// Define the axios request and response interceptors
 function setInterceptors(getAccessToken, refreshToken) {
   let refreshAttempts = 0;
   const MAX_REFRESH_ATTEMPTS = 2;
 
   const reqId = axiosApi.interceptors.request.use(async (config) => {
     const token = getAccessToken()
-    console.log("\n\n\nRequest with token:", token ? "Token exists" : "No token","\n\n\n");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }

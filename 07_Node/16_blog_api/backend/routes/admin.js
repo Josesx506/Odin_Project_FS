@@ -1,13 +1,12 @@
 import { Router } from "express";
 import {
-    createComment,
-    createPost,
-    deleteComment,
-    deletePost, getPosts,
+    createComment, createPost,
+    deleteComment, deletePost,
+    getOnePremiumPost, getPosts,
     updateOwnComment, updateOwnPost
 } from "../controller/admin.js";
 import { authJWT, authRole } from "../middleware/auth.js";
-import { validateRequest } from "../middleware/utils.js"
+import { validateRequest } from "../middleware/utils.js";
 
 
 const router = Router();
@@ -20,6 +19,11 @@ router.use(authJWT);
 router.get('/posts',
     authRole(["view:allPosts", "view:ownPosts"]), 
     getPosts);
+
+router.get('/posts/:postId',
+    validateRequest({params: ["postId"]}),
+    authRole(["view:allPosts", "view:ownPosts"]), 
+    getOnePremiumPost);
 
 // CREATE
 router.post('/posts',

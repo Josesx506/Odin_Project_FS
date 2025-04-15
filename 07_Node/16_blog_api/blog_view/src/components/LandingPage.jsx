@@ -20,7 +20,7 @@ export default function FreeLandingPage() {
         })
         setPosts(resp.data.posts)
       } catch(err) {
-        console.error(err)
+        // console.error(err)
       }
     }
     getData();

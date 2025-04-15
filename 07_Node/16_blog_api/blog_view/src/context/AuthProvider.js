@@ -1,27 +1,27 @@
 'use client';
 
-import { createContext, useLayoutEffect, useState } from "react";
 import { axiosApi, setInterceptors } from "@/api/axios";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { toast } from 'react-hot-toast';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
   const interceptorsRef = useRef({ request: null, response: null });
-
 
   // Try to get a new access token on page load
   useEffect(() => {
     async function initAuth() {
       try {
-        const res = await axiosApi.get('/v1/refresh');
+        const res = await axiosApi.get('/v1/auth/refresh');
         setAccessToken(res.data.accessToken);
-      } catch (error) {
-        // If refresh fails, that's okay - user will need to log in
-        console.log("Initial auth refresh failed, user needs to log in", error);
+      } catch(err) {
+        
       } finally {
         setLoading(false);
       }
@@ -38,11 +38,13 @@ export const AuthProvider = ({ children }) => {
   async function logout() {
     await axiosApi.get('/v1/auth/signout')
     setAccessToken(null)
+    toast.success('Logged Out! Redirecting...')
+    router.push('/')
   }
 
   async function refresh() {
     try {
-      const res = await axiosApi.get('v1/refresh')
+      const res = await axiosApi.get('v1/auth/refresh')
       setAccessToken(res.data.accessToken)
       return res.data.accessToken
     } catch (err) {
@@ -73,41 +75,3 @@ export const AuthProvider = ({ children }) => {
   )
 }
 export default AuthContext;
-
-
-
-  // useLayoutEffect(()=> {
-  //   const authInterceptor = axiosApi.interceptors.request.use((config) => {
-  //     config.headers.Authorization = !config._retry && accessToken 
-  //       ? `Bearer ${accessToken}` 
-  //       : config.headers.Authorization;
-      
-  //     return config;
-  //   })
-
-  //   return () => { axiosApi.interceptors.request.eject(authInterceptor) }
-  // }, [accessToken])
-
-  // useLayoutEffect(()=> {
-  //   const refreshInterceptor = axiosApi.interceptors.response.use(
-  //     (response) => response,
-  //     async (error) => {
-  //       const originalRequest = error.config;
-
-  //       // error.response.status === 403 && error.response.data.message === 'Unauthorized'
-  //       if (error.response.status === 401) {
-  //         try {
-  //           const newToken = await refresh();
-  //           originalRequest.headers.Authorization = `Bearer ${newToken}`;
-  //           originalRequest._retry = true;
-
-  //           return axiosApi(originalRequest);
-  //         } catch {
-  //           setAccessToken(null);
-  //         }
-  //       }
-  //     return Promise.reject(error);
-  //   })
-
-  //   return () => { axiosApi.interceptors.response.eject(refreshInterceptor) }
-  // })

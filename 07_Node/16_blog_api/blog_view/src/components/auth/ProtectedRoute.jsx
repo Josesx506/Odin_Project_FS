@@ -7,7 +7,6 @@ import useAuth from '@/hooks/useAuth';
 export default function ProtectedRoute({ children }) {
   const { accessToken, loading } = useAuth();
   const router = useRouter();
-  // console.log(accessToken);
 
   useEffect(() => {
     if (!loading && !accessToken) {

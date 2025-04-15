@@ -10,10 +10,12 @@ export default function PostProvider() {
   useEffect(() => {
     const controller = new AbortController();
     async function fetchPosts() {
-      const res = await axiosApi.get('/v1/panel/posts', {signal: controller.signal})
-      setPosts(res.data)
+      try {
+        const res = await axiosApi.get('/v1/basic/posts', {signal: controller.signal})
+        setPosts(res.data)
+      } catch(err) {}
     }
-    fetchPosts()
+    fetchPosts();
     return ()=>{
         controller.abort();
     }

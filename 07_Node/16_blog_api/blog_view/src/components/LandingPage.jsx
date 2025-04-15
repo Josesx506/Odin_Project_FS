@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import BlogThumbnail from "./BlogThumbnail";
-import styles from "@/app/page.module.css";
 import { axiosApi } from "@/api/axios";
+import styles from "@/app/page.module.css";
+import { useEffect, useState } from "react";
+import PostThumbnail from "./posts/PostThumbnail";
 
 export default function FreeLandingPage() {
   const [posts, setPosts] = useState([]);
@@ -31,7 +31,7 @@ export default function FreeLandingPage() {
   return (
     <div className={styles.main}>
       {posts.map(post=> {
-        return <BlogThumbnail key={post.id} {...post} />
+        return <PostThumbnail key={post.id} {...post} />
       })}
     </div>
   )

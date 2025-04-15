@@ -78,7 +78,10 @@ async function getOnePostById(postId) {
       id: Number(postId) 
     },
     include: {
-      comments: true,
+      comments: { 
+        include: {
+          author: { select: { name: true }} },
+        },
       author: {
         select: { name: true }
       }
@@ -86,6 +89,9 @@ async function getOnePostById(postId) {
   });
   if (post) {
     post.author = post.author.name
+    post.comments = post.comments.map(comment => ({
+      ...comment, author: comment.author?.name || null
+    }));
   }
   return post;
 }
@@ -94,7 +100,10 @@ async function getOnePostByIdAndAuthor(authorId, postId) {
   const post = await prisma.blogPost.findUnique({
     where: { id: Number(postId) },
     include: {
-      comments: true,
+      comments: { 
+        include: {
+          author: { select: { name: true }} },
+        },
       author: { select: { name: true } }
     }
   })
@@ -110,25 +119,39 @@ async function getOnePostByIdAndAuthor(authorId, postId) {
 
   if (post) {
     post.author = post.author.name
+    post.comments = post.comments.map(comment => ({
+      ...comment, author: comment.author?.name || null
+    }));
   }
   return post;
 }
 
-async function getAllPosts() {
-  const posts = await prisma.blogPost.findMany({
+async function getOnePublishedPostById(postId) {
+  const post = await prisma.blogPost.findUnique({
+    where: { 
+      id: Number(postId)
+    },
     include: {
-      comments: true,
+      comments: { 
+        include: {
+          author: { select: { name: true }} },
+        },
       author: {
         select: { name: true }
       }
-    },
-    orderBy: {
-      createdAt: 'desc',
     }
-  }).then(posts => {
-    return posts.map(post => ({ ...post, author: post.author.name }))
   });
-  return posts;
+  if (post && post.published) {
+    post.author = post.author.name
+    post.comments = post.comments.map(comment => ({
+      ...comment, author: comment.author?.name || null
+    }));
+    return post;
+  } 
+  else {
+    // Prevent unpublished posts from leaking
+    throw new PrismaCustomError("Post not found", "P2025");
+  }
 }
 
 async function getSomePosts(num) {
@@ -162,26 +185,21 @@ async function getSomePosts(num) {
   return thumbnails;
 }
 
-async function getOnePublishedPostById(postId) {
-  const post = await prisma.blogPost.findUnique({
-    where: { 
-      id: Number(postId)
-    },
+async function getAllPosts() {
+  const posts = await prisma.blogPost.findMany({
     include: {
       comments: true,
       author: {
         select: { name: true }
       }
+    },
+    orderBy: {
+      createdAt: 'desc',
     }
+  }).then(posts => {
+    return posts.map(post => ({ ...post, author: post.author.name }))
   });
-  if (post && post.published) {
-    post.author = post.author.name
-    return post;
-  } 
-  else {
-    // Prevent unpublished posts from leaking
-    throw new PrismaCustomError("Post not found", "P2025");
-  }
+  return posts;
 }
 
 async function getAllPublishedPosts() {
@@ -231,8 +249,16 @@ async function createDBPost(authorId, title, body, published) {
       body: body,
       published: published,
       authorId: Number(authorId),
-    }
+    },
+    include: {
+      author: {
+        select: { name: true,},
+      },
+    },
   })
+  if (post) { 
+    post.author = post.author.name 
+  }
   return post
 }
 
@@ -250,8 +276,16 @@ async function createDBComment(authorId, postId, body) {
       body: body,
       postId: Number(postId),
       authorId: Number(authorId),
-    }
+    },
+    include: {
+      author: {
+        select: { name: true,},
+      },
+    },
   })
+  if (comment) { 
+    comment.author = comment.author.name 
+  }
   return comment
 }
 

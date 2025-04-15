@@ -6,7 +6,6 @@ import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 export default function AllPostsPage() {
-  // const refresh = useRefreshToken();
   const { logout } = useAuth();
   const router = useRouter();
   const onSignout = async () => {
@@ -16,13 +15,11 @@ export default function AllPostsPage() {
 
   return (
     <ProtectedRoute>
-      <h3>Welcome to the posts page</h3> 
-      <div>
+      <div style={{display:'grid', gap:'1em'}}>
+        <h2>Welcome to the Posts page</h2> 
         <PostProvider />
+        <button style={{width:'fit-content', justifySelf:'center'}} onClick={onSignout} >Signout</button>
       </div>
-      <button onClick={onSignout} >Signout</button>
     </ProtectedRoute>
-    // 
-    // 
   )
 }

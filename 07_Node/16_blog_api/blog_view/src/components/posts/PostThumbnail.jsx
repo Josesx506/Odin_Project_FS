@@ -1,9 +1,9 @@
 import styles from '@/styles/thumbnail.module.css';
 import Link from 'next/link';
-import { DeletePostBtn, EditPostBtn, ViewCommentsBtn } from './Buttons';
-import { dateFormatter } from '@/utils/dateFormatter';
+import { DeleteContentBtn, EditContentBtn, ViewCommentsBtn } from '../Buttons';
+import { dateFormatter } from '@/utils/utils';
 
-export default function BlogThumbnail({id, author, authorId,  body, createdAt, comments, published, title,}) {
+export default function PostThumbnail({id, userId, author, authorId,  body, updatedAt, comments, published, title,}) {
   return (
     <div>
       <div className={styles.author}>
@@ -16,12 +16,8 @@ export default function BlogThumbnail({id, author, authorId,  body, createdAt, c
       
       <div className={styles.thumbnailFooter}>
         <div className={styles.footerInfo}>
-          <div style={{fontStyle:"italic"}}>{dateFormatter(createdAt)}</div>
+          <div style={{fontStyle:"italic"}}>{dateFormatter(updatedAt)}</div>
           <ViewCommentsBtn className={`${styles.blogComments} ${styles.scaleBtn}`} postId={id} numComments={comments.length}/>
-        </div>
-        <div className={styles.footerInfo}>
-          <EditPostBtn postId={id} published={published} className={styles.scaleBtn} onClick={()=>{`/posts/${id}/edit`}}/> 
-          <DeletePostBtn postId={id} className={styles.scaleBtn} onClick={()=>{`/posts/${id}/delete`}}/>
         </div>
       </div>
     </div>

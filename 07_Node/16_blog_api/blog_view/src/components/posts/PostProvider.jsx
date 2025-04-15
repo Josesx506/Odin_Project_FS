@@ -1,11 +1,17 @@
 'use client'
-import { useEffect, useState } from 'react';
+
 import { axiosApi } from '@/api/axios';
-import BlogThumbnail from '../BlogThumbnail';
+import styles from "@/app/page.module.css";
+import useAuth from '@/hooks/useAuth';
+import { decodeJWT } from '@/utils/utils';
+import { useEffect, useState } from 'react';
+import PostThumbnail from './PostThumbnail';
 
 
 export default function PostProvider() {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const { accessToken } = useAuth();
+  const userId = decodeJWT(accessToken).id;
   
   useEffect(() => {
     const controller = new AbortController();
@@ -22,7 +28,9 @@ export default function PostProvider() {
   }, [])
 
   return (
-    posts.map(post => 
-      <BlogThumbnail  key={post.id} {...post} />)
+    <div className={styles.main}>
+      {posts.map(post => 
+        <PostThumbnail  key={post.id} userId={userId} {...post} />)}
+    </div>
   )
 }

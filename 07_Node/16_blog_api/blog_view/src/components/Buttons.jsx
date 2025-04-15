@@ -25,7 +25,7 @@ function ViewCommentsBtn({postId, numComments, className=''}) {
   )
 }
 
-function EditPostBtn({postId, onClick=()=>{}, published=false, className=''}) {
+function EditContentBtn({onClick=()=>{}, published=false, className=''}) {
     return (
       <button className={className} onClick={onClick}>
         {
@@ -37,7 +37,7 @@ function EditPostBtn({postId, onClick=()=>{}, published=false, className=''}) {
     )
 }
 
-function DeletePostBtn({postId, onClick=()=>{}, className=''}) {
+function DeleteContentBtn({onClick=()=>{}, className=''}) {
     return (
       <button className={className} onClick={onClick}>
           <Trash2 color='tomato' strokeWidth={"2px"} size={"1.2em"} />
@@ -45,4 +45,4 @@ function DeletePostBtn({postId, onClick=()=>{}, className=''}) {
     )
 }
 
-export { ContainedButton,ViewCommentsBtn,EditPostBtn,DeletePostBtn };
+export { ContainedButton,ViewCommentsBtn,EditContentBtn,DeleteContentBtn };

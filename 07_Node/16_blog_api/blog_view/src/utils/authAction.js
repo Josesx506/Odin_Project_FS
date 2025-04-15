@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { axiosApi } from '@/api/axios';
 
 async function registerUserAction(body,author=false,timeoutMs = 10000) {

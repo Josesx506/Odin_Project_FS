@@ -1,8 +1,14 @@
-import ProtectedPostContent from '@/components/ProtectedPostContent';
+
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import PostDetailProvider from '@/components/posts/PostDetailProvider';
 
 
 export default async function SinglePostPage({ params }) {
   const { id } = await params;
   
-  return <ProtectedPostContent id={id} />;
+  return (
+    <ProtectedRoute>
+      <PostDetailProvider id={id} />
+    </ProtectedRoute>
+  ) 
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { registerUserAction } from '@/actions/auth';
+import { registerUserAction } from '@/utils/authAction';
 import { ContainedButton } from '@/components/Buttons';
 import { FormField } from '@/components/FormField';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';

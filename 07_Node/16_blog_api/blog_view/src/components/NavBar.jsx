@@ -27,7 +27,7 @@ export default function NavBar() {
       <header className={`${styles.navHeader}`}>
         <nav className={styles.navbar}>
           {/* logo */}
-          <a href='/' className={styles.logo}>Blog. </a>
+          <a href='/' className={styles.logo}>ØBlog</a>
           <ul className={`${styles.navMenu} ${isActive ? styles.active : ''}`}>
             <li onClick={removeActive}>
               <Link  href='https://josesx506.github.io/Odin_Project_FS/' className={styles.navLink}>Odin</Link>

@@ -19,7 +19,12 @@
 /* logo  */
 .logo {
     font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter';
+    transition: text-shadow 0.2s ease-in-out;
+    &:hover {
+        text-shadow: 0 0 1.0px currentColor;
+        color: rgba(0, 0, 0, 0.9);
+    }
 }
 
 /* ul  */

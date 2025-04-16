@@ -1,4 +1,4 @@
-.viewPost {
+.viewPost, .createPost {
     display: grid;
     gap: 3em;
     width: 93%;
@@ -37,19 +37,29 @@
 
 .postForm {
     display: grid;
-    gap: 0.5em;
-    & div input, & div textarea {
+    gap: 1em;
+}
+
+.postTextContainers {
+    & input, & textarea {
         width: 100%;
-        padding: 0.25em 0.5em;
-        border-radius: 0.3em;
+        padding: 0.4em 0.8em;
+        border-radius: 0.5em;
         border: 1px solid black;
     }
-    & div input {
+    & input {
         font-weight: bold;
+        font-size: medium;
     }
-    & div textarea {
+    & textarea {
         resize: none;
     }
+}
+
+.postPublish {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-start;
 }
 
 .actionBtns {

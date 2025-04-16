@@ -1,6 +1,24 @@
-.authForm {
+.authContainer {
     width: min(90%,400px);
-    margin: 0 auto;
+    margin: 1em auto;
+    display: grid;
+    gap: 2em;
+}
+
+.authFormContainer {
+    padding: 1em 1.2em;
+    border-radius: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    display: grid;
+    gap: 2em;
+    & > h3 {
+        text-align: center;
+        font-family: 'Inter';
+        font-weight: bold;
+    }
+}
+
+.authForm {
     display: grid;
     gap: 1em;
 }
@@ -19,6 +37,7 @@
 .authSubmit {
     display: flex;
     justify-content: center;
+    padding-top: 1em;
 }
 
 .errorMessage {
@@ -27,4 +46,19 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 0.1em 0.5em;
     border-radius: 0.3em;
+}
+
+.authLinksContainer {
+    display: grid;
+    gap: 1em;
+}
+
+.authLink {
+    font-size: 0.9rem;
+    font-style: oblique;
+    & a {
+        font-style: normal;
+        text-decoration: underline;
+        font-weight: 600;
+    }
 }

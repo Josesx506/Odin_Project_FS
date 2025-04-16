@@ -9,6 +9,7 @@ import Form from 'next/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function SignIn() {
   // Hooks
@@ -39,20 +40,28 @@ export default function SignIn() {
 
   return (
     <div>
-      <h3 style={{textAlign: 'center'}}>Sign In</h3>
+      <div className={styles.authContainer}>
+        <div className={styles.authFormContainer}>
+          <h3>ØBlog Access</h3>
 
-      <Form className={styles.authForm}  onSubmit={submitWithSanitization(onSubmit)}>
+          <Form className={styles.authForm}  onSubmit={submitWithSanitization(onSubmit)}>
 
-        <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter your email'} 
-          register={register} rules={validationRules.email} errors={errors} />
-        <FormField type={'password'} name={'password'} label={'Password'}
-          placeholder={'Enter your password'} register={register} 
-          rules={{ required: 'Password is required' }} errors={errors} />
-        
-        <div className={styles.authSubmit}>
-          <ContainedButton disabled={loading}>Sign In</ContainedButton>
+            <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter your email'} 
+              register={register} rules={validationRules.email} errors={errors} />
+            <FormField type={'password'} name={'password'} label={'Password'}
+              placeholder={'Enter your password'} register={register} 
+              rules={{ required: 'Password is required' }} errors={errors} />
+            
+            <div className={styles.authSubmit}>
+              <ContainedButton disabled={loading}>Sign In</ContainedButton>
+            </div>
+          </Form>
         </div>
-      </Form>
+        <div className={styles.authLinksContainer}>
+          <div className={styles.authLink}>Contributor? <Link href={'#'}>Sign in</Link> to your dashboard</div>
+          <div className={styles.authLink}>New Here? Sign up as a <Link href={'/signup'}>Reader</Link> or <Link href={'#'}>Contributor</Link> </div>
+        </div>
+      </div>
       
     </div>
   )

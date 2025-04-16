@@ -5,10 +5,13 @@ import styles from '@/styles/navbar.module.css';
 import { useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function NavBar() {
   const [isActive, setIsActive] = useState(false);
   const { accessToken, logout } = useAuth();
+
+  const pathname = usePathname();
 
   const onSignout = async () => {
     await logout();
@@ -33,18 +36,18 @@ export default function NavBar() {
               <Link  href='https://josesx506.github.io/Odin_Project_FS/' className={styles.navLink}>Odin</Link>
             </li>
             <li onClick={removeActive}>
-              <Link href='/posts' className={styles.navLink}>Articles</Link>
+              <Link href='/posts' className={`${styles.navLink} ${pathname==='/posts' ? styles.activeLink : ''}`}>Articles</Link>
             </li>
             <li onClick={removeActive}>
-              <Link href='#' className={styles.navLink}>About</Link>
+              <Link href='#' className={`${styles.navLink} ${pathname==='/about' ? styles.activeLink : ''}`}>About</Link>
             </li>
             {!accessToken ? (
               <>
                 <li onClick={removeActive}>
-                  <Link href='/signin' className={styles.navLink}>Sign In</Link>
+                  <Link href='/signin' className={`${styles.navLink} ${pathname==='/signin' ? styles.activeLink : ''}`}>Sign In</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link href='/signup' className={styles.navLink}>Sign Up</Link>
+                  <Link href='/signup' className={`${styles.navLink} ${pathname==='/signup' ? styles.activeLink : ''}`}>Sign Up</Link>
                 </li>
               </>
             ) : (

@@ -1,20 +1,21 @@
 'use client'
 
-import { registerUserAction } from '@/utils/authAction';
 import { ContainedButton } from '@/components/Buttons';
 import { FormField } from '@/components/FormField';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';
 import styles from '@/styles/forms.module.css';
+import { registerUserAction } from '@/utils/authAction';
 import Form from 'next/form';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 export default function Register() {
-  const { 
-    register, 
-    formState: { errors }, 
-    watch, reset, 
+  const {
+    register,
+    formState: { errors },
+    watch, reset,
     submitWithSanitization } = useFormValidation();
 
   const password = watch("password");
@@ -22,13 +23,13 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
 
   // Submit the form with fetch request server action
-  const onSubmit = async (sanitizedData) => { 
+  const onSubmit = async (sanitizedData) => {
     try {
       setLoading(true);
       const result = await registerUserAction(sanitizedData);
       if (!result.success) {
         toast.error(result.error);
-        reset ();
+        reset();
       } else {
         toast.success('User registered! Redirecting...');
         navigate.push('/signin');
@@ -40,29 +41,39 @@ export default function Register() {
 
   return (
     <div>
-      <h3 style={{textAlign: 'center'}}>Register</h3>
+      <div className={styles.authContainer}>
+        <div className={styles.authFormContainer}>
+          <h3 style={{ textAlign: 'center' }}>Reader Registration</h3>
 
-      <Form className={styles.authForm}  onSubmit={submitWithSanitization(onSubmit)}>
+          <Form className={styles.authForm} onSubmit={submitWithSanitization(onSubmit)}>
 
-        <FormField name={'username'} label={'Username'} placeholder={'Enter Username'} 
-          register={register} rules={validationRules.username} errors={errors} />
-        <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter Email'} 
-          register={register} rules={validationRules.email} errors={errors} />
-        <FormField type={'password'} name={'password'} label={'Password'}
-          placeholder={'Enter Password'} register={register} rules={validationRules.password} 
-          errors={errors} />
-        <FormField type={'password'} name={'confirmPassword'} label={'Confirm Password'} 
-          placeholder={'Re-enter Password'}  errors={errors}
-          register={register} rules={{
-            required: 'Please confirm your password',
-            validate: value => value === password || 'Passwords do not match'
-          }} />
-        
-        <div className={styles.authSubmit}>
-          <ContainedButton disabled={loading}>Sign Up</ContainedButton>
+            <FormField name={'username'} label={'Username'} placeholder={'Enter Username'}
+              register={register} rules={validationRules.username} errors={errors} />
+            <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter Email'}
+              register={register} rules={validationRules.email} errors={errors} />
+            <FormField type={'password'} name={'password'} label={'Password'}
+              placeholder={'Enter Password'} register={register} rules={validationRules.password}
+              errors={errors} />
+            <FormField type={'password'} name={'confirmPassword'} label={'Confirm Password'}
+              placeholder={'Re-enter Password'} errors={errors}
+              register={register} rules={{
+                required: 'Please confirm your password',
+                validate: value => value === password || 'Passwords do not match'
+              }} />
+
+            <div className={styles.authSubmit}>
+              <ContainedButton disabled={loading}>Sign Up</ContainedButton>
+            </div>
+          </Form>
+          <em>Choose your registration option here. The same email cannot be used twice</em>
         </div>
-      </Form>
-      
+        <div className={styles.authLinksContainer}>
+          <div className={styles.authLink}>Register as a contributor <Link href={'#'}>here</Link></div>
+          <div className={styles.authLink}>Registered Reader? <Link href={'/signin'}>Sign in</Link> to read posts</div>
+          <div className={styles.authLink}>Registered Contributor? <Link href={'#'}>Sign in</Link> to your dashboard</div>
+        </div>
+      </div>
+
     </div>
   )
 }

@@ -11,7 +11,6 @@ function getInitials(input) {
 }
 
 function dateFormatter(dateObj, format='default') {
-  console.log(dateObj);
   
   const dateParse = new Date(dateObj);
 

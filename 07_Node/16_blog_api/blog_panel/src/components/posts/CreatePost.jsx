@@ -11,7 +11,6 @@ export default function CreatePost() {
   const blogTitleRef = useRef("");
   const blogBodyRef = useRef("");
   const blogPublishRef = useRef(false);
-  const [empty, setEmpty] = useState(false);
   const [postId, setPostId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -21,7 +20,7 @@ export default function CreatePost() {
     blogBodyRef.current.value = '';
   }
 
-  async function saveBlog(e) {
+  async function saveBlogPost(e) {
     e.preventDefault();
     setIsSaving(true);
 
@@ -51,7 +50,7 @@ export default function CreatePost() {
 
   return (
     <div className={styles.createPost}>
-      <Form className={styles.postForm} onSubmit={saveBlog}>
+      <Form className={styles.postForm} onSubmit={saveBlogPost}>
         <div className={styles.postTextContainers}>
           <label htmlFor='title'></label>
           <input ref={blogTitleRef} id='title'
@@ -71,7 +70,7 @@ export default function CreatePost() {
           <ContainedButton>Save</ContainedButton>
         </div>
       </Form>
-      <em><b style={{ color: 'tomato' }}>Note:</b> Populate the title and body values for valid submissions. Special characters are escaped.</em>
+      <em><b style={{ color: 'tomato' }}>Note:</b> Title and body values are required. Special characters are escaped.</em>
     </div>
   )
 }

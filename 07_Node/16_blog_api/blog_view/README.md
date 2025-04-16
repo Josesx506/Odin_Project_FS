@@ -24,8 +24,18 @@ for persistent access on the client.
 > For the axios interceptor, I used `useLayoutEffect` which is a hook that's identical to useEffect but it runs synchronously.
     This allows it to block requests and attached the authorization header tokens before any request is sent.
 
+
+### Dead Links
+There are some dead links like the author page. User profiles are not required for project completion so I didn't bother building 
+it out.
+
+
 ## Deploy on Vercel
-
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Environment Variables
+```bash
+NEXT_PUBLIC_EXPRESSURL="..."
+NEXT_PUBLIC_CMSURL="..."
+```

@@ -76,6 +76,17 @@ an error so that malicious users don't inject random roles into the db.
     in the request body you're defaulted to a user role, if you include a role like author or admin, you're defaulted to your 
     specified role. All roles use uppercase and are represented as enums with prisma and postgres.
 
-### Todo
-- [ ] Update CORS whitelisted links in `config/options.js` post deployment.
-- [ ] Create an authors view that shows the posts that they've written (low priority).
+
+### Environment Variables
+Some of them are just for seeding the dummy db.
+```bash
+DATABASE_URL="..."
+JWT_ACCESS_SECRET="..."
+JWT_REFRESH_SECRET="..."
+SESSION_SECRET="..."
+NODE_ENV=".."
+PORT=...
+ADMIN_PSWD="..."
+AUTHOR1_PSWD="..."
+USER1_PSWD="..."
+```

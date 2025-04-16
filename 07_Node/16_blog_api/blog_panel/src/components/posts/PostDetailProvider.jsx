@@ -92,6 +92,10 @@ export default function PostDetailProvider({ id }) {
     })
   }
 
+  let editPermission = false;
+  if (!loading && post) {
+    editPermission = (user.id === post.authorId);
+  }
 
   return (post ?
     <div className={styles.viewPost}>
@@ -113,9 +117,11 @@ export default function PostDetailProvider({ id }) {
           {post.body}
         </div>
         <div className={styles.actionBtns}>
-          <button type='submit'>
-            <Link href={`/dashboard/${id}/edit`}>Edit</Link>
-          </button>
+          {editPermission && 
+            <button type='submit'>
+              <Link href={`/dashboard/${id}/edit`}>Edit</Link>
+            </button>
+          }
           <button onClick={handlePostDelete} style={{ color: "red" }} type='submit'>Delete</button>
         </div>
       </div>

@@ -1,8 +1,10 @@
-import React from 'react'
-import CreatePost from '@/components/posts/CreatePost'
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import CreatePost from '@/components/posts/CreatePost';
 
 export default function page() {
   return (
-    <CreatePost />
+    <ProtectedRoute>
+      <CreatePost />
+    </ProtectedRoute>
   )
 }

@@ -93,6 +93,8 @@ async function getOnePostById(postId) {
     post.comments = post.comments.map(comment => ({
       ...comment, author: comment.author?.name || null
     }));
+  } else {
+    throw new PrismaCustomError("Post not found", "P2025");
   }
   return post;
 }

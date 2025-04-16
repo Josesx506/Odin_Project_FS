@@ -59,7 +59,7 @@ export default function SignIn() {
         </div>
         <div className={styles.authLinksContainer}>
           <div className={styles.authLink}>Contributor? <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signin`}>Sign in</Link> to your dashboard</div>
-          <div className={styles.authLink}>New Here? Sign up as a <Link href={'/signup'}>Reader</Link> or <Link href={'#'}>Contributor</Link> </div>
+          <div className={styles.authLink}>New Here? Sign up as a <Link href={'/signup'}>Reader</Link> or <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signup`}>Contributor</Link> </div>
         </div>
       </div>
       

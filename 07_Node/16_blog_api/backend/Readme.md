@@ -51,6 +51,9 @@ an error so that malicious users don't inject random roles into the db.
         ...
     }
     ```
+    For production on railway even if you use a port, don't include the port number in your `.env` for deployment, just use the 
+    direct url that railway provides without a port e.g `https://odin-blog-api.up.railway.app`
+
 2. Ensure consistency of error codes or it can quickly become a nightmare especially for refresh tokens. 
     - `401 Unauthorized` should be used when a user is not logged in or doesn't have a valid token.
     - `403 Forbidden` - This means the user is authenticated, but it's not allowed to access a resource e.g. delete,view,update etc.

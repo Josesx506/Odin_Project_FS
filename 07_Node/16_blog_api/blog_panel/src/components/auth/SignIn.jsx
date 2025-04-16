@@ -6,7 +6,7 @@ import useAuth from '@/hooks/useAuth';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';
 import styles from '@/styles/forms.module.css';
 import Form from 'next/form';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
@@ -20,8 +20,6 @@ export default function SignIn() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  // const searchParams = useSearchParams();
-  // const from = searchParams.get('from') || '/posts';
 
   // Submit the form with fetch request server action
   const onSubmit = async (sanitizedData) => { 
@@ -29,7 +27,7 @@ export default function SignIn() {
       setLoading(true);
       await login(sanitizedData)
       toast.success('Logged in! Redirecting...')
-      router.push('/posts'); // Navigate to previous route - from
+      router.push('/dashboard');
     } catch(err) {
       toast.error('Login failed. Please try again.')
       reset()
@@ -42,7 +40,7 @@ export default function SignIn() {
     <div>
       <div className={styles.authContainer}>
         <div className={styles.authFormContainer}>
-          <h3>ØBlog Access</h3>
+          <h3>ØBlog Dashboard</h3>
 
           <Form className={styles.authForm}  onSubmit={submitWithSanitization(onSubmit)}>
 
@@ -55,11 +53,14 @@ export default function SignIn() {
             <div className={styles.authSubmit}>
               <ContainedButton disabled={loading}>Sign In</ContainedButton>
             </div>
+
+            <em>Dashboard view access</em>
           </Form>
         </div>
         <div className={styles.authLinksContainer}>
-          <div className={styles.authLink}>Contributor? <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signin`}>Sign in</Link> to your dashboard</div>
-          <div className={styles.authLink}>New Here? Sign up as a <Link href={'/signup'}>Reader</Link> or <Link href={'#'}>Contributor</Link> </div>
+          <div className={styles.authLink}>Returning? <Link href={`${process.env.NEXT_PUBLIC_BASICURL}/signin`}>Sign in</Link> to read published posts</div>
+          <div className={styles.authLink}>
+            New Here? Sign up as a <Link href={'/signup'}>Contributor</Link> or <Link href={`${process.env.NEXT_PUBLIC_BASICURL}/signup`}> Reader</Link></div>
         </div>
       </div>
       

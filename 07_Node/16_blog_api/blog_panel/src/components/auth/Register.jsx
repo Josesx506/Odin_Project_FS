@@ -26,7 +26,7 @@ export default function Register() {
   const onSubmit = async (sanitizedData) => {
     try {
       setLoading(true);
-      const result = await registerUserAction(sanitizedData);
+      const result = await registerUserAction(sanitizedData,true);
       if (!result.success) {
         toast.error(result.error);
         reset();
@@ -43,7 +43,7 @@ export default function Register() {
     <div>
       <div className={styles.authContainer}>
         <div className={styles.authFormContainer}>
-          <h3 style={{ textAlign: 'center' }}>Reader Registration</h3>
+          <h3 style={{ textAlign: 'center' }}>Author Registration</h3>
 
           <Form className={styles.authForm} onSubmit={submitWithSanitization(onSubmit)}>
 
@@ -68,9 +68,9 @@ export default function Register() {
           <em>Choose your registration option here. The same email cannot be used twice</em>
         </div>
         <div className={styles.authLinksContainer}>
-          <div className={styles.authLink}>Register as a contributor <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signup`}>here</Link></div>
-          <div className={styles.authLink}>Registered Reader? <Link href={'/signin'}>Sign in</Link> to read posts</div>
-          <div className={styles.authLink}>Registered Contributor? <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signin`}>Sign in</Link> to your dashboard</div>
+          <div className={styles.authLink}>Prefer not to contribute? Register as a reader <Link href={`${process.env.NEXT_PUBLIC_BASICURL}/signup`}>here</Link></div>
+          <div className={styles.authLink}>Registered Reader? <Link href={`${process.env.NEXT_PUBLIC_BASICURL}/signin`}>Sign in</Link> to read posts</div>
+          <div className={styles.authLink}>Registered Contributor? <Link href={'/signin'}>Sign in</Link> to your dashboard</div>
         </div>
       </div>
 

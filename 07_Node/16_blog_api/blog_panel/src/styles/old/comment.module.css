@@ -12,21 +12,9 @@
     padding-bottom: 1.5em;
 }
 
-.commentHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .commentUser {
     font-weight: 550;
     font-style: oblique;
-}
-
-.commentDate {
-    font-style: italic;
-    font-size: 0.9rem;
-    padding-right: 0.2em;
 }
 
 .commentBody {

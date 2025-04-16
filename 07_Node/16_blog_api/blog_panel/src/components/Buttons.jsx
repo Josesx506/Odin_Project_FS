@@ -1,31 +1,48 @@
-import { MessageSquare, SquarePen, Trash2, ListTodo } from 'lucide-react';
+import styles from "@/styles/buttons.module.css";
+import { ListTodo, MessageSquare, SquarePen, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ViewCommentsBtn({commentId, numComments, className=''}) {
+function ContainedButton({ children, onClick=()=>{}, color="black", backgroundColor="lightgray", disabled=false }) {
   return (
-    <Link className={className} href={`/${commentId}#comments`}>
+    <button 
+      onClick={onClick}
+      disabled={disabled}
+      className={styles.contained}
+      style={{color:color, 
+      backgroundColor: backgroundColor}}
+      >
+      {children}
+    </button>
+  )
+}
+
+function ViewCommentsBtn({postId, numComments, className=''}) {
+  return (
+    <Link className={className} href={`/posts/${postId}#comments`}>
         <MessageSquare strokeWidth={"1.2px"} size={"1em"} fill='lightgray' />
         <div>{numComments}</div>
     </Link>
   )
 }
 
-export function EditPostBtn({postId, status="draft", className='', href='#'}) {
+function EditContentBtn({onClick=()=>{}, published=false, className=''}) {
     return (
-      <Link className={className} href={href}>
+      <button className={className} onClick={onClick}>
         {
-          status==="draft" ? 
-          <ListTodo color='rgb(39,100,200)' strokeWidth={"1.5px"} size={"1.2em"} /> : 
-          <SquarePen color='rgb(85, 200, 39)' strokeWidth={"2px"} size={"1.2em"} />
+          published ? 
+          <SquarePen color='rgb(85, 200, 39)' strokeWidth={"2px"} size={"1.2em"} /> :
+          <ListTodo color='rgb(39,100,200)' strokeWidth={"1.5px"} size={"1.2em"} /> 
         }
-      </Link>
+      </button>
     )
 }
 
-export function DeletePostBtn({postId, className='', href='#'}) {
+function DeleteContentBtn({onClick=()=>{}, className=''}) {
     return (
-      <Link className={className} href={href}>
+      <button className={className} onClick={onClick}>
           <Trash2 color='tomato' strokeWidth={"2px"} size={"1.2em"} />
-      </Link>
+      </button>
     )
 }
+
+export { ContainedButton,ViewCommentsBtn,EditContentBtn,DeleteContentBtn };

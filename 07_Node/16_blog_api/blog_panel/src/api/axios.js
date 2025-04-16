@@ -12,6 +12,7 @@ function setInterceptors(getAccessToken, refreshToken) {
   let refreshAttempts = 0;
   const MAX_REFRESH_ATTEMPTS = 2;
 
+  // Request interceptor
   const reqId = axiosApi.interceptors.request.use(async (config) => {
     const token = getAccessToken()
     if (token) {
@@ -20,6 +21,7 @@ function setInterceptors(getAccessToken, refreshToken) {
     return config
   })
   
+  // Response interceptor
   const resId = axiosApi.interceptors.response.use(
     res => res,
     async err => {

@@ -4,6 +4,8 @@ import 'dotenv/config';
 const allowedOrigins = [
     'http://localhost:1800',
     'http://localhost:1900',
+    'https://odin-blog-cms.vercel.app',
+    'https://odin-blog-views.vercel.app'
 ]
 
 const cookieOptions = { 

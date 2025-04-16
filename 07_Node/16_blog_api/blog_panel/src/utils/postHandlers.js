@@ -4,6 +4,17 @@ import { toast } from 'react-hot-toast';
 import { handleCreatePost, handleDeletePost, handleEditPost } from './postActions';
 
 
+async function deletePostDetails({
+  postId 
+}) {
+  try {
+    await handleDeletePost({ postId });
+    toast.success('Post deleted');
+  } catch (err) {
+    toast.error(err.message || 'Delete Failed');
+  }
+}
+
 
 async function deletePostThumbnailHandler({
   postId, onPostDelete,
@@ -18,4 +29,4 @@ async function deletePostThumbnailHandler({
 }
 
 
-export { deletePostThumbnailHandler }
+export { deletePostDetails, deletePostThumbnailHandler }

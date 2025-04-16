@@ -16,6 +16,20 @@ function ContainedButton({ children, onClick=()=>{}, color="black", backgroundCo
   )
 }
 
+export default function BigButton({ color="black", backgroundColor="lightgray", onClick, children }) {
+  return (
+    <button 
+    className={styles.big} 
+    style={{color:color, 
+    backgroundColor: backgroundColor}} 
+    onClick={onClick} 
+    >
+      {children}
+    </button>
+  )
+}
+
+
 function ViewCommentsBtn({numComments, className='', href='#'}) {
   return (
     <Link className={className} href={href}>
@@ -45,4 +59,5 @@ function DeleteContentBtn({onClick=()=>{}, className=''}) {
     )
 }
 
-export { ContainedButton,ViewCommentsBtn,EditContentBtn,DeleteContentBtn };
+export { BigButton, ContainedButton, DeleteContentBtn, EditContentBtn, ViewCommentsBtn };
+

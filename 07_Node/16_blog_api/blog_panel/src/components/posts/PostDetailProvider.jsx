@@ -5,10 +5,11 @@ import CommentThumbnail from '@/components/comments/CommentThumbnails';
 import useAuth from '@/hooks/useAuth';
 import styles from '@/styles/post.module.css';
 import { createCommentHandler } from '@/utils/commentHandlers';
+import { deletePostDetails } from '@/utils/postHandlers';
 import { dateFormatter, decodeJWT } from '@/utils/utils';
 import Form from 'next/form';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import ProfileAvatars from '../ProfileAvatars';
 
@@ -21,6 +22,7 @@ export default function PostDetailProvider({ id }) {
   const { accessToken } = useAuth();
   const user = decodeJWT(accessToken);
   const newCommentRef = useRef("");
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -31,11 +33,15 @@ export default function PostDetailProvider({ id }) {
           { signal: controller.signal })
         setPost(res.data)
         if (post && post.comments) {
-          setComments(post.comments);
+          setComments(res.data.comments);
         }
       } catch (err) {
-        if (err.response?.status === 404) {
-          setError('not-found');
+        if (err.response?.status === 403) {
+          setError('Unauthorized');
+          router.push(`/unauthorized?message=${encodeURIComponent(err.response.data?.message)}`);
+        }
+        else if (err.response?.status === 404) {
+          router.push('/notFound')
         } else {
           setError('other-error');
         }
@@ -49,10 +55,6 @@ export default function PostDetailProvider({ id }) {
     }
   }, [id])
 
-  if (error === 'not-found') {
-    return notFound();
-  }
-
   // State logic and handlers to minimize complete re-rendering of the entire component
   function handleCommentInsert(newComment) {
     // Add the new comment to state
@@ -60,6 +62,12 @@ export default function PostDetailProvider({ id }) {
       ...prevPost,
       comments: [{ ...newComment }, ...prevPost.comments]
     }));
+  }
+
+  async function handlePostDelete(e) {
+    e.preventDefault();
+    await deletePostDetails({ postId: id });
+    router.push('/dashboard');
   }
 
   function handleCommentDelete(commentId) {
@@ -108,7 +116,7 @@ export default function PostDetailProvider({ id }) {
           <button type='submit'>
             <Link href={`/dashboard/${id}/edit`}>Edit</Link>
           </button>
-          <button style={{ color: "red" }} type='submit'>Delete</button>
+          <button onClick={handlePostDelete} style={{ color: "red" }} type='submit'>Delete</button>
         </div>
       </div>
 

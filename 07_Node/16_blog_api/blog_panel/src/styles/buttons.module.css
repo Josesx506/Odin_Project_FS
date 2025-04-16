@@ -14,3 +14,11 @@
         opacity: 0.5;
     }
 }
+
+.big {
+    border: 1px solid gray;
+    font-size: medium;
+    border-radius: 0.8em;
+    padding: 0.4em 0.8em;
+    cursor: pointer;
+}

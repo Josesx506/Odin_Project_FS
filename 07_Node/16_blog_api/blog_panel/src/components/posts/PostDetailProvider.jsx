@@ -1,39 +1,39 @@
 'use client'
 
 import { axiosApi } from '@/api/axios';
+import CommentThumbnail from '@/components/comments/CommentThumbnails';
 import useAuth from '@/hooks/useAuth';
 import styles from '@/styles/post.module.css';
 import { createCommentHandler } from '@/utils/commentHandlers';
-import { decodeJWT } from '@/utils/utils';
+import { dateFormatter, decodeJWT } from '@/utils/utils';
 import Form from 'next/form';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import CommentThumbnail from '@/components/comments/CommentThumbnails';
 import ProfileAvatars from '../ProfileAvatars';
-import { dateFormatter } from '@/utils/utils';
 
 
-export default function PostDetailProvider({id}) {
+export default function PostDetailProvider({ id }) {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { accessToken } = useAuth();
-  const userId = decodeJWT(accessToken).id;
+  const user = decodeJWT(accessToken);
   const newCommentRef = useRef("");
-  
+
 
   useEffect(() => {
     const controller = new AbortController();
     async function fetchPostDetails() {
       try {
-        const res = await axiosApi.get(`/v1/basic/posts/${id}`, 
-            {signal: controller.signal})
+        const res = await axiosApi.get(`/v1/cms/posts/${id}`,
+          { signal: controller.signal })
         setPost(res.data)
         if (post && post.comments) {
           setComments(post.comments);
         }
-      } catch(err) {
+      } catch (err) {
         if (err.response?.status === 404) {
           setError('not-found');
         } else {
@@ -44,8 +44,8 @@ export default function PostDetailProvider({id}) {
       }
     }
     fetchPostDetails();
-    return ()=>{
-        controller.abort();
+    return () => {
+      controller.abort();
     }
   }, [id])
 
@@ -79,13 +79,13 @@ export default function PostDetailProvider({id}) {
   async function postNewComment(e) {
     e.preventDefault();
     await createCommentHandler({
-        commentRef: newCommentRef,
-        postId: id, onCommentCreate: handleCommentInsert
+      commentRef: newCommentRef,
+      postId: id, onCommentCreate: handleCommentInsert
     })
   }
 
 
-  return ( post ? 
+  return (post ?
     <div className={styles.viewPost}>
       {/* View Post */}
       <div className={styles.postView}>
@@ -104,6 +104,12 @@ export default function PostDetailProvider({id}) {
         <div>
           {post.body}
         </div>
+        <div className={styles.actionBtns}>
+          <button type='submit'>
+            <Link href={`/dashboard/${id}/edit`}>Edit</Link>
+          </button>
+          <button style={{ color: "red" }} type='submit'>Delete</button>
+        </div>
       </div>
 
       {/* Handle Comments */}
@@ -114,7 +120,7 @@ export default function PostDetailProvider({id}) {
         <Form >
           <div className={styles.newCmtInput}>
             <label htmlFor="commentBody"></label>
-            <textarea ref={newCommentRef} rows={2} name="commentBody" id="commentBody" 
+            <textarea ref={newCommentRef} rows={2} name="commentBody" id="commentBody"
               placeholder='What are your thoughts?'></textarea>
           </div>
           <div className={styles.actionBtns}>
@@ -125,14 +131,14 @@ export default function PostDetailProvider({id}) {
 
         {/* Edit Existing Comments */}
         {
-          post.comments.length===0 ? 
-          <div>Comments unavailable for this post</div> : 
-          post.comments.map((comment)=>{
-            return <CommentThumbnail key={comment.id} userId={userId} authorId={comment.authorId}
-                    postId={id} id={comment.id} username={comment.author} comment={comment.body} 
-                    updatedAt={comment.updatedAt}
-                    onCommentDelete={handleCommentDelete} />
-          })
+          post.comments.length === 0 ?
+            <div>Comments unavailable for this post</div> :
+            post.comments.map((comment) => {
+              return <CommentThumbnail key={comment.id} user={user} authorId={comment.authorId}
+                postId={id} id={comment.id} username={comment.author} comment={comment.body}
+                updatedAt={comment.updatedAt}
+                onCommentDelete={handleCommentDelete} />
+            })
         }
       </div>
     </div> :

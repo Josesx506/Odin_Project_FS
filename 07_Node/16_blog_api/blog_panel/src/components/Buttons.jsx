@@ -16,9 +16,9 @@ function ContainedButton({ children, onClick=()=>{}, color="black", backgroundCo
   )
 }
 
-function ViewCommentsBtn({postId, numComments, className=''}) {
+function ViewCommentsBtn({numComments, className='', href='#'}) {
   return (
-    <Link className={className} href={`/posts/${postId}#comments`}>
+    <Link className={className} href={href}>
         <MessageSquare strokeWidth={"1.2px"} size={"1em"} fill='lightgray' />
         <div>{numComments}</div>
     </Link>

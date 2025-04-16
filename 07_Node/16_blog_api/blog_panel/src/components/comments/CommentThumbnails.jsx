@@ -8,13 +8,15 @@ import { DeleteContentBtn, EditContentBtn } from '../Buttons';
 import { dateFormatter } from '@/utils/utils';
 
 export default function CommentThumbnail({ 
-    userId, postId, id, authorId, username, comment,
+    user, postId, id, authorId, username, comment,
     updatedAt, onCommentDelete,
  }) {
   const [commentText, setCommentText] = useState(comment);
   const [editComment, setEditComment] = useState(false);
   const editCommentRef = useRef(comment);
-  const permitted = (userId === authorId);
+
+  const editPermission = (user.id === authorId);
+  const delPermission = (user.role === 'ADMIN' || user.id === authorId);
 
   function toggleEdit(e) {
     e.preventDefault();
@@ -64,8 +66,8 @@ export default function CommentThumbnail({
             {commentText}
           </div>
           <div className={styles.commentActions}>
-            {permitted && <EditContentBtn published={true} className={styles.scaleBtn} onClick={toggleEdit}/>}
-            {permitted && <DeleteContentBtn className={styles.scaleBtn} onClick={deleteComment}/>}
+            {editPermission && <EditContentBtn published={true} className={styles.scaleBtn} onClick={toggleEdit}/>}
+            {delPermission && <DeleteContentBtn className={styles.scaleBtn} onClick={deleteComment}/>}
           </div>
         </div>
     )

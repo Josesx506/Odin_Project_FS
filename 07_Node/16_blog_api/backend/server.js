@@ -28,7 +28,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/v1/auth',authRouter);        // Authentication routes
-app.use('/v1/premium',adminRouter);    // Premium author & admin routes
+app.use('/v1/cms',adminRouter);        // CMS author & admin routes
 app.use('/v1/basic',basicRouter);      // Basic user routes
 app.get('/v1/freemium',getMostRecent); // Free api route
 

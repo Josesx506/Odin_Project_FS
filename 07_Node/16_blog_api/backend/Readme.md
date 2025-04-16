@@ -64,6 +64,18 @@ an error so that malicious users don't inject random roles into the db.
 4. For the `basic` blog, I didn't include any keys/roles in my json responses. Checking the authorId against the owner id is 
     sufficient to restrict user permissions. I still haven't figured out how to implement it for the admin panel
 
+5. For sign in, I created 2 separate middlewares that both use passport-local for authorization. The basic one allows any registered
+     user to sign in without a role check. The content management site middleware checks that they have the admin or author roles 
+    or it throws a 403 Forbidden error because the users exist but they don't have necessary permissions. Even if they do manage to 
+    login, the `cms` routes would prevent them from being able to view anything. There's a separate middleware that `generatesJWTs` 
+    which is used for authentication moving forward. The same middleware is used for both sign in routes and includes the users ID 
+    and role in the JWT.
+
+6. For sign up, The same signup link is used by both parties. Basic users are defaulted to the user role, while content management 
+    users are defaulted to the author role. To create a user send a post request to `/v1/auth/signup`. If there's no role key 
+    in the request body you're defaulted to a user role, if you include a role like author or admin, you're defaulted to your 
+    specified role. All roles use uppercase and are represented as enums with prisma and postgres.
+
 ### Todo
 - [ ] Update CORS whitelisted links in `config/options.js` post deployment.
 - [ ] Create an authors view that shows the posts that they've written (low priority).

@@ -3,14 +3,29 @@ import { ROLES } from "../config/roles.js";
 
 function authLocalEmail(req,res,next) {
   passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
-
-    if (!user) {
-        return res.status(401).json({
+    if (err || !user) {
+      return res.status(401).json({
         success: false,
         message: info?.message || "Authentication failed",
-        });
+      });
     } else {
+        req.user = user;
+        next();
+    }})(req, res, next);
+}
+
+function authLocalEmailCMS(req,res,next) {
+  passport.authenticate("local", (err, user, info) => {
+    if (err || !user) {
+      return res.status(401).json({
+        success: false,
+        message: info?.message || "Authentication failed",
+      });
+    } else if (!['ADMIN', 'AUTHOR'].includes(user.role)) {
+      // Prevent users without proper roles from signing in
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    else {
         req.user = user;
         next();
     }})(req, res, next);
@@ -22,7 +37,6 @@ function authJWT(req, res, next) {
     if (err) {
       return next(err);
     }
-
     if (!user) {
       return res.status(401).json({ 
         message: info?.message || "Unauthorized: Invalid or expired token"
@@ -49,4 +63,4 @@ function authRole(permissions) {
   };
 }
 
-export { authLocalEmail, authJWT, authRole }
+export { authJWT, authLocalEmail, authLocalEmailCMS, authRole };

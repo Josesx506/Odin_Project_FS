@@ -1,0 +1,66 @@
+.blogThumbSkeleton {
+    display: grid;
+    gap: 0.25em;
+    padding-bottom: 0.5em;
+    width: 93%;
+    margin: 0 auto;
+}
+
+
+/* Horizontal line between posts */
+.blogThumbSkeleton + .blogThumbSkeleton::before {
+    content: '';
+    width: 80%;
+    border-top: 1px solid lightgray;
+    margin: 0 auto;
+    padding-top: 0.5em;
+}
+
+.blogThumbAuthor {
+    width: 30%;
+}
+
+.blogThumbTitle {
+    width: 45%;
+}
+
+.blogThumbFooter {
+    display: flex;
+    gap: 0.3em;
+    width: 22%;
+}
+
+.detailPostCommentSkeleton {
+    display: grid;
+    gap: 3em;
+    width: 93%;
+    margin: 0 auto;
+}
+
+.detailPostSkeleton {
+    display: grid;
+    gap: 0.5em;
+}
+
+.detailPTitleSkl {
+    line-height: 1.5em;
+}
+
+.detailPDetailSkl {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detailPAuthorSkl {
+    flex: 1;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    padding: 0.2em 0;
+}
+
+.detailCommentSkeleton {
+    display: grid;
+    gap: 0.8em;
+}

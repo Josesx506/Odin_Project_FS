@@ -2,6 +2,7 @@
 
 import { axiosApi } from '@/api/axios';
 import styles from "@/app/page.module.css";
+import { PostThumbnailSkeleton } from "@/components/posts/PostSkeleton";
 import useAuth from '@/hooks/useAuth';
 import { decodeJWT } from '@/utils/utils';
 import { useEffect, useState } from 'react';
@@ -26,6 +27,10 @@ export default function PostProvider() {
         controller.abort();
     }
   }, [])
+
+  if (posts.length === 0) {
+    return <PostThumbnailSkeleton cards={7} />;
+  }
 
   return (
     <div className={styles.main}>

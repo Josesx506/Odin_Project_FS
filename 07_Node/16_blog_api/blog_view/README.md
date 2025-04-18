@@ -23,6 +23,11 @@ for persistent access on the client.
 > [!Important]
 > For the axios interceptor, I used `useLayoutEffect` which is a hook that's identical to useEffect but it runs synchronously.
     This allows it to block requests and attached the authorization header tokens before any request is sent.
+  
+### Learnings
+Implemented a skeleton loader for the loading screens to mimic the outline of the components while authentication is 
+ongoing or data is being fetched in the background. It doesn't fit well with the Authenticated landing page but it 
+works okay for the rest of the application. Future projects will have optimized loading screens for each component.
 
 
 ### Dead Links

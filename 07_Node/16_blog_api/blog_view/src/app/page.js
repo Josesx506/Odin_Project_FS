@@ -1,11 +1,15 @@
 'use client';
 
-import { FreeLandingPage, AuthenticatedLandingPage } from "@/components/LandingPage";
+import { AuthenticatedLandingPage, FreeLandingPage } from "@/components/LandingPage";
+import { PostThumbnailSkeleton } from "@/components/posts/PostSkeleton";
 import useAuth from "@/hooks/useAuth";
-import styles from "./page.module.css";
 
 export default function Home() {
-  const { accessToken } = useAuth();
+  const { loading, accessToken } = useAuth();
+  
+  if (loading) {
+    return <PostThumbnailSkeleton cards={5} />;
+  }
   
   return (
     <>

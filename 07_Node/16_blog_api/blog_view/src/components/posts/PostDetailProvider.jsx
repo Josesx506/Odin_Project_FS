@@ -1,16 +1,16 @@
 'use client'
 
 import { axiosApi } from '@/api/axios';
+import CommentThumbnail from '@/components/comments/CommentThumbnails';
 import useAuth from '@/hooks/useAuth';
 import styles from '@/styles/post.module.css';
 import { createCommentHandler } from '@/utils/commentHandlers';
-import { decodeJWT } from '@/utils/utils';
+import { dateFormatter, decodeJWT } from '@/utils/utils';
 import Form from 'next/form';
 import { notFound } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import CommentThumbnail from '@/components/comments/CommentThumbnails';
 import ProfileAvatars from '../ProfileAvatars';
-import { dateFormatter } from '@/utils/utils';
+import { PostDetailSkeleton } from './PostSkeleton';
 
 
 export default function PostDetailProvider({id}) {
@@ -84,8 +84,11 @@ export default function PostDetailProvider({id}) {
     })
   }
 
+  if (!post || post.length === 0) {
+    return <PostDetailSkeleton />
+  }
 
-  return ( post ? 
+  return (
     <div className={styles.viewPost}>
       {/* View Post */}
       <div className={styles.postView}>
@@ -135,7 +138,6 @@ export default function PostDetailProvider({id}) {
           })
         }
       </div>
-    </div> :
-    <div>Loading...</div>
+    </div>
   )
 }

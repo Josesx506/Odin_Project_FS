@@ -1,6 +1,6 @@
 import styles from '@/styles/thumbnail.module.css';
 import Link from 'next/link';
-import { DeleteContentBtn, EditContentBtn, ViewCommentsBtn } from '../Buttons';
+import { ViewCommentsBtn } from '../Buttons';
 import { dateFormatter } from '@/utils/utils';
 
 export default function PostThumbnail({id, userId, author, authorId,  body, updatedAt, comments, published, title,}) {

@@ -3,6 +3,7 @@ import { AuthProvider } from "@/context/AuthProvider";
 import { Geist, Geist_Mono, Inter, Poppins } from "next/font/google";
 import { Toaster } from 'react-hot-toast';
 import "./globals.css";
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +35,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${poppins.variable}`}>
-        <AuthProvider>
-          <div className="container">
-            <NavBar />
-            <Toaster position="top-right" />
-            {children}
-          </div>
-        </AuthProvider>
+        <SkeletonTheme baseColor="#E0E0E0" highlightColor="#525252" duration={3}>
+          <AuthProvider>
+            <div className="container">
+              <NavBar />
+              <Toaster position="top-right" />
+              {children}
+            </div>
+          </AuthProvider>
+        </SkeletonTheme>
       </body>
     </html>
   );

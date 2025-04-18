@@ -1,6 +1,7 @@
 'use client';
 
 import { axiosApi } from "@/api/axios";
+import { PostThumbnailSkeleton } from "@/components/posts/PostSkeleton";
 import styles from '@/styles/landingpage.module.css';
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -29,6 +30,10 @@ function FreeLandingPage() {
 
     return () => { controller.abort() };
   }, [])
+
+  if (posts.length === 0) {
+    return <PostThumbnailSkeleton cards={5} />;
+  }
 
   return (
     <div className={styles.pageContainer}>

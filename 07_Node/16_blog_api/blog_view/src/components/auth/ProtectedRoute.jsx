@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, loader }) {
   const { accessToken, loading } = useAuth();
   const router = useRouter();
 
@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }) {
   }, [accessToken, loading]);
 
   if (loading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return loader || <div>Loading...</div>;
   }
 
   if (!accessToken) {

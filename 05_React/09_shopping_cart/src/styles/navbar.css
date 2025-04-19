@@ -114,15 +114,18 @@
     position: absolute;
     bottom: 0;
     left: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 0.8rem;
     z-index: 2;
     border-radius: 50%;
     background-color: #FFB4A2;
-    padding: 0.1em;
-    min-width: 1.2em;
+    padding: 0.2em;
+    width: 1.5em;
+    height: 1.5em;
     margin: 0 auto;
     font-weight: normal;
-    vertical-align: middle;
     white-space: nowrap;
 }
 

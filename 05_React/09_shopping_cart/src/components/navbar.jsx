@@ -6,7 +6,8 @@ import "../styles/navbar.css"
 import { useState, useRef } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
-import useCart from "@/hooks/useCart"
+import useCart from "@/hooks/useCart";
+import Store from '@/imgs/store.svg';
 
 export default function NavBar() {
   const navRef = useRef("navList");
@@ -35,7 +36,7 @@ export default function NavBar() {
       <div className="navLogo">
         <Link className="navItem" onClick={closeMenu} href="https://josesx506.github.io/Odin_Project_FS/">
           <Image
-            src="/store.svg"
+            src={Store}
             alt="Store Icon"
             width={80} height={40}
             priority

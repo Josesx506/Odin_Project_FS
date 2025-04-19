@@ -70,16 +70,12 @@ export default function CartProvider({ children }) {
     return totalItems;
   }
 
-  // Cache total cartItems calculation to minimize recalculation during re-renders
-  const calculateTotal = useCallback(
-    () => {
-      const cartValue = cartItems.reduce((total,item) => {
-        return total + (item.price * item.quantity)
-      }, 0)
-      return cartValue;
-    },
-    [cartItems]
-  )
+  function calculateTotal() {
+    const cartValue = cartItems.reduce((total,item) => {
+      return total + (item.price * item.quantity)
+    }, 0)
+    return cartValue;
+  }
   
   return (
     <CartContext.Provider value={{

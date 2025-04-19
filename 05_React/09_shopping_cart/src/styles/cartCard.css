@@ -2,6 +2,7 @@
     font-size: 1.5rem;
     text-align: center;
     line-height: 3em;
+
     & a {
         background-color: #ecf0f1;
         color: black;
@@ -24,10 +25,20 @@
     flex-direction: column;
     gap: 0.9em;
     max-height: 50vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin: 2em auto;
-    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    box-shadow: rgba(17, 12, 46, 0.05) 0px 48px 100px 0px;
     width: 100%;
+
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+    }
 }
 
 .cartCard {
@@ -45,6 +56,14 @@
     min-width: 30%;
     max-width: 30%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & img {
+        border-radius: 50%;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
 }
 
 .cartCardDetails {
@@ -74,10 +93,12 @@
     font-size: 1rem;
     gap: 1em;
     align-items: center;
+
     & div {
         grid-column: span 1;
         text-align: center;
     }
+
     & button {
         display: flex;
         justify-content: center;
@@ -96,6 +117,7 @@
         transition: opacity 0.3s ease-in-out;
         cursor: pointer;
     }
+
     & button:hover {
         opacity: 0.75;
         filter: invert(1);
@@ -106,6 +128,7 @@
     display: flex;
     gap: 1em;
     align-items: center;
+    padding: 0 0.75em;
 }
 
 .delCartItem {

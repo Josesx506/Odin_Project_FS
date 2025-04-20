@@ -12,13 +12,19 @@ CREATE TABLE IF NOT EXISTS messages (
   added TIMESTAMP default CURRENT_TIMESTAMP
 );
 
-INSERT INTO messages (username, text) 
-VALUES
-  ('Amando', 'Hi there! Welcome to the Message Board'),
-  ('Charles', 'Hello World! This is the Odin Project'),
-  ('Pastor', 'To the church in onipanu, una like wahala'),
-  ('Guest', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, sit ad explicabo rerum alias voluptatem dolore quod'),
-  ('Guest', 'Labore nulla deleniti possimus magnam ipsa cumque eius, ab, totam, odit tempore cupiditate praesentium molestiae consectetur');
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM messages) THEN
+    INSERT INTO messages (username, text) 
+    VALUES
+      ('Amando', 'Hi there! Welcome to the Message Board'),
+      ('Charles', 'Hello World! This is the Odin Project'),
+      ('Pastor', 'To the church in onipanu, una like wahala'),
+      ('Guest', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, sit ad explicabo rerum alias voluptatem dolore quod'),
+      ('Guest', 'Labore nulla deleniti possimus magnam ipsa cumque eius, ab, totam, odit tempore cupiditate praesentium molestiae consectetur');
+  END IF;
+END
+$$;
 `;
 
 async function main() {

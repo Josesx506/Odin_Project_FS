@@ -1,0 +1,33 @@
+.gameContainer {
+    position: relative;
+    width: 100%;
+}
+
+.gameImg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.clickSvg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.itemsContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.itemButton {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    z-index: 1;
+}

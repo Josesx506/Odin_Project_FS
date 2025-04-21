@@ -127,3 +127,45 @@ request(app)
     assert.equal('tobi', res.text);
   })
 ```
+
+### Unit and Integration tests
+- ***Unit tests*** can be used to test complex db queries to verify that they return ideal values. To work with a db, we'll need to 
+  seed the db values first and this is done as part of an integration test.
+- ***Integration tests*** involve testing the entire workflow including the db, routes, controllers, and even the server as desired.
+  We typically have to separate the production and test environments using environment vsriables.
+  ```bash
+  NODE_ENV=development
+  DATABASE_URL=postgresql://<user>:<password>@localhost:3306/inventory_application
+  TEST_DATABASE_URL=postgresql://<user>:<password>@localhost:3306/test_inventory_application
+  ```
+  Then we update our `package.json` files 
+  ```json
+  {
+    // other stuff
+    "scripts": {
+      "dev": "NODE_ENV=development && node app.js",
+      "test": "NODE_ENV=test && node prisma/seed.js && NODE_OPTIONS='--experimental-vm-modules' jest *.js",
+    },
+    // even more stuff
+  }
+  ```
+  Based on the `NODE_ENV`, you can programmatically switch out database urls:
+  ```JS
+  const databaseUrl = process.env.NODE_ENV === 'test'
+    ? process.env.TEST_DATABASE_URL
+    : process.env.DATABASE_URL;
+
+  const prisma = new PrismaClient({
+    datasources: {
+      db: {
+        url: databaseUrl,
+      },
+    },
+  });
+  ```
+
+
+>[!Note]
+> Typically the seed file should check if the db is already populated before inserting new values. Also use the same db engine for 
+  test and prod e.g.postgres. Don't try to mix db engines across both environments to minimize sql translation errors. Setup 
+  test env postgres with docker if you don't want to install locally.

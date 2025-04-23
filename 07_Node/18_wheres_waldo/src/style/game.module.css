@@ -1,12 +1,48 @@
 .gameContainer {
+    display: grid;
+    gap: 0.5em;
+}
+
+.gameTargetsContainer {
+    display: flex;
+    gap: 1.2em;
+    padding: 0.4em 0.8em;
+    border: 1px solid black;
+    border-radius: 0.5em;
+}
+
+.targetThumbnail {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    gap: 0.5em;
+}
+
+.targetImgContainer{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
+    padding: 0.2em;
+}
+
+.targetImg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gameImgContainer {
     position: relative;
     width: 100%;
+    box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
 }
 
 .gameImg {
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 0.5em;
 }
 
 .clickSvg {
@@ -22,12 +58,24 @@
     position: absolute;
     display: flex;
     flex-direction: column;
+    background-color: white;
+    border-radius: 0.3em;
 }
 
 
 .itemButton {
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 0.3em;
+    padding: 0.1em 0.3em;
     z-index: 1;
+    cursor: pointer;
+    position: relative;
 }
+
+.itemButton + .itemButton::before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    z-index: 1;
+    top: -1px;
+    border-top: 1px solid rgb(195, 195, 195);
+}
+

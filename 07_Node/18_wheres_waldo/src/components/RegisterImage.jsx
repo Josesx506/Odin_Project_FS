@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Form from 'next/form'
 import { FormField } from './FormField';
 import { registerImageAction } from '@/app/actions/register';
 import { toast } from 'react-hot-toast';
 
 export default function RegisterImage() {
+  const [submitting,isSubmitting] = useState(false);
+  const titleRef = useRef();
   const urlRef = useRef();
   const widthRef = useRef();
   const heightRef = useRef();
@@ -55,6 +57,7 @@ export default function RegisterImage() {
   }
 
   function resetForm(){
+    titleRef.current.value = '';
     urlRef.current.value = '';
     widthRef.current.value = '';
     heightRef.current.value = '';
@@ -68,8 +71,10 @@ export default function RegisterImage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    isSubmitting(true);
 
     const formData = {
+      title: titleRef.current.value.trim(),
       url: urlRef.current.value.trim(),
       width: parseInt(widthRef.current.value),
       height: parseInt(heightRef.current.value),
@@ -113,12 +118,15 @@ export default function RegisterImage() {
       }
     } catch (error) {
       toast.error('Failed to submit: ' + error.message);
+    } finally {
+      isSubmitting(false);
     }
   }
 
   return (
     <div>
       <Form style={formStyle} onSubmit={handleSubmit}>
+        <FormField name={'title'} label={'Game Title'} placeholder={'Enter game title'} ref={titleRef} />
         <FormField name={'url'} label={'Image URL:'} placeholder={'Enter image url'} ref={urlRef} />
         <FormField name={'width'} label={'Image width:'} type='number' placeholder={'Enter image width in px'} ref={widthRef} />
         <FormField name={'height'} label={'Image height:'} type='number' placeholder={'Enter image height in px'} ref={heightRef} />
@@ -129,7 +137,7 @@ export default function RegisterImage() {
         <FormField name={'target2-url'} label={'Target 2 URL:'} placeholder={'Enter image url'} ref={t2UrlRef} />
         <FormField name={'target2-bb'} label={'Target 2 Relative Bounding Box:'} placeholder={'E.g. [{"top": 30, "left": 45, "width": 5, "height": 8}]'} ref={t2BBRef} />
         <div style={{display: 'flex'}}>
-          <button style={{margin: '0 auto'}} type="submit">Register image</button>
+          <button style={{margin: '0 auto'}} type="submit" disabled={submitting}>Register image</button>
         </div>
       </Form>
     </div>

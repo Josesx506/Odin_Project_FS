@@ -1,12 +1,30 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NextImage from "next/image";
 import Clicker from "@/components/Clicker";
 import styles from "@/style/game.module.css"
+import { GameProviderSkeleton } from "./Skeletons";
 
-export default function GameProvider({ id, imgSrc, items, }) {
+export default function GameProvider({ id }) {
+
+  const [loading, setLoading] = useState(true);
+  const [gameData, setGameData] = useState();
   const [coords, setCoords] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`/api/game/${id}`, { signal: controller.signal })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setGameData(data.game);
+        setLoading(false);
+      })
+      .catch((err) => toast.error(err.message))
+
+    return () => { controller.abort() };
+  }, [id])
+
 
   const getClickCoords = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -31,12 +49,25 @@ export default function GameProvider({ id, imgSrc, items, }) {
   }
 
   return (
-    <div
-      onClick={addCircle}
-      className={styles.gameContainer}
-    >
-      <NextImage src={imgSrc} alt="image with hidden objects puzzle"
-        width={1920} height={1080} priority
+    loading ? <GameProviderSkeleton /> :
+    <div className={styles.gameContainer}>
+    <div className={styles.gameTargetsContainer}>
+      {gameData.targets.map((icon, iIdx) => {
+            return (
+              <div key={iIdx+5} className={styles.targetThumbnail}>
+                <div className={styles.targetImgContainer}>
+                <NextImage src={icon.url} alt="target image thumbail"
+                  width={60} height={60} priority
+                  className={styles.targetImg}
+                />
+                </div>
+                <div>{icon.name}</div>
+              </div>)
+          })}
+    </div>
+    <div onClick={addCircle} className={styles.gameImgContainer} >
+      <NextImage src={gameData.url} alt="image with hidden objects puzzle"
+        width={gameData.width} height={gameData.height} priority
         className={styles.gameImg}
       />
       <svg className={styles.clickSvg} preserveAspectRatio="xMidYMid meet">
@@ -45,7 +76,7 @@ export default function GameProvider({ id, imgSrc, items, }) {
       {coords &&
         <div className={styles.itemsContainer} 
           style={{ top: `${coords.y}px`, left: `${coords.x + 16}px` }}>
-          {items.length > 0 && items.map((icon, iIdx) => {
+          {gameData.targets.map((icon, iIdx) => {
             return (
               <div key={iIdx} onClick={clickedIcon} className={styles.itemButton}>
                 {icon.name}
@@ -53,6 +84,7 @@ export default function GameProvider({ id, imgSrc, items, }) {
           })}
         </div>
       }
+    </div>
     </div>
   )
 }

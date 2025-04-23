@@ -1,6 +1,5 @@
-
 import { connectMongoose } from "@/lib/db";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import Image from "@/models/Image";
 
 export async function POST(request) {
@@ -9,7 +8,7 @@ export async function POST(request) {
         const body = await request.json();
         
         const {
-            url, width, height,
+            title, url, width, height,
             t1Name, t1Url, t1BoundBox,
             t2Name, t2Url, t2BoundBox, } = body;
 
@@ -24,6 +23,7 @@ export async function POST(request) {
 
         // Create and save new image
         const img = new Image({
+            title: title,
             url: url,
             width: Number(width),
             height: Number(height),

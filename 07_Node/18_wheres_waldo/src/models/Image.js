@@ -1,20 +1,33 @@
 import mongoose from 'mongoose';
 
+const BoundingBoxSchema = new mongoose.Schema({
+  top: { type: Number, required: true },
+  left: { type: Number, required: true },
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+}, { _id: false });
+
+const TargetSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  url: { type: String, required: true },
+  boundingBoxes: {
+    type: [BoundingBoxSchema],
+    default: [],
+    required: true
+  }
+}, { _id: false });
+
 const ImageSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: true,
-  },
-  width: {
-    type: Number,
-    required: true,
-  },
-  height: {
-    type: Number,
-    required: true,
-  },
+  url: { type: String, required: true },
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+  targets: {
+    type: [TargetSchema],
+    default: [],
+    required: true
+  }
 }, {
-  timestamps: true // ✅ Automatically adds createdAt and updatedAt
+  timestamps: true
 });
 
 // Export the model

@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h2>Welcome to Wheres Waldo</h2>
+        <h2>Hidden Phøtø Tag</h2>
         <LandingPage />
         <div style={{display:'flex', gap:"1em"}}>
           <Link style={{textDecoration:'underline'}} href={'./addImage'}>Add Image</Link>

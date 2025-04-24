@@ -15,6 +15,8 @@ export default function GameProvider({ id }) {
   const [coords, setCoords] = useState(null);
   const [foundTargets, setFoundTargets] = useState(new Set());
   const [foundBBoxes, setFoundBBoxes] = useState([]);
+  const [gameTime, setGameTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,6 +25,7 @@ export default function GameProvider({ id }) {
       .then((data) => {
         setGameData(data.game);
         setLoading(false);
+        setTimerActive(true); // start the game timer!
       })
       .catch((err) => {
         if (err.name !== 'AbortError') {
@@ -33,7 +36,16 @@ export default function GameProvider({ id }) {
     return () => { controller.abort() };
   }, [id])
 
+  useEffect(() => {
+    if (!timerActive) return;
+    const interval = setInterval(() => {
+      setGameTime(prev => prev + 1);
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [timerActive]);
 
+  // if (!timerActive) {toast.success(`🎉 Game complete! Time: ${gameTime} seconds`)}
   const getClickCoords = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -57,7 +69,14 @@ export default function GameProvider({ id }) {
       const resp = await gameMoveAction(id, targetName, coords.normX, coords.normY);
       if (resp.status === 'success') {
         toast.success(resp.message)
-        setFoundTargets((prev) => new Set(prev).add(targetName));
+        setFoundTargets((prev) => {
+          const updt = new Set(prev).add(targetName);
+          // End the game and stop the timer
+          if (updt.size === gameData.targets.length) {
+            setTimerActive((prev)=>false);
+          }
+          return updt;
+        });
         const foundBbox = resp.boundingBox;
         foundBbox.id = crypto.randomUUID();
         setFoundBBoxes((prev) => [...prev, foundBbox])
@@ -65,7 +84,9 @@ export default function GameProvider({ id }) {
       else { toast.error(resp.message) };
     }
     catch (err) { toast.error(resp.message) }
-    finally { setCoords(null) }
+    finally { 
+      setCoords(null)
+    }
   }
 
   async function disabledClick(e) {
@@ -78,7 +99,6 @@ export default function GameProvider({ id }) {
     loading ? <GameProviderSkeleton /> :
       <div className={styles.gameContainer}>
         <div className={styles.gameTargetsContainer}>
-
           {/* Target Thumbnail Icons */}
           {gameData.targets.map((icon, iIdx) => {
             const found = foundTargets.has(icon.name);
@@ -93,7 +113,7 @@ export default function GameProvider({ id }) {
                 <div>{icon.name}</div>
               </div>)
           })}
-
+          <div className={styles.timer}>⏱️ Time: {gameTime} sec</div>
         </div>
         <div onClick={addCircle} className={styles.gameImgContainer} >
           <NextImage src={gameData.url} alt="image with hidden objects puzzle"

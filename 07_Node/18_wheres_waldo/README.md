@@ -5,7 +5,7 @@ Where's Waldo involves identifying small objects amidst many other objects using
 has a bounding box with a dropdown to select which character you believe exists at those coordinates. The primary task is 
 to determine whether the game logic is correct, and how fast it takes a player to find all the characters. <br>
 
-The project was built with NextJS, MongoDB (atlas), and mongoose. The entire stack was built in nextJS and I included a public api within 
+The project was built with NextJS, MongoDB (atlas), cloudinary, and mongoose. The entire stack was built in nextJS and I included a public api within 
 the application. Game logic was implemented on server components to prevent cheating and accessed using a combination of server functions 
 (actions) and `useEffect` calls. Using nextJs helped to cutout the express requirement for a backend server and I didn't implement any 
 authentication but overall, the express logic feels closer to flask logic from python, and I prefer it to next. <br>

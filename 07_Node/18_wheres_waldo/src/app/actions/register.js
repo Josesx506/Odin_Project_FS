@@ -1,10 +1,9 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 
-function getApiPrefix() {
-    const headersList = headers();
+async function getApiPrefix() {
+    const headersList = await headers();
     const host = headersList.get('host') || 'localhost:3000';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
     
@@ -17,7 +16,7 @@ function getApiPrefix() {
 // /api/registerImage
 async function registerImageAction(formData) {
     try {
-        const prefix = getApiPrefix()
+        const prefix = await getApiPrefix()
 
         const response = await fetch(`${prefix}/api/registerImage`, {
           method: 'POST',
@@ -42,4 +41,4 @@ async function registerImageAction(formData) {
     }
 }
 
-export { registerImageAction }
+export { getApiPrefix, registerImageAction }

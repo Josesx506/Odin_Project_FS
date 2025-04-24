@@ -1,4 +1,4 @@
-import GameProvider from "@/components/GameProvider";
+import GameProvider from "@/components/Game/GameProvider";
 
 export default async function page({ params }) {
   const { id } = await params;

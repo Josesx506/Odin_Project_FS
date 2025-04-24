@@ -1,9 +1,8 @@
+import LeaderBoardPage from '@/components/LeaderBoard/LeaderBoardPage'
 import React from 'react'
 
 export default function page() {
   return (
-    <div>
-      Welcome to the Leaderboard
-    </div>
+    <LeaderBoardPage />
   )
 }

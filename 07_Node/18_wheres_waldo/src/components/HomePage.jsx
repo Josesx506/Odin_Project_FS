@@ -1,9 +1,9 @@
 'use client';
 
-import GameThumbnail from '@/components/GameThumbnail';
+import GameThumbnail from '@/components/Game/GameThumbnail';
+import { GameThumbnailSkeleton } from '@/components/Skeletons';
 import { useEffect, useState } from "react";
 import { toast } from 'react-hot-toast';
-import { GameThumbnailSkeleton } from '@/components/Skeletons';
 
 const containerStyle = {
   display: 'flex',
@@ -25,7 +25,11 @@ export default function LandingPage() {
         setGames(data.imgs);
         setLoading(false);
       })
-      .catch((err) => toast.error(err.message))
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          toast.error(err.message);
+        }
+      })
 
     return () => { controller.abort() };
   }, [])
@@ -34,7 +38,6 @@ export default function LandingPage() {
     <div style={containerStyle}>
       {loading ? GameThumbnailSkeleton({cards:3}) :
         games.map((game) => {
-          console.log(game._id,game.url)
           return <GameThumbnail key={game._id} title={game.title} imgSrc={game.url} link={`/game/${game._id}`} />
         })}
     </div>

@@ -51,15 +51,50 @@ function GameThumbnailSkeleton({ cards }) {
 
 function GameProviderSkeleton() {
   return (
-    <div style={{display: 'grid',gap: '0.5em'}}>
+    <div style={{ display: 'grid', gap: '0.5em' }}>
       <div>
-        <Skeleton height={'3em'} style={{borderRadius: '0.5em'}} />
+        <Skeleton height={'3em'} style={{ borderRadius: '0.5em' }} />
       </div>
-      <div  style={{width: '100%', borderRadius: '0.5em', height:'min(70vh,500px)'}}>
+      <div style={{ width: '100%', borderRadius: '0.5em', height: 'min(70vh,500px)' }}>
         <Skeleton style={{ height: '100%', width: '100%' }} />
       </div>
     </div>
   )
 }
 
-export { GameThumbnailSkeleton, GameProviderSkeleton }
+function LeaderBoardSkeleton({ count }) {
+  const containerStyle = {
+    display: 'flex',
+    gap: '0.5em',
+    flexDirection: 'column',
+    width: 'min(100%, 400px)'
+  }
+
+  return (
+    <div style={containerStyle}>
+      {Array(count).fill(null).map((item, index) => {
+        return <Skeleton key={index} style={{ width: '100%', height: '1.2rem', flex: 1, borderRadius: '0.5em' }} />
+      })}
+    </div>
+  )
+}
+
+function LeaderBoardProviderSkeleton() {
+  const pageStryle ={
+    display: 'flex',
+    gap: '1em',
+    alignItems: 'center',
+    flexDirection: 'column',
+  }
+  return (
+    <div style={pageStryle}>
+      <h2><Skeleton style={{flex: 1, width:'200px'}} /></h2>
+      <LeaderBoardSkeleton count={10} />
+    </div>
+  )
+}
+
+export { 
+  GameThumbnailSkeleton, GameProviderSkeleton, 
+  LeaderBoardSkeleton, LeaderBoardProviderSkeleton 
+}

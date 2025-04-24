@@ -18,6 +18,7 @@ const containerStyle = {
   gap: '0.5em',
   alignItems: 'flex-start',
   justifyContent: 'center',
+  flexDirection: 'column'
 }
 
 export default function LeaderBoardPage() {
@@ -55,7 +56,11 @@ export default function LeaderBoardPage() {
       <div style={containerStyle}>
         {boards.length > 0 ?
           boards.map((board) => {
-            return <Link key={board._id} href={`/leaderboard/${board.imageId}`}>{board.title}</Link>
+            return (
+            <Link style={{textDecoration:'underline'}} key={board._id} href={`/leaderboard/${board.imageId}`}>
+              {board.title}
+            </Link>
+            )
           }) :
           <p style={{ textAlign: 'center' }}>No leaderboards available yet.</p>
         }

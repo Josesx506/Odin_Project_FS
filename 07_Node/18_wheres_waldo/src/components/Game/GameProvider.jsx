@@ -4,9 +4,11 @@ import { gameMoveAction } from "@/app/actions/playGame";
 import Clicker from "@/components/Clicker";
 import styles from "@/style/game.module.css";
 import NextImage from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-hot-toast';
 import { GameProviderSkeleton } from "../Skeletons";
+import Timer from "@/components/Timer";
+import FormModal from "@/components/LeaderBoard/FormModal";
 
 export default function GameProvider({ id }) {
 
@@ -15,8 +17,9 @@ export default function GameProvider({ id }) {
   const [coords, setCoords] = useState(null);
   const [foundTargets, setFoundTargets] = useState(new Set());
   const [foundBBoxes, setFoundBBoxes] = useState([]);
-  const [gameTime, setGameTime] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
+  const [endGame, setEndGame] = useState(false);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -35,15 +38,6 @@ export default function GameProvider({ id }) {
 
     return () => { controller.abort() };
   }, [id])
-
-  useEffect(() => {
-    if (!timerActive) return;
-    const interval = setInterval(() => {
-      setGameTime(prev => prev + 1);
-    }, 1000);
-  
-    return () => clearInterval(interval);
-  }, [timerActive]);
 
   // if (!timerActive) {toast.success(`🎉 Game complete! Time: ${gameTime} seconds`)}
   const getClickCoords = (event) => {
@@ -73,7 +67,8 @@ export default function GameProvider({ id }) {
           const updt = new Set(prev).add(targetName);
           // End the game and stop the timer
           if (updt.size === gameData.targets.length) {
-            setTimerActive((prev)=>false);
+            setTimerActive(false);
+            setEndGame(true);
           }
           return updt;
         });
@@ -113,7 +108,9 @@ export default function GameProvider({ id }) {
                 <div>{icon.name}</div>
               </div>)
           })}
-          <div className={styles.timer}>⏱️ Time: {gameTime} sec</div>
+          <div className={styles.timer}>
+            <Timer active={timerActive} timeRef={timerRef} />
+          </div>
         </div>
         <div onClick={addCircle} className={styles.gameImgContainer} >
           <NextImage src={gameData.url} alt="image with hidden objects puzzle"
@@ -146,6 +143,9 @@ export default function GameProvider({ id }) {
             </div>
           }
         </div>
+
+        {/* The leaderboard form */}
+        <FormModal totalTime={timerRef.current} gameId={id} open={endGame && timerRef.current} />
       </div>
   )
 }

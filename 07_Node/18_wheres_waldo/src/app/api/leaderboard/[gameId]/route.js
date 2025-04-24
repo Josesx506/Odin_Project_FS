@@ -11,7 +11,8 @@ export async function GET(req, { params }) {
     await connectMongoose();
 
     // Get the leaderboard for the game and sort it by ascending time 
-    const board = await LeaderBoard.findById({ imageId: gameId }).sort({ time: 1 });
+    const board = await LeaderBoard.findOne({ imageId: gameId });
+    console.log(board);
 
     if (!board) {
 
@@ -37,16 +38,19 @@ export async function GET(req, { params }) {
 }
 
 
-export async function POST(request) {
+export async function POST(req, { params }) {
+  const urlParams = (await params);
+  const { gameId } = urlParams;
+
   try {
     // Parse request body
-    const body = await request.json();
+    const body = await req.json();
 
-    const { gameId, userName, userTime } = body;
+    const { userName, userTime } = body;
 
     await connectMongoose();
 
-    let leaderboard = await Leaderboard.findOne({ imageId: gameId });
+    let leaderboard = await LeaderBoard.findOne({ imageId: gameId });
 
     if (!leaderboard) {
       // Check if the game exists for this id
@@ -56,7 +60,7 @@ export async function POST(request) {
       }
 
       // Initialize a new leaderboard with the game title and empty entries
-      leaderboard = new Leaderboard({
+      leaderboard = new LeaderBoard({
         imageId: game._id,
         title: game.title,
         entries: []

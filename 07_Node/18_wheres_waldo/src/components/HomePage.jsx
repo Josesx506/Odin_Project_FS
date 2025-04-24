@@ -10,7 +10,7 @@ const containerStyle = {
   gap: '0.8em',
   flexWrap: 'wrap',
   alignItems: 'center',
-  justifyContent: 'flex-start',
+  justifyContent: 'center',
 }
 
 export default function LandingPage() {
@@ -38,7 +38,10 @@ export default function LandingPage() {
     <div style={containerStyle}>
       {loading ? GameThumbnailSkeleton({cards:3}) :
         games.map((game) => {
-          return <GameThumbnail key={game._id} title={game.title} imgSrc={game.url} link={`/${game._id}`} />
+          return (
+            <GameThumbnail key={game._id} title={game.title} 
+              imgSrc={game.url} link={`/${game._id}`} />
+          )
         })}
     </div>
   )

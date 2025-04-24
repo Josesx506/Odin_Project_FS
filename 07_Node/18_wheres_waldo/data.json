@@ -62,5 +62,69 @@
         ]
       }
     ]
+  },
+  {
+    "title": "Beach (Medium)",
+    "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745486801/waldo_beach_ojj7bf.jpg",
+    "width": 1200,
+    "height": 900,
+    "targets": [
+      {
+        "name": "Waldo",
+        "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745460530/waldo-icon_nm9y77.png",
+        "boundingBoxes": [
+          {
+            "top": 46,
+            "left": 51,
+            "width": 4,
+            "height": 8
+          }
+        ]
+      },
+      {
+        "name": "Odlaw",
+        "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745487294/odlaw-icon_pyoxtw.png",
+        "boundingBoxes": [
+          {
+            "top": 47,
+            "left": 23,
+            "width": 3,
+            "height": 9
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Leap of Faith (Medium)",
+    "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745488548/asc-mirage_eptrud.jpg",
+    "width": 1920,
+    "height": 1080,
+    "targets": [
+      {
+        "name": "Basim",
+        "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745488708/basim-icon_vfjzq3.png",
+        "boundingBoxes": [
+          {
+            "top": 49,
+            "left": 49,
+            "width": 1,
+            "height": 2
+          }
+        ]
+      },
+      {
+        "name": "Eagle",
+        "url": "https://res.cloudinary.com/dwb3wrscb/image/upload/v1745488798/eagle-icon_kvshm1.png",
+        "boundingBoxes": [
+          {
+            "top": 19,
+            "left": 55,
+            "width": 2,
+            "height": 2
+          }
+        ]
+      }
+    ]
   }
 ]

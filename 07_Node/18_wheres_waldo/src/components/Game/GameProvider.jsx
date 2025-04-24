@@ -58,7 +58,7 @@ export default function GameProvider({ id }) {
     e.preventDefault();
     e.stopPropagation();
     const targetName = e.target.textContent;
-    console.log(coords.normX, coords.normY);
+    // console.log(coords.normX, coords.normY);
     try {
       const resp = await gameMoveAction(id, targetName, coords.normX, coords.normY);
       if (resp.status === 'success') {

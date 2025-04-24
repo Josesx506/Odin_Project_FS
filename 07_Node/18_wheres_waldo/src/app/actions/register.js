@@ -18,7 +18,7 @@ async function registerImageAction(formData) {
     try {
         const prefix = await getApiPrefix()
 
-        const response = await fetch(`${prefix}/api/registerImage`, {
+        const response = await fetch(`${prefix}/api/game`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

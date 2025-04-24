@@ -5,9 +5,11 @@ import Form from 'next/form'
 import { FormField } from './FormField';
 import { registerImageAction } from '@/app/actions/register';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterImage() {
   const [submitting,isSubmitting] = useState(false);
+  const router = useRouter();
   const titleRef = useRef();
   const urlRef = useRef();
   const widthRef = useRef();
@@ -113,6 +115,7 @@ export default function RegisterImage() {
       if (res.success) {
         toast.success(res.message);
         resetForm();
+        router.push('/');
       } else {
         toast.error(res.message);
       }

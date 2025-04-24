@@ -10,7 +10,7 @@ import { sanitizeSimpleInputs } from '../utils';
 
 export default function FormModal({ totalTime, gameId, open = false }) {
   const nameRef = useRef();
-  const router = useRouter()
+  const router = useRouter();
 
   function escapeRegExp(string) {
     return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&')

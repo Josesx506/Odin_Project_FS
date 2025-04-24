@@ -12,7 +12,6 @@ export async function GET(req, { params }) {
 
     // Get the leaderboard for the game and sort it by ascending time 
     const board = await LeaderBoard.findOne({ imageId: gameId });
-    console.log(board);
 
     if (!board) {
 

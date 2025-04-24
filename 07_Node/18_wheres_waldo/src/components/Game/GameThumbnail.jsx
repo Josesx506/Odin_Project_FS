@@ -7,6 +7,7 @@ const cardStyle = {
   overflow: 'hidden',
   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
   height: '100%',
+  width: 'min(100%,200px)',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5em'
@@ -38,6 +39,13 @@ const contentStyle = {
   flexDirection: 'column',
 }
 
+const titleStyle = {
+  marginBottom: '0.5rem',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+}
+
 const linkStyle = {
   color: '#007bff',
   fontWeight: 'bold',
@@ -56,7 +64,7 @@ export default function GameThumbnail({ title, imgSrc, link }) {
           style={imgStyle} />
       </div>
       <div style={contentStyle}>
-        <h3 style={{ marginBottom: '0.5rem' }}>{title}</h3>
+        <h3 style={titleStyle}>{title}</h3>
         <Link href={link} style={linkStyle}>
           Play Game <span style={{ marginLeft: '0.5rem' }}>→</span>
         </Link>

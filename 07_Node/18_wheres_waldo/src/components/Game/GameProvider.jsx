@@ -13,6 +13,8 @@ export default function GameProvider({ id }) {
   const [loading, setLoading] = useState(true);
   const [gameData, setGameData] = useState();
   const [coords, setCoords] = useState(null);
+  const [foundTargets, setFoundTargets] = useState(new Set());
+  const [foundBBoxes, setFoundBBoxes] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -46,27 +48,43 @@ export default function GameProvider({ id }) {
     setCoords({ x, y, normX, normY });
   };
 
-  async function clickedIcon(e) {
+  async function activeClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(coords.normX, coords.normY)
+    const targetName = e.target.textContent;
+    console.log(coords.normX, coords.normY);
     try {
-      const resp = await gameMoveAction(id, e.target.textContent, coords.normX, coords.normY);
-      if (resp.status==='success') { toast.success(resp.message) }
+      const resp = await gameMoveAction(id, targetName, coords.normX, coords.normY);
+      if (resp.status === 'success') {
+        toast.success(resp.message)
+        setFoundTargets((prev) => new Set(prev).add(targetName));
+        const foundBbox = resp.boundingBox;
+        foundBbox.id = crypto.randomUUID();
+        setFoundBBoxes((prev) => [...prev, foundBbox])
+      }
       else { toast.error(resp.message) };
-    } 
-    catch (err) { toast.error(resp.message) } 
+    }
+    catch (err) { toast.error(resp.message) }
     finally { setCoords(null) }
+  }
+
+  async function disabledClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setCoords(null);
   }
 
   return (
     loading ? <GameProviderSkeleton /> :
       <div className={styles.gameContainer}>
         <div className={styles.gameTargetsContainer}>
+
+          {/* Target Thumbnail Icons */}
           {gameData.targets.map((icon, iIdx) => {
+            const found = foundTargets.has(icon.name);
             return (
               <div key={iIdx + 5} className={styles.targetThumbnail}>
-                <div className={styles.targetImgContainer}>
+                <div className={`${styles.targetImgContainer} ${found ? styles.completedThumb : ''}`}>
                   <NextImage src={icon.url} alt="target image thumbail"
                     width={60} height={60} priority
                     className={styles.targetImg}
@@ -75,6 +93,7 @@ export default function GameProvider({ id }) {
                 <div>{icon.name}</div>
               </div>)
           })}
+
         </div>
         <div onClick={addCircle} className={styles.gameImgContainer} >
           <NextImage src={gameData.url} alt="image with hidden objects puzzle"
@@ -84,12 +103,23 @@ export default function GameProvider({ id }) {
           <svg className={styles.clickSvg} preserveAspectRatio="xMidYMid meet">
             {coords && <Clicker x={coords.x} y={coords.y} />}
           </svg>
+
+          {foundBBoxes.length>0 && 
+           foundBBoxes.map((box) => (
+            <div key={box.id} className={styles.boundingBox} 
+              style={{top:`${box.top}%`,left:`${box.left}%`,width:`${box.width}%`,height:`${box.height}%`}}></div>
+           ))
+          }
+
           {coords &&
             <div className={styles.itemsContainer}
               style={{ top: `${coords.y}px`, left: `${coords.x + 16}px` }}>
+              {/* Target Clickable icons */}
               {gameData.targets.map((icon, iIdx) => {
+                const found = foundTargets.has(icon.name);
                 return (
-                  <div key={iIdx} onClick={clickedIcon} className={styles.itemButton}>
+                  <div key={iIdx} onClick={found ? disabledClick : activeClick}
+                    className={`${styles.itemButton} ${found ? styles.completed : ''}`}>
                     {icon.name}
                   </div>)
               })}

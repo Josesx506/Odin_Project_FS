@@ -38,7 +38,7 @@ export default function LandingPage() {
     <div style={containerStyle}>
       {loading ? GameThumbnailSkeleton({cards:3}) :
         games.map((game) => {
-          return <GameThumbnail key={game._id} title={game.title} imgSrc={game.url} link={`/game/${game._id}`} />
+          return <GameThumbnail key={game._id} title={game.title} imgSrc={game.url} link={`/${game._id}`} />
         })}
     </div>
   )

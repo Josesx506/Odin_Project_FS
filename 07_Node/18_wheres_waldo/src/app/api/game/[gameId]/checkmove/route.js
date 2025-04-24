@@ -41,7 +41,9 @@ export async function GET(req, { params }) {
     );
 
     if (match) {
-      return NextResponse.json({ status: 'success', message: `You found ${targetName}` }, { status: 200 });
+      return NextResponse.json({ 
+        status: 'success', message: `You found ${targetName}`, boundingBox: target.boundingBoxes[0] 
+      }, { status: 200 });
     } else {
       return NextResponse.json({ status: 'failure', message: `${targetName}'s not here` }, { status: 200 });
     }

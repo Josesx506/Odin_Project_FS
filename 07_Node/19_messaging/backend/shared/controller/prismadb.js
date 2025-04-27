@@ -1,12 +1,28 @@
 import { prisma } from "../../config/prisma.js";
 
 
-async function createUser(username, email, hashedPassword) {
+async function createUserWithoutRole(username, email, hashedPassword) {
   const user = await prisma.chatUser.create({
     data: {
       name: username,
       email: email.toLowerCase(),
       password: hashedPassword
+    },
+    select: {
+      id: true,
+      email: true
+    }
+  })
+  return user;
+}
+
+async function createUserWithRole(username, email, hashedPassword, role) {
+  const user = await prisma.chatUser.create({
+    data: {
+      name: username,
+      email: email.toLowerCase(),
+      password: hashedPassword,
+      role: role.toUpperCase()
     },
     select: {
       id: true,
@@ -56,6 +72,7 @@ async function updateRefreshToken(id, token) {
 }
 
 export {
-    createUser, retrieveUserByEmail, retrieveUserById, 
-    retrieveUserByToken, updateRefreshToken
+  createUserWithoutRole, createUserWithRole, retrieveUserByEmail,
+  retrieveUserById, retrieveUserByToken, updateRefreshToken
 };
+

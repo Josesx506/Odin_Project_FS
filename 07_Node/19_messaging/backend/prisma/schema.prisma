@@ -27,6 +27,7 @@ model ChatUser {
   email    String        @unique
   password String
   token    String?
+  role     ChatRole      @default(USER)
   messages ChatMessage[]
   rooms    ChatRoom[]
   
@@ -66,4 +67,9 @@ model ChatMessage {
   authorId   Int
   @@index([authorId])
   @@index([chatRoomId])
+}
+
+enum ChatRole {
+  ADMIN
+  USER
 }

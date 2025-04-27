@@ -6,6 +6,8 @@ import { passport } from '../config/passport.js';
 import { sessionMiddleware } from '../config/session.js';
 import { logRequests } from '../shared/controller/logger.js';
 import { credentials } from "../shared/middleware/credentials.js";
+import { router as authRouter } from "../apps/auth/routes/authRoute.js";
+import { router as chatRouter } from "../apps/chat/routes/chatRoute.js";
 
 
 const app = express();
@@ -27,9 +29,9 @@ app.use(passport.session());
 // Basic middleware - Logger
 app.use(logRequests);
 
-
 // Routes
-
+app.use('/v1/auth',authRouter);        // Authentication routes
+app.use('/v1/chat',chatRouter);        // Chat routes
 
 app.get("/",(req,res)=>{
     res.send("Received request\n");

@@ -4,7 +4,9 @@ function registerChatHandlers(socket, io) {
   // `socket` = this particular connected client
   // `io` = whole server (for broadcasting)
 
-  console.log(`Registering chat handlers for user ${socket.user.email}`);
+  console.log(`Registering chat handlers for user`);// ${socket.user.email}
+
+  
 
   socket.on('joinRoom', (roomId) => {
     console.log(`${socket.user.email} joining groupChat/${roomId}`);
@@ -12,9 +14,10 @@ function registerChatHandlers(socket, io) {
   });
 
   socket.on('groupMessage', ({ roomId, message }) => {
-    console.log(`New group message in groupChat/${roomId}: ${message}`);
+    console.log(`New group message in groupChat:${roomId}- ${message}`);
 
-    io.to(`groupChat/${roomId}`)
+    // Redirect group messages to specific rooms
+    io.to(`groupChat:${roomId}`)
       .emit('groupMessage', {
         sender: socket.user.email,
         message,
@@ -22,17 +25,19 @@ function registerChatHandlers(socket, io) {
   });
 
   socket.on('privateMessage', ({ userId, message }) => {
-    console.log(`New private message in privateChat/${userId}: ${message}`);
+    console.log(`New private message in privateChat:${userId}- ${message}`);
     
-    io.to(`privateChat/${roomId}`)
+    // Redirect private messages to specific chats
+    io.to(`privateChat:${userId}`)
       .emit('privateMessage', {
-        sender: socket.user.email,
+        sender: socket.id, //socket.user.email
         message,
       });
   });
 
   socket.on('leaveRoom', (roomId) => {
     console.log(`${socket.user.email} leaving groupChat/${roomId}`);
+    
     socket.leave(`groupChat/${roomId}`);
   });
 }

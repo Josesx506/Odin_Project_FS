@@ -1,0 +1,38 @@
+import { Server } from 'socket.io';
+import 'dotenv/config';
+
+
+let io; // undefined initially
+
+function setupSocket(server) {
+    io = new Server(server, {
+        cors: {
+            origin: process.env.CLIENT_URL || "*", // allow frontend URL
+            methods: ["GET", "POST"],
+            credentials: true,
+        }
+    });
+
+    // io.use((socket, next) => {
+    //     const token = socket.handshake.auth.token;
+    //     if (!token) {
+    //         return next(new Error('Authentication error'));
+    //     }
+    //     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    //         if (err) return next(new Error('Authentication error'));
+    //         socket.user = decoded;
+    //         next();
+    //     });
+    // });
+}
+
+function getIO() {
+    if (!io) {
+        throw new Error('Socket.IO not initialized!');
+    }
+    return io;
+}
+
+export { setupSocket, getIO };
+
+

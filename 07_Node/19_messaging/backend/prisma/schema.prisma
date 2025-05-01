@@ -22,51 +22,63 @@ model ChatSession {
 }
 
 model ChatUser {
-  id       Int           @id @default(autoincrement())
-  name     String
-  email    String        @unique
-  password String
-  token    String?
-  role     ChatRole      @default(USER)
-  messages ChatMessage[]
-  rooms    ChatRoom[]
-  
+  id            Int                    @id @default(autoincrement())
+  name          String
+  email         String                 @unique
+  password      String
+  token         String?
+  role          ChatRole               @default(USER)
+  messages      ChatMessage[]
+  conversations ChatConvoParticipant[]
+
   // Friends list (one-directional)
-  friends       ChatFriendship[]  @relation("UserFriends")
-  friendOf      ChatFriendship[]  @relation("FriendOf")
+  friends  ChatFriendship[] @relation("UserFriends")
+  friendOf ChatFriendship[] @relation("FriendOf")
 }
 
 model ChatFriendship {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  user       ChatUser  @relation("UserFriends", fields: [userId], references: [id])
-  userId     Int
-  friend     ChatUser  @relation("FriendOf", fields: [friendId], references: [id])
-  friendId   Int
-  
+  id        Int      @id @default(autoincrement())
+  user      ChatUser @relation("UserFriends", fields: [userId], references: [id])
+  userId    Int
+  friend    ChatUser @relation("FriendOf", fields: [friendId], references: [id])
+  friendId  Int
+  createdAt DateTime @default(now())
+
   @@unique([userId, friendId])
 }
 
-model ChatRoom {
-  id        Int           @id @default(autoincrement())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  messages  ChatMessage[]
-  author    ChatUser       @relation(fields: [authorId], references: [id])
-  authorId  Int
+model ChatConvo {
+  id           Int                    @id @default(autoincrement())
+  convoName    String?
+  isGroup      Boolean                @default(false)
+  messages     ChatMessage[]
+  participants ChatConvoParticipant[]
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+}
+
+model ChatConvoParticipant {
+  id             Int       @id @default(autoincrement())
+  user           ChatUser  @relation(fields: [userId], references: [id])
+  userId         Int
+  conversation   ChatConvo @relation(fields: [conversationId], references: [id])
+  conversationId Int
+
+  @@unique([userId, conversationId])
 }
 
 model ChatMessage {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  body       String
-  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
-  chatRoomId Int
-  author     ChatUser  @relation(fields: [authorId], references: [id])
-  authorId   Int
+  id             Int       @id @default(autoincrement())
+  body           String
+  conversation   ChatConvo @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  author         ChatUser  @relation(fields: [authorId], references: [id])
+  authorId       Int
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
   @@index([authorId])
-  @@index([chatRoomId])
+  @@index([conversationId])
 }
 
 enum ChatRole {

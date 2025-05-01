@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { sendPrivateMessage } from "../controller/chatController.js";
+import { pushMessage } from "../controller/chatController.js";
+import { authJWT } from "../../../shared/middleware/auth.js";
 
 
 const router = Router();
 
 
-router.post('/pchat/:userId', sendPrivateMessage)
+router.post('/:conversationId', authJWT, pushMessage)
 
 export { router }

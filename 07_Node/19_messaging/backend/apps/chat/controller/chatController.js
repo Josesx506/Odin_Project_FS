@@ -1,18 +1,21 @@
 import { getIO } from '../../../servers/socket.js';
 
-function sendPrivateMessage(req,res) {
-    const { userId } = req.params;
+function pushMessage(req,res) {
+    const { conversationId } = req.params;
     const { message } = req.body;
     const io = getIO();
-    console.log(userId)
+    const user = req.user;
+    const userId = req.user?.id;
 
-    io.to(`privateChat:${userId}`).emit('privateMessage', { 
-        // sender: "joerogan@odin.com",//req.user.email
+    // Save the message to db
+
+    io.to(`chat:${conversationId}`).emit('newMessage', { 
+        sender: user.name,
         message, 
-        userId
+        timestamp: '2024'//savedMessage.createdAt
     });
 
     res.json({ status: 'Message sent!' });
 }
 
-export { sendPrivateMessage }
+export { pushMessage }

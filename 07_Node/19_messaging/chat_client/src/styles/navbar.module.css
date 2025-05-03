@@ -16,7 +16,7 @@
     height: 100%;
 }
 
-.sidebar > ul > li:nth-last-child(2) {
+.sidebar > ul > li:nth-child(4) {
   margin-top: auto;
 }
 

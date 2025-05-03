@@ -8,7 +8,7 @@ export default function TitleBar() {
   return (
     <div className={styles.titleBar}>
       <Link href={'/'} className={`${styles.titleLink} ${styles.logo}`}>
-        <TbMessageCode /> ØMessanger
+        <TbMessageCode /> ChøChøChø
       </Link>
       <Link href={'https://josesx506.github.io/Odin_Project_FS/'} className={`${styles.titleLink} ${styles.odin}`}>
         <SiTheodinproject />

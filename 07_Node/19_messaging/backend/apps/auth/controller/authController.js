@@ -9,24 +9,15 @@ import {
 
 
 async function register(req, res, next) {
-  const { username, email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  if (role && !["ADMIN", "USER"].includes(role)) {
-    return res.status(404).json({ message: "Invalid signup designation" })
-  }
 
   try {
     const avail = await retrieveUserByEmail(email);
     if (avail) {
       return res.status(404).json({ message: `Selected email is unavailable` })
     }
-    let newUser;
-    if (role) {
-      newUser = await createUserWithRole(username, email, hashedPassword, role);
-    } else {
-      newUser = await createUserWithoutRole(username, email, hashedPassword);
-    }
+    const newUser = await createUserWithoutRole(name, email, hashedPassword);
     return res.status(200).json({ message: `New user registered with ${newUser.email}` })
   } catch (err) {
     return res.status(500).json({ message: "Incorrect form structure" })

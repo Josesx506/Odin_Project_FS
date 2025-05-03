@@ -28,8 +28,8 @@
 }
 
 .logo:hover {
-    opacity: 0.85;
-    color: rgb(75, 249, 72);
+    opacity: 0.75;
+    /* color: rgb(75, 249, 72); */
 }
 
 .odin:hover {

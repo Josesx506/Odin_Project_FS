@@ -1,39 +1,76 @@
 'use client';
 
-import React, { useState } from 'react'
+import useAuth from '@/hooks/useAuth';
 import styles from '@/styles/navbar.module.css';
 import Link from 'next/link';
-import { MdHomeFilled, MdManageAccounts, MdChat, MdLogin, MdLogout } from 'react-icons/md';
+import { usePathname } from 'next/navigation';
 import { BiWorld } from "react-icons/bi";
+import {
+  MdChat, MdHomeFilled, MdLogin,
+  MdLogout, MdManageAccounts, MdOutlineAddToQueue
+} from 'react-icons/md';
 
 export default function Navbar() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const { accessToken, logout } = useAuth();
 
-  // Navigation items with their paths
-  const navItems = [
-    { icon: <MdHomeFilled />, text: 'Home', path: '/' },
-    { icon: <MdManageAccounts />, text: 'Profile', path: '/#' },
-    { icon: <BiWorld />, text: 'Global', path: '/#' },
-    { icon: <MdChat />, text: 'Chats', path: '/#' },
-    { icon: <MdLogin />, text: 'Sign In', path: '/#' },
-    { icon: <MdLogout />, text: 'Signout', path: '/#' }
-  ];
+  const pathname = usePathname();
+
+  const onSignout = async () => {
+    await logout();
+  }
 
   return (
     <nav className={styles.sidebar}>
       <ul>
-        {navItems.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.navlistItem} ${activeIndex === index ? styles.active : ''}`}
-            onClick={() => setActiveIndex(index)}
-          >
-            <Link className={styles.navLink} href={item.path}>
-              {item.icon}
-              <span>{item.text}</span>
-            </Link>
-          </li>
-        ))}
+        <li className={`${styles.navlistItem} ${pathname === '/' ? styles.active : ''}`}>
+          <Link className={styles.navLink} href={"/"}>
+            <MdHomeFilled />
+            <span>Home</span>
+          </Link>
+        </li>
+        <li className={`${styles.navlistItem} ${pathname === '/chat' ? styles.active : ''}`}>
+          <Link className={styles.navLink} href={"/chat"}>
+            <MdChat />
+            <span>Chats</span>
+          </Link>
+        </li>
+        <li className={`${styles.navlistItem} ${pathname === '/community' ? styles.active : ''}`}>
+          <Link className={styles.navLink} href={"/community"}>
+            <BiWorld />
+            <span>Community</span>
+          </Link>
+        </li>
+        {!accessToken ? (
+          <>
+            <li className={`${styles.navlistItem} ${pathname === '/signup' ? styles.active : ''}`}>
+              <Link className={styles.navLink} href={"/signup"}>
+                <MdOutlineAddToQueue />
+                <span>Sign Up</span>
+              </Link>
+            </li>
+            <li className={`${styles.navlistItem} ${pathname === '/signin' ? styles.active : ''}`}>
+              <Link className={styles.navLink} href={"/signin"}>
+                <MdLogin />
+                <span>Sign In</span>
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li className={`${styles.navlistItem} ${pathname === '/profile' ? styles.active : ''}`}>
+              <Link className={styles.navLink} href={"/profile"}>
+                <MdManageAccounts />
+                <span>Profile</span>
+              </Link>
+            </li>
+            <li className={styles.navlistItem}>
+              <Link onClick={onSignout} className={styles.navLink} href={"#"}>
+                <MdLogout />
+                <span>Signout</span>
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   )

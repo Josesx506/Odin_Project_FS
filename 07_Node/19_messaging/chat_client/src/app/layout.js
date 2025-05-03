@@ -1,6 +1,9 @@
 import Navbar from "@/components/Navbar";
 import TitleBar from "@/components/TitleBar";
-import { Geist, Geist_Mono, Poppins, Montserrat } from "next/font/google";
+import { AuthProvider } from "@/context/AuthProvider";
+import { Geist, Geist_Mono, Montserrat, Poppins } from "next/font/google";
+import { Toaster } from 'react-hot-toast';
+import { SkeletonTheme } from 'react-loading-skeleton';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,13 +35,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable}`}>
-        <div className="container">
-          <TitleBar />
-          <div className="chatContainer">
-            <Navbar />
-            {children}
-          </div>
-        </div>
+        <SkeletonTheme baseColor="#E0E0E0" highlightColor="#525252" duration={3}>
+          <AuthProvider>
+            <div className="container">
+              <TitleBar />
+              <div className="chatContainer">
+                <Navbar />
+                <Toaster position="top-right" />
+                {children}
+              </div>
+            </div>
+          </AuthProvider>
+        </SkeletonTheme>
       </body>
     </html>
   );

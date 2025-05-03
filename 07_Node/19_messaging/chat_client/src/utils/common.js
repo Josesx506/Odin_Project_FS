@@ -15,4 +15,15 @@ function decodeJWT(token) {
   }
 }
 
-export { decodeJWT }
+function getInitials(input) {
+  // Trim the input and split by spaces
+  const words = input.trim().split(/\s+/);
+  
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase();
+  }
+  
+  return words.map(word => word.charAt(0)).join('').toUpperCase();
+}
+
+export { decodeJWT, getInitials }

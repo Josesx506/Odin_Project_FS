@@ -1,34 +1,38 @@
 'use client'
+
 import { axiosApi } from '@/config/axios';
-import useAuth from '@/hooks/useAuth';
-import { decodeJWT } from '@/utils/common';
 import { useEffect, useState } from 'react';
 import CommunityCardProvider from '../providers/CommunityCardProvider';
+import GroupCardProvider from '../providers/GroupCardProvider';
+import styles from '@/styles/pages/commpage.module.css';
+
+// import useAuth from '@/hooks/useAuth';
+// import { decodeJWT } from '@/utils/common';
 
 export default function CommunityPage() {
   const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { accessToken } = useAuth();
-  const userId = decodeJWT(accessToken).id;
+  const [groups, setGroups] = useState([]);
+  const [memLoading, setMemLoading] = useState(true);
+  const [grpLoading, setGrpLoading] = useState(true);
+  // const { accessToken } = useAuth();
+  // const userId = decodeJWT(accessToken).id;
 
   useEffect(() => {
     const controller = new AbortController();
 
+    // Fetch the data in parallel
     async function fetchCommunityMembers() {
-      try {
-        const res = await axiosApi.get(`/v1/chat/community`, 
-            {signal: controller.signal})
-        setMembers(res.data);
-      } catch(err) {
-        if (err.response?.status === 404) {
-          setError('not-found');
-        } else {
-          setError('other-error');
-        }
-      } finally {
-        setLoading(false);
-      }
+      axiosApi.get(`/v1/chat/community`, 
+        {signal: controller.signal}).then(
+          (res)=>(setMembers(res.data))
+        ).catch((err)=>{ console.log(err) })
+        .finally(setMemLoading(false));
+      
+      axiosApi.get(`/v1/chat/groups`, 
+        {signal: controller.signal}).then(
+          (res)=>(setGroups(res.data))
+        ).catch((err)=>{ console.log(err) })
+        .finally(setGrpLoading(false));
     }
 
     fetchCommunityMembers();
@@ -36,9 +40,14 @@ export default function CommunityPage() {
     return ()=>{ controller.abort() }
   }, [])
 
+  function handleGroupCreate(newGroup) {
+    setGroups(prevGroups => ([...prevGroups, newGroup]))
+  }
+
   return (
-    <div>
-      <CommunityCardProvider userId={userId} users={members} loading={loading} />
+    <div className={styles.mainPage}>
+      <CommunityCardProvider users={members} loading={memLoading} />
+      <GroupCardProvider groups={groups} loading={grpLoading} handleGroupCreate={handleGroupCreate} />
     </div>
   )
 }

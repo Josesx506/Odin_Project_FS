@@ -123,27 +123,55 @@ async function removeExistingFriend(currUserId, trgtUserId) {
 }
 
 // CONVERSATION SYNTAX
-async function createSingleConversation(authorId, trgtUserId) {
-  const convo = await prisma.chatConvo.create({
-    data: {
-      participants: {
-        create: [ { id: authorId }, { id: trgtUserId } ]
-      }
-    },
-    include: { participants: true },
-  })
-  return convo;
-}
-
 async function createGroupConversation(authorId, grpName) {
   const convo = await prisma.chatConvo.create({
     data: {
       convoName: grpName,
       isGroup: true,
       participants: {
-        create: [ { id: authorId } ]
+        create: { userId: authorId }
       }
+    },
+    select: {
+      id: true, convoName: true,
+      _count: { select: { participants: true } }
     }
+  })
+  const group = { id: convo.id, convoName:convo.convoName, size: convo._count.participants}
+  return group;
+}
+
+async function findGroupConvoByName(grpName) {
+  const exist = await prisma.chatConvo.findFirst({
+    where: { convoName: grpName, isGroup: true }
+  })
+  return exist;
+}
+
+async function getAllGroupConversations() {
+  const convos = await prisma.chatConvo.findMany({
+    where: { isGroup: true },
+    select: { 
+      id: true, convoName: true,
+      _count: { select: { participants: true } }
+    }
+  })
+  const groups = convos.map(convo => ({
+    id: convo.id,
+    convoName: convo.convoName,
+    size: convo._count.participants
+  }));
+  return groups;
+}
+
+async function createSingleConversation(authorId, trgtUserId) {
+  const convo = await prisma.chatConvo.create({
+    data: {
+      participants: {
+        create: [ { userId: authorId }, { userId: trgtUserId } ]
+      }
+    },
+    include: { participants: true },
   })
   return convo;
 }
@@ -218,8 +246,8 @@ async function createNewMessage(conversationId, authorId, message) {
 
 export {
   addNewFriend, createGroupConversation, createNewMessage, createSingleConversation,
-  createUserWithoutRole, createUserWithRole, joinGroupConversation, removeExistingFriend,
-  retrieveUserByEmail, retrieveUserById, retrieveUserByToken, findUserConversations,
-  updateRefreshToken, getAllUsers
+  createUserWithoutRole, createUserWithRole, findGroupConvoByName, findUserConversations,
+  getAllGroupConversations, getAllUsers, joinGroupConversation, removeExistingFriend,
+  retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken
 };
 

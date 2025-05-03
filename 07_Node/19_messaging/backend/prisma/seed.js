@@ -46,6 +46,37 @@ async function seedUsers() {
       data: hashedData,
       skipDuplicates: true,
     });
+    
+    // Fetch all users
+    const allUsers = await prisma.chatUser.findMany();
+    const guestUser = allUsers.find(user => user.email === "ply1@acodyssey.com");
+    if (!guestUser) throw new Error("Guest user not found");
+
+    // ✅ Create global group conversation
+    const globalChat = await prisma.chatConvo.create({
+      data: {
+        convoName: "global chat",
+        isGroup: true,
+        participants: {
+          create: allUsers.map(user => ({ userId: user.id }))
+        }
+      }
+    });
+
+    // ✅ Randomly select 20 users to follow guest
+    const followers = faker.helpers.shuffle(allUsers.filter(u => u.id !== guestUser.id)).slice(0, 20);
+    console.log(followers)
+
+    await Promise.all(
+      followers.map(user =>
+        prisma.chatFriendship.create({
+          data: {
+            user: { connect: { id: guestUser.id } },
+            friend: { connect: { id: user.id } }
+          }
+        })
+      )
+    );
 
     console.log(`Created ${createdUsers.count} users`);
   } catch (err) {

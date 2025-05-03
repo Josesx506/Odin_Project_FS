@@ -1,7 +1,7 @@
 'use client'
 
 import { ContainedButton } from '@/components/Buttons';
-import { FormField } from '@/components/auth/FormField';
+import { FormField } from '@/components/forms/FormField';
 import useAuth from '@/hooks/useAuth';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';
 import styles from '@/styles/forms.module.css';

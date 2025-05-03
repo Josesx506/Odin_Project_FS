@@ -2,7 +2,7 @@ import React from 'react'
 import UserCard from '../cards/UserCard';
 import styles from '@/styles/providers/comm.module.css'
 
-export default function CommunityCardProvider({userId, users, loading}) {
+export default function CommunityCardProvider({ users, loading}) {
   if (loading) {
     return <div>...loading</div>
   }

@@ -6,9 +6,14 @@
     border: none;
     font-family: "Poppins";
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     letter-spacing: 0.05em;
     &:hover {
         cursor: pointer;
+        opacity: 0.8;
+        text-shadow: 0 0 1.0px currentColor;
     }
     &:disabled {
         opacity: 0.5;

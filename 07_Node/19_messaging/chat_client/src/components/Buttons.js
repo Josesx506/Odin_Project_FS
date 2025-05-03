@@ -9,7 +9,7 @@ function ContainedButton({ children, onClick = () => { }, color = "black", backg
       className={styles.contained}
       style={{
         color: color,
-        backgroundColor: backgroundColor
+        backgroundColor: backgroundColor,
       }}
     >
       {children}

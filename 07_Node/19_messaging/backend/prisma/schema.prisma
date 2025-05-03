@@ -40,9 +40,9 @@ model ChatUser {
 
 model ChatFriendship {
   id        Int      @id @default(autoincrement())
-  user      ChatUser @relation("UserFriends", fields: [userId], references: [id])
+  user      ChatUser @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  friend    ChatUser @relation("FriendOf", fields: [friendId], references: [id])
+  friend    ChatUser @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
   friendId  Int
   createdAt DateTime @default(now())
 
@@ -61,9 +61,9 @@ model ChatConvo {
 
 model ChatConvoParticipant {
   id             Int       @id @default(autoincrement())
-  user           ChatUser  @relation(fields: [userId], references: [id])
+  user           ChatUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         Int
-  conversation   ChatConvo @relation(fields: [conversationId], references: [id])
+  conversation   ChatConvo @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
 
   @@unique([userId, conversationId])
@@ -72,9 +72,9 @@ model ChatConvoParticipant {
 model ChatMessage {
   id             Int       @id @default(autoincrement())
   body           String
-  conversation   ChatConvo @relation(fields: [conversationId], references: [id])
+  conversation   ChatConvo @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
-  author         ChatUser  @relation(fields: [authorId], references: [id])
+  author         ChatUser  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId       Int
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt

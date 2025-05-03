@@ -35,7 +35,21 @@ const validationRules = {
       message: 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'
     }
   },
-  // Add more reusable validation rules as needed
+  groupName: {
+    required: 'Group name is required',
+    minLength: {
+      value: 8,
+      message: 'Group name must be at least 8 characters'
+    },
+    maxLength: {
+      value: 30,
+      message: 'Group name cannot exceed 30 characters'
+    },
+    pattern: {
+      value: /^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)?$/,
+      message: 'Group name can only contain letters, numbers and underscores, or two words'
+    }
+  },
 };
 
 function sanitizeFormData(data) {

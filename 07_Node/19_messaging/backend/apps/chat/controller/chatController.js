@@ -1,10 +1,17 @@
 import { getIO } from '../../../servers/socket.js';
-import { addNewFriend, getAllUsers, removeExistingFriend } from '../../../shared/controller/prismadb.js';
+import {
+    addNewFriend, createGroupConversation,
+    findGroupConvoByName, getAllGroupConversations, getAllUsers, removeExistingFriend
+} from '../../../shared/controller/prismadb.js';
 
 async function getRegisteredMembers(req,res) {
     const userId = req.user?.id;
-    const users = await getAllUsers(userId);
-    res.json(users)
+    try {
+        const users = await getAllUsers(userId);
+        res.json(users)
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
 }
 
 async function processFriendRequest(req,res) {
@@ -29,6 +36,32 @@ async function processFriendDelete(req,res) {
     }
 }
 
+async function createGroupChat(req,res) {
+    const userId = req.user?.id;
+    const { groupname } = req.body;
+    try {
+        const exists = await findGroupConvoByName(groupname.toLowerCase())
+        if (exists) {
+            return res.status(409).json({ message: 'Group name already exists' });
+        }
+        else {
+            const convo = await createGroupConversation(userId, groupname.toLowerCase());
+            return res.status(200).json( convo );
+        }
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
+async function getAllGroups(req,res) {
+    try {
+        const convos = await getAllGroupConversations();
+        res.status(200).json(convos)
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
 function pushMessage(req,res) {
     const { conversationId } = req.params;
     const { message } = req.body;
@@ -47,4 +80,8 @@ function pushMessage(req,res) {
     res.json({ status: 'Message sent!' });
 }
 
-export { getRegisteredMembers, processFriendRequest, pushMessage, processFriendDelete };
+export {
+    createGroupChat, getAllGroups, getRegisteredMembers, 
+    processFriendDelete, processFriendRequest, pushMessage
+};
+

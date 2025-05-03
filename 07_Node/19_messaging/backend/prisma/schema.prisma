@@ -26,6 +26,8 @@ model ChatUser {
   name          String
   email         String                 @unique
   password      String
+  bio           String?
+  image         String?
   token         String?
   role          ChatRole               @default(USER)
   messages      ChatMessage[]

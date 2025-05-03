@@ -26,7 +26,7 @@ body {
 
 .container {
   width: min(95%, 1200px);
-  height: 100svh;
+  height: 100vh;
   margin: 0 auto;
   padding: 1em 0;
 }
@@ -35,7 +35,6 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
   position: relative;
-  height: 93%;
   gap: 0.8em;
 }
 
@@ -52,5 +51,6 @@ li {
     .chatContainer {
       grid-template-columns: 1fr;
       width: 100%;
+      height: 100%;
     }
 }

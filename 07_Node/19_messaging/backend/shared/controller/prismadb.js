@@ -103,8 +103,8 @@ async function getAllUsers(userId) {
 async function addNewFriend(currUserId, trgtUserId) {
   const added = await prisma.chatFriendship.create({
     data: {
-      user: { connect: { id: currUserId } },
-      friend: { connect: { id: trgtUserId } },
+      user: { connect: { id: trgtUserId } },
+      friend: { connect: { id: currUserId } },
     }
   })
   return added;
@@ -114,8 +114,8 @@ async function removeExistingFriend(currUserId, trgtUserId) {
   const removed = await prisma.chatFriendship.delete({
     where: {
       userId_friendId: {
-        userId: currUserId,
-        friendId: trgtUserId,
+        userId: trgtUserId,
+        friendId: currUserId,
       }
     }
   })

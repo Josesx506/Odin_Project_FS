@@ -16,4 +16,5 @@
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     justify-items: center;
+    padding: 0.5em 5px;
 }

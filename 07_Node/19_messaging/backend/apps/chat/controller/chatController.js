@@ -1,11 +1,32 @@
 import { getIO } from '../../../servers/socket.js';
-import { getAllUsers } from '../../../shared/controller/prismadb.js';
+import { addNewFriend, getAllUsers, removeExistingFriend } from '../../../shared/controller/prismadb.js';
 
 async function getRegisteredMembers(req,res) {
     const userId = req.user?.id;
-    console.log(userId)
     const users = await getAllUsers(userId);
     res.json(users)
+}
+
+async function processFriendRequest(req,res) {
+    const userId = req.user?.id;
+    const { targetId } = req.query;
+    try {
+        const added = await addNewFriend(userId, Number(targetId));
+        return res.status(200).json( added );
+    } catch(err) {
+        return res.status(404).json({ message: `You're already connected to this user` });
+    }
+}
+
+async function processFriendDelete(req,res) {
+    const userId = req.user?.id;
+    const { targetId } = req.query;
+    try {
+        const added = await removeExistingFriend(userId, Number(targetId));
+        return res.status(200).json( added );
+    } catch(err) {
+        return res.status(404).json({ message: `You're not friends with this user` });
+    }
 }
 
 function pushMessage(req,res) {
@@ -26,4 +47,4 @@ function pushMessage(req,res) {
     res.json({ status: 'Message sent!' });
 }
 
-export { pushMessage, getRegisteredMembers }
+export { getRegisteredMembers, processFriendRequest, pushMessage, processFriendDelete };

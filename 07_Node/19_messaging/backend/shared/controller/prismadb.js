@@ -71,6 +71,34 @@ async function updateRefreshToken(id, token) {
   return user;
 }
 
+// COMMUNITY SYNTAX
+async function getAllUsers(userId) {
+  const users = await prisma.chatUser.findMany({
+    select: { 
+      id: true, name: true,
+      image: true, bio: true,
+      friends: { where: {
+          friendId: userId
+        }},
+      friendOf: {
+        where: {
+          userId: userId
+        }}
+    }
+  });
+  // Include a boolean for whether a user is friends with anyone in the community
+  const friendRelations = users.map(user => ({
+    id: user.id,
+    name: user.name,
+    image: user.image,
+    bio: user.bio,
+    isFriend: user.friends.length > 0,
+    followsYou: user.friendOf.length > 0
+  })).filter(user => user.id !== userId);
+
+  return friendRelations;
+}
+
 // FRIENDSHIP SYNTAX
 async function addNewFriend(currUserId, trgtUserId) {
   const added = await prisma.chatFriendship.create({
@@ -192,6 +220,6 @@ export {
   addNewFriend, createGroupConversation, createNewMessage, createSingleConversation,
   createUserWithoutRole, createUserWithRole, joinGroupConversation, removeExistingFriend,
   retrieveUserByEmail, retrieveUserById, retrieveUserByToken, findUserConversations,
-  updateRefreshToken
+  updateRefreshToken, getAllUsers
 };
 

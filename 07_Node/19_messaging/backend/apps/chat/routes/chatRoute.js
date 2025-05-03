@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { pushMessage } from "../controller/chatController.js";
+import { pushMessage, getRegisteredMembers } from "../controller/chatController.js";
 import { authJWT } from "../../../shared/middleware/auth.js";
 
 
 const router = Router();
 
 
-router.post('/:conversationId', authJWT, pushMessage)
+router.post('/conversation/:conversationId', authJWT, pushMessage)
+router.get('/community', authJWT, getRegisteredMembers)
 
 export { router }

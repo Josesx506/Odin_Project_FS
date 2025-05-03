@@ -1,4 +1,12 @@
 import { getIO } from '../../../servers/socket.js';
+import { getAllUsers } from '../../../shared/controller/prismadb.js';
+
+async function getRegisteredMembers(req,res) {
+    const userId = req.user?.id;
+    console.log(userId)
+    const users = await getAllUsers(userId);
+    res.json(users)
+}
 
 function pushMessage(req,res) {
     const { conversationId } = req.params;
@@ -18,4 +26,4 @@ function pushMessage(req,res) {
     res.json({ status: 'Message sent!' });
 }
 
-export { pushMessage }
+export { pushMessage, getRegisteredMembers }

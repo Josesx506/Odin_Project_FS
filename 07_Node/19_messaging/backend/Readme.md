@@ -19,7 +19,7 @@ videos, I defined the schema below.
 
 <div style="width: min(711px, 98%); height: auto; margin: 0 auto;">
     <img style="object-fit: cover; max-width: 100%; border-radius:1em;" src="./public/ChatSchema.png" alt="database ERD" />
-    <figcaption style="text-align:center">Messaging app entity relation diagram (ERD)</figcaption>
+    <figcaption style="text-align:center"><p>Messaging app entity relation diagram (ERD)</p></figcaption>
 </div>
 
 The key differentiator was using a `Conversation` table to track whether a conversation was a group conversation or one-on-one conversation.

@@ -164,16 +164,81 @@ async function getAllGroupConversations() {
   return groups;
 }
 
+async function getAllUserFriends(userId) {
+  const friends = await prisma.chatUser.findUnique({
+    where: { id: userId },
+    select: {
+      friends: {
+        select: { friend: { select: { id: true, name: true, image: true } } }
+      },
+      friendOf: {
+        select: { user: { select: { id: true, name: true, image: true } } }
+      }
+    }
+  });
+  
+  const allFriends = [
+    ...friends.friends.map(f => f.friend),
+    ...friends.friendOf.map(f => f.user)
+  ];
+  
+  return allFriends
+}
+
+async function getAllUserConversations(userId) {
+  const conversations = await prisma.chatConvoParticipant.findMany({
+    where: { userId },
+    include: {
+      conversation: {
+        include: {
+          participants: {
+            include: { user: { select: { id: true, name: true, image: true } } }
+          },
+          messages: { 
+            orderBy: { createdAt: 'desc' }, take: 1
+          } }
+      } }
+  });
+
+  const namedConvos = conversations.map((convo)=>{
+    const conv = convo.conversation;
+    const otherUser = conv.isGroup ? null : conv.participants.find(p => p.user.id !== userId)?.user;
+    
+    return {
+      id: conv.id,
+      name: conv.isGroup ? conv.convoName : otherUser?.name || "Unknown",
+      image: otherUser?.image || null,
+      isGroup: conv.isGroup,
+      lastMessage: conv.messages?.[0]?.body || null
+    };
+  });
+  
+  return namedConvos;
+}
+
 async function createSingleConversation(authorId, trgtUserId) {
-  const convo = await prisma.chatConvo.create({
+  const exists = await prisma.chatConvo.findFirst({
+    where: {
+      isGroup: false,
+      participants: {
+        every: {
+          userId: { in: [authorId, trgtUserId] }
+        } } },
+    include: { 
+      participants: { select: { id: true } } }
+  })
+
+  if (exists && exists.participants.length === 2) { return exists.id }
+
+  const newConvo = await prisma.chatConvo.create({
     data: {
       participants: {
         create: [ { userId: authorId }, { userId: trgtUserId } ]
       }
     },
-    include: { participants: true },
   })
-  return convo;
+
+  return newConvo.id;
 }
 
 async function joinGroupConversation(conversationId, newMemberId) {
@@ -248,6 +313,7 @@ export {
   addNewFriend, createGroupConversation, createNewMessage, createSingleConversation,
   createUserWithoutRole, createUserWithRole, findGroupConvoByName, findUserConversations,
   getAllGroupConversations, getAllUsers, joinGroupConversation, removeExistingFriend,
-  retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken
+  retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken, 
+  getAllUserConversations, getAllUserFriends
 };
 

@@ -1,7 +1,10 @@
 import { getIO } from '../../../servers/socket.js';
 import {
     addNewFriend, createGroupConversation,
-    findGroupConvoByName, getAllGroupConversations, getAllUsers, removeExistingFriend
+    createSingleConversation,
+    findGroupConvoByName, getAllGroupConversations, getAllUserConversations,
+    getAllUserFriends,
+    getAllUsers, removeExistingFriend
 } from '../../../shared/controller/prismadb.js';
 
 async function getRegisteredMembers(req,res) {
@@ -62,6 +65,30 @@ async function getAllGroups(req,res) {
     }
 }
 
+async function getAllConversations(req,res) {
+    const userId = req.user?.id;
+    try {
+        const friends = await getAllUserFriends(userId);
+        const conversations = await getAllUserConversations(userId);
+        res.status(200).json({ conversations, friends })
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
+async function getPrivateConversation(req,res) {
+    const userId = req.user?.id;
+    const { targetId } = req.query;
+
+    try {
+        const convoId = await createSingleConversation(userId, Number(targetId))
+        const url = `/chat/${convoId}`;
+        res.status(200).json({ url })
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
 function pushMessage(req,res) {
     const { conversationId } = req.params;
     const { message } = req.body;
@@ -81,7 +108,8 @@ function pushMessage(req,res) {
 }
 
 export {
-    createGroupChat, getAllGroups, getRegisteredMembers, 
-    processFriendDelete, processFriendRequest, pushMessage
+    createGroupChat, getAllConversations, getAllGroups, 
+    getRegisteredMembers, getPrivateConversation, processFriendDelete, 
+    processFriendRequest, pushMessage
 };
 

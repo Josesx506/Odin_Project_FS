@@ -34,9 +34,11 @@ In postman, click on the `New` button to add a `Socket.io` request. This cannot 
 use the server url to connect to it e.g.`http:localhost:3000`. The connection is persisted, and you can add event topics to your connection 
 under the events tab. There's a toggle button to listen to new events.
 
-### Rooms
+### Rooms / Groups
 To listen to events from a room, you need to have joined the room. On the client, from the sidebar, for each link that they click on, a 
 `useEffect` can be used to join the room. That way all new messages sent to the room will be visible to everyone connected to that room.
 ```JS
 socket.join(`chat:${conversationId}`);
 ```
+All groups are public in this simple iteration. Privatizing groups can be done with RBAC to allow only approved participants and 
+assigning a group admin but it wasn't a project requirement.

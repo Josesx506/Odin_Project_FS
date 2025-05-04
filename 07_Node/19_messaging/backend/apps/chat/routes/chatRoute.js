@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { authJWT } from "../../../shared/middleware/auth.js";
 import {
-    getRegisteredMembers, processFriendDelete,
-    processFriendRequest, pushMessage, createGroupChat,
-    getAllGroups
+    createGroupChat, getAllConversations, getAllGroups,
+    getPrivateConversation, getRegisteredMembers,
+    processFriendDelete, processFriendRequest, pushMessage
 } from "../controller/chatController.js";
 
 
@@ -16,5 +16,8 @@ router.get('/add-friend', authJWT, processFriendRequest)
 router.get('/remove-friend', authJWT, processFriendDelete)
 router.post('/create-group', authJWT, createGroupChat)
 router.get('/groups', authJWT, getAllGroups)
+router.get('/user-chats', authJWT, getAllConversations)
+router.get('/create-convo', authJWT, getPrivateConversation)
+
 
 export { router };

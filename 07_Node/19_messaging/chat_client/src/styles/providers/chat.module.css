@@ -1,0 +1,24 @@
+.pageContainer {
+    display: grid;
+    gap: 1em;
+    align-items: flex-start;
+    grid-template-columns: 300px 1fr;
+}
+
+.pageDetails {
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(200, 200, 200, 0.1);
+    border-radius: 0.5em;
+}
+
+@media(max-width: 650px) {
+    .pageContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .pageDetails {
+        display: none;
+        visibility: hidden;
+    }
+}

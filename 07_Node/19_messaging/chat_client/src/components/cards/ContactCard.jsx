@@ -9,8 +9,6 @@ import { axiosApi } from '@/config/axios';
 import { useState } from 'react';
 
 export function ConversationCard({ id, name, image, isGroup, message }) {
-  console.log(id, name, image, isGroup, message)
-
   const img = !isGroup ?
     <Image className={styles.ccardImg}
       src={image || `https://robohash.org/${id}.png`}

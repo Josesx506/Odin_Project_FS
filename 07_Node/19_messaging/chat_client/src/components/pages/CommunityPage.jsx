@@ -1,10 +1,10 @@
 'use client'
 
-import { axiosApi } from '@/config/axios';
+import { fetchCommunityMembers } from '@/app/effects/requests';
+import styles from '@/styles/pages/commpage.module.css';
 import { useEffect, useState } from 'react';
 import CommunityCardProvider from '../providers/CommunityCardProvider';
 import GroupCardProvider from '../providers/GroupCardProvider';
-import styles from '@/styles/pages/commpage.module.css';
 
 
 export default function CommunityPage() {
@@ -16,22 +16,9 @@ export default function CommunityPage() {
   useEffect(() => {
     const controller = new AbortController();
 
-    // Fetch the data in parallel
-    async function fetchCommunityMembers() {
-      axiosApi.get(`/v1/chat/community`, 
-        {signal: controller.signal}).then(
-          (res)=>(setMembers(res.data))
-        ).catch((err)=>{ console.log(err) })
-        .finally(setMemLoading(false));
-      
-      axiosApi.get(`/v1/chat/groups`, 
-        {signal: controller.signal}).then(
-          (res)=>(setGroups(res.data))
-        ).catch((err)=>{ console.log(err) })
-        .finally(setGrpLoading(false));
-    }
-
-    fetchCommunityMembers();
+    fetchCommunityMembers(controller,
+      setMembers,setGroups,setMemLoading,setGrpLoading
+    );
 
     return ()=>{ controller.abort() }
   }, [])

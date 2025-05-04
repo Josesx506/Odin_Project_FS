@@ -1,11 +1,11 @@
 'use client';
 
-import styles from '@/styles/providers/contact.module.css';
+import styles from '@/styles/providers/chataside.module.css';
 import { ContactCard, ConversationCard } from '../cards/ContactCard';
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useMemo, useState } from 'react';
 
-export default function ContactCardProvider({ userChats, userFriends, loading }) {
+export default function AsideCardProvider({ userChats, userFriends, loading }) {
   const [query, setQuery] = useState("");
 
   // Filter the list of friends without changing state
@@ -27,7 +27,6 @@ export default function ContactCardProvider({ userChats, userFriends, loading })
   }
 
   return (
-    <div className={styles.pageContainer}>
       <div className={styles.pageAside}>
         <h2 className={styles.asideTitle}>
           Chats <IoMdAddCircleOutline />
@@ -53,8 +52,5 @@ export default function ContactCardProvider({ userChats, userFriends, loading })
           </div>
         }
       </div>
-      <div className={styles.pageDetails}>
-      </div>
-    </div>
   )
 }

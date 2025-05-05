@@ -54,12 +54,12 @@
     justify-content: space-between;
 }
 
-.gcardDetails a>svg {
-    height: 2rem;
-    width: 2rem;
+.gcardDetails svg {
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
-.gcardDetails a:hover {
+.gcardDetails svg:hover {
     color: darkgrey;
     transform: scale(1.1);
 }

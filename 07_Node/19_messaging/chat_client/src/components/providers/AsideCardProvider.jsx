@@ -1,9 +1,10 @@
 'use client';
 
 import styles from '@/styles/providers/chataside.module.css';
-import { ContactCard, ConversationCard } from '../cards/ContactCard';
-import { IoMdAddCircleOutline } from "react-icons/io";
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { ContactCard, ConversationCard } from '../cards/ContactCard';
 
 export default function AsideCardProvider({ userChats, userFriends, loading }) {
   const [query, setQuery] = useState("");
@@ -26,31 +27,55 @@ export default function AsideCardProvider({ userChats, userFriends, loading }) {
     return <div>...loading</div>
   }
 
-  return (
-      <div className={styles.pageAside}>
-        <h2 className={styles.asideTitle}>
-          Chats <IoMdAddCircleOutline />
-        </h2>
-        <div className={styles.asideSearch}>
-          <input type='search' placeholder='Search' value={query} onChange={onChange}></input>
-        </div>
-
-        {query === "" ?
-
-
-          <div className={styles.asideScroll}>
-            {userChats.map((userChat) => (
-              <ConversationCard key={userChat.id} {...userChat} />
-            ))}
-          </div> :
-
-
-          <div className={styles.asideScroll}>
-            {filteredFriends.map((userFriend) => (
-              <ContactCard key={userFriend.id} {...userFriend} />
-            ))}
-          </div>
-        }
+  let behaviour;
+  if (userChats.length === 0 && filteredFriends.length === 0) {
+    behaviour = (<div className={styles.asideScroll}>
+      <div className={styles.unavailable}>
+        No chats available join a group or follow existing users on our <Link href={'/community'} >community</Link> page.
       </div>
+      <div>Find connections and start conversations with existing friends using the search bar</div>
+    </div>)
+  } else if (userChats.length === 0 && filteredFriends.length > 0) {
+    behaviour = (query === "" ? 
+      
+            <div className={styles.asideScroll}>
+              <div className={styles.unavailable}>
+                No chats available join a group or follow existing users on our <Link href={'/community'} >community</Link> page.
+              </div>
+              <div>Find connections and start conversations with existing friends using the search bar</div>
+            </div> : 
+
+            <div className={styles.asideScroll}>
+              {filteredFriends.map((userFriend) => (
+                <ContactCard key={userFriend.id} {...userFriend} />
+              ))}
+            </div>
+    )
+  } else {
+    behaviour = (query === "" ?
+      <div className={styles.asideScroll}>
+        {userChats.map((userChat) => (
+          <ConversationCard key={userChat.id} {...userChat} />
+        ))}
+      </div> :
+
+      <div className={styles.asideScroll}>
+        {filteredFriends.map((userFriend) => (
+          <ContactCard key={userFriend.id} {...userFriend} />
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.pageAside}>
+      <h2 className={styles.asideTitle}>
+        Chats <IoMdAddCircleOutline />
+      </h2>
+      <div className={styles.asideSearch}>
+        <input type='search' placeholder='Search' value={query} onChange={onChange}></input>
+      </div>
+      {behaviour}
+    </div>
   )
 }

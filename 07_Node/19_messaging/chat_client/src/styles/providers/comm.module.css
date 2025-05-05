@@ -23,6 +23,6 @@
 
 @media(min-width: 1024px) {
     .scrollMain {
-        max-height: 80vh;
+        max-height: 85vh;
     }
 }

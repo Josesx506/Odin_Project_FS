@@ -51,6 +51,7 @@ li {
 @media (max-width: 650px) {
     .chatContainer {
       grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
       width: 100%;
       height: 100%;
     }

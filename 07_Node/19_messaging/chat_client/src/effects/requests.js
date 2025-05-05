@@ -32,5 +32,18 @@ async function fetchUserConversations(
     .finally(updateLoading(false));
 }
 
+async function fetchUserMessages(
+  id, controller, updateMessages, updateMetadata, updateLoading
+) {
+  axiosApi.get(`/v1/chat/conv-hist/${id}`,
+    { signal: controller.signal }).then(
+      (res) => {
+        updateMetadata(res.data?.metadata)
+        updateMessages(res.data?.messages)
+      }
+    ).catch((err) => { console.log(err) })
+    .finally(updateLoading(false));
+}
 
-export { fetchCommunityMembers, fetchUserConversations }
+
+export { fetchCommunityMembers, fetchUserConversations, fetchUserMessages }

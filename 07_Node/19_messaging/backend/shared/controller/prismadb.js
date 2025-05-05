@@ -74,16 +74,19 @@ async function updateRefreshToken(id, token) {
 // COMMUNITY SYNTAX
 async function getAllUsers(userId) {
   const users = await prisma.chatUser.findMany({
-    select: { 
+    select: {
       id: true, name: true,
       image: true, bio: true,
-      friends: { where: {
+      friends: {
+        where: {
           friendId: userId
-        }},
+        }
+      },
       friendOf: {
         where: {
           userId: userId
-        }}
+        }
+      }
     }
   });
   // Include a boolean for whether a user is friends with anyone in the community
@@ -137,7 +140,7 @@ async function createGroupConversation(authorId, grpName) {
       _count: { select: { participants: true } }
     }
   })
-  const group = { id: convo.id, convoName:convo.convoName, size: convo._count.participants}
+  const group = { id: convo.id, convoName: convo.convoName, size: convo._count.participants }
   return group;
 }
 
@@ -151,7 +154,7 @@ async function findGroupConvoByName(grpName) {
 async function getAllGroupConversations() {
   const convos = await prisma.chatConvo.findMany({
     where: { isGroup: true },
-    select: { 
+    select: {
       id: true, convoName: true,
       _count: { select: { participants: true } }
     }
@@ -176,12 +179,12 @@ async function getAllUserFriends(userId) {
       }
     }
   });
-  
+
   const allFriends = [
     ...friends.friends.map(f => f.friend),
     ...friends.friendOf.map(f => f.user)
   ];
-  
+
   return allFriends
 }
 
@@ -194,18 +197,21 @@ async function getAllUserConversations(userId) {
           participants: {
             include: { user: { select: { id: true, name: true, image: true } } }
           },
-          messages: { 
+          messages: {
             orderBy: { createdAt: 'desc' }, take: 1
-          } }
-      } }
+          }
+        }
+      }
+    }
   });
-
-  const namedConvos = conversations.map((convo)=>{
+  
+  const namedConvos = conversations.map((convo) => {
     const conv = convo.conversation;
     const otherUser = conv.isGroup ? null : conv.participants.find(p => p.user.id !== userId)?.user;
-    
+
     return {
       id: conv.id,
+      otherUserId: otherUser?.id,
       name: conv.isGroup ? conv.convoName : otherUser?.name || "Unknown",
       image: otherUser?.image || null,
       isGroup: conv.isGroup,
@@ -223,9 +229,12 @@ async function createSingleConversation(authorId, trgtUserId) {
       participants: {
         every: {
           userId: { in: [authorId, trgtUserId] }
-        } } },
-    include: { 
-      participants: { select: { id: true } } }
+        }
+      }
+    },
+    include: {
+      participants: { select: { id: true } }
+    }
   })
 
   if (exists && exists.participants.length === 2) { return exists.id }
@@ -233,7 +242,7 @@ async function createSingleConversation(authorId, trgtUserId) {
   const newConvo = await prisma.chatConvo.create({
     data: {
       participants: {
-        create: [ { userId: authorId }, { userId: trgtUserId } ]
+        create: [{ userId: authorId }, { userId: trgtUserId }]
       }
     },
   })
@@ -241,59 +250,72 @@ async function createSingleConversation(authorId, trgtUserId) {
   return newConvo.id;
 }
 
-async function joinGroupConversation(conversationId, newMemberId) {
-  const convo = await prisma.chatConvo.findFirst({
-    where: { id: conversationId, isGroup: true }
-  })
 
-  if (!convo) { throw new PrismaCustomError("Conversation not found", "P2025")};
-  if (!convo.isGroup) { throw new PrismaCustomError("Cannot add members to a non-group conversation", "P2018")};
-
-  // Check if the user is already a participant
-  const existingParticipant = await prisma.chatConvoParticipant.findUnique({
+async function getConversationMessages(conversationId, userId) {
+  const messages = await prisma.chatConvo.findFirst({
     where: {
-      userId_conversationId: {
-        conversationId: conversationId, 
-        userId: newMemberId, 
+      id: conversationId,
+      participants: { some: { userId: userId } }
+    },
+    include: {
+      participants: {
+        include: {
+          user: {
+            select: { id: true, name: true, image: true, }
+          }
+        }
+      },
+      messages: {
+        orderBy: { createdAt: 'desc' }
       }
     }
   })
-  if (existingParticipant) { throw new PrismaCustomError("User is already a member of this conversation", "P2018")};
 
-  // Add new participant
-  const newParticipant = await prisma.chatConvoParticipant.create({
-    data: {
-      user: { connect: { id: newMemberId } },
-      conversation: { connect: { id: conversationId } }
-    },
-    include: {
-      user: { select: { id: true, name: true } }
+  if (!messages) {
+    throw new PrismaCustomError("Conversation messages not found", "P2025")
+  } else {
+    const otherUser = messages.isGroup ? null : messages.participants.find(p => p.user.id !== userId)?.user;
+    let details = {
+      metadata: {
+        convoId: conversationId,
+        convoName: messages.isGroup ? messages.convoName : otherUser.name || "Unknown",
+        image: otherUser?.image || null,
+        otherUserId: messages.isGroup ? null : otherUser.id,
+        isGroup: messages.isGroup
+      },
+      messages: messages.messages
     }
-  })
 
-  return newParticipant;
+    return details;
+  }
 }
 
-async function findUserConversations(userId) {
-  const conversations = await prisma.chatConvo.findMany({
-    where: {
-      participants: { 
-        some: { userId: userId }}
-    },
-    // Join the participants and messages table to get most recent messages
-    include: {
+async function joinGroupConversation(conversationId, newMemberId) {
+  const convo = await prisma.chatConvo.findFirst({
+    where: { 
+      id: conversationId, isGroup: true,
       participants: {
-        select: { user: { 
-          select: { id: true, name: true }
-        } }
-      },
-      messages: { 
-        orderBy: { createdAt: 'desc' }, take: 1 }
-    },
-    orderBy: { updatedAt: 'desc' } // Sort the conversations
+        none: { userId: newMemberId }
+      } },
   })
 
-  return conversations;
+  if (!convo) { throw new PrismaCustomError("Invalid group join request", "P2025") };
+  if (!convo.isGroup) { throw new PrismaCustomError("Cannot add members to a non-group conversation", "P2018") };
+
+  // Add new participant and count the new size of the group in one transaction
+  const [newParticipant, groupMemberSize] = await prisma.$transaction([
+    prisma.chatConvoParticipant.create({
+      data: {
+        user: { connect: { id: newMemberId } },
+        conversation: { connect: { id: conversationId } }
+      }
+    }),
+    prisma.chatConvoParticipant.count({
+      where: { conversationId }
+    })
+  ]);
+
+  return groupMemberSize;
 }
 
 async function createNewMessage(conversationId, authorId, message) {
@@ -311,9 +333,9 @@ async function createNewMessage(conversationId, authorId, message) {
 
 export {
   addNewFriend, createGroupConversation, createNewMessage, createSingleConversation,
-  createUserWithoutRole, createUserWithRole, findGroupConvoByName, findUserConversations,
-  getAllGroupConversations, getAllUsers, joinGroupConversation, removeExistingFriend,
-  retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken, 
-  getAllUserConversations, getAllUserFriends
+  createUserWithoutRole, createUserWithRole, findGroupConvoByName, getAllGroupConversations,
+  getAllUserConversations, getAllUserFriends, getAllUsers, getConversationMessages,
+  joinGroupConversation, removeExistingFriend, retrieveUserByEmail, retrieveUserById,
+  retrieveUserByToken, updateRefreshToken
 };
 

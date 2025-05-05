@@ -50,6 +50,7 @@ const validationRules = {
       message: 'Group name can only contain letters, numbers and underscores, or two words'
     }
   },
+  chatMessage: { required: 'Group name is required',}
 };
 
 function sanitizeFormData(data) {

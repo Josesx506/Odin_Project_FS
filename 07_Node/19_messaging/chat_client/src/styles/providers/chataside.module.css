@@ -35,3 +35,7 @@
     align-items: flex-start;
     height: 80vh;
 }
+
+.unavailable a {
+    text-decoration: underline;
+}

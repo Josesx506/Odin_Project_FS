@@ -41,11 +41,10 @@
 @media (max-width: 650px) {
     .sidebar {
         width: 100%;
-        position: absolute;
         height: unset;
         top: unset;
-        bottom: 0;
         padding: 0.5em 0em;
+        grid-row: 2;
     }
 
     .sidebar ul {

@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchUserConversations } from '@/app/effects/requests';
+import { fetchUserConversations } from '@/effects/requests';
 import ChatsProvider from '@/components/providers/ChatsProvider';
 import { useEffect, useState } from 'react';
 

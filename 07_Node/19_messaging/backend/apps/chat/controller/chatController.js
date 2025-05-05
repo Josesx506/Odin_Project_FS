@@ -4,7 +4,7 @@ import {
     createSingleConversation,
     findGroupConvoByName, getAllGroupConversations, getAllUserConversations,
     getAllUserFriends,
-    getAllUsers, removeExistingFriend
+    getAllUsers, getConversationMessages, joinGroupConversation, removeExistingFriend
 } from '../../../shared/controller/prismadb.js';
 
 async function getRegisteredMembers(req,res) {
@@ -82,11 +82,37 @@ async function getPrivateConversation(req,res) {
 
     try {
         const convoId = await createSingleConversation(userId, Number(targetId))
-        const url = `/chat/${convoId}`;
+        const url = `/chat/${convoId}?targetId=${targetId}`;
         res.status(200).json({ url })
     } catch(err) {
         return res.status(500).json({ message: 'Internal server error', error: err.message })
     }
+}
+
+
+async function getAnyConvMessages(req,res) {
+    const userId = req.user?.id;
+    const { conversationId } = req.params;
+
+    try {
+        const data = await getConversationMessages(Number(conversationId), userId);
+        res.status(200).json(data)
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
+async function newGroupJoinRequest(req,res) {
+    const userId = req.user?.id;
+    const { conversationId } = req.params;
+
+    try {
+        const grpSize = await joinGroupConversation(Number(conversationId), userId);
+        res.status(200).json({ grpSize })
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+    
 }
 
 function pushMessage(req,res) {
@@ -109,7 +135,8 @@ function pushMessage(req,res) {
 
 export {
     createGroupChat, getAllConversations, getAllGroups, 
-    getRegisteredMembers, getPrivateConversation, processFriendDelete, 
-    processFriendRequest, pushMessage
+    getAnyConvMessages, getPrivateConversation, 
+    getRegisteredMembers, newGroupJoinRequest, 
+    processFriendDelete, processFriendRequest, pushMessage
 };
 

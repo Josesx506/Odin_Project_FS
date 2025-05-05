@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchCommunityMembers } from '@/app/effects/requests';
+import { fetchCommunityMembers } from '@/effects/requests';
 import styles from '@/styles/pages/commpage.module.css';
 import { useEffect, useState } from 'react';
 import CommunityCardProvider from '../providers/CommunityCardProvider';

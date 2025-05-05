@@ -1,6 +1,7 @@
 import { getIO } from '../../../servers/socket.js';
 import {
     addNewFriend, createGroupConversation,
+    createNewMessage,
     createSingleConversation,
     findGroupConvoByName, getAllGroupConversations, getAllUserConversations,
     getAllUserFriends,
@@ -115,28 +116,38 @@ async function newGroupJoinRequest(req,res) {
     
 }
 
-function pushMessage(req,res) {
+async function pushMessageEvent(req,res) {
     const { conversationId } = req.params;
     const { message } = req.body;
     const io = getIO();
     const user = req.user;
     const userId = req.user?.id;
 
-    // Save the message to db
-
-    io.to(`chat:${conversationId}`).emit('newMessage', { 
-        sender: user.name,
-        message, 
-        timestamp: '2024'//savedMessage.createdAt
-    });
-
-    res.json({ status: 'Message sent!' });
+    try {
+        // Save the message to db
+        const newMsg = await createNewMessage(Number(conversationId), userId, message)
+        
+        // Broadcast the message to the room
+        io.to(`chat:${conversationId}`).emit('newMessage', { 
+            id: newMsg.id,
+            authorId: userId,
+            name: user.name,
+            image: user.image,
+            body: newMsg.body, 
+            createdAt: newMsg.createdAt
+        });
+    
+        res.json({ message: 'Message sent!' });
+    
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
 }
 
 export {
     createGroupChat, getAllConversations, getAllGroups, 
     getAnyConvMessages, getPrivateConversation, 
     getRegisteredMembers, newGroupJoinRequest, 
-    processFriendDelete, processFriendRequest, pushMessage
+    processFriendDelete, processFriendRequest, pushMessageEvent
 };
 

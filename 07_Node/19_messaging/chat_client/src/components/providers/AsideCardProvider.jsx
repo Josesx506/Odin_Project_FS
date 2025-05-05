@@ -29,27 +29,28 @@ export default function AsideCardProvider({ userChats, userFriends, loading }) {
 
   let behaviour;
   if (userChats.length === 0 && filteredFriends.length === 0) {
+
     behaviour = (<div className={styles.asideScroll}>
       <div className={styles.unavailable}>
         No chats available join a group or follow existing users on our <Link href={'/community'} >community</Link> page.
       </div>
       <div>Find connections and start conversations with existing friends using the search bar</div>
     </div>)
+
   } else if (userChats.length === 0 && filteredFriends.length > 0) {
     behaviour = (query === "" ? 
-      
-            <div className={styles.asideScroll}>
-              <div className={styles.unavailable}>
-                No chats available join a group or follow existing users on our <Link href={'/community'} >community</Link> page.
-              </div>
-              <div>Find connections and start conversations with existing friends using the search bar</div>
-            </div> : 
+      <div className={styles.asideScroll}>
+        <div className={styles.unavailable}>
+          No chats available join a group or follow existing users on our <Link href={'/community'} >community</Link> page.
+        </div>
+        <div>Find connections and start conversations with existing friends using the search bar</div>
+      </div> : 
 
-            <div className={styles.asideScroll}>
-              {filteredFriends.map((userFriend) => (
-                <ContactCard key={userFriend.id} {...userFriend} />
-              ))}
-            </div>
+      <div className={styles.asideScroll}>
+        {filteredFriends.length>0 ? filteredFriends.map((userFriend) => (
+          <ContactCard key={userFriend.id} {...userFriend} />
+        )) : <div style={{fontStyle:'oblique'}}>No Results</div>}
+      </div>
     )
   } else {
     behaviour = (query === "" ?
@@ -60,9 +61,9 @@ export default function AsideCardProvider({ userChats, userFriends, loading }) {
       </div> :
 
       <div className={styles.asideScroll}>
-        {filteredFriends.map((userFriend) => (
+        {filteredFriends.length>0 ? filteredFriends.map((userFriend) => (
           <ContactCard key={userFriend.id} {...userFriend} />
-        ))}
+        )) : <div style={{fontStyle:'oblique'}}>No Results</div>}
       </div>
     )
   }

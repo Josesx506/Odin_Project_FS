@@ -1,13 +1,17 @@
-'use client'
-import React, { useState, useEffect } from 'react'
-import styles from '@/styles/providers/messages.module.css';
-import MessageInput from './MessageInput';
+'use client';
+
 import MessageNav from '@/components/providers/MessageNav';
+import { socket } from '@/config/socket';
 import { fetchUserMessages } from '@/effects/requests';
 import useAuth from '@/hooks/useAuth';
+import styles from '@/styles/providers/messages.module.css';
 import { decodeJWT } from '@/utils/common';
+import { useEffect, useState } from 'react';
+import MessageInput from './MessageInput';
+import RealTimeMessages from './RealTimeMessages';
 
-export default function MsgsProvider( { id } ) {
+export default function MsgsProvider({ id }) {
+  const [isConnected, setIsConnected] = useState(socket.connected);
   const [messages, setMessages] = useState([]);
   const [metadata, setMetadata] = useState({});
   const [loading, setLoading] = useState(true);
@@ -16,8 +20,46 @@ export default function MsgsProvider( { id } ) {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchUserMessages(id, controller, setMessages, setMetadata, setLoading);
-    return () => { controller.abort() }
+    // Fetch the initial messages
+    fetchUserMessages(id, controller,
+      setMessages, setMetadata, setLoading);
+
+    // Realtime connection for new messages
+    if (!socket.connected) { //Connect to socket if not already connected
+      socket.auth = { token: accessToken };
+      socket.connect();
+    } else {
+      socket.emit('joinConversation', id);
+    }
+
+    function onConnect() {
+      setIsConnected(true);
+      socket.emit('joinConversation', id)
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      socket.emit('leaveConversation', id)
+    }
+
+    function onNewMsgEvent(value) {
+      setMessages(previous => [...previous, value]);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('newMessage', onNewMsgEvent);
+
+    return () => {
+      controller.abort()
+
+      if (socket.connected) {
+        socket.emit('leaveConversation', id);
+      }
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('newMessage', onNewMsgEvent);
+    }
   }, [id])
 
   if (loading) {
@@ -27,9 +69,9 @@ export default function MsgsProvider( { id } ) {
   return (
     <div className={styles.msgContainer}>
       <MessageNav id={metadata.otherUserId} name={metadata.convoName}
-        image={metadata.image} isGroup={metadata.isGroup} loading={loading}  />
-      <div>Message 1</div>
-      <MessageInput />
+        image={metadata.image} isGroup={metadata.isGroup} loading={loading} />
+      <RealTimeMessages activeUserId={userId} messages={messages} loading={loading} />
+      <MessageInput id={id} />
     </div>
   )
 }

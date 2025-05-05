@@ -1,0 +1,10 @@
+.rtmScroller {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0.3em 0.5em;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    max-height: 80vh;
+}

@@ -113,6 +113,27 @@ async function addNewFriend(currUserId, trgtUserId) {
   return added;
 }
 
+async function getAllUserFriends(userId) {
+  const friends = await prisma.chatUser.findUnique({
+    where: { id: userId },
+    select: {
+      friends: {
+        select: { friend: { select: { id: true, name: true, image: true } } }
+      },
+      friendOf: {
+        select: { user: { select: { id: true, name: true, image: true } } }
+      }
+    }
+  });
+
+  const allFriends = [
+    ...friends.friends.map(f => f.friend),
+    ...friends.friendOf.map(f => f.user)
+  ];
+
+  return allFriends
+}
+
 async function removeExistingFriend(currUserId, trgtUserId) {
   const removed = await prisma.chatFriendship.delete({
     where: {
@@ -144,6 +165,62 @@ async function createGroupConversation(authorId, grpName) {
   return group;
 }
 
+async function createSingleConversation(authorId, trgtUserId) {
+  const exists = await prisma.chatConvo.findFirst({
+    where: {
+      isGroup: false,
+      participants: {
+        every: {
+          userId: { in: [authorId, trgtUserId] }
+        }
+      }
+    },
+    include: {
+      participants: { select: { id: true } }
+    }
+  })
+
+  if (exists && exists.participants.length === 2) { return exists.id }
+
+  const newConvo = await prisma.chatConvo.create({
+    data: {
+      participants: {
+        create: [{ userId: authorId }, { userId: trgtUserId }]
+      }
+    },
+  })
+
+  return newConvo.id;
+}
+
+async function joinGroupConversation(conversationId, newMemberId) {
+  const convo = await prisma.chatConvo.findFirst({
+    where: { 
+      id: conversationId, isGroup: true,
+      participants: {
+        none: { userId: newMemberId }
+      } },
+  })
+
+  if (!convo) { throw new PrismaCustomError("Invalid group join request", "P2025") };
+  if (!convo.isGroup) { throw new PrismaCustomError("Cannot add members to a non-group conversation", "P2018") };
+
+  // Add new participant and count the new size of the group in one transaction
+  const [newParticipant, groupMemberSize] = await prisma.$transaction([
+    prisma.chatConvoParticipant.create({
+      data: {
+        user: { connect: { id: newMemberId } },
+        conversation: { connect: { id: conversationId } }
+      }
+    }),
+    prisma.chatConvoParticipant.count({
+      where: { conversationId }
+    })
+  ]);
+
+  return groupMemberSize;
+}
+
 async function findGroupConvoByName(grpName) {
   const exist = await prisma.chatConvo.findFirst({
     where: { convoName: grpName, isGroup: true }
@@ -165,27 +242,6 @@ async function getAllGroupConversations() {
     size: convo._count.participants
   }));
   return groups;
-}
-
-async function getAllUserFriends(userId) {
-  const friends = await prisma.chatUser.findUnique({
-    where: { id: userId },
-    select: {
-      friends: {
-        select: { friend: { select: { id: true, name: true, image: true } } }
-      },
-      friendOf: {
-        select: { user: { select: { id: true, name: true, image: true } } }
-      }
-    }
-  });
-
-  const allFriends = [
-    ...friends.friends.map(f => f.friend),
-    ...friends.friendOf.map(f => f.user)
-  ];
-
-  return allFriends
 }
 
 async function getAllUserConversations(userId) {
@@ -222,35 +278,6 @@ async function getAllUserConversations(userId) {
   return namedConvos;
 }
 
-async function createSingleConversation(authorId, trgtUserId) {
-  const exists = await prisma.chatConvo.findFirst({
-    where: {
-      isGroup: false,
-      participants: {
-        every: {
-          userId: { in: [authorId, trgtUserId] }
-        }
-      }
-    },
-    include: {
-      participants: { select: { id: true } }
-    }
-  })
-
-  if (exists && exists.participants.length === 2) { return exists.id }
-
-  const newConvo = await prisma.chatConvo.create({
-    data: {
-      participants: {
-        create: [{ userId: authorId }, { userId: trgtUserId }]
-      }
-    },
-  })
-
-  return newConvo.id;
-}
-
-
 async function getConversationMessages(conversationId, userId) {
   const messages = await prisma.chatConvo.findFirst({
     where: {
@@ -266,8 +293,12 @@ async function getConversationMessages(conversationId, userId) {
         }
       },
       messages: {
-        orderBy: { createdAt: 'desc' }
-      }
+        orderBy: { createdAt: 'asc' },
+        include: {
+          author: {
+            select: { id: true, name: true, image: true }
+          } 
+      } }
     }
   })
 
@@ -275,6 +306,7 @@ async function getConversationMessages(conversationId, userId) {
     throw new PrismaCustomError("Conversation messages not found", "P2025")
   } else {
     const otherUser = messages.isGroup ? null : messages.participants.find(p => p.user.id !== userId)?.user;
+    
     let details = {
       metadata: {
         convoId: conversationId,
@@ -283,41 +315,18 @@ async function getConversationMessages(conversationId, userId) {
         otherUserId: messages.isGroup ? null : otherUser.id,
         isGroup: messages.isGroup
       },
-      messages: messages.messages
+      messages: messages.messages.map(msg => ({
+        id: msg.id, body: msg.body, authorId: msg.authorId,
+        name: msg.author.name, image: msg.author.image,
+        createdAt: msg.createdAt
+      }))
     }
 
     return details;
   }
 }
 
-async function joinGroupConversation(conversationId, newMemberId) {
-  const convo = await prisma.chatConvo.findFirst({
-    where: { 
-      id: conversationId, isGroup: true,
-      participants: {
-        none: { userId: newMemberId }
-      } },
-  })
-
-  if (!convo) { throw new PrismaCustomError("Invalid group join request", "P2025") };
-  if (!convo.isGroup) { throw new PrismaCustomError("Cannot add members to a non-group conversation", "P2018") };
-
-  // Add new participant and count the new size of the group in one transaction
-  const [newParticipant, groupMemberSize] = await prisma.$transaction([
-    prisma.chatConvoParticipant.create({
-      data: {
-        user: { connect: { id: newMemberId } },
-        conversation: { connect: { id: conversationId } }
-      }
-    }),
-    prisma.chatConvoParticipant.count({
-      where: { conversationId }
-    })
-  ]);
-
-  return groupMemberSize;
-}
-
+// MESSAGING SYNTAX
 async function createNewMessage(conversationId, authorId, message) {
   const msg = await prisma.chatMessage.create({
     data: {

@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 import { axiosApi } from '@/config/axios';
 import { useState } from 'react';
 
-export function ConversationCard({ id, name, image, isGroup, message }) {
+export function ConversationCard({ id, name, image, isGroup, message, otherUserId }) {
   const img = !isGroup ?
     <Image className={styles.ccardImg}
-      src={image || `https://robohash.org/${id}.png`}
+      src={image || `https://robohash.org/${otherUserId}.png`}
       width={60} height={60} alt={`${name} avatar`} /> :
     <MdGroups height={'100%'} />
 

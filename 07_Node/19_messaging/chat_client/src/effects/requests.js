@@ -8,14 +8,22 @@ async function fetchCommunityMembers(controller,
   axiosApi.get(`/v1/chat/community`, 
     {signal: controller.signal}).then(
       (res)=>(updateMembers(res.data))
-    ).catch((err)=>{ console.log(err) })
+    ).catch((err)=>{ 
+      if (err?.code!=="ERR_CANCELED") {
+        console.log(err) 
+      }     
+    })
     .finally(membersLoading(false));
   
   axiosApi.get(`/v1/chat/groups`, 
     {signal: controller.signal}).then(
       (res)=>(updateGroups(res.data))
-    ).catch((err)=>{ console.log(err) })
-    .finally(groupsLoading(false));
+    ).catch((err)=>{ 
+      if (err?.code!=="ERR_CANCELED") {
+        console.log(err) 
+      } 
+    })
+    .finally(() => groupsLoading(false));
 }
 
 // Single fetch
@@ -28,8 +36,12 @@ async function fetchUserConversations(
         updateHistory(res.data.conversations)
         updateFriendList(res.data.friends)
       }
-    ).catch((err) => { console.log(err) })
-    .finally(updateLoading(false));
+    ).catch((err) => {
+      if (err?.code!=="ERR_CANCELED") {
+        console.log(err) 
+      }
+    })
+    .finally(() => updateLoading(false));
 }
 
 async function fetchUserMessages(
@@ -41,8 +53,12 @@ async function fetchUserMessages(
         updateMetadata(res.data?.metadata)
         updateMessages(res.data?.messages)
       }
-    ).catch((err) => { console.log(err) })
-    .finally(updateLoading(false));
+    ).catch((err) => {
+      if (err?.code!=="ERR_CANCELED") {
+        console.log(err) 
+      }  
+    })
+    .finally(() => updateLoading(false));
 }
 
 

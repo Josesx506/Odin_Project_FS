@@ -17,17 +17,17 @@ const geistMono = Geist_Mono({
 });
 
 const poppins = Poppins({
-  variable: "--font-poppins",
+  variable: "--font-poppins", subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 })
 
 const monteserrat = Montserrat({
-  variable: "--font-monteserrat",
+  variable: "--font-monteserrat", subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 })
 
 const inter = Inter({
-  variable: "--font-inter",
+  variable: "--font-inter", subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 })
 

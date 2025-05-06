@@ -49,5 +49,10 @@ socket.on('joinConversation', (conversationId) => {
 All groups are public in this simple iteration. Privatizing groups can be done with RBAC to allow only approved participants and 
 assigning a group admin but it wasn't a project requirement.
 
+### Deployment and CORS issues
+- Remove any CORS prefllighting and let express handle it for you automatically.
+- Add the PORT to the express env variables and ensure the public url is linked to that port
+- If these two options are not implemented CORS keeps throwing errors from rainway
+
 ### Todo
-- [x] handle logic for file uploads to firebase
+- [ ] handle logic for file uploads to supabase

@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 const allowedOrigins = [
   'http://localhost:3000',
+  'https://odin-msg-client.vercel.app',
 ]
 
 const cookieOptions = {
@@ -17,7 +18,7 @@ const corsOptions = {
     if (!origin) return callback(null, true); // allow Postman, etc.
 
     const isWhitelisted = allowedOrigins.includes(origin) ||
-      /^https:\/\/odin-messenger-.*\.vercel\.app$/.test(origin); // preview links
+      /^https:\/\/odin-msg-client-.*\.vercel\.app$/.test(origin); // preview links
 
     if (isWhitelisted) {
       callback(null, true);

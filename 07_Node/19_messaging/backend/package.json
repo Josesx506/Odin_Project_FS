@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch app.js"
+    "dev": "node --watch app.js",
+    "start": "bash ./resetPrisma.sh && prisma migrate deploy && node app.js",
+    "seed": "node prisma/seed"
   },
   "type": "module",
   "keywords": [],

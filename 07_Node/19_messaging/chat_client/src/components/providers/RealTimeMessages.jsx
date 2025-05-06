@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import MessageCard from '@/components/cards/MessageCard';
 import styles from '@/styles/providers/realtimemsg.module.css';
 
-export default function RealTimeMessages({ activeUserId, messages, loading }) {
+export default function RealTimeMessages({ activeUserId, messages }) {
   const bottomRef = useRef(null);
 
   useEffect(() => {

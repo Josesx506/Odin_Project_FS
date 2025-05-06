@@ -9,6 +9,7 @@ import { decodeJWT } from '@/utils/common';
 import { useEffect, useState } from 'react';
 import MessageInput from './MessageInput';
 import RealTimeMessages from './RealTimeMessages';
+import { MsgPrvdrSkeleton } from '@/components/skeletons/ChatSkeleton';
 
 export default function MsgsProvider({ id }) {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -63,7 +64,7 @@ export default function MsgsProvider({ id }) {
   }, [id])
 
   if (loading) {
-    return <div>...loading</div>
+    return <MsgPrvdrSkeleton />
   }
 
   return (

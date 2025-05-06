@@ -11,7 +11,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     const controller = new AbortController();
-
+    
     fetchUserConversations(controller,
       setChats,setFriends,setLoading);
 

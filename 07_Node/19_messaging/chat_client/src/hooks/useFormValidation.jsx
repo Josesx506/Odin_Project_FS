@@ -56,7 +56,17 @@ const validationRules = {
       message: 'Enter a valid URL'
     }
   },
-  chatMessage: { required: 'Group name is required',}
+  chatMessage: { required: 'Group name is required',},
+  bio: {
+    minLength: {
+      value: 10,
+      message: 'Bio must be at least 10 characters'
+    },
+    maxLength: {
+      value: 150,
+      message: 'Bio cannot exceed 150 characters'
+    }
+  }
 };
 
 function sanitizeFormData(data) {

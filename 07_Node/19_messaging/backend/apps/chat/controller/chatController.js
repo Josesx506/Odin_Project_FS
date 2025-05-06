@@ -150,7 +150,8 @@ async function getUserProfile(req,res) {
     const filtUser = {
         name: user.name,
         email: user.email,
-        image: user.image
+        image: user.image,
+        bio: user.bio,
     }
     try {
         res.status(200).json({ user: filtUser })
@@ -161,13 +162,13 @@ async function getUserProfile(req,res) {
 
 async function updateProfile(req,res) {
     const userId = req.user?.id;
-    const { id, name, email, image } = req.body;
+    const { id, name, email, image, bio } = req.body;
 
     if (Number(id) !== userId) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
-        const updt = await updateUserProfile(userId, name, email, image )
+        const updt = await updateUserProfile(userId, name, email, image, bio )
         res.status(200).json({ message: 'Profile updated' });
     } catch(err) {
         return res.status(500).json({ message: 'Internal server error', error: err.message })

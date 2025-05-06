@@ -70,11 +70,12 @@ async function fetchUserProfile(controller, updateUserData, updateLoading) {
     updateUserData(res.data)
   } catch(err) {
     if (err?.code!=="ERR_CANCELED") {
-      toast.error(err.message);
-      console.log(err) }
+      toast.error(err.message || "Failed to load user profile");
+    }
   } finally {
     updateLoading(false)
   }
+  return ()=>{ controller.abort() }
 }
 
 

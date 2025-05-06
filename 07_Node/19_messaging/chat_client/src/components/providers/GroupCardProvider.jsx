@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { BiSolidMessageAdd } from "react-icons/bi";
 import GroupCard from '../cards/GroupCard';
 import FormModal from '../forms/FormModal';
+import { GroupSkeletons } from '@/components/skeletons/CommunitySkeleton';
 
 export default function GroupCardProvider({ groups, loading, handleGroupCreate }) {
   const [openModal, setOpenModal] = useState(false);
@@ -19,7 +20,7 @@ export default function GroupCardProvider({ groups, loading, handleGroupCreate }
   }
 
   if (loading) {
-    return <div>...loading</div>
+    return <GroupSkeletons />
   }
 
   return (

@@ -1,10 +1,11 @@
 import React from 'react'
 import UserCard from '../cards/UserCard';
 import styles from '@/styles/providers/comm.module.css'
+import { MemberSkeletons } from '@/components/skeletons/CommunitySkeleton';
 
 export default function CommunityCardProvider({ users, loading}) {
   if (loading) {
-    return <div>...loading</div>
+    return <MemberSkeletons />
   }
 
   return (

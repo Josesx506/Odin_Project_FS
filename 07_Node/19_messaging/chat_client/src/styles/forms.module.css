@@ -34,6 +34,14 @@
     }
 }
 
+.authTextArea {
+    padding: 0.4em 0.3em;
+    border-radius: 0.5em;
+    border: 1px solid darkgray;
+    font-size: 1rem;
+    resize: none;
+}
+
 .authSubmit {
     display: flex;
     flex-direction: column;

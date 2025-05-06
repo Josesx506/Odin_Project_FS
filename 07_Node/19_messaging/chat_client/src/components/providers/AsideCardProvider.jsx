@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ContactCard, ConversationCard } from '../cards/ContactCard';
+import { AsideSkeleton } from '../skeletons/ChatSkeleton';
 
 export default function AsideCardProvider({ userChats, userFriends, loading }) {
   const [query, setQuery] = useState("");
@@ -24,7 +25,7 @@ export default function AsideCardProvider({ userChats, userFriends, loading }) {
   }
 
   if (loading) {
-    return <div>...loading</div>
+    return <AsideSkeleton />
   }
 
   let behaviour;

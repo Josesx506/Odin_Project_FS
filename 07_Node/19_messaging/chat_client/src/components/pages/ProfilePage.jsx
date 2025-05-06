@@ -12,6 +12,7 @@ import Form from 'next/form';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import ProfileSkeleton from '@/components/skeletons/ProfileSkeleton';
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState({});
@@ -22,13 +23,16 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const controller = new AbortController();
+
     fetchUserProfile(controller, setUserData, setLoading);
+    
   }, []);
 
   async function onSubmit(data) {
     const controller = new AbortController();
     const old = userData.user;
-    if (data.name === old.name && data.email == old.email && data.image === old.image) {
+    if (data.name === old.name && data.email == old.email 
+      && data.image === old.image && data.bio === old.bio) {
       toast.error('No edits detected');
       return
     }
@@ -47,7 +51,7 @@ export default function ProfilePage() {
       // Udate the user data
       setUserData({
         user: {
-          name: data.name,
+          name: data.name, bio: data.bio,
           email: data.email, image: data.image
         }
       })
@@ -58,14 +62,15 @@ export default function ProfilePage() {
     }
   }
 
+  
   if (loading) {
-    return <div>loading...</div>
+    return <ProfileSkeleton />
   }
 
   return (
     <div className={styles.profileCntr}>
       <div className={styles.profileImg}>
-        <Image className={styles.ccardImg}
+        <Image 
           src={userData.user.image || `https://robohash.org/${userId}.png`}
           width={120} height={120} alt={`${userData.user.name} avatar`} />
       </div>
@@ -76,6 +81,8 @@ export default function ProfilePage() {
           register={register} rules={validationRules.email} errors={errors} defaultValue={userData.user.email} />
         <FormField type={'url'} name={'image'} label={'Profile Image url'} placeholder={'https://example.com'}
           register={register} rules={validationRules.url} errors={errors} defaultValue={userData.user.image} />
+        <FormField type={'textarea'} name={'bio'} label={'Bio'} placeholder={'I like to ....'} rows={2}
+          register={register} rules={validationRules.bio} errors={errors} defaultValue={userData.user.bio} />
 
         <div className={styles.updateProfile}>
           <ContainedButton disabled={loading}>Update Profile</ContainedButton>

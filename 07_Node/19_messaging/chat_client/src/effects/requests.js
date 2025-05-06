@@ -1,4 +1,5 @@
 import { axiosApi } from "@/config/axios";
+import toast from "react-hot-toast";
 
 // Parallel  fetch
 async function fetchCommunityMembers(controller,
@@ -61,5 +62,20 @@ async function fetchUserMessages(
     .finally(() => updateLoading(false));
 }
 
+async function fetchUserProfile(controller, updateUserData, updateLoading) {
+  try {
+    const res = await axiosApi.get('/v1/chat/get-user-profile',
+      { signal: controller.signal }
+    );
+    updateUserData(res.data)
+  } catch(err) {
+    if (err?.code!=="ERR_CANCELED") {
+      toast.error(err.message);
+      console.log(err) }
+  } finally {
+    updateLoading(false)
+  }
+}
 
-export { fetchCommunityMembers, fetchUserConversations, fetchUserMessages }
+
+export { fetchCommunityMembers, fetchUserConversations, fetchUserMessages, fetchUserProfile }

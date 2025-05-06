@@ -3,7 +3,8 @@ import { authJWT } from "../../../shared/middleware/auth.js";
 import {
     createGroupChat, getAllConversations, getAllGroups,
     getAnyConvMessages, getPrivateConversation, getRegisteredMembers,
-    newGroupJoinRequest, processFriendDelete, processFriendRequest, pushMessageEvent
+    getUserProfile, newGroupJoinRequest, processFriendDelete,
+    processFriendRequest, pushMessageEvent, updateProfile
 } from "../controller/chatController.js";
 
 
@@ -20,6 +21,8 @@ router.get('/create-convo', authJWT, getPrivateConversation)
 router.get('/conv-hist/:conversationId', authJWT, getAnyConvMessages)
 router.get('/join-group/:conversationId', authJWT, newGroupJoinRequest)
 router.post('/conversation/:conversationId', authJWT, pushMessageEvent)
+router.get('/get-user-profile', authJWT, getUserProfile)
+router.post('/update-user-profile', authJWT, updateProfile)
 
 
 export { router };

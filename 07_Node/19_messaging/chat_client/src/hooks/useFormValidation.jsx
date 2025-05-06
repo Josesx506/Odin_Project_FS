@@ -50,6 +50,12 @@ const validationRules = {
       message: 'Group name can only contain letters, numbers and underscores, or two words'
     }
   },
+  url: {
+    pattern: {
+      value: /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+      message: 'Enter a valid URL'
+    }
+  },
   chatMessage: { required: 'Group name is required',}
 };
 

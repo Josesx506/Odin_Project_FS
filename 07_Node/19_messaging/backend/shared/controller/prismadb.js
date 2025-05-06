@@ -71,6 +71,20 @@ async function updateRefreshToken(id, token) {
   return user;
 }
 
+async function updateUserProfile(userId, name, email, image) {
+  const updateUser = await prisma.chatUser.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      name: name,
+      email: email,
+      image: image
+    }
+  })
+  return updateUser;
+}
+
 // COMMUNITY SYNTAX
 async function getAllUsers(userId) {
   const users = await prisma.chatUser.findMany({
@@ -345,6 +359,6 @@ export {
   createUserWithoutRole, createUserWithRole, findGroupConvoByName, getAllGroupConversations,
   getAllUserConversations, getAllUserFriends, getAllUsers, getConversationMessages,
   joinGroupConversation, removeExistingFriend, retrieveUserByEmail, retrieveUserById,
-  retrieveUserByToken, updateRefreshToken
+  retrieveUserByToken, updateRefreshToken, updateUserProfile
 };
 

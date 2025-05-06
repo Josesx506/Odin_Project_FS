@@ -5,7 +5,8 @@ import {
     createSingleConversation,
     findGroupConvoByName, getAllGroupConversations, getAllUserConversations,
     getAllUserFriends,
-    getAllUsers, getConversationMessages, joinGroupConversation, removeExistingFriend
+    getAllUsers, getConversationMessages, joinGroupConversation, removeExistingFriend,
+    updateUserProfile
 } from '../../../shared/controller/prismadb.js';
 
 async function getRegisteredMembers(req,res) {
@@ -137,17 +138,46 @@ async function pushMessageEvent(req,res) {
             createdAt: newMsg.createdAt
         });
     
-        res.json({ message: 'Message sent!' });
+        res.status(200).json({ message: 'Message sent!' });
     
     } catch(err) {
         return res.status(500).json({ message: 'Internal server error', error: err.message })
     }
 }
 
+async function getUserProfile(req,res) {
+    const user = req.user;
+    const filtUser = {
+        name: user.name,
+        email: user.email,
+        image: user.image
+    }
+    try {
+        res.status(200).json({ user: filtUser })
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    }
+}
+
+async function updateProfile(req,res) {
+    const userId = req.user?.id;
+    const { id, name, email, image } = req.body;
+
+    if (Number(id) !== userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    try {
+        const updt = await updateUserProfile(userId, name, email, image )
+        res.status(200).json({ message: 'Profile updated' });
+    } catch(err) {
+        return res.status(500).json({ message: 'Internal server error', error: err.message })
+    } 
+}
+
 export {
-    createGroupChat, getAllConversations, getAllGroups, 
-    getAnyConvMessages, getPrivateConversation, 
-    getRegisteredMembers, newGroupJoinRequest, 
-    processFriendDelete, processFriendRequest, pushMessageEvent
+    createGroupChat, getAllConversations, getAllGroups, getAnyConvMessages, 
+    getPrivateConversation, getRegisteredMembers, getUserProfile, 
+    newGroupJoinRequest, processFriendDelete, processFriendRequest, 
+    pushMessageEvent, updateProfile
 };
 

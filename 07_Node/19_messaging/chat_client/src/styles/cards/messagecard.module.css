@@ -1,12 +1,12 @@
 .dmContainer {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 0.5em;
 }
 
 .dmContainerAuthor {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 0.5em;
     justify-content: end;
     flex-direction: row-reverse;

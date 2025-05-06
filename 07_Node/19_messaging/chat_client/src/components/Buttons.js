@@ -17,4 +17,14 @@ function ContainedButton({ children, onClick = () => { }, color = "black", backg
   )
 }
 
-export { ContainedButton }
+function Button({ children, variant, className, ...props }) {
+  const buttonClass = variant === "outline" ? styles.buttonOutline : styles.buttonPrimary;
+  
+  return (
+    <button className={`${styles.button} ${buttonClass}`  } {...props}>
+      {children}
+    </button>
+  );
+}
+
+export { ContainedButton, Button }

@@ -112,6 +112,9 @@ async function newGroupJoinRequest(req,res) {
         const grpSize = await joinGroupConversation(Number(conversationId), userId);
         res.status(200).json({ grpSize })
     } catch(err) {
+        if (err.code === 'P2025') {
+            return res.status(403).json({ message: "Denied rejoin request"});
+        }
         return res.status(500).json({ message: 'Internal server error', error: err.message })
     }
     

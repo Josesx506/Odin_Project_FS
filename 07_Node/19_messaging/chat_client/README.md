@@ -21,8 +21,7 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ### Todo
-- [x] handle logic for file uploads to firebase
-- [x] create home page
-- [x] create skeletons for loading screens
-- [x] create logic to show active chat in chat history list
-- [x] implement ai conversations
+- [ ] handle logic for file uploads to supabase
+- [ ] create logic to show active chat in chat history list
+- [ ] implement ai conversations
+- [ ] show user online status

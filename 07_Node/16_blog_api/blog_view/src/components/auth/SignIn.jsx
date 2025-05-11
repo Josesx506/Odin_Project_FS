@@ -13,24 +13,44 @@ import Link from 'next/link';
 
 export default function SignIn() {
   // Hooks
-  const { 
-    register, reset, 
-    formState: { errors }, 
+  const {
+    register, reset,
+    formState: { errors },
     submitWithSanitization } = useFormValidation();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  // const searchParams = useSearchParams();
-  // const from = searchParams.get('from') || '/posts';
 
   // Submit the form with fetch request server action
-  const onSubmit = async (sanitizedData) => { 
+  const onSubmit = async (sanitizedData) => {
     try {
       setLoading(true);
       await login(sanitizedData)
       toast.success('Logged in! Redirecting...')
-      router.push('/posts'); // Navigate to previous route - from
-    } catch(err) {
+      router.push('/posts');
+    } catch (err) {
+      toast.error('Login failed. Please try again.')
+      reset()
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function guestSignIn(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const user = {
+      email: "johndoe@odinblog.com",
+      password: process.env.NEXT_PUBLIC_GUEST_PSWD,
+    };
+
+    try {
+      setLoading(true);
+      await login(user)
+      toast.success('Guest Login! Redirecting...')
+      router.push('/posts');
+    } catch (err) {
       toast.error('Login failed. Please try again.')
       reset()
     } finally {
@@ -44,16 +64,17 @@ export default function SignIn() {
         <div className={styles.authFormContainer}>
           <h3>ØBlog Access</h3>
 
-          <Form className={styles.authForm}  onSubmit={submitWithSanitization(onSubmit)}>
+          <Form className={styles.authForm} onSubmit={submitWithSanitization(onSubmit)}>
 
-            <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter your email'} 
+            <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter your email'}
               register={register} rules={validationRules.email} errors={errors} />
             <FormField type={'password'} name={'password'} label={'Password'}
-              placeholder={'Enter your password'} register={register} 
+              placeholder={'Enter your password'} register={register}
               rules={{ required: 'Password is required' }} errors={errors} />
-            
+
             <div className={styles.authSubmit}>
               <ContainedButton disabled={loading}>Sign In</ContainedButton>
+              <ContainedButton onClick={guestSignIn} disabled={loading}>Guest User Access</ContainedButton>
             </div>
           </Form>
         </div>
@@ -62,7 +83,7 @@ export default function SignIn() {
           <div className={styles.authLink}>New Here? Sign up as a <Link href={'/signup'}>Reader</Link> or <Link href={`${process.env.NEXT_PUBLIC_CMSURL}/signup`}>Contributor</Link> </div>
         </div>
       </div>
-      
+
     </div>
   )
 }

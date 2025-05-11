@@ -122,22 +122,23 @@ async function newGroupJoinRequest(req,res) {
 
 async function pushMessageEvent(req,res) {
     const { conversationId } = req.params;
-    const { message } = req.body;
+    const { message, uploadurl } = req.body;
     const io = getIO();
     const user = req.user;
     const userId = req.user?.id;
 
     try {
         // Save the message to db
-        const newMsg = await createNewMessage(Number(conversationId), userId, message)
+        const newMsg = await createNewMessage(Number(conversationId), userId, message, uploadurl)
         
         // Broadcast the message to the room
         io.to(`chat:${conversationId}`).emit('newMessage', { 
             id: newMsg.id,
             authorId: userId,
             name: user.name,
-            image: user.image,
+            authorimage: user.image,
             body: newMsg.body, 
+            msgimage: newMsg.imageurl,
             createdAt: newMsg.createdAt
         });
     
@@ -184,4 +185,3 @@ export {
     newGroupJoinRequest, processFriendDelete, processFriendRequest, 
     pushMessageEvent, updateProfile
 };
-

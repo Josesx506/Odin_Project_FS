@@ -35,6 +35,12 @@
     max-width: 60%;
 }
 
+.dmBodyContent {
+    padding: 0.2em;
+    border-radius: 0.2em;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
 .dmBodyTitle {
     display: flex;
     gap: 0.4em;
@@ -63,8 +69,26 @@
     width: min(fit-content, 30%);
 }
 
+.msgImage {
+    width: 100%;
+    height: auto;
+    background-color: rgba(200, 200, 200, 0.1);
+    position: relative;
+    & img {
+        max-width: 100%;
+        object-fit: contain;
+    }
+}
+
 .msgBody {
     font-family: 'Inter';
     font-size: 0.9rem;
+}
 
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

@@ -72,6 +72,7 @@ model ChatConvoParticipant {
 model ChatMessage {
   id             Int       @id @default(autoincrement())
   body           String
+  imageurl       String?
   conversation   ChatConvo @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
   author         ChatUser  @relation(fields: [authorId], references: [id], onDelete: Cascade)

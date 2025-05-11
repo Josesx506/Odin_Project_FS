@@ -331,8 +331,8 @@ async function getConversationMessages(conversationId, userId) {
       },
       messages: messages.messages.map(msg => ({
         id: msg.id, body: msg.body, authorId: msg.authorId,
-        name: msg.author.name, image: msg.author.image,
-        createdAt: msg.createdAt
+        name: msg.author.name, authorimage: msg.author.image,
+        msgimage: msg.imageurl, createdAt: msg.createdAt
       }))
     }
 
@@ -341,10 +341,11 @@ async function getConversationMessages(conversationId, userId) {
 }
 
 // MESSAGING SYNTAX
-async function createNewMessage(conversationId, authorId, message) {
+async function createNewMessage(conversationId, authorId, message, uploadurl) {
   const msg = await prisma.chatMessage.create({
     data: {
       body: message,
+      imageurl: uploadurl,
       conversation: { connect: { id: conversationId } },
       author: { connect: { id: authorId } }
     }

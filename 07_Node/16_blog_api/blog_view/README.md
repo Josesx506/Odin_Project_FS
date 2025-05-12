@@ -43,4 +43,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ```bash
 NEXT_PUBLIC_EXPRESSURL="..."
 NEXT_PUBLIC_CMSURL="..."
+NEXT_PUBLIC_GUEST_PSWD="..."
 ```

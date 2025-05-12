@@ -35,6 +35,17 @@
     color: rgb(58, 58, 58);
 }
 
+.postDetailsBody{
+    line-height: 2;
+    & img {
+        margin-top: 0.5em;
+        max-height: 500px;
+    }
+    & p {
+        margin-bottom: 0.5em;
+    }
+}
+
 .postForm {
     display: grid;
     gap: 0.5em;

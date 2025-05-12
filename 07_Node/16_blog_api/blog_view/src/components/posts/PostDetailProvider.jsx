@@ -6,6 +6,7 @@ import useAuth from '@/hooks/useAuth';
 import styles from '@/styles/post.module.css';
 import { createCommentHandler } from '@/utils/commentHandlers';
 import { dateFormatter, decodeJWT } from '@/utils/utils';
+import DOMPurify from 'dompurify';
 import Form from 'next/form';
 import { notFound } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -104,9 +105,7 @@ export default function PostDetailProvider({id}) {
           </div>
           <div>{dateFormatter(post.updatedAt, 'monthNameDay')}</div>
         </div>
-        <div>
-          {post.body}
-        </div>
+        <div className={styles.postDetailsBody} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }}></div>
       </div>
 
       {/* Handle Comments */}

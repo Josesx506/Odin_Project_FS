@@ -13,7 +13,7 @@ It was an interesting fullstack project and I look forward to building out other
 ### Todo
 - [x] Update CORS whitelisted links in `config/options.js` post deployment.
 - [x] Implement better loading states for components instead of divs
-- [ ] Include [tinyMCE](https://www.tiny.cloud/docs/tinymce/6/cloud-quick-start/) text editior if there's time
+- [x] Include [tinyMCE](https://www.tiny.cloud/docs/tinymce/6/cloud-quick-start/) text editior if there's time
 https://www.youtube.com/watch?v=UTPsWbfHmFg
 - [ ] Improve RBAC for frontend applications. The backend RBAC was robust with roles and sessions but I didn't want to include 
     the entire roles and permissions in the JWT so I had to use the author id with if statements and only the role to restrain 

@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import { prisma } from './prisma.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { retrieveUserById, retrieveUserByEmail } from '../shared/controller/prismadb.js';

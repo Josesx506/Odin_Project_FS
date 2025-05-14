@@ -2,7 +2,7 @@
 
 import React from 'react';
 import authFetch from '@/actions/authFetch';
-import axiosApi from '@/config/axios';
+import { axiosApi } from '@/config/axios';
 
 export default async function Feed() {
   // const data = await authFetch('/v1/social');

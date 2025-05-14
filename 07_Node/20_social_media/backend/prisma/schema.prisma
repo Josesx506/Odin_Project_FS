@@ -22,11 +22,12 @@ model SocialSession {
 }
 
 model SocialUser {
-  id       Int     @id @default(autoincrement())
-  username String
-  email    String  @unique
-  password String?
-  bio      String?
-  gravatar String?
-  token    String?
+  id        Int     @id @default(autoincrement())
+  username  String
+  email     String  @unique
+  password  String?
+  bio       String?
+  gravatar  String?
+  token     String?
+  githubotp String?
 }

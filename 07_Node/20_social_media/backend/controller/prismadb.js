@@ -40,11 +40,13 @@ async function updateUserDetailsByEmail(email, profile) {
     update: {
       username: profile.username,
       gravatar: profile.photos?.[0]?.value || profile?._json?.avatar_url,
+      githubotp: profile.otp
     },
     create: {
       email,
       username: profile.username,
       gravatar: profile.photos?.[0]?.value || profile?._json?.avatar_url,
+      githubotp: profile.otp
     },
   });
   return user;
@@ -54,6 +56,15 @@ async function retrieveUserByToken(refreshToken) {
   const user = await prisma.socialUser.findFirst({
     where: {
       token: refreshToken
+    }
+  })
+  return user;
+}
+
+async function retrieveUserByOTP(otp) {
+  const user = await prisma.socialUser.findFirst({
+    where: {
+      githubotp: otp
     }
   })
   return user;
@@ -71,8 +82,17 @@ async function updateRefreshToken(id, token) {
   return user;
 }
 
+async function removeOneTimePassword(id) {
+  const user = await prisma.socialUser.update({
+    where: { id: id },
+    data: { githubotp: null }
+  })
+  return user;
+}
+
 
 export {
-  createUserWithoutRole, retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken, updateUserDetailsByEmail
+  createUserWithoutRole, removeOneTimePassword, retrieveUserByEmail, retrieveUserByOTP,
+  retrieveUserById, retrieveUserByToken, updateRefreshToken, updateUserDetailsByEmail
 };
 

@@ -61,6 +61,8 @@ async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, don
       profile.emails = [{value: email}]
     }
 
+    profile.otp = crypto.randomUUID().replace(/-/g,'');
+
     // Upsert the user into the db if they exist
     const user = await updateUserDetailsByEmail(email,profile)
 

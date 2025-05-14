@@ -23,7 +23,7 @@ function authOAuth(req,res,next) {
         message: info?.message || "Github user not found",
       });
     } else {
-        req.user = user;
+        req.otp = user.githubotp;
         next();
     }})(req, res, next);
 }

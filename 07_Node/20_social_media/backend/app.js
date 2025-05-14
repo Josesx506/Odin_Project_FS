@@ -1,12 +1,14 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express from 'express';
-import { sessionMiddleware } from './config/session.js';
-import { passport } from './config/passport.js'
 import 'dotenv/config';
+import express from 'express';
+import { corsOptions } from "./config/options.js";
+import { passport } from './config/passport.js';
+import { sessionMiddleware } from './config/session.js';
+import { logRequests } from './controller/logger.js';
+import { credentials } from './middleware/credentials.js';
 import { router as authRouter } from './routes/auth.js';
 import { router as socialRouter } from './routes/social.js';
-import { logRequests } from './controller/logger.js'
 
 const app = express();
 
@@ -14,6 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+// CORS middleware
+app.use(credentials);
+app.use(cors(corsOptions));
 
 // Middleware for auth
 app.use(sessionMiddleware)

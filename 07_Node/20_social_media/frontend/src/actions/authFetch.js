@@ -1,6 +1,6 @@
 'use server';
 
-import axiosApi from '@/config/axios';
+import { axiosApi } from '@/config/axios';
 import axios from 'axios';
 
 const EXPRESS_URL = process.env.NEXT_PUBLIC_EXPRESSURL;

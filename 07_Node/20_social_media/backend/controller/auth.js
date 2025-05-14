@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookieOptions } from "../config/options.js";
 import {
-  createUserWithoutRole, retrieveUserByEmail,
-  retrieveUserByToken, updateRefreshToken
+  createUserWithoutRole, retrieveUserByEmail, retrieveUserByOTP,
+  retrieveUserByToken, updateRefreshToken, removeOneTimePassword
 } from "./prismadb.js";
 
 async function register(req, res, next) {
@@ -42,13 +42,41 @@ async function generateLoginJWT(req, res, next) {
     await updateRefreshToken(user.id, refreshToken);
 
     // Send the refresh token as a httpOnly cookie that's unavailable to JS
-    res.cookie('accessJwt', accessToken, cookieOptions);
-    res.cookie('refreshJwt', refreshToken, cookieOptions);
+    res.cookie('jwt', refreshToken, cookieOptions);
 
-    // Redirect to the client feed
-    return res.redirect(`${process.env.CLIENT_URL}/feed`)
+    // Send the accessToken that expires quickly as JSON
+    return res.status(200).json({
+      message: "successfully signed in",
+      accessToken: accessToken,
+    })
   } catch (err) {
     next(err);
+  }
+}
+
+async function OAuthRedirect(req, res) {
+  const otp = req.otp;
+  // Redirect back to the sign in page but with the code query in the url
+  return res.redirect(`${process.env.CLIENT_URL}/signin?otp=${otp}`)
+}
+
+async function validateOTP(req, res, next) {
+  try {
+    const { otp } = req.query;
+    let user = await retrieveUserByOTP(otp);
+    
+    if (user) {
+      user = await removeOneTimePassword(user.id);
+      req.user = user;
+      next()
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired otp",
+      });
+    }
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -100,7 +128,8 @@ async function logout(req, res) {
   const refreshToken = cookies.refreshJwt;
   const user = await retrieveUserByToken(refreshToken);
 
-  // Clear both cookies
+  // Clear both cookies and logout of the github session too
+  req.logout();
   res.clearCookie('accessJwt', cookieOptions);
   res.clearCookie('refreshJwt', cookieOptions);
 
@@ -112,4 +141,5 @@ async function logout(req, res) {
   }
 }
 
-export { generateLoginJWT, logout, refreshJWT, register };
+export { generateLoginJWT, logout, OAuthRedirect, refreshJWT, register, validateOTP };
+

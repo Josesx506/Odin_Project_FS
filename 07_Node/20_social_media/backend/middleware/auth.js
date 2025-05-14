@@ -14,7 +14,9 @@ function authEmail(req,res,next) {
 }
 
 function authOAuth(req,res,next) {
-  passport.authenticate("github", { scope: ['user.email'] }, (err, user, info) => {
+  passport.authenticate("github", 
+    { scope: ['user.email'], failureRedirect: `${process.env.CLIENT_URL}/signin` }, 
+    (err, user, info) => {
     if (err || !user) {
       return res.status(401).json({
         success: false,
@@ -26,10 +28,10 @@ function authOAuth(req,res,next) {
     }})(req, res, next);
 }
 
-
-
 function authJWT(req, res, next) {
-  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+  passport.authenticate("jwt", 
+    { session: false },
+    (err, user, info) => {
     if (err) {
       return next(err);
     }

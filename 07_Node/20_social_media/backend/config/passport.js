@@ -46,6 +46,8 @@ passport.deserializeUser(async (email, done) => {
 });
 
 
+
+
 // Github OAuth authentication for signin
 async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, done) {
   try {
@@ -70,7 +72,6 @@ async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, don
 
 }
 
-
 const oauthOptions = {
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -79,6 +80,8 @@ const oauthOptions = {
 }
 
 const oauthStrategy = new GithubStrategy(oauthOptions, verifyGitHubOAuthCallback);
+
+
 
 
 // JWT Strategy for token authentication
@@ -96,8 +99,17 @@ async function verifyJWTCallback(payload, done) {
     return done(err);
   }
 }
+
+function cookieExtractor(req) {
+  let token= null;
+  if (req && req.cookies && req.cookies?.accessJwt) {
+    token = req.cookies.accessJwt;
+  }
+  return token;
+}
+
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
   secretOrKey: process.env.JWT_ACCESS_SECRET
 }
 
@@ -105,8 +117,8 @@ const jwtStrategy = new JwtStrategy(jwtOptions, verifyJWTCallback);
 
 
 
-// passport.use(localStrategy);
+passport.use(localStrategy);
 passport.use(oauthStrategy);
-// passport.use(jwtStrategy);
+passport.use(jwtStrategy);
 
 export { passport }

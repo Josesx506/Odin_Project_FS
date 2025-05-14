@@ -1,4 +1,20 @@
-import { prisma } from '../config/prisma.js'
+import { prisma } from '../config/prisma.js';
+
+async function createUserWithoutRole(username, email, hashedPassword) {
+  const user = await prisma.socialUser.create({
+    data: {
+      username: username,
+      email: email.toLowerCase(),
+      password: hashedPassword
+    },
+    select: {
+      id: true,
+      email: true
+    }
+  })
+  return user;
+}
+
 
 async function retrieveUserByEmail(email) {
   const user = await prisma.socialUser.findFirst({
@@ -34,5 +50,29 @@ async function updateUserDetailsByEmail(email, profile) {
   return user;
 }
 
+async function retrieveUserByToken(refreshToken) {
+  const user = await prisma.socialUser.findFirst({
+    where: {
+      token: refreshToken
+    }
+  })
+  return user;
+}
 
-export { retrieveUserByEmail, retrieveUserById, updateUserDetailsByEmail }
+async function updateRefreshToken(id, token) {
+  const user = await prisma.socialUser.update({
+    where: {
+      id: id
+    },
+    data: {
+      token: token
+    }
+  })
+  return user;
+}
+
+
+export {
+  createUserWithoutRole, retrieveUserByEmail, retrieveUserById, retrieveUserByToken, updateRefreshToken, updateUserDetailsByEmail
+};
+

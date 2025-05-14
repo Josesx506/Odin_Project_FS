@@ -4,7 +4,8 @@ import express from 'express';
 import { sessionMiddleware } from './config/session.js';
 import { passport } from './config/passport.js'
 import 'dotenv/config';
-import { router as authRouther } from './routes/auth.js';
+import { router as authRouter } from './routes/auth.js';
+import { router as socialRouter } from './routes/social.js';
 import { logRequests } from './controller/logger.js'
 
 const app = express();
@@ -21,7 +22,8 @@ app.use(passport.session());
 // Basic middleware - Logger
 app.use(logRequests);
 
-app.use('/v1/auth', authRouther);
+app.use('/v1/auth', authRouter);
+app.use('/v1/social', socialRouter);
 
 
 app.get('/', (req,res)=>{

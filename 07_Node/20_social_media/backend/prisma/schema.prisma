@@ -23,6 +23,7 @@ model SocialSession {
 
 model SocialUser {
   id        Int     @id @default(autoincrement())
+  fullname  String
   username  String
   email     String  @unique
   password  String?
@@ -30,4 +31,93 @@ model SocialUser {
   gravatar  String?
   token     String?
   githubotp String?
+
+  // Friends list (one-directional)
+  friends  SocialFriendship[] @relation("UserFriends")
+  friendOf SocialFriendship[] @relation("FriendOf")
+
+  // Posts and Comments
+  posts    SocialPost[]
+  comments SocialComment[]
+
+  // Likes and views
+  likedposts    PostLike[]
+  likedcomments CommentLike[]
+  viewedposts   PostView[]
+}
+
+model SocialFriendship {
+  id        Int        @id @default(autoincrement())
+  user      SocialUser @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  friend    SocialUser @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
+  friendId  Int
+  createdAt DateTime   @default(now())
+
+  @@unique([userId, friendId])
+  @@index([userId])
+  @@index([friendId])
+}
+
+model SocialPost {
+  id        Int             @id @default(autoincrement())
+  body      String
+  postimg   String?
+  authorId  Int
+  likes     PostLike[]
+  views     PostView[]
+  author    SocialUser      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  comments  SocialComment[]
+
+  @@index([authorId])
+}
+
+model SocialComment {
+  id        Int           @id @default(autoincrement())
+  body      String
+  authorId  Int
+  author    SocialUser    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postId    Int
+  post      SocialPost    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes     CommentLike[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([authorId])
+  @@index([postId])
+}
+
+model PostLike {
+  id     Int        @id @default(autoincrement())
+  user   SocialUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  post   SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+
+  @@unique([userId, postId])
+  @@index([postId])
+}
+
+model CommentLike {
+  id        Int           @id @default(autoincrement())
+  user      SocialUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  comment   SocialComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int
+
+  @@unique([userId, commentId])
+  @@index([commentId])
+}
+
+model PostView {
+  id     Int        @id @default(autoincrement())
+  user   SocialUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  post   SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+
+  @@unique([userId, postId])
+  @@index([postId])
 }

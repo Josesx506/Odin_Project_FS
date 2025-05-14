@@ -66,7 +66,7 @@ export default function SignIn() {
     e.preventDefault();
     e.stopPropagation();
 
-    const user = { email: "jjjj@odin.com",
+    const user = { email: "vickyblaize@odinbook.com",
       password: await getGuestPassword(),
     };
 

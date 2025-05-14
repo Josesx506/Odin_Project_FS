@@ -1,10 +1,10 @@
-import SignIn from '@/components/auth/SignIn'
 import React from 'react'
+import SignUp from '@/components/auth/SignUp'
 
 export default function page() {
   return (
     <div>
-      <SignIn />
+      <SignUp />
     </div>
   )
 }

@@ -1,7 +1,11 @@
 'use server';
 
 async function getGitHubClientId() {
-  return process.env.CLIENT_ID
+  return process.env.CLIENT_ID;
+}
+
+async function getGuestPassword() {
+  return process.env.GUESTPSWD;
 }
 
 async function getGitHubOAuth() {
@@ -9,4 +13,4 @@ async function getGitHubOAuth() {
   return route;
 }
 
-export { getGitHubOAuth, getGitHubClientId }
+export { getGitHubClientId, getGitHubOAuth, getGuestPassword };

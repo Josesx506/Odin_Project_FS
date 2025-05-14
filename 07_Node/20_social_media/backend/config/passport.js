@@ -111,7 +111,8 @@ function cookieExtractor(req) {
 }
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+  // jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_ACCESS_SECRET
 }
 

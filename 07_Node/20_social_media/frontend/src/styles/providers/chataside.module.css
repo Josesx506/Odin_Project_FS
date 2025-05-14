@@ -1,0 +1,41 @@
+.pageAside {
+    gap: 1em;
+    display: grid;
+    border-radius: 0.5em;
+    padding: 0.8em 0.5em;
+    align-items: flex-start;
+    grid-template-rows: auto auto 1fr;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px;
+    height: 100%;
+}
+
+.asideTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.asideSearch input {
+    width: 100%;
+    font-size: 1.2em;
+    border-radius: 0.5em;
+    padding: 0.2em 0.5em;
+    border: 1.2px solid darkgray;
+}
+
+.asideScroll {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    overflow-y: auto;
+    padding: 0.5em 5px;
+    scrollbar-width: thin;
+    justify-items: center;
+    scrollbar-gutter: stable;
+    align-items: flex-start;
+    height: 80vh;
+}
+
+.unavailable a {
+    text-decoration: underline;
+}

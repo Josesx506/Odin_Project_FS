@@ -7,7 +7,7 @@ import {
 } from "./prismadb.js";
 
 async function register(req, res, next) {
-  const { name, email, password, role } = req.body;
+  const { username, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -15,7 +15,7 @@ async function register(req, res, next) {
     if (avail) {
       return res.status(404).json({ message: `Selected email is unavailable` })
     }
-    const newUser = await createUserWithoutRole(name, email, hashedPassword);
+    const newUser = await createUserWithoutRole(username, email, hashedPassword);
     return res.status(200).json({ message: `New user registered with ${newUser.email}` })
   } catch (err) {
     return res.status(500).json({ message: "Incorrect form structure" })
@@ -107,9 +107,7 @@ async function refreshJWT(req, res, next) {
       )
 
       // Update the access token
-      res.cookie('accessJwt', accessToken, cookieOptions);
-
-      return res.status(200).json({ message: "updated access token" })
+      return res.status(200).json({ message: "updated access token", accessToken: accessToken, })
     }
   } catch (err) {
     return res.status(403).json({ message: "Forbidden: Invalid token" });

@@ -1,0 +1,65 @@
+.gcardCntr {
+    display: flex;
+    gap: 0.4em;
+    width: min(100%, 280px);
+    padding: 0.3em 0.5em;
+    border-radius: 0.5em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    transition: color 300ms ease-in-out;
+    align-items: center;
+}
+
+.gcardCntr:hover {
+    color: rgb(38,67,138)
+}
+
+.gcardIcon {
+    width: 60px;
+    height: 60px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+.gcardIcon svg {
+    width: 80%;
+    height: 80%;
+}
+
+.gcardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.3em;
+    padding: 0.2em;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.gcardBody > h4 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: oblique;
+    text-transform: capitalize;
+}
+
+.gcardDetails {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gcardDetails svg {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.gcardDetails svg:hover {
+    color: darkgrey;
+    transform: scale(1.1);
+}

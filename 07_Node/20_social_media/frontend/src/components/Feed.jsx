@@ -1,12 +1,20 @@
-'use server'
+'use client'
 
-import React from 'react';
-import authFetch from '@/actions/authFetch';
+import React, { useEffect, useState } from 'react';
 import { axiosApi } from '@/config/axios';
 
-export default async function Feed() {
+export default function Feed() {
+  const [data,setData] = useState();
   // const data = await authFetch('/v1/social');
-  const data = await axiosApi.get('/v1/social',{withCredentials: true})
+  useEffect(()=>{
+    async function getData() {
+      const res = await axiosApi.get('/v1/social')
+      if (res.status===200) {
+        setData(res.data)
+      }
+    }
+    getData();
+  },[])
   // console.log(data)
   return (
     <div>

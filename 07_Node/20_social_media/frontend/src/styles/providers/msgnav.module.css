@@ -1,0 +1,50 @@
+.msgNavContainer {
+    display: flex;
+    gap: 1.5em;
+    width: 100%;
+    padding: 0.3em 0.5em;
+    align-items: center;
+    background-color: white;
+    border: 1px solid darkgray;
+}
+
+.msgNavBack svg {
+    vertical-align: middle;
+}
+
+.msgNavNameBar {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.msgNavIcon {
+    width: 40px;
+    height: 40px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+.msgNavImg {
+    max-width: 100%;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    object-fit: cover;
+}
+
+.msgNavIcon svg {
+    width: 80%;
+    height: 80%;
+}
+
+.msgNavName {
+    text-transform: capitalize;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

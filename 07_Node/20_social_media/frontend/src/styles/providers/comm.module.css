@@ -1,0 +1,28 @@
+.scrollContainer {
+    display: grid;
+    gap: 1em;
+    align-items: flex-start;
+}
+
+.scrollTitle {
+    text-align: center;
+}
+
+.scrollMain {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    justify-items: center;
+    align-items: flex-start;
+    padding: 0.5em 5px;
+    max-height: 40vh;
+}
+
+@media(min-width: 1024px) {
+    .scrollMain {
+        max-height: 85vh;
+    }
+}

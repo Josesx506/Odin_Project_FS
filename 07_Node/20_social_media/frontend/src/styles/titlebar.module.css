@@ -1,0 +1,44 @@
+.titleBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.5;
+    margin-bottom: 0.5em;
+    border-radius: 0.3em;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.titleLink {
+    display: flex;
+    align-items: center;
+    font-size: 1.7rem;
+}
+
+.logo {
+    gap: 0.3em;
+    font-weight: 900;
+    padding: 0.2em 0.5em;
+    font-family: Montesserat;
+}
+
+.odin {
+    padding: 0.2em;
+    transition: transform 180ms ease-in-out;
+    color: rgb(227,178,97);
+}
+
+.logo:hover {
+    opacity: 0.75;
+    /* color: rgb(75, 249, 72); */
+}
+
+.odin:hover {
+    transform: scale(1.2);
+}
+
+@media (max-width: 650px) {
+    .titleBar {
+        display: none;
+        visibility: hidden;
+    }
+}

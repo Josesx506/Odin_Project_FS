@@ -4,7 +4,7 @@ import { cookieOptions } from "../config/options.js";
 import {
   createUserWithoutRole, retrieveUserByEmail, retrieveUserByOTP,
   retrieveUserByToken, updateRefreshToken, removeOneTimePassword
-} from "./prismadb.js";
+} from "./prisma_auth.js";
 
 async function register(req, res, next) {
   const { username, email, password } = req.body;

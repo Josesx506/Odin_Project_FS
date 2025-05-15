@@ -38,8 +38,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <AuthProvider>
         <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable} ${inter.variable}`}>
-          <Toaster position="top-right" />
-          {children}
+          <div className="appContainer">
+            <Toaster position="top-right" />
+            {children}
+          </div>
         </body>
       </AuthProvider>
     </html>

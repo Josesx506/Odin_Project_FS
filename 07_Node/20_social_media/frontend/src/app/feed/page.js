@@ -1,12 +1,12 @@
 
 import ProtectRoutes from '@/components/auth/ProtectRoutes';
-import Feed from '@/components/Feed';
+import FeedPage from '@/components/pages/FeedPage';
 
 export default async function page() {
 
   return (
     <ProtectRoutes>
-      <Feed />
+      <FeedPage />
     </ProtectRoutes>
   )
 }

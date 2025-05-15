@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { retrieveUserById, retrieveUserByEmail, updateUserDetailsByEmail } from '../controller/prismadb.js';
+import { retrieveUserById, retrieveUserByEmail, updateUserDetailsByEmail } from '../controller/prisma_auth.js';
 
 const customFields = {
   usernameField: 'email',
@@ -77,7 +77,7 @@ async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, don
 const oauthOptions = {
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/v1/auth/github/callback",
+  callbackURL: `${process.env.CLIENT_URL}/v1/auth/github/callback`,
   // scope: ['user:email'], force retrieval of emails. Can throw errors if email is hidden
 }
 

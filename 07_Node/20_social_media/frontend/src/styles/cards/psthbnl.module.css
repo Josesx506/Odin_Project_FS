@@ -1,0 +1,84 @@
+.mainCntr {
+    display: grid;
+}
+
+.mainCntr + .mainCntr::before {
+    content: '';
+    width: 100%;
+    border-top: 1px solid darkgray;
+    margin: 0 auto;
+}
+
+.thmbnlCntr {
+    display: flex;
+    gap: 0.75em;
+    align-items: flex-start;
+    padding: 1em 0.4em;
+    transition: background-color 0.2s ease-in-out;
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(247,247,247)
+    }
+}
+
+.authorAvatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    & img {
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+    }
+    &:hover {
+        cursor: pointer;
+        opacity: 0.85;
+    }
+}
+
+.postBody {
+    display: grid;
+    gap: 0.3em;
+}
+
+.thmbnlTitle {
+    display: flex;
+    gap: 0.5em;
+    color: rgb(71, 71, 71);
+    align-items: center;
+}
+
+.fullname {
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+
+    &:hover {
+        text-shadow: 0 0 1.0px currentColor;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.username {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.postedAt {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
+    flex-shrink: 0;
+}

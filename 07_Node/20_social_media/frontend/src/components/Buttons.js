@@ -1,4 +1,4 @@
-import styles from "@/styles/buttons.module.css";
+import styles from "@/styles/buttons/buttons.module.css";
 
 
 function ContainedButton({ children, onClick = () => { }, color = "black", backgroundColor = "lightgray", disabled = false }) {

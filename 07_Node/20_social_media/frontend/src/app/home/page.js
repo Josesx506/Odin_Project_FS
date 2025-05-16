@@ -1,12 +1,12 @@
 
 import ProtectRoutes from '@/components/auth/ProtectRoutes';
-import FeedPage from '@/components/pages/FeedPage';
+import HomePage from '@/components/pages/HomePage';
 
 export default async function page() {
 
   return (
     <ProtectRoutes>
-      <FeedPage />
+      <HomePage />
     </ProtectRoutes>
   )
 }

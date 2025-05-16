@@ -1,9 +1,10 @@
 import { prisma } from '../config/prisma.js';
 
-async function createUserWithoutRole(username, email, hashedPassword) {
+async function createUserWithoutRole(fullname, username, email, hashedPassword) {
   const user = await prisma.socialUser.create({
     data: {
-      username: username,
+      fullname: fullname,
+      username: username.toLowerCase(),
       email: email.toLowerCase(),
       password: hashedPassword
     },

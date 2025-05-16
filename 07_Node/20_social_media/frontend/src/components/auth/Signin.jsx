@@ -5,7 +5,7 @@ import { ContainedButton } from '@/components/Buttons';
 import { FormField } from '@/components/forms/FormField';
 import useAuth from '@/hooks/useAuth';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';
-import styles from '@/styles/forms.module.css';
+import styles from '@/styles/forms/authforms.module.css';
 import Form from 'next/form';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -33,7 +33,7 @@ export default function SignIn() {
         setLoading(true);
         await exchangeOTPForToken(otp);
         toast.success('Logged in! Redirecting...')
-        router.push('/feed');
+        router.push('/home');
       } catch (err) {
         toast.error('Login failed. Please try again.')
         reset()
@@ -53,7 +53,7 @@ export default function SignIn() {
       setLoading(true);
       await login(sanitizedData)
       toast.success('Logged in! Redirecting...')
-      router.push('/feed');
+      router.push('/home');
     } catch (err) {
       toast.error('Login failed. Please try again.')
       reset()
@@ -74,7 +74,7 @@ export default function SignIn() {
       setLoading(true);
       await login(user)
       toast.success('Guest Login! Redirecting...')
-      router.push('/feed');
+      router.push('/home');
     } catch (err) {
       toast.error('Login failed. Please try again.')
       reset()

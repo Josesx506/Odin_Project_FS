@@ -7,7 +7,7 @@ import {
 } from "./prisma_auth.js";
 
 async function register(req, res, next) {
-  const { username, email, password } = req.body;
+  const { fullname, username, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -15,7 +15,7 @@ async function register(req, res, next) {
     if (avail) {
       return res.status(404).json({ message: `Selected email is unavailable` })
     }
-    const newUser = await createUserWithoutRole(username, email, hashedPassword);
+    const newUser = await createUserWithoutRole(fullname, username, email, hashedPassword);
     return res.status(200).json({ message: `New user registered with ${newUser.email}` })
   } catch (err) {
     return res.status(500).json({ message: "Incorrect form structure" })
@@ -37,6 +37,11 @@ async function generateLoginJWT(req, res, next) {
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: "1d" }
     )
+    const userDetails = { 
+      id: user.id,
+      fullname: user.fullname, 
+      username: user.username.toLowerCase(), 
+      gravatar: user.gravatar }
 
     // Save the refresh token to the db. Will be removed on logout
     await updateRefreshToken(user.id, refreshToken);
@@ -47,7 +52,7 @@ async function generateLoginJWT(req, res, next) {
     // Send the accessToken that expires quickly as JSON
     return res.status(200).json({
       message: "successfully signed in",
-      accessToken: accessToken,
+      accessToken, userDetails
     })
   } catch (err) {
     next(err);
@@ -83,12 +88,12 @@ async function validateOTP(req, res, next) {
 async function refreshJWT(req, res, next) {
   const cookies = req.cookies;
 
-  if (!cookies?.refreshJwt || cookies?.refreshJwt === ' ') {
+  if (!cookies?.jwt || cookies?.jwt === ' ') {
     return res.status(401).json({ message: "Unauthorized: No refresh token provided" });
   }
 
   // Get the user from db using the refresh token
-  const refreshToken = cookies.refreshJwt;
+  const refreshToken = cookies.jwt;
   const user = await retrieveUserByToken(refreshToken);
   if (!user) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -105,9 +110,14 @@ async function refreshJWT(req, res, next) {
         process.env.JWT_ACCESS_SECRET,
         { expiresIn: "15m" }
       )
+      const userDetails = { 
+        id: user.id,
+        fullname: user.fullname, 
+        username: user.username.toLowerCase(), 
+        gravatar: user.gravatar }
 
       // Update the access token
-      return res.status(200).json({ message: "updated access token", accessToken: accessToken, })
+      return res.status(200).json({ message: "updated access token", accessToken, userDetails })
     }
   } catch (err) {
     return res.status(403).json({ message: "Forbidden: Invalid token" });

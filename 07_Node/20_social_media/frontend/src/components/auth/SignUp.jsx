@@ -3,7 +3,7 @@
 import { ContainedButton } from '@/components/Buttons';
 import { FormField } from '@/components/forms/FormField';
 import useFormValidation, { validationRules } from '@/hooks/useFormValidation';
-import styles from '@/styles/forms.module.css';
+import styles from '@/styles/forms/authforms.module.css';
 import { registerUserAction } from '@/utils/authAction';
 import Form from 'next/form';
 import Link from 'next/link';
@@ -47,6 +47,8 @@ export default function SignUp() {
 
           <Form className={styles.authForm} onSubmit={submitWithSanitization(onSubmit)}>
             
+            <FormField name={'fullname'} label={'Full name'} placeholder={'First and Last name'}
+              register={register} rules={validationRules.name} errors={errors} />
             <FormField name={'username'} label={'Username'} placeholder={'Enter username'}
               register={register} rules={validationRules.username} errors={errors} />
             <FormField type={'email'} name={'email'} label={'Email'} placeholder={'Enter Email'}

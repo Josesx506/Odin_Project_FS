@@ -36,14 +36,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable} ${inter.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable} ${inter.variable}`}>
+        <AuthProvider>
           <div className="appContainer">
             <Toaster position="top-right" />
             {children}
           </div>
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

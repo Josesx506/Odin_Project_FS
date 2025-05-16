@@ -15,6 +15,7 @@
     align-items: flex-start;
     padding: 1em 0.4em;
     transition: background-color 0.2s ease-in-out;
+    width: 100%;
     &:hover {
         cursor: pointer;
         background-color: rgb(247,247,247)
@@ -49,6 +50,8 @@
     gap: 0.5em;
     color: rgb(71, 71, 71);
     align-items: center;
+    width: 100%;
+    overflow: hidden;
 }
 
 .fullname {

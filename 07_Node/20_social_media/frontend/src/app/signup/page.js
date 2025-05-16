@@ -3,8 +3,6 @@ import SignUp from '@/components/auth/SignUp'
 
 export default function page() {
   return (
-    <div>
-      <SignUp />
-    </div>
+    <SignUp />
   )
 }

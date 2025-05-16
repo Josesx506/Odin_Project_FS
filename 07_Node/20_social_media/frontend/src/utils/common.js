@@ -28,7 +28,7 @@ function formatDate(dateStr) {
     return `${diffInHours}h`;
   } else {
     const currentYear = now.getFullYear();
-    const dateYear = date.getFullYear();
+    const dateYear = updatedAt.getFullYear();
 
     const monthNamesShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"

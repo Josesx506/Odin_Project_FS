@@ -1,4 +1,4 @@
-import styles from "@/styles/forms.module.css";
+import styles from "@/styles/forms/authforms.module.css";
 import { CircleAlert } from 'lucide-react';
 
 

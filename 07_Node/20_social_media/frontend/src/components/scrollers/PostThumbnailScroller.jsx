@@ -3,7 +3,8 @@
 import { axiosApi } from '@/config/axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import PostThumbnailCard from '../cards/PostThumbnailCard';
+import PostThumbnailCard from '@/components/cards/PostThumbnailCard';
+import NewPost from '@/components/forms/NewPost';
 
 export default function PostThumbnailScroller() {
   const [posts, setPosts] = useState([]);
@@ -37,11 +38,16 @@ export default function PostThumbnailScroller() {
   const sclrStyle = {
     display: 'flex',
     flexDirection: 'column',
-    // gap: '1em'
+    borderLeft: '1px solid darkgray',
+    borderRight: '1px solid darkgray',
+    maxHeight: '100vh',
+    overflowY: 'auto',
+    scrollbarWidth: 'thin'
   }
 
   return (
     <div style={sclrStyle}>
+      <NewPost />
       {posts.map((post)=>(
         <PostThumbnailCard key={post.id} post={post} />
       ))}

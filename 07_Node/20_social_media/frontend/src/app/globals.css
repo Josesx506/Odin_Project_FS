@@ -28,7 +28,7 @@ body {
 
 .appContainer {
   width: min(95%, 1200px);
-  margin: 0.5em auto;
+  margin: 0 auto;
 }
 
 * {

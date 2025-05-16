@@ -5,16 +5,16 @@ const validationRules = {
   name: {
     required: 'Full name is required',
     minLength: {
-      value: 3,
-      message: 'Full name must be at least 3 characters'
+      value: 5,
+      message: 'Full name must be at least 5 characters'
     },
     maxLength: {
-      value: 20,
+      value: 30,
       message: 'Full name cannot exceed 20 characters'
     },
     pattern: {
-      value: /^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)?$/,
-      message: 'Full name can only contain letters, numbers and underscores, or two words'
+      value: /^[a-zA-Z]+( [a-zA-Z]+){0,2}?$/,
+      message: 'Full name can only contain space-separated letters and three words max'
     }
   },
   email: {
@@ -46,7 +46,7 @@ const validationRules = {
       message: 'Username cannot exceed 8 characters'
     },
     pattern: {
-      value: /^[a-zA-Z0-9_]+$/,
+      value: /^[a-zA-Z0-9_.]+$/,
       message: 'Username can only contain letters, numbers and underscores'
     }
   },

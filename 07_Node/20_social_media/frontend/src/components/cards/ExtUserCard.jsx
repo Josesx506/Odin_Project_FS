@@ -1,27 +1,25 @@
 'use client';
 
 import { Button } from '@/components/Buttons';
-import useFollowing from '@/hooks/useFollowing';
+import useFollowingStore from '@/store/useFollowingStore';
 import styles from '@/styles/cards/extusrcd.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function FollowUserCard({ id, fullname, username, gravatar, bio, followsYou }) {
-    const { followUser, unfollowUser, followingStates, checkFollowStatus } = useFollowing();
-    const [loading, setLoading] = useState(false);
-  
-    useEffect(() => {
-      const controller = new AbortController();
-      checkFollowStatus(id, setLoading);
-      return () => controller.abort();
-    }, []);
+  const [loading, setLoading] = useState(false);
+  const followUser = useFollowingStore((s) => s.followUser);
+  const unfollowUser = useFollowingStore((s) => s.unfollowUser);
+  const checkFollowStatus = useFollowingStore((s) => s.checkFollowStatus);
+  const isFollowing = useFollowingStore((s) => s.followingStates[id]);
 
-    const isFollowing = useMemo(() => {
-      return followingStates[id];
-    }, [followingStates[id]]);
-
+  useEffect(() => {
+    const controller = new AbortController();
+    checkFollowStatus(id, setLoading, controller.signal);
+    return () => controller.abort();
+  }, [id]);
 
   async function onAddFollower(e) {
     e.preventDefault();
@@ -32,7 +30,7 @@ export default function FollowUserCard({ id, fullname, username, gravatar, bio, 
       if (success) {
         toast.success('Following');
       }
-    } catch(err) {
+    } catch (err) {
       toast.error(`${err?.response?.data?.message}` || 'Bad Request')
     } finally {
       setLoading(false);
@@ -49,16 +47,16 @@ export default function FollowUserCard({ id, fullname, username, gravatar, bio, 
         toast.success('Unfollowed');
         // refetch();
       }
-    } catch(err) {
+    } catch (err) {
       toast.error(`${err?.response?.data?.message}` || 'Bad Request')
     } finally {
       setLoading(false);
     }
   }
 
-  function checkFriendShip(){
+  function checkFriendShip() {
     const btnStyle = {
-      height:'fit-content', borderRadius: '1em', padding: '0.35em 0.5em',
+      height: 'fit-content', borderRadius: '1em', padding: '0.35em 0.5em',
       fontSize: '0.9rem', fontWeight: 'bold'
     }
     if (isFollowing) {
@@ -83,7 +81,7 @@ export default function FollowUserCard({ id, fullname, username, gravatar, bio, 
 
   return (
     <div className={styles.cardCntr}>
-      <Link href={`/${id}`}  className={styles.avatar}>
+      <Link href={`/${id}`} className={styles.avatar}>
         <Image src={gravatar || `https://robohash.org/${id}.png`}
           width={40} height={40} alt={`${username} profile photo`} />
       </Link>

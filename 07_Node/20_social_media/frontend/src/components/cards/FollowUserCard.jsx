@@ -1,26 +1,25 @@
 'use client';
 
 import { Button } from '@/components/Buttons';
-import useFollowing from '@/hooks/useFollowing';
+import useFollowingStore from '@/store/useFollowingStore';
 import styles from '@/styles/cards/flwusrcd.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function FollowUserCard({ id, fullname, username, gravatar, followsYou }) {
-  const { followUser, unfollowUser, followingStates, checkFollowStatus } = useFollowing();
   const [loading, setLoading] = useState(false);
+  const followUser = useFollowingStore((s) => s.followUser);
+  const unfollowUser = useFollowingStore((s) => s.unfollowUser);
+  const checkFollowStatus = useFollowingStore((s) => s.checkFollowStatus);
+  const isFollowing = useFollowingStore((s) => s.followingStates[id]);
 
   useEffect(() => {
     const controller = new AbortController();
-    checkFollowStatus(id, setLoading);
+    checkFollowStatus(id, setLoading, controller.signal);
     return () => controller.abort();
-  }, []);
-
-    const isFollowing = useMemo(() => {
-      return followingStates[id];
-    }, [followingStates[id]]);
+  }, [id]);
 
   async function onAddFollower(e) {
     e.preventDefault();

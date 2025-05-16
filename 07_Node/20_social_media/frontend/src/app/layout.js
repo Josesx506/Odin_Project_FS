@@ -1,5 +1,4 @@
 import { AuthProvider } from "@/context/AuthProvider";
-import { FollowingProvider } from "@/context/FollowingProvider";
 import { Geist, Geist_Mono, Inter, Montserrat, Poppins } from "next/font/google";
 import { Toaster } from 'react-hot-toast';
 import "./globals.css";
@@ -39,12 +38,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable} ${inter.variable}`}>
         <AuthProvider>
-          <FollowingProvider>
-            <div className="appContainer">
-              <Toaster position="top-right" />
-              {children}
-            </div>
-          </FollowingProvider>
+          <div className="appContainer">
+            <Toaster position="top-right" />
+            {children}
+          </div>
         </AuthProvider>
       </body>
     </html>

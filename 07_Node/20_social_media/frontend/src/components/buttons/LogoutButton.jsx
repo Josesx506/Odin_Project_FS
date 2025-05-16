@@ -41,7 +41,7 @@ export default function LogoutButton() {
       <div className={styles.logoutCntr} onClick={toggleLogoutPopup}>
         <div className={styles.userAvatar}>
           <Image src={userDetails.gravatar || `https://robohash.org/${userDetails.id}.png`}
-            width={40} height={40} alt={`${userDetails.username} profile photo`} />
+            width={40} height={40} alt={`${userDetails.username} profile photo`} priority />
         </div>
         <div className={styles.nameCntr}>
           <div className={styles.fullname}>{userDetails.fullname}</div>

@@ -1,0 +1,20 @@
+.searchCntr {
+    display: flex;
+    align-items: center;
+    padding: 0.3em 0.6em;
+    border-radius: 1em;
+    border: 1px solid lightgray;
+    &:active, &:focus {
+        border: 1px solid rgb(36,158,240);
+    }
+}
+
+.searchCntr input {
+    width: 100%;
+    border: 0;
+    font-size: 1rem;
+    font-family: 'Montserrat';
+    &:focus {
+        outline: none;
+    }
+}

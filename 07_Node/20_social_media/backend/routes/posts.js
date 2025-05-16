@@ -8,12 +8,8 @@ import {
 import { authJWT } from "../middleware/auth.js";
 
 const router = Router();
-
 router.use(authJWT);
 
-router.get('/', (req,res)=>{
-    res.status(200).json({message: 'you accessed a secure route'});
-})
 router.get('/posts', getCtlrPosts)
 router.get('/posts/:postId', getCtlrPostDetails)
 router.get('/posts/:postId/like', toggleCtlrPostLikes)

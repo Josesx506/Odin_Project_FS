@@ -1,0 +1,8 @@
+.rightAside {
+    display: grid;
+    align-content: flex-start;
+    gap: 2em;
+    padding: 1em 0.5em;
+    margin-left: 1em;
+    overflow: hidden;
+}

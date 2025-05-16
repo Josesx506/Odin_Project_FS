@@ -21,3 +21,9 @@
     font-weight: 550;
     font-family: 'Poppins';
 }
+
+@media (max-width: 639px) {
+    .mobileNav {
+        grid-row: 2;
+    }
+}

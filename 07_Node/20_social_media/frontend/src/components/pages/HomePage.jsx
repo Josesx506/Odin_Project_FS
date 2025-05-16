@@ -1,8 +1,9 @@
 'use client'
 
+import styles from '@/styles/pagelayout.module.css';
 import NavBar from '../NavBar';
+import RightAside from '../RightAside';
 import PostThumbnailScroller from '../scrollers/PostThumbnailScroller';
-import styles from '@/styles/pagelayout.module.css'
 
 export default function HomePage() {
 
@@ -10,6 +11,7 @@ export default function HomePage() {
     <div className={styles.main}>
       <NavBar />
       <PostThumbnailScroller />
+      <RightAside />
     </div>
   )
 }

@@ -56,7 +56,7 @@ export default function NewPost() {
     <div className={styles.postCntr}>
       <Link href={`/${userDetails.id}`} className={styles.avatarCntr}>
         <Image src={userDetails.gravatar || `https://robohash.org/${userDetails.id}.png`} 
-            width={40} height={40} alt={`${userDetails.username} profile photo`} />
+            width={40} height={40} alt={`${userDetails.username} profile photo`} priority />
       </Link>
       <Form onSubmit={onSubmit} className={styles.newPost} >
         <div className={styles.textCounter}>

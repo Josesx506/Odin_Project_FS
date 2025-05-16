@@ -26,7 +26,7 @@
 .newPost {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 0.2em;
     padding: 0.2em 0.3em;
     width: 100%;
 }

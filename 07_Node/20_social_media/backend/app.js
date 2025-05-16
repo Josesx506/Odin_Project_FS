@@ -8,7 +8,8 @@ import { sessionMiddleware } from './config/session.js';
 import { logRequests } from './controller/logger.js';
 import { credentials } from './middleware/credentials.js';
 import { router as authRouter } from './routes/auth.js';
-import { router as socialRouter } from './routes/social.js';
+import { router as postsRouter } from './routes/posts.js';
+import { router as usersRouter } from './routes/users.js';
 
 const app = express();
 
@@ -29,7 +30,9 @@ app.use(passport.session());
 app.use(logRequests);
 
 app.use('/v1/auth', authRouter);
-app.use('/v1/social', socialRouter);
+app.use('/v1/social', postsRouter);
+app.use('/v1/social', usersRouter);
+
 
 
 app.get('/', (req,res)=>{

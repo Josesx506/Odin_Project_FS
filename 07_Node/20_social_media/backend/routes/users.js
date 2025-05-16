@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { 
-    cntlrFollowRequest, cntlrFollowDelete, cntlrFindNonFollowers
+import {
+    cntlrFindNonFollowers,
+    cntlrFollowDelete,
+    cntlrFollowRequest,
+    cntrlrCurrUserFollowsTarget,
+    getCtlrPaginatedUsers
 } from "../controller/users.js";
 import { authJWT } from "../middleware/auth.js";
 
@@ -9,6 +13,8 @@ router.use(authJWT);
 
 router.get('/users/follow', cntlrFollowRequest);
 router.get('/users/unfollow', cntlrFollowDelete);
+router.get('/users/is-following', cntrlrCurrUserFollowsTarget)
 router.get('/users/non-followers', cntlrFindNonFollowers);
+router.get('/users/mixed', getCtlrPaginatedUsers)
 
-export { router }
+export { router };

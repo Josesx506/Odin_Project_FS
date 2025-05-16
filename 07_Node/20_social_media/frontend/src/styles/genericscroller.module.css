@@ -1,0 +1,35 @@
+.scrollbarMain {
+  display: flex;
+  padding-top: 1em;
+  flex-direction: column;
+  border-left: 1px solid darkgray;
+  border-right: 1px solid darkgray;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.scrollbarMain::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbarMain::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+  border-radius: 3px;
+}
+
+.scrollbarMain::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+@media (max-width: 1025px) {
+    .scrollbarMain {
+        height: 100vh;
+    }
+}
+
+@media (max-width: 639px) {
+    .scrollbarMain {
+        height: 94vh;
+    }
+}

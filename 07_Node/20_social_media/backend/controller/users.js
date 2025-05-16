@@ -1,44 +1,84 @@
-import { 
-    addNewFollowerDb, removeExistingFollowerDb,
-    getLimitedNonFollowersDb,
+import {
+  addNewFollowerDb,
+  checkUserNowFollowsDb,
+  getDbUsersPaginated,
+  getLimitedNonFollowersDb,
+  removeExistingFollowerDb
 } from "./prisma_users.js";
 
-async function cntlrFollowRequest(req,res) {
+async function getCtlrPaginatedUsers(req, res) {
+  try {
     const userId = req.user?.id;
-    const { targetId } = req.query;
-    try {
-        const added = await addNewFollowerDb(userId, Number(targetId));
-        return res.status(200).json( added );
-    } catch(err) {
-        return res.status(404).json({ message: `You're already connected to this user` });
+    const { index } = req.query;
+    const skip = Number(index) || 0;
+    const users = await getDbUsersPaginated(userId, skip);
+    if (!users) {
+      return res.status(400).json({ message: "No users found" });
+    } else {
+      return res.status(200).json(users);
     }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' })
+  }
 }
 
-async function cntlrFollowDelete(req,res) {
-    const userId = req.user?.id;
-    const { targetId } = req.query;
-    try {
-        const added = await removeExistingFollowerDb(userId, Number(targetId));
-        return res.status(200).json( added );
-    } catch(err) {
-        return res.status(404).json({ message: `You're not friends with this user` });
-    }
+async function cntrlrCurrUserFollowsTarget(req, res) {
+  const userId = req.user?.id;
+  const { targetId } = req.query;
+
+  if (!targetId || isNaN(Number(targetId))) {
+    return res.status(400).json({ message: 'Invalid or missing targetId' });
+  }
+
+  try {
+    const status = await checkUserNowFollowsDb(userId, Number(targetId));
+    return res.status(200).json({ isFollowing: !!status });
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
 }
 
-async function cntlrFindNonFollowers(req,res) {
-    const userId = req.user?.id;
-    try {
-        const users = await getLimitedNonFollowersDb(userId, 5);
-        if (!users) {
-            return res.status(200).json({message: "Everyone is part of your follow/following list"})
-        } else {
-            return res.status(200).json( users );
-        }
-    } catch(err) {
-        return res.status(500).json({ message: err.message || 'Internal server error' });
-    }
+async function cntlrFollowRequest(req, res) {
+  const userId = req.user?.id;
+  const { targetId } = req.query;
+  try {
+    const added = await addNewFollowerDb(userId, Number(targetId));
+    return res.status(200).json(added);
+  } catch (err) {
+    return res.status(404).json({ message: `You're already connected to this user` });
+  }
 }
 
-export { 
-    cntlrFollowRequest, cntlrFollowDelete, cntlrFindNonFollowers 
+async function cntlrFollowDelete(req, res) {
+  const userId = req.user?.id;
+  const { targetId } = req.query;
+  try {
+    const added = await removeExistingFollowerDb(userId, Number(targetId));
+    return res.status(200).json(added);
+  } catch (err) {
+    return res.status(404).json({ message: `You're not friends with this user` });
+  }
 }
+
+async function cntlrFindNonFollowers(req, res) {
+  const userId = req.user?.id;
+  try {
+    const { skip, take } = req.query;
+    const dbskip = Number(skip) || 0;
+    const dbtake = Number(take) || 5;
+    const users = await getLimitedNonFollowersDb(userId, dbskip,  dbtake);
+    if (!users) {
+      return res.status(200).json({ message: "Everyone is part of your follow/following list" })
+    } else {
+      return res.status(200).json(users);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
+}
+
+export {
+  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, 
+  cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
+};
+

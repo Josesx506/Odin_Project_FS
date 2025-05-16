@@ -1,10 +1,11 @@
 'use client';
 
-import { axiosApi } from '@/config/axios';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import PostThumbnailCard from '@/components/cards/PostThumbnailCard';
 import NewPost from '@/components/forms/NewPost';
+import { axiosApi } from '@/config/axios';
+import styles from '@/styles/genericscroller.module.css';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function PostThumbnailScroller() {
   const [posts, setPosts] = useState([]);
@@ -35,18 +36,8 @@ export default function PostThumbnailScroller() {
     return <div>posts loading....</div>
   }
 
-  const sclrStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    borderLeft: '1px solid darkgray',
-    borderRight: '1px solid darkgray',
-    maxHeight: '100vh',
-    overflowY: 'auto',
-    scrollbarWidth: 'thin'
-  }
-
   return (
-    <div style={sclrStyle}>
+    <div className={styles.scrollbarMain}>
       <NewPost />
       {posts.map((post)=>(
         <PostThumbnailCard key={post.id} post={post} />

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
 import { axiosApi } from '@/config/axios';
-import toast from 'react-hot-toast';
+import styles from '@/styles/cards/whotoflw.module.css';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import FollowUserCard from './FollowUserCard';
-import styles from '@/styles/cards/whotoflw.module.css'
 
 export default function WhoToFollow() {
   const [loading, setLoading] = useState(false);
@@ -40,10 +42,10 @@ export default function WhoToFollow() {
       <h3 className={styles.header}>Who to follow</h3>
       <div>
         {users.map((user) => (
-          <FollowUserCard key={user.id} {...user} isFriend={false} followsYou={false} />
+          <FollowUserCard key={user.id} {...user} followsYou={false} />
         ))}
       </div>
-      <Link className={styles.more} href={`/explore?non-followers`}>Show more</Link>
+      <Link className={styles.more} href={`/explore?filter=non-followers`}>Show more</Link>
     </div>
   )
 }

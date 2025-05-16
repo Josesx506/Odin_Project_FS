@@ -1,7 +1,8 @@
-import { Geist, Geist_Mono, Montserrat, Poppins, Inter } from "next/font/google";
-import "./globals.css";
 import { AuthProvider } from "@/context/AuthProvider";
+import { FollowingProvider } from "@/context/FollowingProvider";
+import { Geist, Geist_Mono, Inter, Montserrat, Poppins } from "next/font/google";
 import { Toaster } from 'react-hot-toast';
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,10 +39,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${monteserrat.variable} ${inter.variable}`}>
         <AuthProvider>
-          <div className="appContainer">
-            <Toaster position="top-right" />
-            {children}
-          </div>
+          <FollowingProvider>
+            <div className="appContainer">
+              <Toaster position="top-right" />
+              {children}
+            </div>
+          </FollowingProvider>
         </AuthProvider>
       </body>
     </html>

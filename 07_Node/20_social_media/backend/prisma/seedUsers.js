@@ -55,8 +55,8 @@ async function seedUsers() {
       followers.map(user =>
         prisma.socialFriendship.create({
           data: {
-            user: { connect: { id: guestUser.id } },
-            friend: { connect: { id: user.id } }
+            user: { connect: { id: user.id } },
+            friend: { connect: { id: guestUser.id } }
           }
         })
       )

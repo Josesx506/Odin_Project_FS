@@ -86,10 +86,32 @@ async function getDbUsersPaginated(userId, skip, take=20) {
   }));
 }
 
+async function getUserProfileDetailsDb(userId) {
+  const initial = await prisma.socialUser.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,  fullname: true,
+      username: true, gravatar: true, 
+      bio: true,  createdAt: true,
+      _count: {
+        select: {
+          posts: true, friendOf: true, friends: true
+        }
+      } }
+  })
+  const user = {
+    ...initial,
+    numPosts: initial._count.posts,
+    numFollowing: initial._count.friends,
+    numFollowers: initial._count.friendOf,
+  };
+  return user;
+}
+
 
 
 export {
-  addNewFollowerDb, checkUserNowFollowsDb, getDbUsersPaginated, 
-  getLimitedNonFollowersDb, removeExistingFollowerDb
+  addNewFollowerDb, checkUserNowFollowsDb, getDbUsersPaginated,
+  getLimitedNonFollowersDb, getUserProfileDetailsDb, removeExistingFollowerDb
 };
 

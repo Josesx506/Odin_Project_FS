@@ -22,15 +22,16 @@ model SocialSession {
 }
 
 model SocialUser {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   fullname  String
   username  String
-  email     String  @unique
+  email     String   @unique
   password  String?
   bio       String?
   gravatar  String?
   token     String?
   githubotp String?
+  createdAt DateTime @default(now())
 
   // Friends list (one-directional)
   friends  SocialFriendship[] @relation("UserFriends")

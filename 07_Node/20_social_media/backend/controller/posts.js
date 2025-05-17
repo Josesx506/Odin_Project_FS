@@ -7,8 +7,8 @@ import {
 
 async function getCtlrPosts(req, res) {
   try {
-    const { index } = req.query;
-    const skip = Number(index) || 0;
+    let { skip } = req.query;
+    skip = Number(skip) || 0;
     const posts = await getDbPosts(skip);
     if (!posts) {
       return res.status(400).json({ message: "No posts found" });

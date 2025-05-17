@@ -9,27 +9,48 @@
   scrollbar-width: thin;
 }
 
-.scrollbarMain::-webkit-scrollbar {
+.doubleScroller {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  gap: 0.5em;
+  padding-top: 0.5em;
+  border-left: 1px solid darkgray;
+  border-right: 1px solid darkgray;
+}
+
+.innerScroller {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.scrollbarMain::-webkit-scrollbar,
+.innerScroller::-webkit-scrollbar {
   width: 6px;
 }
 
-.scrollbarMain::-webkit-scrollbar-thumb {
+.scrollbarMain::-webkit-scrollbar-thumb,
+.innerScroller::-webkit-scrollbar-thumb {
   background-color: lightgray;
   border-radius: 3px;
 }
 
-.scrollbarMain::-webkit-scrollbar-track {
+.scrollbarMain::-webkit-scrollbar-track,
+.innerScroller::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
 @media (max-width: 1025px) {
-    .scrollbarMain {
+    .scrollbarMain, .doubleScroller {
         height: 100vh;
     }
 }
 
 @media (max-width: 639px) {
-    .scrollbarMain {
+    .scrollbarMain, .doubleScroller {
         height: 94vh;
     }
 }

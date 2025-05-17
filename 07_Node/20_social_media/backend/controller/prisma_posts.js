@@ -31,6 +31,41 @@ async function getDbPosts(skip, take = 10) {
   return finalPosts;
 }
 
+async function getDbUserPosts(userId, skip, take = 10) {
+  const posts = await prisma.socialPost.findMany({
+    where: { authorId: userId },
+    select: {
+      id: true,
+      body: true,
+      postimg: true,
+      authorId: true,
+      updatedAt: true,
+      author: {
+        select: { fullname: true, username: true, gravatar: true }
+      },
+      _count: {
+        select: { likes: true, views: true, comments: true }
+      },
+    },
+    skip: skip,
+    take: take,
+    orderBy: { updatedAt: 'desc' }
+  })
+
+  if (!posts) { return null }
+
+  const finalPosts = posts.map((post) => {
+    const { _count, ...rest } = post; // Drop the count key
+    return {
+      ...rest,
+      likes: _count.likes,
+      views: _count.views,
+      comments: _count.comments
+    };
+  })
+  return finalPosts;
+}
+
 async function getDbPostDetailsWithComments(userId, postId) {
   try {
     await prisma.postView.upsert({
@@ -148,7 +183,8 @@ async function toggleDbCommentLikes(userId, commentId) {
   return finalLikeCount;
 }
 
-export { 
+export {
   getDbPostDetailsWithComments, getDbPosts, getDbUserLikesComment, 
-  getDbUserLikesPost, toggleDbCommentLikes, toggleDbPostLikes 
+  getDbUserLikesPost, getDbUserPosts, toggleDbCommentLikes, toggleDbPostLikes
 };
+

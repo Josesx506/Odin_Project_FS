@@ -3,18 +3,25 @@ import {
     cntlrFindNonFollowers,
     cntlrFollowDelete,
     cntlrFollowRequest,
+    cntlrGetUserProfileDetails,
     cntrlrCurrUserFollowsTarget,
-    getCtlrPaginatedUsers
+    getCtlrPaginatedUsers,
+    cntlrGetUserPosts
 } from "../controller/users.js";
 import { authJWT } from "../middleware/auth.js";
 
 const router = Router();
 router.use(authJWT);
 
+// These routes are always tied to the logged in user
 router.get('/users/follow', cntlrFollowRequest);
 router.get('/users/unfollow', cntlrFollowDelete);
-router.get('/users/is-following', cntrlrCurrUserFollowsTarget)
+router.get('/users/mixed', getCtlrPaginatedUsers);
 router.get('/users/non-followers', cntlrFindNonFollowers);
-router.get('/users/mixed', getCtlrPaginatedUsers)
+router.get('/users/is-following', cntrlrCurrUserFollowsTarget);
+
+// These routes work for any user id
+router.get('/users/:userId', cntlrGetUserProfileDetails);
+router.get('/users/:userId/posts', cntlrGetUserPosts);
 
 export { router };

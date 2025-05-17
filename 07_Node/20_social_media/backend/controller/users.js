@@ -1,16 +1,18 @@
+import { getDbUserPosts } from "./prisma_posts.js";
 import {
   addNewFollowerDb,
   checkUserNowFollowsDb,
   getDbUsersPaginated,
   getLimitedNonFollowersDb,
+  getUserProfileDetailsDb,
   removeExistingFollowerDb
 } from "./prisma_users.js";
 
 async function getCtlrPaginatedUsers(req, res) {
   try {
     const userId = req.user?.id;
-    const { index } = req.query;
-    const skip = Number(index) || 0;
+    let { skip } = req.query;
+    skip = Number(skip) || 0;
     const users = await getDbUsersPaginated(userId, skip);
     if (!users) {
       return res.status(400).json({ message: "No users found" });
@@ -63,10 +65,10 @@ async function cntlrFollowDelete(req, res) {
 async function cntlrFindNonFollowers(req, res) {
   const userId = req.user?.id;
   try {
-    const { skip, take } = req.query;
-    const dbskip = Number(skip) || 0;
-    const dbtake = Number(take) || 5;
-    const users = await getLimitedNonFollowersDb(userId, dbskip,  dbtake);
+    let { skip, take } = req.query;
+    skip = Number(skip) || 0;
+    take = Number(take) || 5;
+    const users = await getLimitedNonFollowersDb(userId, skip,  take);
     if (!users) {
       return res.status(200).json({ message: "Everyone is part of your follow/following list" })
     } else {
@@ -77,8 +79,40 @@ async function cntlrFindNonFollowers(req, res) {
   }
 }
 
+async function cntlrGetUserProfileDetails(req, res) {
+  const { userId } = req.params;
+  try {
+    const user = await getUserProfileDetailsDb(Number(userId));
+    if (!user) {
+      return res.status(404).json({ message: "User not found in db" })
+    } else {
+      return res.status(200).json(user);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
+}
+
+
+async function cntlrGetUserPosts(req,res) {
+  const { userId } = req.params;
+  let { skip, take } = req.query;
+  skip = Number(skip) || 0;
+  take = Number(take) || 10;
+  try {
+    const posts = await getDbUserPosts(Number(userId), skip, take);
+    if (posts.length === 0) {
+      return res.status(200).json({ message: "No posts found for this user" })
+    } else {
+      return res.status(200).json({posts, hasMore: posts.length === take});
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
+}
+
 export {
-  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, 
-  cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
+  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, cntlrGetUserPosts,
+  cntlrGetUserProfileDetails, cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
 };
 

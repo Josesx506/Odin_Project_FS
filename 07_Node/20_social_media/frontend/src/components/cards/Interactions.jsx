@@ -12,7 +12,7 @@ export function PostThumbnailInteraction({ postId, likes, comments, views }) {
   }
   return (
     <div style={cmpStyle}>
-      <CommentButton comments={comments}/>
+      <CommentButton postId={postId} comments={comments}/>
       <LikeButton postId={postId} value={likes} />
       <ViewsButton views={views} />
       <RiShare2Fill cursor={'pointer'} />

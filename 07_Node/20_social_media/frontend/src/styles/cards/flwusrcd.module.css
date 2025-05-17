@@ -49,6 +49,10 @@
     }
 }
 
+.username {
+    text-transform: lowercase;
+}
+
 .flwBtn {
     flex-shrink: 0;
     margin-left: auto;

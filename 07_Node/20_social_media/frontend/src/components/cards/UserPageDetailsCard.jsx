@@ -14,9 +14,12 @@ export default function UserPageDetailsCard({
   const { userDetails } = useAuth();
   const canEdit = userDetails.id == id;
 
+  const title = fullname;
+  const subtitle = `${numPosts} post${numPosts===1 ? '' : 's'}`
+
   return (
     <div className={styles.prfDtlsCntr}>
-      <UserPageNavCard fullname={fullname} numPosts={numPosts} />
+      <UserPageNavCard title={title} subtitle={subtitle} />
       <div className={styles.bkgrdImg}></div>
       <div>
         <div className={styles.prfImgHldr}>

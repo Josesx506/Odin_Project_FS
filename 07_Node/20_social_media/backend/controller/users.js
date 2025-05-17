@@ -2,6 +2,8 @@ import { getDbUserPosts } from "./prisma_posts.js";
 import {
   addNewFollowerDb,
   checkUserNowFollowsDb,
+  getDbUserFollowersPaginated,
+  getDbUserFollowingPaginated,
   getDbUsersPaginated,
   getLimitedNonFollowersDb,
   getUserProfileDetailsDb,
@@ -43,6 +45,11 @@ async function cntrlrCurrUserFollowsTarget(req, res) {
 async function cntlrFollowRequest(req, res) {
   const userId = req.user?.id;
   const { targetId } = req.query;
+
+  if (userId === Number(targetId)) {
+    return res.status(404).json({ message: 'Forbidden. You can follow yourself' })
+  }
+
   try {
     const added = await addNewFollowerDb(userId, Number(targetId));
     return res.status(200).json(added);
@@ -69,7 +76,7 @@ async function cntlrFindNonFollowers(req, res) {
     skip = Number(skip) || 0;
     take = Number(take) || 5;
     const users = await getLimitedNonFollowersDb(userId, skip,  take);
-    if (!users) {
+    if (users.length === 0) {
       return res.status(200).json({ message: "Everyone is part of your follow/following list" })
     } else {
       return res.status(200).json(users);
@@ -93,6 +100,44 @@ async function cntlrGetUserProfileDetails(req, res) {
   }
 }
 
+async function cntlrGetAnyUserFollowers(req, res) {
+  const currUserId = req.user?.id;
+  try {
+    let { userId } = req.params;
+    let { skip, take } = req.query;
+    userId = Number(userId);
+    skip = Number(skip) || 0;
+    take = Number(take) || 20;
+    const result = await getDbUserFollowersPaginated(currUserId, userId, skip,  take);
+    if (result.followers.length === 0) {
+      return res.status(200).json({ message: "No followers found for this user", ...result })
+    } else {
+      return res.status(200).json(result);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  } 
+}
+
+async function cntlrGetAnyUserFollowing(req, res) {
+  const currUserId = req.user?.id;
+  try {
+    let { userId } = req.params;
+    let { skip, take } = req.query;
+    userId = Number(userId);
+    skip = Number(skip) || 0;
+    take = Number(take) || 20;
+    const result = await getDbUserFollowingPaginated(currUserId, userId, skip,  take);
+    if (result.following.length === 0) {
+      return res.status(200).json({ message: "This user is not following anyone", ...result })
+    } else {
+      return res.status(200).json(result);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  } 
+}
+
 
 async function cntlrGetUserPosts(req,res) {
   const { userId } = req.params;
@@ -112,7 +157,8 @@ async function cntlrGetUserPosts(req,res) {
 }
 
 export {
-  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, cntlrGetUserPosts,
+  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, 
+  cntlrGetAnyUserFollowers, cntlrGetAnyUserFollowing, cntlrGetUserPosts,
   cntlrGetUserProfileDetails, cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
 };
 

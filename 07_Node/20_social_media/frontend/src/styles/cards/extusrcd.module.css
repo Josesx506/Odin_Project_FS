@@ -52,7 +52,6 @@
     max-width: 100%;
 }
 
-
 .fullname {
     font-weight: 600;
     color: black;
@@ -60,6 +59,10 @@
         text-decoration: underline;
         cursor: pointer;
     }
+}
+
+.username {
+    text-transform: lowercase;
 }
 
 .flwBtn {

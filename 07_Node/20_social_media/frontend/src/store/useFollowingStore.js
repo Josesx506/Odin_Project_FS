@@ -14,14 +14,14 @@ const useFollowingStore = create((set, get) => ({
 
   followUser: async (targetId) => {
     await axiosApi.get(`/v1/social/users/follow?targetId=${targetId}`);
-    const res = await axiosApi.get(`/v1/social/users/is-following?targetId=${targetId}`);
+    const res = await axiosApi.get(`/v1/social/users/check-following?targetId=${targetId}`);
     get().updateFollowingState(targetId, res.data?.isFollowing || false);
     return true;
   },
 
   unfollowUser: async (targetId) => {
     await axiosApi.get(`/v1/social/users/unfollow?targetId=${targetId}`);
-    const res = await axiosApi.get(`/v1/social/users/is-following?targetId=${targetId}`);
+    const res = await axiosApi.get(`/v1/social/users/check-following?targetId=${targetId}`);
     get().updateFollowingState(targetId, res.data?.isFollowing || false);
     return true;
   },
@@ -39,7 +39,7 @@ const useFollowingStore = create((set, get) => ({
     }
 
     try {
-      const res = await axiosApi.get(`/v1/social/users/is-following?targetId=${targetId}`,signal);
+      const res = await axiosApi.get(`/v1/social/users/check-following?targetId=${targetId}`,signal);
       get().updateFollowingState(targetId, res.data?.isFollowing || false);
     } catch (err) {
       if (err?.code !== 'ERR_CANCELED') console.error(err);

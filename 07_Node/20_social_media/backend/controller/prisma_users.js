@@ -86,6 +86,76 @@ async function getDbUsersPaginated(userId, skip, take=20) {
   }));
 }
 
+async function getDbUserFollowersPaginated(currUserId, userId, skip, take=20) {
+  const [userDetails, followers] = await Promise.all([
+    prisma.socialUser.findUnique({
+      where: { id: userId },
+      select: { id: true, fullname: true, username: true }
+    }),
+    prisma.socialUser.findMany({
+        where: { friends: { 
+          some: { friendId: userId } } },
+        select: {
+          id: true, 
+          fullname: true,
+          username: true,
+          gravatar: true, 
+          bio: true,
+          friends: {
+            where: { friendId: currUserId },
+            select: { id: true },
+          }
+        },
+        skip: skip,
+        take: take
+      })
+  ])
+
+  return {
+    user: userDetails,
+    followers: followers.map(user => ({
+      id: user.id, fullname: user.fullname, username: user.username,
+      gravatar: user.gravatar, bio: user.bio, 
+      followsYou: user.friends.length > 0 // they follow logged in user
+    }))
+  };
+}
+
+async function getDbUserFollowingPaginated(currUserId, userId, skip, take=20) {
+  const [userDetails, following] = await Promise.all([
+    prisma.socialUser.findUnique({
+      where: { id: userId },
+      select: { id: true, fullname: true, username: true }
+    }),
+    prisma.socialUser.findMany({
+      where: { friendOf: { 
+        some: { userId: userId } } },
+      select: {
+        id: true, 
+        fullname: true,
+        username: true,
+        gravatar: true, 
+        bio: true,
+        friends: {
+          where: { friendId: currUserId },
+          select: { id: true },
+        }
+      },
+      skip: skip,
+      take: take
+    })
+  ]);
+
+  return {
+    user: userDetails,
+    following: following.map(user => ({
+      id: user.id, fullname: user.fullname, username: user.username,
+      gravatar: user.gravatar, bio: user.bio, 
+      followsYou: user.friends.length > 0 // they follow logged in user
+    }))
+  };
+}
+
 async function getUserProfileDetailsDb(userId) {
   const initial = await prisma.socialUser.findUnique({
     where: { id: userId },
@@ -111,7 +181,8 @@ async function getUserProfileDetailsDb(userId) {
 
 
 export {
-  addNewFollowerDb, checkUserNowFollowsDb, getDbUsersPaginated,
-  getLimitedNonFollowersDb, getUserProfileDetailsDb, removeExistingFollowerDb
+  addNewFollowerDb, checkUserNowFollowsDb, getDbUserFollowersPaginated, 
+  getDbUserFollowingPaginated, getDbUsersPaginated, getLimitedNonFollowersDb, 
+  getUserProfileDetailsDb, removeExistingFollowerDb
 };
 

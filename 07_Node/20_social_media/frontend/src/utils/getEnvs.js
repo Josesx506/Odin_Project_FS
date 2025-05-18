@@ -8,9 +8,13 @@ async function getGuestPassword() {
   return process.env.GUESTPSWD;
 }
 
+async function getSupabaseBucket() {
+  return process.env.SUPABASE_BUCKET;
+}
+
 async function getGitHubOAuth() {
   const route = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`;
   return route;
 }
 
-export { getGitHubClientId, getGitHubOAuth, getGuestPassword };
+export { getGitHubClientId, getGitHubOAuth, getGuestPassword, getSupabaseBucket };

@@ -39,7 +39,7 @@ export default function UserPageDetailsCard({
           <div>{bio}</div>
           <div className={styles.locationTimeline}>
             <div><IoLocationOutline /> OdinLand</div>
-            <div><FaRegCalendarAlt /> {formatDate(createdAt)}</div>
+            <div><FaRegCalendarAlt /> Joined {formatDate(createdAt)}</div>
           </div>
           <div className={styles.friends}>
             <Link href={`/${id}/following`}><span>{numFollowing}</span> Following</Link>

@@ -14,8 +14,12 @@ export default function PostDetailCard({ postAuthor, post }) {
 
       <div className={styles.postbody}>{post.body}</div>
 
-      {post.postimg && <div><img src={post.postimg} alt={`post ${post.id} image`} /></div>}
-      
+      {post.postimg &&
+        <div className={styles.postimage}>
+          <img src={post.postimg} alt={`post ${post.id} image`} />
+        </div>
+      }
+
       <div className={styles.postFooter}>
         {formatDateTime(post.createdAt)} · <span>{post.postViews}</span> Views
       </div>

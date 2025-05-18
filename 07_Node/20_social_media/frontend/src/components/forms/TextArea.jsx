@@ -1,6 +1,9 @@
 'use client';
 
+import { axiosApi } from "@/config/axios";
+import { uploadFileToSupabase } from "@/config/supabase";
 import styles from '@/styles/forms/textarea.module.css';
+import DOMPurify from 'dompurify';
 import Form from 'next/form';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,6 +19,7 @@ export default function TextArea({
   minRows = 3, maxRows = 6,
   submitTo = "",
   placeholder = "Type something...",
+  handleInsert = ()=>{},
 }) {
   const textInputRef = useRef();
   const fileInputRef = useRef(null);
@@ -51,38 +55,68 @@ export default function TextArea({
     }
   };
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-    toast.error('You never implement posting')
+    setProcessing(true);
+
+    try {
+      let message = textInputRef.current.value;
+      message = DOMPurify.sanitize(message.trim());   // Sanitize inputs
+      if ((message === '' || !message) && !file) {
+        toast.error('Message or image required');
+        return
+      }
+
+      let uploadurl;  // Define empty value for uploads
+      if (file) {     //  Upload the file to supabase if a file is included
+        const fileExt = file.name.split(".").pop();
+        const cleanName = file.name.split(" ")[0].replace(`.${fileExt}`, '');
+        const filePath = `${cleanName}-${crypto.randomUUID()}.${fileExt}`;
+
+        uploadurl = await uploadFileToSupabase(filePath, file);
+      }
+      const newEntry = await axiosApi.post(submitTo,
+        JSON.stringify({ message, uploadurl }),
+        { headers: { 'Content-Type': 'application/json' }, withCredentials: true, }
+      )
+      handleInsert(newEntry.data);
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setFile(null);
+      setProcessing(false);
+      textInputRef.current.value = '';
+      textInputRef.current.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   }
 
-  return (
-    <Form onSubmit={onSubmit} className={styles.postForm} >
-      <div className={styles.textCounter}>
 
-        <TextareaAutosize className={styles.postInput} name={name} onChange={handleTextChange}
-          placeholder={placeholder} ref={textInputRef} minRows={minRows} maxRows={maxRows}
-          maxLength={maxLength} wrap="soft" />
-        
-        <div className={characterCountClassName()}>
-          {text.length}/{maxLength}
-        </div>
-      
+return (
+  <Form onSubmit={onSubmit} className={styles.postForm} >
+    <div className={styles.textCounter}>
+
+      <TextareaAutosize className={styles.postInput} name={name} onChange={handleTextChange}
+        placeholder={placeholder} ref={textInputRef} minRows={minRows} maxRows={maxRows}
+        maxLength={maxLength} wrap="soft" />
+
+      <div className={characterCountClassName()}>
+        {text.length}/{maxLength}
       </div>
 
-      <div className={styles.actionBtns}>
-        <div className={styles.attachments}>
-          <div className={styles.newIcons} >
-            <input type="file" style={{ display: 'none' }} ref={fileInputRef} onChange={handleFileChange} />
-            <MdAddPhotoAlternate onClick={handleIconClick} />
-          </div>
-        </div>
-        <div className={styles.submitBtn} disabled={processing} onClick={!processing ? handleSubmitClick : undefined} >
-          <input type='submit' style={{ display: 'none' }} ref={submitFormRef} /> {btnText}
-          {processing ? <ImSpinner3 className={styles.spinner} /> : <IoIosSend />}
+    </div>
+
+    <div className={styles.actionBtns}>
+      <div className={styles.attachments}>
+        <div className={styles.newIcons} >
+          <input type="file" style={{ display: 'none' }} ref={fileInputRef} onChange={handleFileChange} />
+          <MdAddPhotoAlternate onClick={handleIconClick} />
         </div>
       </div>
-    </Form>
-  )
-}
+      <div className={styles.submitBtn} disabled={processing} onClick={!processing ? handleSubmitClick : undefined} >
+        <input type='submit' style={{ display: 'none' }} ref={submitFormRef} /> {btnText}
+        {processing ? <ImSpinner3 className={styles.spinner} /> : <IoIosSend />}
+      </div>
+    </div>
+  </Form>
+)}

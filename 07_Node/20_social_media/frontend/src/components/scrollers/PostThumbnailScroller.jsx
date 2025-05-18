@@ -32,13 +32,17 @@ export default function PostThumbnailScroller() {
       
   },[])
 
+  function handlePostUpload(newPost) {
+    setPosts(prevPosts => [ newPost, ...prevPosts ])
+  }
+
   if (loading) {
     return <div>posts loading....</div>
   }
 
   return (
     <div className={styles.scrollbarMain}>
-      <NewPost />
+      <NewPost onPostUpload={handlePostUpload} />
       {posts.map((post)=>(
         <PostThumbnailCard key={post.id} post={post} />
       ))}

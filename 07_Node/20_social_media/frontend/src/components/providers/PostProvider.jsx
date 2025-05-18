@@ -40,6 +40,10 @@ export default function PostProvider({ postId }) {
     return <div>post details loading ...</div>
   }
 
+  function handleCommentUpload(newComment) {
+    setComments(prevComments => [ newComment, ...prevComments ])
+  }
+
   const emptyComments = <div style={{ textAlign: 'center' }}>No Comments Found. Reply this post.</div>
 
   return (
@@ -47,7 +51,7 @@ export default function PostProvider({ postId }) {
       <div>
         <UserPageNavCard title={'Post'} />
         <PostDetailCard post={post} postAuthor={postAuthor} />
-        <NewComment />
+        <NewComment postId={postId} onCommentUpload={handleCommentUpload} />
       </div>
       <div className={styles.innerScroller}>
         {comments && comments.length>0 ?

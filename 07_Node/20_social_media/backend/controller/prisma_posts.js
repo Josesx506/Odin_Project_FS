@@ -194,8 +194,40 @@ async function toggleDbCommentLikes(userId, commentId) {
   return finalLikeCount;
 }
 
-export {
-  getDbPostDetailsWithComments, getDbPosts, getDbUserLikesComment, 
-  getDbUserLikesPost, getDbUserPosts, toggleDbCommentLikes, toggleDbPostLikes
+async function createDbNewPost(authorId, message, uploadUrl) {
+  const post = await prisma.socialPost.create({
+    data: {
+      body: message,
+      postimg: uploadUrl,
+      author: { connect: { id: authorId } }
+    },
+    select: {
+      id: true, body: true, postimg: true, authorId: true, updatedAt: true,
+      author: { select: { fullname: true, username: true, gravatar: true }}
+    }
+  })
+  return { ...post, likes: 0, views: 0, comments: 0 };
+}
+
+async function createDbNewComment(authorId, postId, message, uploadUrl) {
+  const comment = await prisma.socialComment.create({
+    data: {
+      body: message,
+      commentimg: uploadUrl,
+      author: { connect: { id: authorId } },
+      post: { connect: { id: postId } }
+    },
+    select: {
+      id: true, body: true, commentimg: true, createdAt: true,
+      author: { select: { id:true, fullname: true, username: true, gravatar: true }}
+    }
+  })
+  return { ...comment, likes: 0, }
+}
+
+export { 
+  createDbNewComment, createDbNewPost, getDbPostDetailsWithComments, 
+  getDbPosts, getDbUserLikesComment, getDbUserLikesPost, getDbUserPosts, 
+  toggleDbCommentLikes, toggleDbPostLikes 
 };
 

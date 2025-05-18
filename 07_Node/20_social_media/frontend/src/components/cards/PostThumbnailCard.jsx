@@ -19,11 +19,13 @@ export default function PostThumbnailCard({ post }) {
             <Link href={`/${post.authorId}`} className={styles.username}>@{post.author.username.toLowerCase()}</Link>
             <div className={styles.postedAt}><BsDot /><span>{formatDate(post.updatedAt)}</span></div>
           </div>
-          <Link href={`/feed/${post.id}`}>{post.body}</Link>
-          {post.postimg &&
-            <div>
-              <img src={post.postimg}></img>
-            </div>}
+          <Link href={`/feed/${post.id}`}>
+            <div>{post.body}</div>
+            {post.postimg &&
+              <div className={styles.thmbnlPostImage}>
+                <img src={post.postimg}></img>
+              </div>}
+          </Link>
           <PostThumbnailInteraction postId={post.id} likes={post.likes}
             comments={post.comments} views={post.views} />
         </div>

@@ -1,15 +1,16 @@
 import Image from 'next/image';
-import styles from '@/styles/cards/authorcard.module.css'
+import styles from '@/styles/cards/authorcard.module.css';
+import Link from 'next/link';
 
 export default function AuthorCard({id, fullname, username, gravatar}) {
   return (
     <div className={styles.acdtlsCntr}>
-      <div className={styles.acdtlsImgCntr}>
+      <Link href={`/${id}`} className={styles.acdtlsImgCntr}>
         <Image src={gravatar || `https://robohash.org/${id}.png`} 
-            width={60} height={60} alt={`${username} profile photo`} />
-      </div>
+            width={40} height={40} alt={`${username} profile photo`} />
+      </Link>
       <div className={styles.acdtlsNameCntr}>
-        <div className={styles.fullname}>{fullname}</div>
+        <Link href={`/${id}`}  className={styles.fullname}>{fullname}</Link>
         <div className={styles.username}>@{username}</div>
       </div>
     </div>

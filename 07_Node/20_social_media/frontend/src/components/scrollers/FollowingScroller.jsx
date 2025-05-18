@@ -44,6 +44,7 @@ export default function FollowingScroller({ userId }) {
   return (
     <div className={styles.scrollbarMain}>
       {user && <UserPageNavCard title={user.fullname} subtitle={`@${user.username.toLowerCase()}`} />}
+      <div style={{ borderBottom: '1px solid darkgray' }}></div>
       {following.length !== 0 ? following.map((following) => (
         <ExtUserCard key={following.id} {...following} />
       )) :

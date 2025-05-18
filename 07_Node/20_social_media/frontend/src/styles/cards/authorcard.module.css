@@ -9,8 +9,8 @@
 }
 
 .acdtlsImgCntr {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     aspect-ratio: 1;
     border-radius: 50%;
     & img {
@@ -22,7 +22,7 @@
 
 .acdtlsNameCntr {
     display: grid;
-    gap: 0.5em;
+    gap: 0.2em;
 }
 
 .fullname {
@@ -36,4 +36,5 @@
 
 .username {
     color: darkgray;
+    text-transform: lowercase;
 }

@@ -67,6 +67,7 @@ async function getDbUserPosts(userId, skip, take = 10) {
 }
 
 async function getDbPostDetailsWithComments(userId, postId) {
+  // Prevent duplicate views by the same user
   try {
     await prisma.postView.upsert({
       where: { userId_postId: { userId, postId } },
@@ -78,24 +79,28 @@ async function getDbPostDetailsWithComments(userId, postId) {
     return null;
   }
 
-  const post = await prisma.socialPost.findFirst({
+  const post = await prisma.socialPost.findUnique({
     where: { id: postId },
     select: {
       id: true,
       body: true,
       postimg: true,
+      createdAt: true,
       author: {
-        select: { fullname: true, username: true, gravatar: true }
+        select: { id: true, fullname: true, username: true, gravatar: true }
       },
       comments: {
         select: {
+          id: true,
           body: true,
+          commentimg: true,
+          createdAt: true,
           _count: { select: { likes: true } },
           author: {
-            select: { fullname: true, username: true, gravatar: true }
-          },
-          orderBy: { updatedAt: 'desc' }
-        }
+            select: { id:true, fullname: true, username: true, gravatar: true }
+          }
+        },
+        orderBy: { updatedAt: 'desc' }
       },
       _count: {
         select: { likes: true, views: true, comments: true }
@@ -106,17 +111,23 @@ async function getDbPostDetailsWithComments(userId, postId) {
   if (!post) return null;
 
   const finalPost = {
-    id: post.id,
-    body: post.body,
-    postimg: post.postimg,
     author: post.author,
-    postLikes: post._count.likes,
-    postViews: post._count.views,
-    numComments: post._count.comments,
+    post: {
+      id: post.id,
+      body: post.body,
+      postimg: post.postimg,
+      createdAt: post.createdAt,
+      postLikes: post._count.likes,
+      postViews: post._count.views,
+      numComments: post._count.comments },
     comments: post.comments.map((comment) => ({
+      id: comment.id,
+      postId: post.id,
       body: comment.body,
+      commentimg: comment.commentimg,
       likes: comment._count.likes,
-      author: comment.author
+      author: comment.author,
+      createdAt: comment.createdAt,
     })),
   }
 

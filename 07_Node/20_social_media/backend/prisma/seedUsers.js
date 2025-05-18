@@ -32,7 +32,7 @@ async function seedUsers() {
         username: faker.internet.username({
           firstName: user.fullname.split(' ')[0],
           lastName: user.fullname.split(' ').pop()
-        }),
+        }).toLowerCase(),
         password: await bcrypt.hash(user.password, 10)
       }))
     );

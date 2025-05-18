@@ -20,10 +20,7 @@ export default function ProfileProvider({ userId }) {
         .then((res) => { setProfile(res.data) })
         .catch((err) => toast.error(err.message || 'Profile data fetch failed'))
       axiosApi.get(`/v1/social/users/${userId}/posts`)
-        .then((res) => {
-          console.log(res.data)
-          setPosts(res.data.posts)
-        })
+        .then((res) => { setPosts(res.data.posts) })
         .catch((err) => toast.error(err.message || 'Post data fetch failed'))
       setLoading(false);
     }

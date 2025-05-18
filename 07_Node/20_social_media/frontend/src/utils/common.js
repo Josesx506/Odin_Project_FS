@@ -46,4 +46,20 @@ function formatDate(dateStr) {
   }
 }
 
-export { decodeJWT, formatDate }
+function formatDateTime(dateTimeString) {
+  const date = new Date(dateTimeString);
+  
+  if (isNaN(date.getTime())) {
+    throw new Error('Invalid date format');
+  }
+  
+  const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+  const timeString = date.toLocaleTimeString('en-US', timeOptions);
+  
+  const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  const dateString = date.toLocaleDateString('en-US', dateOptions);
+  
+  return `${timeString} · ${dateString}`;
+}
+
+export { decodeJWT, formatDate, formatDateTime }

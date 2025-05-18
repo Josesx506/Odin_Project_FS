@@ -11,7 +11,11 @@ function logRequests(req, res, next) {
     timeZoneName: 'short',
     hour12: false
   });
-  console.log(req.method, req.hostname, `'${req.path}'`, formattedTime);
+  const queryString = Object.keys(req.query).length > 0 
+    ? `?${new URLSearchParams(req.query).toString()}` 
+    : '';
+  
+  console.log(req.method, req.hostname, `'${req.path}${queryString}'`, formattedTime);
   next();
 }
 

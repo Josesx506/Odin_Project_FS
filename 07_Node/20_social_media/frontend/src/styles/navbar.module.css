@@ -22,8 +22,28 @@
     font-family: 'Poppins';
 }
 
+.navLink.active {
+    color: var(--accent-clr);
+}
+
 @media (max-width: 639px) {
     .mobileNav {
         grid-row: 2;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0.5em 0em;
+        gap: 1em;
+    }
+
+    .mobNavLink svg {
+        width: 150%;
+        height: 150%;
+        cursor: pointer;
+    }
+
+    .mobNavLink.active svg {
+        color: var(--accent-clr);
     }
 }

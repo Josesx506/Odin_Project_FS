@@ -1,6 +1,7 @@
 'use client';
 
 import { axiosApi, setInterceptors } from "@/config/axios";
+import { usePostStore } from "@/store/usePostStore";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { toast } from 'react-hot-toast';
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }) => {
     await axiosApi.get('/v1/auth/signout')
     setAccessToken(null)
     setUserDetails(null)
+    usePostStore.getState().clearCache();
     toast.success('Logged Out! Redirecting...')
     router.push('/')
   }

@@ -3,49 +3,107 @@
 import PostThumbnailCard from '@/components/cards/PostThumbnailCard';
 import NewPost from '@/components/forms/NewPost';
 import { axiosApi } from '@/config/axios';
+import { usePostStore } from '@/store/usePostStore';
 import styles from '@/styles/genericscroller.module.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useInView } from 'react-intersection-observer';
+
+const TAKE = 30;
 
 export default function PostThumbnailScroller() {
-  const [posts, setPosts] = useState([]);
+  const newPostRef = useRef(null);
+  const scrollContainerRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const { scrollY, setScrollY, posts, setPosts, hasMore, setHasMore, appendPosts } = usePostStore();
+  const [observerRoot, setObserverRoot] = useState(null);
+  
+  const { ref, inView } = useInView({
+    rootMargin: '500px', threshold: 0.1,
+    root: observerRoot // Load the posts when user is 500px away from bottom
+  });
 
-  useEffect(()=>{
-    const controller = new AbortController();
-    async function getPostData() {
-      setLoading(true)
-      try {
-        const res = await axiosApi.get('/v1/social/posts', 
-          { signal: controller.signal })
-        setPosts(res.data)
-      } catch(err) {
-        if (err?.code !== "ERR_CANCELED") { 
-          toast.error(err.message) }
-      } finally {
-        setLoading(false)
-      } 
+  const fetchPosts = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
+
+    try {
+      const res = await axiosApi.get('/v1/social/posts', {
+        params: { skip: posts.length, take: TAKE },
+      });
+      const newPosts = res.data;
+      appendPosts(newPosts);
+      if (newPosts.length < TAKE) { setHasMore(false) };
+    } catch (err) {
+      if (err.name !== 'CanceledError') {
+        toast.error(err.message || 'Fetch error');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [inView, loading, hasMore]);
+
+
+  useEffect(() => { // On Mount Effect
+    const scrollContainer = scrollContainerRef.current;
+
+    if (scrollContainer) {
+      setObserverRoot(scrollContainer);
     }
 
-    getPostData();
-    return () => { controller.abort() }
-      
-  },[])
+    if (posts.length === 0 && !hasMore) {
+      setHasMore(true);
+      fetchPosts();
+    } else if (scrollContainer) {
+      scrollContainer.scrollTo({ top: scrollY, behavior: 'auto' });
+    }
+
+    const handleScroll = () => { // Always add scroll listener regardless of post state
+      if (scrollContainer) {
+        setScrollY(scrollContainer.scrollTop);
+      }
+    };
+
+    scrollContainer?.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handleScroll); // save scroll before page unload
+
+    return () => {
+      scrollContainer?.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', handleScroll);
+    };
+  }, []);
+
+
+  useEffect(() => { // Load more when target div is in view
+    if (inView && !loading && hasMore) {
+      fetchPosts()
+    };
+  }, [inView, fetchPosts, loading, hasMore]);
+
 
   function handlePostUpload(newPost) {
-    setPosts(prevPosts => [ newPost, ...prevPosts ])
+    setPosts([newPost, ...posts]);
+    if (newPostRef.current) {
+      newPostRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  if (loading) {
+  if (loading && posts.length === 0) {
     return <div>posts loading....</div>
   }
 
   return (
-    <div className={styles.scrollbarMain}>
+    <div ref={scrollContainerRef} className={styles.scrollbarMain}>
       <NewPost onPostUpload={handlePostUpload} />
-      {posts.map((post)=>(
+      <div ref={newPostRef} />
+      {posts.map((post) => (
         <PostThumbnailCard key={post.id} post={post} />
       ))}
+      {hasMore && (
+        <div className={styles.spinCntr}>
+          <div className={styles.spinner} ref={ref} />
+        </div>
+      )}
     </div>
   )
 }

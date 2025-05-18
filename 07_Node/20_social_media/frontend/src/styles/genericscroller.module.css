@@ -43,6 +43,26 @@
   background-color: transparent;
 }
 
+.spinCntr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  aspect-ratio: 1;
+  border: 3px solid rgb(36, 158, 240);;
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg) }
+}
+
 @media (max-width: 1025px) {
     .scrollbarMain, .doubleScroller {
         height: 100vh;

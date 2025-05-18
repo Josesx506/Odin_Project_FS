@@ -9,9 +9,10 @@ import {
 
 async function getCtlrPosts(req, res) {
   try {
-    let { skip } = req.query;
+    let { skip, take } = req.query;
     skip = Number(skip) || 0;
-    const posts = await getDbPosts(skip);
+    take = Number(take) || 10;
+    const posts = await getDbPosts(skip,take);
     if (!posts) {
       return res.status(400).json({ message: "No posts found" });
     } else {

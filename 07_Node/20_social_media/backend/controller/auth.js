@@ -128,18 +128,16 @@ async function logout(req, res) {
   // Don't forget to delete access token on client
   const cookies = req.cookies;
 
-  if (!cookies?.refreshJwt || cookies?.refreshJwt === ' ') {
+  if (!cookies?.jwt || cookies?.jwt === ' ') {
     return res.status(204).json({ message: "No content" });
   }
 
   // Get the user from db using the refresh token
-  const refreshToken = cookies.refreshJwt;
+  const refreshToken = cookies.jwt;
   const user = await retrieveUserByToken(refreshToken);
 
   // Clear both cookies and logout of the github session too
-  req.logout();
-  res.clearCookie('accessJwt', cookieOptions);
-  res.clearCookie('refreshJwt', cookieOptions);
+  res.clearCookie('jwt', cookieOptions);
 
   if (!user) {
     return res.status(204).json({ message: "No Content" });

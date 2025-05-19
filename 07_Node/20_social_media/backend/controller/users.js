@@ -7,7 +7,8 @@ import {
   getDbUsersPaginated,
   getLimitedNonFollowersDb,
   getUserProfileDetailsDb,
-  removeExistingFollowerDb
+  removeExistingFollowerDb, 
+  updateUserProfileDb
 } from "./prisma_users.js";
 
 async function getCtlrPaginatedUsers(req, res) {
@@ -76,7 +77,7 @@ async function cntlrFindNonFollowers(req, res) {
     let { skip, take } = req.query;
     skip = Number(skip) || 0;
     take = Number(take) || 5;
-    const users = await getLimitedNonFollowersDb(userId, skip,  take);
+    const users = await getLimitedNonFollowersDb(userId, skip, take);
     if (users.length === 0) {
       return res.status(200).json({ message: "Everyone is part of your follow/following list" })
     } else {
@@ -109,7 +110,7 @@ async function cntlrGetAnyUserFollowers(req, res) {
     userId = Number(userId);
     skip = Number(skip) || 0;
     take = Number(take) || 20;
-    const result = await getDbUserFollowersPaginated(currUserId, userId, skip,  take);
+    const result = await getDbUserFollowersPaginated(currUserId, userId, skip, take);
     if (result.followers.length === 0) {
       return res.status(200).json({ message: "No followers found for this user", ...result })
     } else {
@@ -117,7 +118,7 @@ async function cntlrGetAnyUserFollowers(req, res) {
     }
   } catch (err) {
     return res.status(500).json({ message: err.message || 'Internal server error' });
-  } 
+  }
 }
 
 async function cntlrGetAnyUserFollowing(req, res) {
@@ -128,7 +129,7 @@ async function cntlrGetAnyUserFollowing(req, res) {
     userId = Number(userId);
     skip = Number(skip) || 0;
     take = Number(take) || 20;
-    const result = await getDbUserFollowingPaginated(currUserId, userId, skip,  take);
+    const result = await getDbUserFollowingPaginated(currUserId, userId, skip, take);
     if (result.following.length === 0) {
       return res.status(200).json({ message: "This user is not following anyone", ...result })
     } else {
@@ -136,11 +137,11 @@ async function cntlrGetAnyUserFollowing(req, res) {
     }
   } catch (err) {
     return res.status(500).json({ message: err.message || 'Internal server error' });
-  } 
+  }
 }
 
 
-async function cntlrGetUserPosts(req,res) {
+async function cntlrGetUserPosts(req, res) {
   const { userId } = req.params;
   let { skip, take } = req.query;
   skip = Number(skip) || 0;
@@ -150,16 +151,49 @@ async function cntlrGetUserPosts(req,res) {
     if (posts.length === 0) {
       return res.status(200).json({ message: "No posts found for this user" })
     } else {
-      return res.status(200).json({posts, hasMore: posts.length === take});
+      return res.status(200).json({ posts, hasMore: posts.length === take });
     }
   } catch (err) {
     return res.status(500).json({ message: err.message || 'Internal server error' });
   }
 }
 
+async function cntlrGetUserProfile(req, res) {
+  const user = req.user;
+  const data = {
+    fullname: user.fullname,
+    username: user.username.toLowerCase(),
+    gravatar: user.gravatar,
+    bio: user.bio
+  }
+  try {
+    return res.status(200).json(data)
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
+}
+
+async function cntlrUpdateUserProfile(req, res) {
+  const userId = req.user?.id;
+  const { id, fullname, username, gravatar, bio } = req.body;
+
+  console.log(Number(id),userId, req.body)
+
+  if (Number(id) !== userId) {
+    return res.status(401).json({ message: 'Unauthorized Profile Edit' });
+  }
+  try {
+    const updt = await updateUserProfileDb(userId, fullname, username, gravatar, bio)
+    res.status(200).json({ message: 'Profile updated' });
+  } catch (err) {
+    return res.status(500).json({ message: err.message || 'Internal server error' });
+  }
+}
+
 export {
-  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest, 
+  cntlrFindNonFollowers, cntlrFollowDelete, cntlrFollowRequest,
   cntlrGetAnyUserFollowers, cntlrGetAnyUserFollowing, cntlrGetUserPosts,
-  cntlrGetUserProfileDetails, cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
+  cntlrGetUserProfile, cntlrGetUserProfileDetails, cntlrUpdateUserProfile, 
+  cntrlrCurrUserFollowsTarget, getCtlrPaginatedUsers
 };
 

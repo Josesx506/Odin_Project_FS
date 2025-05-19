@@ -178,11 +178,23 @@ async function getUserProfileDetailsDb(userId) {
   return user;
 }
 
+async function updateUserProfileDb(userId, fullname, username, gravatar, bio) {
+  const updateUser = await prisma.socialUser.update({
+    where: { id: userId, },
+    data: {
+      fullname: fullname,
+      username: username,
+      gravatar: gravatar,
+      bio: bio
+    }
+  })
+  return updateUser;
+}
 
 
 export {
-  addNewFollowerDb, checkUserNowFollowsDb, getDbUserFollowersPaginated, 
-  getDbUserFollowingPaginated, getDbUsersPaginated, getLimitedNonFollowersDb, 
-  getUserProfileDetailsDb, removeExistingFollowerDb
+  addNewFollowerDb, checkUserNowFollowsDb, getDbUserFollowersPaginated,
+  getDbUserFollowingPaginated, getDbUsersPaginated, getLimitedNonFollowersDb,
+  getUserProfileDetailsDb, removeExistingFollowerDb, updateUserProfileDb
 };
 

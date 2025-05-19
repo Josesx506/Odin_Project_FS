@@ -38,12 +38,12 @@ const validationRules = {
   username: {
     required: 'Username name is required',
     minLength: {
-      value: 5,
-      message: 'Username must be at least 5 characters'
+      value: 6,
+      message: 'Username must be at least 6 characters'
     },
     maxLength: {
-      value: 8,
-      message: 'Username cannot exceed 8 characters'
+      value: 15,
+      message: 'Username cannot exceed 15 characters'
     },
     pattern: {
       value: /^[a-zA-Z0-9_.]+$/,

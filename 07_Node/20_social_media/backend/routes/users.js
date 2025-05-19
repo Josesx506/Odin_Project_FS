@@ -6,7 +6,9 @@ import {
     cntlrGetAnyUserFollowers,
     cntlrGetAnyUserFollowing,
     cntlrGetUserPosts,
+    cntlrGetUserProfile,
     cntlrGetUserProfileDetails,
+    cntlrUpdateUserProfile,
     cntrlrCurrUserFollowsTarget,
     getCtlrPaginatedUsers
 } from "../controller/users.js";
@@ -21,6 +23,8 @@ router.get('/users/unfollow', cntlrFollowDelete);
 router.get('/users/mixed', getCtlrPaginatedUsers);
 router.get('/users/non-followers', cntlrFindNonFollowers);
 router.get('/users/check-following', cntrlrCurrUserFollowsTarget);
+router.get('/users/profile', cntlrGetUserProfile);
+router.post('/users/profile', cntlrUpdateUserProfile);
 
 // These routes work for any user id
 router.get('/users/:userId', cntlrGetUserProfileDetails);

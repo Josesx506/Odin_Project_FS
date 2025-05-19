@@ -10,7 +10,7 @@ export default function ExplorePage({ filter }) {
   return (
     <div className={styles.main}>
       <NavBar />
-      <ExtUserThumbnailScroller filter={filter} />
+      <ExtUserThumbnailScroller key={filter||'mixed'} filter={filter} />
       <RightAside />
     </div>
   )

@@ -4,35 +4,56 @@ import ExtUserCard from '@/components/cards/ExtUserCard';
 import UserPageNavCard from '@/components/cards/UserPageNavCard';
 import { axiosApi } from '@/config/axios';
 import styles from '@/styles/genericscroller.module.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useInView } from 'react-intersection-observer';
+
+const TAKE = 30;
 
 export default function FollowersScroller({ userId }) {
   const [followers, setFollowers] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const { ref, inView } = useInView({ rootMargin: '500px', threshold: 0.1 });
 
-  async function getFollowerData(signal) {
-    setLoading(true)
+  const getFollowerData = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
     try {
-      const res = await axiosApi.get(`/v1/social/users/${userId}/followers?take=30`,
-        { signal })
-      setFollowers(res.data.followers);
-      setUser(res.data.user);
+      const res = await axiosApi.get(`/v1/social/users/${userId}/followers`, {
+        params: { skip: followers.length, take: TAKE },
+      });
+      const newFollowers = res.data.followers;
+      if (followers.length === 0) { setUser(res.data.user); }
+      if (Array.isArray(newFollowers)) {
+        setFollowers(prevFollowers => [...prevFollowers, ...newFollowers]);
+        if (newFollowers.length < TAKE) { setHasMore(false) };
+      } else {
+        setHasMore(false);
+        return
+      }
     } catch (err) {
       if (err?.code !== "ERR_CANCELED") {
-        toast.error(err.message)
+        toast.error(err.message || 'Fetch error');
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [loading, hasMore, followers.length])
 
   useEffect(() => {
-    const controller = new AbortController();
-    getFollowerData(controller.signal);
-    return () => { controller.abort() }
+    if (followers.length === 0 && !hasMore) {
+      setHasMore(true);
+      getFollowerData();
+    }
   }, [userId])
+
+  useEffect(() => {
+    if (inView && !loading && hasMore) {
+      getFollowerData();
+    };
+  }, [inView, getFollowerData, loading, hasMore]);
 
   if (loading) {
     return <div>followers loading....</div>
@@ -51,6 +72,11 @@ export default function FollowersScroller({ userId }) {
         )) :
         emptyFollowers
       }
+      {hasMore && (
+        <div className={styles.spinCntr}>
+          <div className={styles.spinner} ref={ref} />
+        </div>
+      )}
     </div>
   )
 }

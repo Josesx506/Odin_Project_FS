@@ -9,7 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
 
-const TAKE = 30;
+const TAKE = 15; // Number of posts per request.
 
 export default function PostThumbnailScroller() {
   const newPostRef = useRef(null);

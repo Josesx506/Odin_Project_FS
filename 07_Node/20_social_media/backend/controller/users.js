@@ -13,9 +13,10 @@ import {
 async function getCtlrPaginatedUsers(req, res) {
   try {
     const userId = req.user?.id;
-    let { skip } = req.query;
+    let { skip, take } = req.query;
     skip = Number(skip) || 0;
-    const users = await getDbUsersPaginated(userId, skip);
+    take = Number(take) || 20;
+    const users = await getDbUsersPaginated(userId, skip, take);
     if (!users) {
       return res.status(400).json({ message: "No users found" });
     } else {

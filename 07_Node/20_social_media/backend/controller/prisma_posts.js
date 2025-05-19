@@ -100,7 +100,7 @@ async function getDbPostDetailsWithComments(userId, postId) {
             select: { id:true, fullname: true, username: true, gravatar: true }
           }
         },
-        orderBy: { updatedAt: 'desc' }
+        orderBy: { updatedAt: 'asc' }
       },
       _count: {
         select: { likes: true, views: true, comments: true }

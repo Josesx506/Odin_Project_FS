@@ -30,7 +30,7 @@ export default function ProductDetails({ id }) {
       <div className="productDetailCntr">
         <div className="productDetail">
           <div className="productImage">
-            <Image src={product.images[0]} width={290} priority={true} height={290} alt={`product ${product.id} large image`} />
+            <img src={product.images[0]} alt={`product ${product.id} large image`} />
           </div>
           <div className="productDesc">
             <h2>{product.title}</h2>

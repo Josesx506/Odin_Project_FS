@@ -95,7 +95,7 @@ export default function PostThumbnailScroller() {
   return (
     <div ref={scrollContainerRef} className={styles.scrollbarMain}>
       <NewPost onPostUpload={handlePostUpload} />
-      <div ref={newPostRef} />
+      <div id='newpost' ref={newPostRef} />
       {posts.map((post) => (
         <PostThumbnailCard key={post.id} post={post} />
       ))}

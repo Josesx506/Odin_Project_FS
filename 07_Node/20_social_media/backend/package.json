@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Backend express server for odin capstone social media project",
   "main": "index.js",
+  "engines": {
+    "node": "23.6.1",
+    "npm": "10.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch app.js",

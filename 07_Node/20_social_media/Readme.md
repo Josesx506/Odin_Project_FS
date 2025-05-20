@@ -46,3 +46,7 @@ variable to avoid clashes. In production, they're on 2 different instances so th
 
 ### Improvements
 - [ ] Custom notfound 404 error component with Navbar integrated since I didn't include my nav in my app layout for this project
+
+> [!Important]
+> When specifying client and backend server routes in production whitelist for cors, ensure there are no trailing `'/'` in the url.
+

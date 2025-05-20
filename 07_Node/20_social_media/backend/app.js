@@ -39,16 +39,6 @@ app.get('/', (req,res)=>{
     res.send('Welcome to the odin capstone social media server')
 })
 
-/////////////////////////////////////////////////////
-// Clean up incomplete
-app.get('/github', (req,res)=>{
-    res.send('<a href="/v1/auth/github">Login with Github</a>')
-})
-app.get('/profile', (req,res)=>{
-    res.json(req.user)
-})
-/////////////////////////////////////////////////////
-
 
 const port = process.env.PORT || 3000;
 

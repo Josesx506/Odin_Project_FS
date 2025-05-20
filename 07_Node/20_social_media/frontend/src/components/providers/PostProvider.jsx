@@ -9,6 +9,7 @@ import { usePostStore } from '@/store/usePostStore';
 import styles from '@/styles/genericscroller.module.css';
 import { useEffect, useState, useRef } from "react";
 import toast from 'react-hot-toast';
+import PostDetailsSkltn from '../skeletons/PostDetailsSkltn';
 
 export default function PostProvider({ postId }) {
   const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ export default function PostProvider({ postId }) {
   }, [comments]);
 
   if (loading) {
-    return <div>post details loading ...</div>
+    return <PostDetailsSkltn />
   }
 
   function handleCommentUpload(newComment) {

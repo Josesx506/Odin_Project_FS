@@ -6,6 +6,7 @@ import styles from '@/styles/genericscroller.module.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
+import ExplorePgSkltn from '../skeletons/ExplorePgSkltn';
 
 const TAKE = 30;
 
@@ -56,8 +57,8 @@ export default function ExtUserThumbnailScroller({ filter }) {
   }, [inView, getUserData, loading, hasMore]);
 
 
-  if (loading) {
-    return <div>users loading....</div>
+  if (loading && users.length === 0) {
+    return <ExplorePgSkltn />
   }
 
   return (

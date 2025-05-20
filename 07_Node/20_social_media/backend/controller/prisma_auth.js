@@ -39,10 +39,6 @@ async function updateUserDetailsByEmail(email, profile) {
   const user = await prisma.socialUser.upsert({
     where: { email },
     update: {
-      fullname: profile.displayName || 'Github User',
-      username: profile.username,
-      gravatar: profile.photos?.[0]?.value || profile?._json?.avatar_url,
-      bio: profile?._json?.bio,
       githubotp: profile.otp
     },
     create: {

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import FollowUserCard from './FollowUserCard';
+import WhoToFllwCrdSkltn from '../skeletons/WhoToFllwCrdSkltn';
 
 export default function WhoToFollow() {
   const [loading, setLoading] = useState(false);
@@ -33,17 +34,14 @@ export default function WhoToFollow() {
     return () => { controller.abort() }
   }, [])
 
-  if (loading) {
-    return <div>Nonfollowers loading...</div>
-  }
-
   return (
     <div className={styles.mainCntr}>
       <h3 className={styles.header}>Who to follow</h3>
       <div>
-        {users.map((user) => (
-          <FollowUserCard key={user.id} {...user} followsYou={false} />
-        ))}
+        {loading ? <WhoToFllwCrdSkltn />
+          : users.map((user) => (
+            <FollowUserCard key={user.id} {...user} followsYou={false} />
+          ))}
       </div>
       <Link className={styles.more} href={`/explore?filter=non-followers`}>Show more</Link>
     </div>

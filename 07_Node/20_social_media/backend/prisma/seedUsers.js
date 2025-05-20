@@ -11,7 +11,7 @@ async function seedUsers() {
         fullname: "Victor Blaize",
         email: "vickyblaize@odinbook.com",
         gravatar: "https://i.pravatar.cc/200?img=56",
-        bio: "Ready User one",
+        bio: "Ready User 001 🚀",
         password: process.env.GUEST_PSWD,
       }
     ];

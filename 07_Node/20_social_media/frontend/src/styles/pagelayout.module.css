@@ -13,6 +13,7 @@
 
 @media (max-width: 639px) {
     .main {
+        gap: unset;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
     }

@@ -8,6 +8,7 @@ import styles from '@/styles/genericscroller.module.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
+import HomePgSkltn from '../skeletons/HomePgSkltn';
 
 const TAKE = 15; // Number of posts per request.
 
@@ -76,7 +77,7 @@ export default function PostThumbnailScroller() {
 
   useEffect(() => { // Load more when target div is in view
     if (inView && !loading && hasMore) {
-      fetchPosts()
+      fetchPosts();
     };
   }, [inView, fetchPosts, loading, hasMore]);
 
@@ -89,7 +90,7 @@ export default function PostThumbnailScroller() {
   }
 
   if (loading && posts.length === 0) {
-    return <div>posts loading....</div>
+    return <HomePgSkltn />
   }
 
   return (

@@ -111,6 +111,8 @@
     color: rgb(36, 158, 240);
     display: block;
     margin-left: auto;
+    margin-right: 0.5em;
+    white-space: nowrap;
 }
 
 .expandText:hover {
@@ -120,6 +122,8 @@
 
 .expandText::before {
     content: "Show More";
+    display: inline-block;
+    min-width: max-content;
 }
 
 .expandText:checked::before {

@@ -31,9 +31,14 @@ GITHUB_CLIENT_SECRET=
 PORT=
 CLIENT_URL=
 GUEST_PSWD=
+NODE_ENV=production
 ```
 The environment variables point to the postgres db, JWT secrets, passport session secret, GitHub OAuth details, express server port, 
 frontend url, and guest password value respectively. <br>
+
+> [!Note]
+> Don't forget to include the `NODE_ENV` production so that the same site CORS option becomes 'None' or express wouldn't recognize your 
+client-side cookies, and the users will get logged out after every page reload / refresh
 
 > [!Caution]
 > The backend express server and frontend react server will both run on PORT 3000 unless a port is specified in the environment 

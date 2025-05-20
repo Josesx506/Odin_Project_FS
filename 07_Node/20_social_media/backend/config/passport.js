@@ -82,7 +82,7 @@ async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, don
 const oauthOptions = {
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: `${process.env.CLIENT_URL}/v1/auth/github/callback`,
+  callbackURL: `http://localhost:1300/v1/auth/github/callback`, // Should ALWAYS be server url and not client url
   // scope: ['user:email'], force retrieval of emails. Can throw errors if email is hidden
 }
 

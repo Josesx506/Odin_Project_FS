@@ -86,3 +86,16 @@ as if I haven't followed her. Using context allows both cards to be updated but 
 page which is also inefficient. To fix this, I used zustand store again to implement the api calls. The zustand store is tied 
 to the target userId and also implements the api calls. This way, when a follow request is updated, only the visible cards 
 connected to the target user id are updated, improving the performance.
+
+
+### Show More Feature
+Nice to have features were the search bar and the `Show More` text. The Show More feature was implemented primarily with CSS 
+using the checkbox example from [web-dev simplified](https://www.youtube.com/watch?v=OhCzEjXvY9A). I extended with react to 
+only show for posts thumbnails that were longer than 3 lines to prevent UI clutter. <br>
+
+For search, I implemented it using a debouncing method that waits for 1 second after the user stops typing to make an api 
+request. This potentially reduces the number of requests made to the backend api instead of triggering it after every character 
+change in the input box. The search route checks the users and posts db for results. In the users db, it checks either the fullname 
+or the username and takes the first 5 entries. In the posts table, it searches the post body, sorts them by most recently published, 
+number of likes, and number of views, then it also takes 5. I then shuffle both lists to create a seemingly random result for the 
+search query. The results are viewed using a custom search card that is hyperlinked to the post details or the user details.

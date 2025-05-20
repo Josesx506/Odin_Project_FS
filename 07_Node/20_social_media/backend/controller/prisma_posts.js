@@ -225,9 +225,25 @@ async function createDbNewComment(authorId, postId, message, uploadUrl) {
   return { ...comment, likes: 0, }
 }
 
-export { 
-  createDbNewComment, createDbNewPost, getDbPostDetailsWithComments, 
+async function searchDbPosts(query) {
+  const results = await prisma.socialPost.findMany({
+    where: {
+      body: { contains: query, mode: 'insensitive' }
+    }, select: {
+      id: true, body: true, 
+    }, 
+    orderBy: [
+      { createdAt: 'desc' }, 
+      { likes: { _count: 'desc' } }, 
+      { views: { _count: 'desc' } }],
+    take: 5
+  })
+  return results.map((post)=>({...post, type:'post', key: crypto.randomUUID()}))
+}
+
+export {
+  createDbNewComment, createDbNewPost, getDbPostDetailsWithComments,
   getDbPosts, getDbUserLikesComment, getDbUserLikesPost, getDbUserPosts, 
-  toggleDbCommentLikes, toggleDbPostLikes 
+  searchDbPosts, toggleDbCommentLikes, toggleDbPostLikes
 };
 

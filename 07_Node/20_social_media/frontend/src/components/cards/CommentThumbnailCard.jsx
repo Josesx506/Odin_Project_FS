@@ -22,7 +22,7 @@ export default function CommentThumbnailCard({ comment }) {
           </div>
           <div>{comment.body}</div>
           {comment.commentimg &&
-            <div>
+            <div className={styles.thmbnlPostImage}>
               <img src={comment.commentimg}></img>
             </div>}
         </div>

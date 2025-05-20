@@ -71,15 +71,15 @@ async function updateRefreshToken(id, token) {
   return user;
 }
 
-async function updateUserProfile(userId, name, email, image) {
+async function updateUserProfile(userId, name, image, bio) {
   const updateUser = await prisma.chatUser.update({
     where: {
       id: userId,
     },
     data: {
       name: name,
-      email: email,
-      image: image
+      image: image,
+      bio: bio
     }
   })
   return updateUser;

@@ -80,6 +80,60 @@
     }
 }
 
+.postBodyText {
+    --max-lines: 3;
+    --line-height: 1.2;
+    max-height: calc(var(--max-lines) * 1em * var(--line-height));
+    line-height: var(--line-height);
+    overflow: hidden;
+    position: relative;
+}
+
+.postBodyText:has(+ .expandText:not(:checked))::before {
+    content: "";
+    position: absolute;
+    height: calc(0.75em * var(--line-height));
+    width: 100%;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, white);
+}
+
+.postBodyText + div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.expandText {
+    appearance: none;
+    padding: 0.5em;
+    cursor: pointer;
+    color: rgb(36, 158, 240);
+    display: block;
+    margin-left: auto;
+}
+
+.expandText:hover {
+    background-color: rgb(247,247,247);
+    text-decoration: underline;
+}
+
+.expandText::before {
+    content: "Show More";
+}
+
+.expandText:checked::before {
+    content: "Show Less";
+    visibility: hidden;
+    display: none;
+    padding: 0;
+}
+
+.postBodyText:has(+ .expandText:checked) {
+    max-height: unset;
+    height: auto;
+}
+
 .postedAt {
     display: flex;
     gap: 0.3em;

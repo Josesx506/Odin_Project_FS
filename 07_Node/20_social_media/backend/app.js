@@ -10,6 +10,7 @@ import { credentials } from './middleware/credentials.js';
 import { router as authRouter } from './routes/auth.js';
 import { router as postsRouter } from './routes/posts.js';
 import { router as usersRouter } from './routes/users.js';
+import { router as searchRouter } from './routes/search.js'
 
 const app = express();
 
@@ -32,8 +33,7 @@ app.use(logRequests);
 app.use('/v1/auth', authRouter);
 app.use('/v1/social', postsRouter);
 app.use('/v1/social', usersRouter);
-
-
+app.use('/v1/social', searchRouter);
 
 app.get('/', (req,res)=>{
     res.send('Welcome to the odin capstone social media server')

@@ -34,12 +34,12 @@ async function removeExistingFollowerDb(currUserId, trgtUserId) {
   return removed;
 }
 
-async function getLimitedNonFollowersDb(userId,  skip, take=5) {
+async function getLimitedNonFollowersDb(userId, skip, take = 5) {
   const users = await prisma.socialUser.findMany({
     where: {
-        NOT: { id: userId },
-        friendOf: { none: { userId: userId } },
-        friends: { none: { friendId: userId } }
+      NOT: { id: userId },
+      friendOf: { none: { userId: userId } },
+      friends: { none: { friendId: userId } }
     },
     select: {
       id: true, fullname: true,
@@ -53,10 +53,10 @@ async function getLimitedNonFollowersDb(userId,  skip, take=5) {
   return users;
 }
 
-async function getDbUsersPaginated(userId, skip, take=20) {
+async function getDbUsersPaginated(userId, skip, take = 20) {
   const users = await prisma.socialUser.findMany({
     where: {
-        NOT: { id: userId },
+      NOT: { id: userId },
     },
     select: {
       id: true, fullname: true,
@@ -86,55 +86,61 @@ async function getDbUsersPaginated(userId, skip, take=20) {
   }));
 }
 
-async function getDbUserFollowersPaginated(currUserId, userId, skip, take=20) {
+async function getDbUserFollowersPaginated(currUserId, userId, skip, take = 20) {
   const [userDetails, followers] = await Promise.all([
     prisma.socialUser.findUnique({
       where: { id: userId },
       select: { id: true, fullname: true, username: true }
     }),
     prisma.socialUser.findMany({
-        where: { friends: { 
-          some: { friendId: userId } } },
-        select: {
-          id: true, 
-          fullname: true,
-          username: true,
-          gravatar: true, 
-          bio: true,
-          friends: {
-            where: { friendId: currUserId },
-            select: { id: true },
-          }
-        },
-        skip: skip,
-        take: take
-      })
+      where: {
+        friends: {
+          some: { friendId: userId }
+        }
+      },
+      select: {
+        id: true,
+        fullname: true,
+        username: true,
+        gravatar: true,
+        bio: true,
+        friends: {
+          where: { friendId: currUserId },
+          select: { id: true },
+        }
+      },
+      skip: skip,
+      take: take
+    })
   ])
 
   return {
     user: userDetails,
     followers: followers.map(user => ({
       id: user.id, fullname: user.fullname, username: user.username,
-      gravatar: user.gravatar, bio: user.bio, 
+      gravatar: user.gravatar, bio: user.bio,
       followsYou: user.friends.length > 0 // they follow logged in user
     }))
   };
 }
 
-async function getDbUserFollowingPaginated(currUserId, userId, skip, take=20) {
+async function getDbUserFollowingPaginated(currUserId, userId, skip, take = 20) {
   const [userDetails, following] = await Promise.all([
     prisma.socialUser.findUnique({
       where: { id: userId },
       select: { id: true, fullname: true, username: true }
     }),
     prisma.socialUser.findMany({
-      where: { friendOf: { 
-        some: { userId: userId } } },
+      where: {
+        friendOf: {
+          some: { userId: userId }
+        }
+      },
       select: {
-        id: true, 
+        id: true,
         fullname: true,
         username: true,
-        gravatar: true, 
+        gravatar: true,
         bio: true,
         friends: {
           where: { friendId: currUserId },
@@ -150,7 +156,7 @@ async function getDbUserFollowingPaginated(currUserId, userId, skip, take=20) {
     user: userDetails,
     following: following.map(user => ({
       id: user.id, fullname: user.fullname, username: user.username,
-      gravatar: user.gravatar, bio: user.bio, 
+      gravatar: user.gravatar, bio: user.bio,
       followsYou: user.friends.length > 0 // they follow logged in user
     }))
   };
@@ -160,14 +166,15 @@ async function getUserProfileDetailsDb(userId) {
   const initial = await prisma.socialUser.findUnique({
     where: { id: userId },
     select: {
-      id: true,  fullname: true,
-      username: true, gravatar: true, 
-      bio: true,  createdAt: true,
+      id: true, fullname: true,
+      username: true, gravatar: true,
+      bio: true, createdAt: true,
       _count: {
         select: {
           posts: true, friendOf: true, friends: true
         }
-      } }
+      }
+    }
   })
   const user = {
     ...initial,
@@ -192,9 +199,25 @@ async function updateUserProfileDb(userId, fullname, username, gravatar, bio) {
 }
 
 
+async function searchDbUsers(query) {
+  const users = await prisma.socialUser.findMany({
+    where: {
+      OR: [
+        { fullname: { contains: query, mode: 'insensitive' } },
+        { username: { contains: query, mode: 'insensitive' } },]
+    },
+    select: {
+      id: true, fullname: true, username: true, gravatar: true
+    },
+    take: 5
+  })
+  return users.map((user) => ({ ...user, type: 'user', key: crypto.randomUUID() }))
+}
+
+
 export {
   addNewFollowerDb, checkUserNowFollowsDb, getDbUserFollowersPaginated,
   getDbUserFollowingPaginated, getDbUsersPaginated, getLimitedNonFollowersDb,
-  getUserProfileDetailsDb, removeExistingFollowerDb, updateUserProfileDb
+  getUserProfileDetailsDb, removeExistingFollowerDb, searchDbUsers, updateUserProfileDb
 };
 

@@ -14,7 +14,7 @@ import { toast } from 'react-hot-toast';
 import { FaGithub } from "react-icons/fa";
 
 
-export default function SignIn() {
+export default function SignIn({ showGithub=true }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { register, reset,
@@ -27,6 +27,7 @@ export default function SignIn() {
   // Catch redirect url from OAuth login
   useEffect(() => {
     const otp = searchParams.get('otp');
+    const withProvider = searchParams.get('with');
 
     async function getGithubAccessToken(otp) {
       try {
@@ -45,6 +46,12 @@ export default function SignIn() {
     if (otp) {
       getGithubAccessToken(otp);
     }
+
+    // Auto-trigger GitHub login if navigated with `?with=github`
+    if (withProvider === 'github') {
+      onClick(new Event('click')); // simulate click or just call the function
+    }
+
   }, [])
 
   // Submit the form with fetch request server action
@@ -66,7 +73,8 @@ export default function SignIn() {
     e.preventDefault();
     e.stopPropagation();
 
-    const user = { email: "vickyblaize@odinbook.com",
+    const user = {
+      email: "vickyblaize@odinbook.com",
       password: await getGuestPassword(),
     };
 
@@ -112,13 +120,14 @@ export default function SignIn() {
             </div>
 
             <div className={styles.authSubmit}>
-              <div style={{textAlign:'center',color:'rgba(0,0,0,.5'}}>---- or ----</div>
-              <ContainedButton onClick={onClick} disabled={loading}><FaGithub /> &nbsp; Github login</ContainedButton>
+              {showGithub && <div style={{ textAlign: 'center', color: 'rgba(0,0,0,.5' }}>---- or ----</div>}
+              {showGithub && <ContainedButton onClick={onClick} disabled={loading}><FaGithub /> &nbsp; Github login</ContainedButton>}
             </div>
           </Form>
         </div>
         <div className={styles.authLinksContainer}>
           <div className={styles.authLink}>New Here?  <Link href={'/signup'}>Sign up</Link></div>
+          <div className={styles.authLink}>Overview? <Link href={'/'}>Landing Page</Link></div>
         </div>
       </div>
     </div>

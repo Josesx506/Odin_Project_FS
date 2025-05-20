@@ -13,7 +13,7 @@ async function getSupabaseBucket() {
 }
 
 async function getGitHubOAuth() {
-  const route = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`;
+  const route = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`;
   return route;
 }
 

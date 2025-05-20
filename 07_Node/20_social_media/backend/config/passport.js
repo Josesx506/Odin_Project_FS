@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GithubStrategy } from 'passport-github2';
@@ -59,6 +60,10 @@ async function verifyGitHubOAuthCallback(accessToken, refreshToken, profile, don
       // Create a dummy email that can be saved in the db
       email = `${String(profile.id)}@github.local`.toLowerCase();
       profile.emails = [{value: email}]
+    }
+    
+    if (typeof crypto.randomUUID !== 'function') {
+      console.warn('Warning: crypto.randomUUID() is not available. Please use Node.js v16 or higher.');
     }
 
     profile.otp = crypto.randomUUID().replace(/-/g,'');

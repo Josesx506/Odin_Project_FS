@@ -1,7 +1,7 @@
 'use server';
 
 async function getGitHubClientId() {
-  return process.env.CLIENT_ID;
+  return process.env.GITHUB_CLIENT_ID;
 }
 
 async function getGuestPassword() {

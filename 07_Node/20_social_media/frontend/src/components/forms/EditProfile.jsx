@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsFillCloudUploadFill } from "react-icons/bs";
+import EditProfileSkltn from '../skeletons/EditProfileSkltn';
 import { FormField } from './FormField';
 
 export default function EditProfile({ userId, onClose }) {
@@ -21,8 +22,6 @@ export default function EditProfile({ userId, onClose }) {
   const fileInputRef = useRef(null);
   const { userDetails } = useAuth();
   const { register, handleSubmit, reset, formState: { errors } } = useFormValidation();
-
-
 
   useEffect(() => {
     const controller = new AbortController();
@@ -86,7 +85,7 @@ export default function EditProfile({ userId, onClose }) {
   function handleFileChange(e) {
     const fileSize = e.target?.files[0]?.size;
     if (!fileSize) return;
-    
+
     // Max file size in kb
     const maxSizeKB = 200;
     const maxSizeBytes = maxSizeKB * 1024;
@@ -108,7 +107,7 @@ export default function EditProfile({ userId, onClose }) {
   }
 
   if (loading) {
-    return <div>Loading Profile...</div>
+    return <EditProfileSkltn />
   }
 
 

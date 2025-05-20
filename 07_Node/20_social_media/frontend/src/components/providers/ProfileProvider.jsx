@@ -3,9 +3,10 @@ import PostThumbnailCard from '@/components/cards/PostThumbnailCard';
 import UserPageDetailsCard from "@/components/cards/UserPageDetailsCard";
 import { axiosApi } from "@/config/axios";
 import styles from '@/styles/genericscroller.module.css';
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useInView } from 'react-intersection-observer';
+import ProfilePgSkltn from '../skeletons/ProfilePgSkltn';
 
 const TAKE = 30;
 
@@ -45,15 +46,16 @@ export default function ProfileProvider({ userId }) {
 
     async function fetchData(signal) {
       setLoading(true);
-      axiosApi.get(`/v1/social/users/${userId}`, {signal})
+      axiosApi.get(`/v1/social/users/${userId}`, { signal })
         .then((res) => { setProfile(res.data) })
         .catch((err) => {
           if (err?.code !== "ERR_CANCELED") {
             toast.error(err.message || 'Profile data fetch failed')
-          }})
+          }
+        })
       setLoading(false);
     }
-    
+
     fetchData(controller.signal);
     if (posts.length === 0 && !hasMore) {
       setHasMore(true);
@@ -69,7 +71,7 @@ export default function ProfileProvider({ userId }) {
   }, [inView, getPostsData, loading, hasMore]);
 
   if (loading) {
-    return <div>User profile loading</div>
+    return <ProfilePgSkltn />
   }
 
   const emptyPosts = <div style={{ textAlign: 'center' }}>No Posts Found. Create  a new post.</div>

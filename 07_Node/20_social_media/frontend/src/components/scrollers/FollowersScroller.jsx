@@ -7,6 +7,7 @@ import styles from '@/styles/genericscroller.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
+import FollowPgSkltn from '../skeletons/FollowPgSkltn';
 
 const TAKE = 30;
 
@@ -55,8 +56,8 @@ export default function FollowersScroller({ userId }) {
     };
   }, [inView, getFollowerData, loading, hasMore]);
 
-  if (loading) {
-    return <div>followers loading....</div>
+  if (loading && followers.length === 0) {
+    return <FollowPgSkltn />
   }
 
   const emptyFollowers =

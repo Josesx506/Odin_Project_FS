@@ -7,7 +7,7 @@ import {
 
 export default function HomePgSkltn() {
   const lineStyle = {
-    borderBottom: '0.5px solid lightgray',
+    borderBottom: '0.5px solid darkgray',
     width: '96%',
     margin: '0 auto',
   }

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
 import ExplorePgSkltn from '../skeletons/ExplorePgSkltn';
 
-const TAKE = 30;
+const TAKE = 10;
 
 export default function ExtUserThumbnailScroller({ filter }) {
   const usersRef = useRef([]);

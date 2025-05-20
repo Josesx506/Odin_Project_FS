@@ -11,8 +11,6 @@ const cardStyle = {
   gap: '0.4em',
   width: '100%',
   padding: '0.3em 0.5em',
-  // borderRadius: '0.5em',
-  // boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 }
 
 const cardHeaderStyle = {
@@ -39,7 +37,7 @@ function FollowUserSkeleton() {
         <h4><Skeleton width={'80px'} /></h4>
         <div><Skeleton width={'100%'} /></div>
       </div>
-      <div style={{ marginLeft: 'auto' }}><Skeleton width={'50px'} height={'23px'}  /></div>
+      <div style={{ marginLeft: 'auto' }}><Skeleton width={'50px'} height={'23px'} /></div>
     </div>
   )
 }
@@ -149,7 +147,7 @@ function InputSkeleton() {
   return (
     <div style={{ ...cardStyle, alignItems: 'flex-start' }}>
       <Skeleton style={{ flex: 1 }} circle width={'40px'} height={'40px'} />
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         <div style={{ width: '100%', height: '60px' }}></div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <MdAddPhotoAlternate color="rgb(36, 158, 240)" />
@@ -162,9 +160,54 @@ function InputSkeleton() {
 
 function BackNavSkeleton() {
   return (
-    <div style={{display: 'flex', gap: '1em', alignItems: 'center', width: '100%', paddingLeft: '0.3em', paddingBottom: '0.3em',}}>
-      <IoArrowBack style={{width: '2em', height: '2em', aspectRatio: '1', padding: '0.3em',}} />
+    <div style={{ display: 'flex', gap: '1em', alignItems: 'center', width: '100%', paddingLeft: '0.3em', paddingBottom: '0.3em', }}>
+      <IoArrowBack style={{ width: '2em', height: '2em', aspectRatio: '1', padding: '0.3em', }} />
       <h2><Skeleton width={'60px'} /></h2>
+    </div>
+  )
+}
+
+const pictureStyle = {
+  flex: 1,
+  padding: '0.2rem',
+  position: 'absolute',
+  top: '-60px',
+  left: '5%',
+  transform: 'translateX(-5%)',
+}
+
+const innerRows = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.75em',
+  position: 'relative',
+  padding: '0.75em'
+}
+
+function ProfileDetailsSkeleton() {
+  return (
+    <div>
+      <BackNavSkeleton />
+      <div style={{ display: 'grid'}}>
+        <div style={{ width: '100%', height: '6em', backgroundColor: 'lightgray', }}></div>
+        <div style={innerRows}>
+          <Skeleton style={pictureStyle} circle width={'120px'} height={'120px'} />
+          <div style={{ padding: '0 1em 1em' }}></div>
+          <div>
+            <h2><Skeleton width={'100px'} /></h2>
+            <div style={{paddingTop:'0.3em'}}><Skeleton width={'80px'} /></div>
+          </div>
+          <div><Skeleton width={'160px'} /></div>
+          <div style={{ display: 'flex', gap: '1em', }}>
+            <div><Skeleton width={'100px'} /></div>
+            <div><Skeleton width={'100px'} /></div>
+          </div>
+          <div style={{ display: 'flex', gap: '1em', }}>
+            <div><Skeleton width={'80px'} /></div>
+            <div><Skeleton width={'80px'} /></div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -172,8 +215,8 @@ function BackNavSkeleton() {
 
 export {
   BackNavSkeleton, CommentSkeleton, FollowUserSkeleton,
-  InputSkeleton, InteractionSkeleton, PostDetailsSkeleton, 
-  PostThumbnailImageSkeleton, PostThumbnailTextSkeleton, 
-  UserWithBioSkeleton
+  InputSkeleton, InteractionSkeleton, PostDetailsSkeleton,
+  PostThumbnailImageSkeleton, PostThumbnailTextSkeleton,
+  ProfileDetailsSkeleton, UserWithBioSkeleton
 };
 
